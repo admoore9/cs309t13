@@ -3,18 +3,21 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
 
+    <!-- Our servlet file is called cs309t13-servlet.xml -->
     <servlet>
         <servlet-name>cs309t13</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
-
+    
+    <!-- Controlls urls that start with / -->
     <servlet-mapping>
         <servlet-name>cs309t13</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- The root url gives the index.jsp file -->
     <welcome-file-list>
         <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
