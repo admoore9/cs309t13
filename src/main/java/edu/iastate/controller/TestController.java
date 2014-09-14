@@ -10,6 +10,7 @@ public class TestController {
     
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String test(Model model) {
+        model.addAttribute("name", "something put in in the controller");
         return "test";
     }
 }
