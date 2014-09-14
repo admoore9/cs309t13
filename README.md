@@ -1,5 +1,4 @@
 # cs309t13 Project
-========
 
 ## Setup:
 1. Clone this repository
