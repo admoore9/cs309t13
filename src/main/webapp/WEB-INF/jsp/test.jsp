@@ -1,6 +1,6 @@
 <html>
-	<body>
-		<h2>some text</h2>
-		<p>${name}</p>
-	</body>
+    <body>
+        <h2>some text</h2>
+        <p>${name}</p>
+    </body>
 </html>
