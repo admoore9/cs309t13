@@ -2,8 +2,8 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Information about the database to be used -->
-        <property name="connection.driver_class">com.mysql.jdbs.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/cs309t13</property>
         <property name="connection.username">test_user</property>
         <property name="connection.password">pass</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>

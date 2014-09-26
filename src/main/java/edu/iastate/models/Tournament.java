@@ -1,6 +1,6 @@
 package edu.iastate.models;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,10 +41,10 @@ public class Tournament {
     private boolean isStarted;
 
     @OneToMany(mappedBy = "Tournament")
-    private Set<Team> teams;
+    private List<Team> teams;
 
     @OneToMany(mappedBy = "Tournament")
-    private Set<Game> games;
+    private List<Game> games;
 
     public long getId() {
         return id;
@@ -94,19 +94,19 @@ public class Tournament {
         this.isStarted = isStarted;
     }
 
-    public Set<Team> getTeams() {
+    public List<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(Set<Team> teams) {
+    public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
 
-    public Set<Game> getGames() {
+    public List<Game> getGames() {
         return games;
     }
 
-    public void setGames(Set<Game> games) {
+    public void setGames(List<Game> games) {
         this.games = games;
     }
 
