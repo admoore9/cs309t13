@@ -12,6 +12,10 @@ public class TestController {
     @RequestMapping(method = RequestMethod.GET)
     public String test(Model model) {
         model.addAttribute("name", "something put in in the controller");
+
+        // TournamentDao tournamentDao = new TournamentDao();
+        // Do stuff with it
+
         return "test";
     }
 }
