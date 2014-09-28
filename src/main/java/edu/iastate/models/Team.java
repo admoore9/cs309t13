@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +22,10 @@ public class Team {
     @Column(name = "team_name")
     private String name;
 
-    @Column(name = "accept_free_agents")
+    @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
+
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
 }

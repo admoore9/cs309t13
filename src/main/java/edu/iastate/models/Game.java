@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,10 +27,15 @@ public class Game {
     private String gameLocation;
 
     // @Column(name = "next_game_id")
+    // @ManyToOne
     // private Game nextGame;
-    // // private Set<Team> teams;
-    // private Tournament tournament;
-    //
-    // private Map<Team, Integer> scores;
-    // private Team winner;
+    // private Set<Team> teams;
+
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
+
+    public String getGameLocation() {
+        return gameLocation;
+    }
 }

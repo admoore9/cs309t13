@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Game;
 import edu.iastate.models.Tournament;
 
 @Controller
@@ -18,7 +19,9 @@ public class TestController {
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament t = tournamentDao.getTournamentById(1);
-        System.out.println(t);
+        for(Game g : t.getGames()) {
+            System.out.println(g.getGameLocation());
+        }
         // model.addAttribute("minPlayers", tournaments.get(0).getMinPlayers());
         return "test";
     }

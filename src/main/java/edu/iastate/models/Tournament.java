@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -40,10 +41,14 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
-    @OneToMany(mappedBy = "Tournament")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
+    // @JoinTable(name = "Team", joinColumns = @JoinColumn(name =
+    // "tournament_id", referencedColumnName = "tournament_id"))
     private List<Team> teams;
 
-    @OneToMany(mappedBy = "Tournament")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
+    // @JoinTable(name = "Game", joinColumns = @JoinColumn(name =
+    // "tournament_id", referencedColumnName = "tournament_id"))
     private List<Game> games;
 
     public int getId() {
