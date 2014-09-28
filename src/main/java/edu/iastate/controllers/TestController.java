@@ -18,11 +18,11 @@ public class TestController {
         model.addAttribute("name", "something put in in the controller");
 
         TournamentDao tournamentDao = new TournamentDao();
-        Tournament t = tournamentDao.getTournamentById(1);
+        Tournament t = tournamentDao.getTournamentById(1, true, false);
         for(Game g : t.getGames()) {
             System.out.println(g.getGameLocation());
         }
-        // model.addAttribute("minPlayers", tournaments.get(0).getMinPlayers());
+
         return "test";
     }
 }

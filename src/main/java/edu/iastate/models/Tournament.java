@@ -41,14 +41,10 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
-    // @JoinTable(name = "Team", joinColumns = @JoinColumn(name =
-    // "tournament_id", referencedColumnName = "tournament_id"))
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<Team> teams;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
-    // @JoinTable(name = "Game", joinColumns = @JoinColumn(name =
-    // "tournament_id", referencedColumnName = "tournament_id"))
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<Game> games;
 
     public int getId() {

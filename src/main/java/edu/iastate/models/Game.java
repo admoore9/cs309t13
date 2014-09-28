@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Game")
@@ -20,16 +22,14 @@ public class Game {
     private int id;
 
     @Column(name = "game_time")
-    // TODO
+    @Temporal(TemporalType.TIMESTAMP)
     private Date gameTime;
 
     @Column(name = "game_location")
     private String gameLocation;
 
-    // @Column(name = "next_game_id")
-    // @ManyToOne
     // private Game nextGame;
-    // private Set<Team> teams;
+    // private List<Team> teams;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")

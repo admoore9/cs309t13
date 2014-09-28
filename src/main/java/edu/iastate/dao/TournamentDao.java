@@ -52,9 +52,11 @@ public class TournamentDao {
      * Gets a tournament matching the given id
      * 
      * @param id The id of the tournament you wish to fetch
+     * @param getGames Whether the games should be fetched
+     * @param getTeams Whether the teams should be fetched
      * @return The tournament with the given id
      */
-    public Tournament getTournamentById(int id) {
+    public Tournament getTournamentById(int id, boolean getGames, boolean getTeams) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -63,9 +65,27 @@ public class TournamentDao {
                 Tournament.class);
         query.setParameter("id", id);
         Tournament tournament = query.getSingleResult();
+        loadForeignKeys(tournament, getGames, getTeams);
 
         transaction.commit();
         entityManager.close();
         return tournament;
+    }
+
+    private void loadForeignKeys(Tournament tournament, boolean getGames, boolean getTeams) {
+        if(getGames) {
+            loadGames(tournament);
+        }
+        if(getTeams) {
+            loadTeams(tournament);
+        }
+    }
+
+    private void loadGames(Tournament tournament) {
+        tournament.getGames().size();
+    }
+
+    private void loadTeams(Tournament tournament) {
+        tournament.getTeams().size();
     }
 }

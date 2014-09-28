@@ -12,8 +12,6 @@ import javax.persistence.Table;
 @Table(name = "Team")
 public class Team {
 
-    // private Player teamLeader;
-    // private Set<Player> players;
     @Id
     @GeneratedValue
     @Column(name = "team_id")
@@ -24,6 +22,9 @@ public class Team {
 
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
+
+    // private Player teamLeader;
+    // private Set<Player> players;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
