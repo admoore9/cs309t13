@@ -12,22 +12,23 @@ import edu.iastate.utils.DatabaseUtil;
 
 public class TournamentDao {
 
+    private static TournamentDao tournamentDao = new TournamentDao();
+
     private final EntityManagerFactory entityManagerFactory;
 
     /**
-     * Standard constructor
+     * Prevent instantiation
      */
-    public TournamentDao() {
+    private TournamentDao() {
         this.entityManagerFactory = DatabaseUtil.getEntityManagerFactory();
     }
 
-    /**
-     * Can use a custom SessionFactory for unit testing
-     * 
-     * @param entityManagerFactory The factory to use to get sessions
-     */
-    public TournamentDao(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    public static TournamentDao getInstance() {
+        return tournamentDao;
+    }
+    
+    public static void setInstance(TournamentDao tournamentDao) {
+        TournamentDao.tournamentDao = tournamentDao;
     }
 
     /**

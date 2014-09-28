@@ -16,10 +16,9 @@ public class TestController {
     public String test(Model model) {
         model.addAttribute("name", "something put in in the controller");
 
-        TournamentDao tournamentDao = new TournamentDao();
+        TournamentDao tournamentDao = TournamentDao.getInstance();
         Tournament t = tournamentDao.getTournamentById(1);
         System.out.println(t.toString());
-        // model.addAttribute("minPlayers", tournaments.get(0).getMinPlayers());
         return "test";
     }
 }
