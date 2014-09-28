@@ -1,12 +1,9 @@
 package edu.iastate.models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +20,7 @@ public class Tournament {
     @Id
     @GeneratedValue
     @Column(name = "tournament_id")
-    private long id;
+    private int id;
 
     @Column(name = "tournament_name")
     private String name;
@@ -40,17 +37,18 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
-    @OneToMany(mappedBy = "Tournament")
-    private List<Team> teams;
+    //
+    // @OneToMany(mappedBy = "Tournament")
+    // private List<Team> teams;
+    //
+    // @OneToMany(mappedBy = "Tournament")
+    // private List<Game> games;
 
-    @OneToMany(mappedBy = "Tournament")
-    private List<Game> games;
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -94,20 +92,24 @@ public class Tournament {
         this.isStarted = isStarted;
     }
 
-    public List<Team> getTeams() {
-        return teams;
-    }
+    // public List<Team> getTeams() {
+    // return teams;
+    // }
+    //
+    // public void setTeams(List<Team> teams) {
+    // this.teams = teams;
+    // }
+    //
+    // public List<Game> getGames() {
+    // return games;
+    // }
+    //
+    // public void setGames(List<Game> games) {
+    // this.games = games;
+    // }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-
-    public List<Game> getGames() {
-        return games;
-    }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
+    public String toString() {
+        return this.name;
     }
 
     @Override

@@ -1,22 +1,34 @@
 package edu.iastate.models;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Game")
 public class Game {
 
-    private Date gameTime;
-    private String gameLocation;
-    private Game nextGame;
-    private Set<Team> teams;
-    private Tournament tournament;
+    @Id
+    @GeneratedValue
+    @Column(name = "game_id")
+    private int id;
 
-    private Map<Team, Integer> scores;
-    private Team winner;
+    @Column(name = "game_time")
+    // TODO
+    private Date gameTime;
+
+    @Column(name = "game_location")
+    private String gameLocation;
+
+    // @Column(name = "next_game_id")
+    // private Game nextGame;
+    // // private Set<Team> teams;
+    // private Tournament tournament;
+    //
+    // private Map<Team, Integer> scores;
+    // private Team winner;
 }
