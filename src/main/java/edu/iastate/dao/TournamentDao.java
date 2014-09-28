@@ -8,27 +8,26 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Tournament;
-import edu.iastate.utils.DatabaseUtil;
+import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class TournamentDao {
-
-    private static TournamentDao tournamentDao = new TournamentDao();
 
     private final EntityManagerFactory entityManagerFactory;
 
     /**
-     * Prevent instantiation
+     * Standard constructor
      */
-    private TournamentDao() {
-        this.entityManagerFactory = DatabaseUtil.getEntityManagerFactory();
+    public TournamentDao() {
+        this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
     }
 
-    public static TournamentDao getInstance() {
-        return tournamentDao;
-    }
-    
-    public static void setInstance(TournamentDao tournamentDao) {
-        TournamentDao.tournamentDao = tournamentDao;
+    /**
+     * Can use a custom EntityManagerFactory for unit testing
+     * 
+     * @param entityManagerFactory The factory to use to get sessions
+     */
+    public TournamentDao(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     /**
