@@ -10,6 +10,13 @@ import javax.persistence.TypedQuery;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
+/**
+ * Data Access Object for the Tournament class, this should be used for
+ * interacting with the Tournament table in the database.
+ * 
+ * @author brianshannan
+ *
+ */
 public class TournamentDao {
 
     private final EntityManagerFactory entityManagerFactory;
@@ -72,6 +79,13 @@ public class TournamentDao {
         return tournament;
     }
 
+    /**
+     * Loads the foreign keys for a tournament based on the booleans
+     * 
+     * @param tournament The tournament to load the foreign keys for
+     * @param getGames Whether to get the games for the tournament
+     * @param getTeams Whether to get the teams for the tournament
+     */
     private void loadForeignKeys(Tournament tournament, boolean getGames, boolean getTeams) {
         if(getGames) {
             loadGames(tournament);
@@ -81,10 +95,20 @@ public class TournamentDao {
         }
     }
 
+    /**
+     * Loads the games for a tournament
+     * 
+     * @param tournament The tournament to load games for
+     */
     private void loadGames(Tournament tournament) {
         tournament.getGames().size();
     }
 
+    /**
+     * Loads the teams for a tournament
+     * 
+     * @param tournament The tournament to load teams for
+     */
     private void loadTeams(Tournament tournament) {
         tournament.getTeams().size();
     }
