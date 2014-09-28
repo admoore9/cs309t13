@@ -80,6 +80,22 @@ public class TournamentDao {
     }
 
     /**
+     * Saves the given tournament to the database
+     * 
+     * @param tournament The tournament to save to the database
+     */
+    public void saveTournament(Tournament tournament) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.merge(tournament);
+
+        transaction.commit();
+        entityManager.close();
+    }
+
+    /**
      * Loads the foreign keys for a tournament based on the booleans
      * 
      * @param tournament The tournament to load the foreign keys for
