@@ -9,6 +9,8 @@
     <!-- Enables the use of @Controller annotation so mappings don't have to be made in an xml file -->
     <context:component-scan base-package="edu.iastate.controllers" />
     
+    <mvc:annotation-driven/>
+    
     <!-- All jsp files should be in the WEB-INF/jsp directory and have a jsp file extension -->
     <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">

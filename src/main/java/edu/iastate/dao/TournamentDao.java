@@ -55,6 +55,21 @@ public class TournamentDao {
         return tournaments;
     }
 
+    public List<Tournament> getLastXTournaments(int number) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Tournament> query = entityManager.createQuery("select t from Tournament t order by t.id",
+                Tournament.class);
+        query.setMaxResults(number);
+        List<Tournament> tournaments = query.getResultList();
+
+        transaction.commit();
+        entityManager.close();
+        return tournaments;
+    }
+
     /**
      * Gets a tournament matching the given id
      * 
