@@ -12,6 +12,9 @@ tests:
 	mvn clean test;
 
 build:
+	mvn clean package -DskipTests=true;	
+
+build-with-tests:
 	mvn clean package;
 
 run-application:
@@ -19,4 +22,4 @@ run-application:
 
 run: build run-application
 
-run-with-tests: build run-application
+run-with-tests: build-with-tests run-application
