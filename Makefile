@@ -17,6 +17,6 @@ build:
 run-application:
 	mvn tomcat7:run;
 
-run: compile run-application
+run: build run-application
 
 run-with-tests: build run-application
