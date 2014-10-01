@@ -27,5 +27,5 @@ var TournamentById = function() {
     };
 };
 
-var t = new TournamentById();
-t.setInputHandler();
+var tournamentById = new TournamentById();
+tournamentById.setInputHandler();
