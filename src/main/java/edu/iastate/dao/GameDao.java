@@ -47,7 +47,7 @@ public class GameDao {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
-		TypedQuery<Game> query = entityManager.createQuery("from game", Game.class);
+		TypedQuery<Game> query = entityManager.createQuery("from Game", Game.class);
 		List<Game> games = query.getResultList();
 		
 		transaction.commit();
@@ -62,21 +62,21 @@ public class GameDao {
 	 * @param getTeams Whether the teams should be fetched
 	 * @return The game with the given id
 	 */
-//	public Game getGameById(int id, boolean getTeams) {
-//		EntityManager entityManager = entityManagerFactory.createEntityManager();
-//		EntityTransaction transaction = entityManager.getTransaction();
-//		transaction.begin();
-//		
-//		TypedQuery<Game> query = entityManager.createQuery("select g from Game g where g.id = :id",
-//				Game.class);
-//		query.setParameter("id", id);
-//		Game game = query.getSingleResult();
+	public Game getGameById(int id, boolean getTeams) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		TypedQuery<Game> query = entityManager.createQuery("select g from Game g where g.id = :id",
+				Game.class);
+		query.setParameter("id", id);
+		Game game = query.getSingleResult();
 //		loadForeignKeys(game, getTeams);
-//		
-//		transaction.commit();
-//		entityManager.close();
-//		return game;
-//	}
+		
+		transaction.commit();
+		entityManager.close();
+		return game;
+	}
 	
 	/**
 	 * Saves the given game to the database
