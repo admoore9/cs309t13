@@ -6,9 +6,8 @@ import javax.persistence.Persistence;
 /**
  * Singleton class for getting the EntityManagerFactory for the application so
  * there's only one factory for the application.
- * 
- * @author brianshannan
  *
+ * @author brianshannan
  */
 public class EntityManagerFactorySingleton {
 

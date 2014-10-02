@@ -6,6 +6,19 @@ CREATE SCHEMA IF NOT EXISTS `cs309t13` DEFAULT CHARACTER SET utf8 COLLATE utf8_g
 USE `cs309t13` ;
 
 -- -----------------------------------------------------
+-- Table `cs309t13`.`Member`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
+  `member_id` INT NOT NULL AUTO_INCREMENT,
+  `member_name` VARCHAR(45) NULL,
+  `member_username` VARCHAR(45) NULL,
+  `member_password` VARCHAR(45) NULL,
+  `is_admin` TINYINT(1) NULL,
+  `is_official` TINYINT(1) NULL,
+  PRIMARY KEY (`member_id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `cs309t13`.`Tournament`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
