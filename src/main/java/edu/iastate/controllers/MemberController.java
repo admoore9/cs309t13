@@ -27,15 +27,16 @@ public class MemberController {
         return "members";
     }
     
-    @RequestMapping(method=RequestMethod.POST)
-    public String handlePost(@RequestParam String action, @RequestParam String email, Model m) {
-    	if( action.equals("submit") ){
-        	m.addAttribute("email", email);
-         }
-         else if( action.equals("register") ){
-         }
-        return "members";
-    }
+//    @RequestMapping(method=RequestMethod.POST)
+//    public String handlePost(@RequestParam String action, @RequestParam String id, @RequestParam String name, Model model) {
+//    	MemberDao memberDao = new MemberDao();
+//    	memberDao.setName(Integer.parseInt(id), name);
+//    	
+//        List<Member> members =  memberDao.returnMembers();
+//        model.addAttribute("members", members);
+//        
+//        return "members";
+//    }
     
 }
 

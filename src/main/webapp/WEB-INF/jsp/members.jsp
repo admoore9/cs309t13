@@ -10,7 +10,8 @@
 <body>
 <h1>Members: </h1>
 
-<form action="login"  method="POST">
+<!-- 
+<form action="members"  method="POST">
 <c:forEach items="${members}" var="member">
 	<input type="text" value="<c:out value="${member.getID()}"/>" name="id">
     <input type="text" value="<c:out value="${member.getName()}"/>" name="name">
@@ -20,8 +21,8 @@
 </c:forEach>
 <input type="submit" name="action" value="submit" />
 </form>
-
-<!--  
+ -->
+ 
 <table style="width:100%">
    <tr>
    	<td><c:out value="ID"/></td>
@@ -38,6 +39,6 @@
    </tr>
 </c:forEach>
 </table>
--->
+
 </body>
 </html>
