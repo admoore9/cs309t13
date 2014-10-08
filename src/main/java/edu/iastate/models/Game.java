@@ -38,4 +38,8 @@ public class Game {
     public String getGameLocation() {
         return gameLocation;
     }
+
+    public void setNextGame(Game game) {}
+
+    public void addTeam(Team team) {}
 }
