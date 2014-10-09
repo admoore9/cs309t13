@@ -39,61 +39,61 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
-//    private String nextGame;
-//    
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
-//    private List<Team> teams;
-    
+    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
+    // private String nextGame;
+    //
+    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
+    // private List<Team> teams;
+
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     public int getId() {
-    	return id;
+        return id;
     }
-    
+
     public void setId(int id) {
-    	this.id = id;
+        this.id = id;
     }
-    
+
     public Date getGameTime() {
-    	return gameTime;
+        return gameTime;
     }
-    
+
     public void setGameTime(Date gameTime) {
-    	this.gameTime = gameTime;
+        this.gameTime = gameTime;
     }
-    
+
     public String getGameLocation() {
-    	return gameLocation;
+        return gameLocation;
     }
-    
+
     public void setGameLocation(String gameLocation) {
-    	this.gameLocation = gameLocation;
+        this.gameLocation = gameLocation;
     }
-    
-//    public String getNextGame() {
-//    	return nextGame;
-//    }
-//    
-//    public void getNextGame(String nextGame) {
-//    	this.nextGame = nextGame;
-//    }
-//    
-//    public List<Team> getTeams() {
-//    	return teams;
-//    }
-//    
-//    public void setTeams(List<Team> teams) {
-//    	this.teams = teams;
-//    }
-    
+
+    // public String getNextGame() {
+    // return nextGame;
+    // }
+    //
+    // public void getNextGame(String nextGame) {
+    // this.nextGame = nextGame;
+    // }
+    //
+    // public List<Team> getTeams() {
+    // return teams;
+    // }
+    //
+    // public void setTeams(List<Team> teams) {
+    // this.teams = teams;
+    // }
+
     public Tournament getTournament() {
-    	return tournament;
+        return tournament;
     }
-    
+
     public void setTournament(Tournament tournament) {
-    	this.tournament = tournament;
+        this.tournament = tournament;
     }
 }

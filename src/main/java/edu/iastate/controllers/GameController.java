@@ -13,13 +13,13 @@ import edu.iastate.models.Game;
 @Controller
 @RequestMapping("/game")
 public class GameController {
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String getGame(Model model) {
-		GameDao gameDao = new GameDao();
-		List<Game> games = gameDao.getAllGames();
-		model.addAttribute("games", games);
-		return "game";
-	}
-	
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String getGame(Model model) {
+        GameDao gameDao = new GameDao();
+        List<Game> games = gameDao.getAllGames();
+        model.addAttribute("games", games);
+        return "game";
+    }
+
 }
