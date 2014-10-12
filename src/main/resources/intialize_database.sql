@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `member_password` VARCHAR(45) NULL,
   `is_admin` TINYINT(1) NULL,
   `is_official` TINYINT(1) NULL,
+  `user_type` int(4) NOT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
@@ -24,6 +25,20 @@ ENGINE = InnoDB;
 CREATE TABLE `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
   `is_free_agent` TINYINT(1) NULL DEFAULT 0,
+  INDEX `fk_member_id_idx` (`member_id` ASC),
+  CONSTRAINT `fk_member_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Admin`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`Admin` (
+  `member_id` INT NOT NULL,
+  `current_view` int(4) NOT NULL,
   INDEX `fk_member_id_idx` (`member_id` ASC),
   CONSTRAINT `fk_member_id`
     FOREIGN KEY (`member_id`)
