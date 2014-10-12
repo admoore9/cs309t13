@@ -2,12 +2,14 @@ package edu.iastate.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,11 +30,13 @@ public class Team {
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
     
-    //@ManyToMany(fetch = FetchType.LAZY, mappedBy = "team")
-    //private List<Player> players;
+   @JoinTable(name = "teamplayermapper")
+   @ManyToMany(fetch = FetchType.LAZY)
+   private List<Player> players;
 
-    //@ManyToMany(fetch = FetchType.LAZY, mappedBy = "team")
-    //private List<Game> games;
+    @JoinTable(name="teamgamemapper")
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Game> games;
 
     /*private Player teamLeader;
 
@@ -48,13 +52,6 @@ public class Team {
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 	
-/*	@ManyToMany
-	@JoinColumn(name = "game_id")
-	private Game game;*/
-	
-/*	@ManyToMany
-	@JoinColumn(name = "member_id")
-	private Player player;*/
 
 	public int getId() {
 		return id;
@@ -106,28 +103,23 @@ public class Team {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(this == obj)
-            return true;
-        if(obj == null)
-            return false;
-        if(getClass() != obj.getClass())
-            return false;
-        Team other = (Team) obj;
-        if(id != other.id)
-            return false;
-        return true;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Team other = (Team) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		//TO-DO ... Review 		
 		final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        return result;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
-	
-	
-    
-    
 }
