@@ -75,6 +75,18 @@ public class MemberDao {
     }
     
 
+    public void setName(int id, String newName) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        
+        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
+        query.setParameter("name", newName);
+
+        transaction.commit();
+        entityManager.close();
+    }
+    
     public void addAdminType(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

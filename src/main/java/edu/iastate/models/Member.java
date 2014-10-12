@@ -26,6 +26,12 @@ public class Member {
     @Column(name = "member_name")
     private String name;    
 
+    @Column(name = "username")
+    private String username; 
+    
+    @Column(name = "password")
+    private String password; 
+    
     @Column(name = "is_admin")
     private Boolean isAdmin;
     
@@ -48,7 +54,5 @@ public class Member {
     	return isOfficial;
     }
     
-//    public String toString() {
-//    	return id + " " + name;
-//    }
 }
+
