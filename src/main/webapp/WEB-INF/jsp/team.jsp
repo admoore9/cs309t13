@@ -18,7 +18,7 @@
 <c:forEach items="${teams}" var="team">
    <tr>
    	<td><c:out value="${team.getId()}"/></td>
-   	<td><c:out value="${team.getName()}"/></td>
+   	<td><c:out value="${team.getGameLocation()}"/></td>
    </tr>
 </c:forEach>
 </table>

@@ -10,6 +10,19 @@
 <body>
 <h1>Members: </h1>
 
+<!-- 
+<form action="members"  method="POST">
+<c:forEach items="${members}" var="member">
+	<input type="text" value="<c:out value="${member.getID()}"/>" name="id">
+    <input type="text" value="<c:out value="${member.getName()}"/>" name="name">
+    <input type="text" value="<c:out value="${member.isAdmin()}"/>" name="is_admin">
+    <input type="text" value="<c:out value="${member.isOfficial()}"/>" name="is_official">
+    <br>    
+</c:forEach>
+<input type="submit" name="action" value="submit" />
+</form>
+ -->
+ 
 <table style="width:100%">
    <tr>
    	<td><c:out value="ID"/></td>

@@ -30,11 +30,13 @@ public class Team {
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
     
-   @JoinTable(name = "teamplayermapper")
+   @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
+   		inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
    @ManyToMany(fetch = FetchType.LAZY)
    private List<Player> players;
 
-    @JoinTable(name="teamgamemapper")
+    @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
+    		inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Game> games;
 
@@ -77,7 +79,7 @@ public class Team {
 		this.acceptFreeAgents = acceptFreeAgents;
 	}
 
-	/*public List<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
@@ -91,7 +93,7 @@ public class Team {
 
 	public void setGames(List<Game> games) {
 		this.games = games;
-	}*/
+	}
 
 	public Tournament getTournament() {
 		return tournament;

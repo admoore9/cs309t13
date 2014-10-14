@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.iastate.dao.GameDao;
+import edu.iastate.dao.MemberDao;
+import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.*;
@@ -39,11 +42,16 @@ public class TestController {
         //TournamentDao tournamentDao = new TournamentDao();
         //tournamentDao.saveTournament(test);
         TournamentDao tournamentdao = new TournamentDao();
-        Team team = new Team();
-        team.setAcceptFreeAgents(true);
-        team.setName("test");
-        team.setTournament(tournamentdao.getTournamentById(1, false, false));
+        Tournament tournament = tournamentdao.getTournamentById(1, false, false);
+        PlayerDao playerdao = new PlayerDao();
         
+        Team team = new Team();
+        GameDao gamedao = new GameDao();
+        team.setAcceptFreeAgents(true);
+        team.setName("TestAll3");
+        team.setTournament(tournament);
+        team.setGames(tournament.getGames());
+        //team.setPlayers(playerdao.returnPlayers());
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
          

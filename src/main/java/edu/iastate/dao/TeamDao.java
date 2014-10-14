@@ -85,7 +85,7 @@ public class TeamDao {
                 Team.class);
         query.setParameter("id", id);
         Team team = query.getSingleResult();
-        //loadForeignKeys(team, getGames, getPlayers);
+        loadForeignKeys(team, getGames, getPlayers);
 
         transaction.commit();
         entityManager.close();
@@ -115,30 +115,30 @@ public class TeamDao {
      * @param getGames Whether to get the games for the tournament
      * @param getPlayers Whether to get the players for the tournament
      */
-    /*private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers) {
+    private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers) {
         if(getGames) {
             loadGames(team);
         }
         if(getPlayers) {
             loadPlayers(team);
         }
-    }*/
+    }
 
     /**
      * Loads the games for a team
      * 
      * @param team the team to load games for
      */
-   /* private void loadGames(Team team) {
+    private void loadGames(Team team) {
         team.getGames().size();
     }
 
-    *//**
+    /**
      * Loads the players on a team
      * 
      * @param team the team to load teams for
-     *//*
+     */
     private void loadPlayers(Team team) {
         team.getPlayers().size();
-    }*/
+    }
 }
