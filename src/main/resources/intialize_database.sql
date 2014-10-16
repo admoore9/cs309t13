@@ -10,9 +10,9 @@ USE `cs309t13` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `member_id` INT NOT NULL AUTO_INCREMENT,
-  `member_name` VARCHAR(45) NULL,
-  `member_username` VARCHAR(45) NULL,
-  `member_password` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
+  `username` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NULL,
   `is_admin` TINYINT(1) NULL,
   `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
@@ -24,9 +24,24 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
-  `is_free_agent` TINYINT(1) NULL DEFAULT 0,
+  `free_agent` TINYINT(1) NULL DEFAULT 0,
+  PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_member_id`
+  CONSTRAINT `fk_player_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Official`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`Official` (
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`),
+  INDEX `fk_member_id_idx` (`member_id` ASC),
+  CONSTRAINT `fk_official_id`
     FOREIGN KEY (`member_id`)
     REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
@@ -39,8 +54,9 @@ ENGINE = InnoDB;
 CREATE TABLE `cs309t13`.`Admin` (
   `member_id` INT NOT NULL,
   `current_view` int(4) NOT NULL,
+  PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_member_id`
+  CONSTRAINT `fk_admin_id`
     FOREIGN KEY (`member_id`)
     REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
