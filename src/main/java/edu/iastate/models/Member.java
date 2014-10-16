@@ -1,51 +1,29 @@
 package edu.iastate.models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import edu.iastate.models.Admin.View;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * 
  * @author nawaf
  *
  */
-
 @Entity
-@Table(name = "Member")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Member {
-
-    
-    public Member() {}
-
-    public Member(String name, String username, String password,
-            UserType userType) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = userType;
-    }
-    
-    public Member(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = UserType.PLAYER;
-    }
 
     @Id
     @GeneratedValue
     @Column(name = "member_id")
-    private int id;    
+    private int member_id;  
     
-    @Column(name = "member_name")
+    @Column(name = "name")
     private String name;    
 
     @Column(name = "username")
@@ -65,7 +43,24 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
+    
+    public Member() {}
 
+    public Member(String name, String username, String password,
+            UserType userType) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+    }
+    
+    public Member(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.userType = UserType.PLAYER;
+    }  
+    
     public UserType getUserType() {
         return userType;
     }
@@ -75,11 +70,11 @@ public class Member {
     }
     
     public int getId() {
-        return id;
+        return member_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.member_id = id;
     }
 
     public String getName() {
