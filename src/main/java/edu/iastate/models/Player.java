@@ -1,15 +1,7 @@
 package edu.iastate.models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,9 +14,6 @@ import javax.persistence.Table;
 @Table(name = "Player")
 public class Player extends Member {
 	
-    @JoinColumn(name = "member_id")
-    private int id;
-    
     @Column(name = "free_agent")
     private Boolean freeAgent;
     
@@ -53,14 +42,6 @@ public class Player extends Member {
 //	     this.badges = badges;
 //	}
 	    
-    public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public void setFreeAgent(Boolean freeAgent) {
 		this.freeAgent = freeAgent;
 	}
