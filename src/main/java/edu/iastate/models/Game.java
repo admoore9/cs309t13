@@ -21,6 +21,9 @@ public class Game {
     @Column(name = "game_id")
     private int id;
 
+    @Column(name = "round_number")
+    private int roundNumber;
+
     @Column(name = "game_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date gameTime;
@@ -42,4 +45,12 @@ public class Game {
     public void setNextGame(Game game) {}
 
     public void addTeam(Team team) {}
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
 }

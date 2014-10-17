@@ -1,0 +1,20 @@
+round {
+    display: block;
+    float: left;
+    position: fixed;
+}
+
+game {
+    display: block;
+    position: fixed;
+}
+
+team {
+    display: block;
+    width: 100px;
+    background-color: lime;
+}
+
+team.winner {
+    background-color: gold;
+}
