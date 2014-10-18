@@ -15,8 +15,15 @@ import javax.persistence.Table;
 @Table(name="player")
 public class Player extends Member {
 	
-
-    @ManyToMany(mappedBy = "players")
+	/*@Id
+	@Column(name = "member_id")
+    @JoinColumn(name = "member_id", insertable = false, updatable = false)
+	private int id;
+    */
+    @Column(name = "is_free_agent")
+    private Boolean isFreeAgent;
+    
+	/*@ManyToMany(mappedBy = "players")
     private List<Team> teams;
     
     @ManyToMany
@@ -37,7 +44,7 @@ public class Player extends Member {
     
     public String getPassword() {
     	return super.getPassword();
-    }
+    }*/
 
 }
 

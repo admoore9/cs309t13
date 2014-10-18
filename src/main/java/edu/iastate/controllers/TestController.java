@@ -51,7 +51,7 @@ public class TestController {
         team.setName("TestAll3");
         team.setTournament(tournament);
         team.setGames(tournament.getGames());
-        //team.setPlayers(playerdao.returnPlayers());
+        team.setPlayers(playerdao.returnPlayers());
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
          
