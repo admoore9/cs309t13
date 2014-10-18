@@ -13,7 +13,7 @@ import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
 	
-    private final EntityManagerFactory entityManagerFactory;
+    protected final EntityManagerFactory entityManagerFactory;
 
     /**
      * Standard constructor
@@ -139,7 +139,7 @@ public class MemberDao {
         entityManager.close();
     }
     
-    public List<Member> returnMembers() {
+    public List<Member> returnAllMembers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();

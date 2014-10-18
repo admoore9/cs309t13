@@ -6,33 +6,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import edu.iastate.models.Member;
-import edu.iastate.models.Player;
-import edu.iastate.utils.EntityManagerFactorySingleton;
-import edu.iastate.models.Player;
 
-public class PlayerDao extends MemberDao {
-	
-    public PlayerDao() {
+import edu.iastate.models.Official;
+
+public class OfficialDao extends MemberDao {
+
+    public OfficialDao() {
         super();
     }
 
-    public PlayerDao(EntityManagerFactory entityManagerFactory) {
+    public OfficialDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);
     }
 
-    public List<Player> returnAllPlayers() {
-
+    public List<Official> returnAllOfficials() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Player> query = entityManager.createQuery("from Player", Player.class);
-        List<Player> players = query.getResultList();
+        TypedQuery<Official> query = entityManager.createQuery("from Official", Official.class);
+        List<Official> officials = query.getResultList();
 
         transaction.commit();
         entityManager.close();
-      
-        return players;
+        
+        return officials;
     }
 }
