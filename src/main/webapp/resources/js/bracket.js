@@ -1,78 +1,75 @@
-var Team = function() {
-    // TODO
+var Team = function(id, name) {
+    var self = this;
+    self.id = id;
+    self.name = name;
     var html = $('<team></team>');
 };
 Team.prototype.getHTML = function() {
     // TODO
 };
 
-var Game = function(id, teams) {
+var Game = function(id, next_game_id, round_number, time, location, teams) {
     var self = this;
+    self.id = id;
+    self.next_game_id = next_game_id;
+    self.round_number = round_number;
+    self.time = time;
+    self.location = location;
     self.teams = teams;
-    var html = $('<game></game>');
+    var root = $('<game></game>');
 };
 Game.prototype.getHTML = function() {
     // TODO
 };
 
-var Round = function(games) {
+var Round = function(num, games) {
     var self = this;
+    self.num = num;
     self.games = games;
+    self.root = $('<round></round>');
 };
+Round.prototype.getHTML = function() {
+    // TODO
+}
 
 var Bracket = function(id) {
     var self = this;
     self.id = id;
+    self.rounds = [];
     self.root = $('<bracket></bracket>');
-    self.games = [];
-    self.rounds = {};
 };
-Bracket.prototype.processGames = function(tournament) {
-    for(var i = 0; i < tournament['games'].length; i++) {
-        var game = tournament['games'][i];
-        var roundNumber = game['roundNumber'];
+Bracket.prototype.processTournament = function(tournament) {
+    rounds_dict = {};
+    tournament['games'].forEach(function(elem, index, array) {
+        game = new Game(elem['id'], elem['next_game']['id'], elem['round_number'], elem['time'], elem['location'], []);
+        elem['teams'].forEach(function(team, index, array) {
+            game.teams.push(new Team(team['id'], team['name']));
+        });
 
-        // Replace next game chain with next_game id for ease
-        game['nextGame'] = game['nextGame']['id'];
-        self.games.push(game);
-
-        if(self.games[roundNumber] != null) {
-            self.rounds[roundNumber].push(game);
+        if(rounds_dict[game.round_number] != null) {
+            rounds_dict[game.round_number].push(game);
         } else {
-            self.rounds[roundNumber] = [game];
+            rounds_dict[game.round_number] = [game];
         }
-    }
-};
-Bracket.prototype.groupGamesInRound = function(roundNumber) {
-    var groupedGamesDict = {};
-    var roundGames = selfl.rounds[roundNumber];
-    for(var i = 0; i < roundGames.length; i++) {
-        var game = roundGames[i];
-        var nextGame = game['nextGame'];
+    });
 
-        if(groupedGamesDict[nextGame] != null) {
-            groupedGamesDict[nextGame].push(game);
-        } else {
-            groupedGamesDict[nextGame] = [game];
-        }
-    }
-
-    var nextGameIds = Object.keys(groupedGamesDict);
-    nextGameIds.sort();
-    var groupedGames = [];
-    for(var i = 0; i < nextGameIds.length; i++) {
-        groupedGames.push(groupedGamesDict[nextGameIds[i]]);
-    }
-    return groupedGames;
+    Object.keys(rounds_dict).forEach(function(elem, index, array) {
+        self.rounds.push(new Round(elem, rounds_dict[elem]));
+    });
 };
+Bracket.prototype.orderGames = function() {
+    var round_nums = self.rounds.map(function(round, index, array) {
+        return round.num;
+    });
+    var last_round_num = Math.max.apply(Math, round_nums);
+
+}
+
 Bracket.prototype.formBracket = function() {
     var self = this;
-    // $.get('/tournament/' + self.id + '/get_rounds', function(response) {
-    //     // TODO
-    // }, 'json');
     $.get('/tournament/' + self.id, function(tournament) {
-        self.processGames(tournament);
-        var groupedFirstRound = self.groupGamesInRound(1);
+        self.processTournament(tournament);
+        self.orderGames();
     }, 'json');
 };
 
