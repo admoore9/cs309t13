@@ -4,15 +4,20 @@ bracket {
 
 round {
     display: block;
+    position: relative;
     float: left;
+    margin-right: 50px;
 }
 
 game {
     display: block;
+    position: relative;
+    margin-bottom: 30px;
 }
 
 team {
     display: block;
+    position: relative;
     width: 100px;
     background-color: lime;
 }
