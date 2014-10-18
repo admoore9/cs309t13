@@ -2,7 +2,7 @@ var Team = function(id, name) {
     var self = this;
     self.id = id;
     self.name = name;
-    var html = $('<team></team>');
+    self.html = $('<team></team>');
 };
 Team.prototype.getHTML = function() {
     // TODO
@@ -16,7 +16,7 @@ var Game = function(id, next_game_id, round_number, time, location, teams) {
     self.time = time;
     self.location = location;
     self.teams = teams;
-    var root = $('<game></game>');
+    self.html = $('<game></game>');
 };
 Game.prototype.orderTeams = function() {
     self.teams.sort(function(team1, team2) {
@@ -31,7 +31,7 @@ var Round = function(num, games) {
     var self = this;
     self.num = num;
     self.games = games;
-    self.root = $('<round></round>');
+    self.html = $('<round></round>');
 };
 Round.prototype.orderGames = function() {
     // Sort by next_game_id then game_id
@@ -56,7 +56,7 @@ var Bracket = function(id) {
     var self = this;
     self.id = id;
     self.rounds = [];
-    self.root = $('<bracket></bracket>');
+    self.html = $('<bracket></bracket>');
 };
 Bracket.prototype.processTournament = function(tournament) {
     rounds_dict = {};
@@ -96,5 +96,5 @@ Bracket.prototype.formBracket = function() {
 };
 
 Bracket.prototype.getBracket = function() {
-    return root;
+    return self.html;
 };
