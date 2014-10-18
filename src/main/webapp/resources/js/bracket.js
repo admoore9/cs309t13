@@ -19,7 +19,9 @@ var Game = function(id, next_game_id, round_number, time, location, teams) {
     var root = $('<game></game>');
 };
 Game.prototype.orderTeams = function() {
-    // TODO
+    self.teams.sort(function(team1, team2) {
+        return team1.id - team2.id;
+    });
 };
 Game.prototype.getHTML = function() {
     // TODO
@@ -32,7 +34,19 @@ var Round = function(num, games) {
     self.root = $('<round></round>');
 };
 Round.prototype.orderGames = function() {
-    // TODO
+    // Sort by next_game_id then game_id
+    self.games.sort(function(game1, game2) {
+        var next_game_diff = game1.next_game_id - game2.next_game_id;
+        if(next_game_diff !== 0) {
+            return next_game_diff;
+        }
+        return game1.id - game2.id;
+    });
+
+    // Order the teams in each game
+    self.games.forEach(function(game, index, array) {
+        game.orderTeams;
+    });
 };
 Round.prototype.getHTML = function() {
     // TODO
@@ -68,10 +82,9 @@ Bracket.prototype.orderRounds = function() {
         return round1.num - round2.num;
     });
 
-    // Last round is already sorted, as there's only one game
-    for(var i = self.rounds.length - 1; i >= 0; i--) {
-        //
-    }
+    self.rounds.forEach(function(round, index, array) {
+        round.orderGames();
+    });
 };
 
 Bracket.prototype.formBracket = function() {
