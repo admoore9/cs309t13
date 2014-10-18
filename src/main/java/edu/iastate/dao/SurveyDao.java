@@ -54,4 +54,20 @@ public class SurveyDao {
         entityManager.close();
         return surveys;
     }
+
+    /**
+     * Saves the given survey to the database
+     * 
+     * @param survey The Survey to save to the database
+     */
+    public void saveSurvey(Survey survey) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.merge(survey);
+
+        transaction.commit();
+        entityManager.close();
+    }
 }
