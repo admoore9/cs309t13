@@ -1,17 +1,14 @@
 bracket {
     display: block;
-    position: fixed;
 }
 
 round {
     display: block;
     float: left;
-    position: fixed;
 }
 
 game {
     display: block;
-    position: fixed;
 }
 
 team {
