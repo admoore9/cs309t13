@@ -45,7 +45,7 @@ Round.prototype.orderGames = function() {
 
     // Order the teams in each game
     self.games.forEach(function(game, index, array) {
-        game.orderTeams;
+        game.orderTeams();
     });
 };
 Round.prototype.getHTML = function() {
@@ -60,13 +60,14 @@ var Bracket = function(id) {
 };
 Bracket.prototype.processTournament = function(tournament) {
     rounds_dict = {};
-    tournament['games'].forEach(function(elem, index, array) {
-        game = new Game(elem['id'], elem['next_game']['id'], elem['round_number'], elem['time'], elem['location'], []);
-        elem['teams'].forEach(function(team, index, array) {
-            game.teams.push(new Team(team['id'], team['name']));
+    tournament.games.forEach(function(elem, index, array) {
+        var game = new Game(elem.id, elem.next_game.id, elem.round_number, elem.time. elem.location, []);
+        // game = new Game(elem['id'], elem['next_game']['id'], elem['round_number'], elem['time'], elem['location'], []);
+        elem.teams.forEach(function(team, index, array) {
+            game.teams.push(new Team(team.id, team.name));
         });
 
-        if(rounds_dict[game.round_number] != null) {
+        if(rounds_dict[game.round_number] !== undefined) {
             rounds_dict[game.round_number].push(game);
         } else {
             rounds_dict[game.round_number] = [game];
