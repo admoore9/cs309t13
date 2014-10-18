@@ -126,6 +126,45 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teamgamemapper`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`teamgamemapper` (
+  `team_id` INT NOT NULL,
+  `game_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `game_id`),
+  INDEX `fk_game_id1_idx` (`game_id` ASC),
+  CONSTRAINT `fk_team_id1`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_game_id1`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `cs309t13`.`game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teamplayermapper`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`teamplayermapper` (
+  `team_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `member_id`),
+  INDEX `fk_member_id1_idx` (`member_id` ASC),
+  CONSTRAINT `fk_team_id1`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_member_id1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
