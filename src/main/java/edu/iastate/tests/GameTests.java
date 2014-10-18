@@ -16,9 +16,16 @@ public class GameTests {
     public void returnAllGamesTest() {
         GameDao gameDao = new GameDao();
         List<Game> games = gameDao.getAllGames();
-        System.out.println("Names:");
-        for (Game game: games) {
-            System.out.println(game.getGameLocation());
-        }
+//        System.out.println("Names:");
+//        for (Game game: games) {
+//            System.out.println(game.getGameLocation());
+//        }
     }
+	
+	@Test
+	public void getGameByIdTest() {
+		GameDao gamedao = new GameDao();
+		Game game = gamedao.getGameById(2, true);
+		System.out.println(game.getGameLocation());
+	}
 }
