@@ -18,6 +18,9 @@ var Game = function(id, next_game_id, round_number, time, location, teams) {
     self.teams = teams;
     var root = $('<game></game>');
 };
+Game.prototype.orderTeams = function() {
+    // TODO
+};
 Game.prototype.getHTML = function() {
     // TODO
 };
@@ -28,9 +31,12 @@ var Round = function(num, games) {
     self.games = games;
     self.root = $('<round></round>');
 };
+Round.prototype.orderGames = function() {
+    // TODO
+};
 Round.prototype.getHTML = function() {
     // TODO
-}
+};
 
 var Bracket = function(id) {
     var self = this;
@@ -57,22 +63,25 @@ Bracket.prototype.processTournament = function(tournament) {
         self.rounds.push(new Round(elem, rounds_dict[elem]));
     });
 };
-Bracket.prototype.orderGames = function() {
-    var round_nums = self.rounds.map(function(round, index, array) {
-        return round.num;
+Bracket.prototype.orderRounds = function() {
+    self.rounds.sort(function(round1, round2) {
+        return round1.num - round2.num;
     });
-    var last_round_num = Math.max.apply(Math, round_nums);
 
-}
+    // Last round is already sorted, as there's only one game
+    for(var i = self.rounds.length - 1; i >= 0; i--) {
+        //
+    }
+};
 
 Bracket.prototype.formBracket = function() {
     var self = this;
     $.get('/tournament/' + self.id, function(tournament) {
         self.processTournament(tournament);
-        self.orderGames();
+        self.orderRounds();
     }, 'json');
 };
 
 Bracket.prototype.getBracket = function() {
     return root;
-}
+};
