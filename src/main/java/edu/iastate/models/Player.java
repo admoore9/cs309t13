@@ -1,5 +1,7 @@
 package edu.iastate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,9 @@ public class Player extends Member {
 	
     @Column(name = "free_agent")
     private Boolean freeAgent;
+    
+    @ManyToMany(mappedBy = "players")
+    private List<Team> teams;
     
     /**
      * A list of surveys completed by player for each game
