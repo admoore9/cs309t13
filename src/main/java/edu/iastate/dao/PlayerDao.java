@@ -44,7 +44,7 @@ public class PlayerDao extends MemberDao {
      * @param id The id of the tournament you wish to fetch
      * @return player by id
      */
-    public Player getPlayerById(String id) {
+    public Player getPlayerById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
