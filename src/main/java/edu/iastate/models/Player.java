@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import edu.iastate.models.Member.UserType;
-
 /**
  * 
  * @author nawaf
@@ -20,7 +18,7 @@ public class Player extends Member {
     private Boolean freeAgent;
     
     /**
-     * A list of surveys completed by player for each game
+     * A list of surveys completed by player for each tournament
      */
 //	@OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
 //    private List<Survey> surveys;
