@@ -19,7 +19,7 @@ public class OfficialDao extends MemberDao {
         super(entityManagerFactory);
     }
 
-    public List<Official> returnAllOfficials() {
+    public List<Official> getAllOfficials() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -31,5 +31,21 @@ public class OfficialDao extends MemberDao {
         entityManager.close();
         
         return officials;
+    }
+    
+    /**
+     * Saves the given official to the database
+     * 
+     * @param official The official to save to the database
+     */
+    public void saveOfficial(Official official) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.merge(official);
+
+        transaction.commit();
+        entityManager.close();
     }
 }
