@@ -14,9 +14,6 @@ import javax.persistence.Table;
 @Table(name = "Player")
 public class Player extends Member {
 	
-    @Column(name = "free_agent")
-    private Boolean freeAgent;
-    
     /**
      * A list of surveys completed by player for each tournament
      */
@@ -50,16 +47,6 @@ public class Player extends Member {
         super(name, username, password,
                 UserType.PLAYER);
     }
-    
-	public void setFreeAgent(Boolean freeAgent) {
-		this.freeAgent = freeAgent;
-	}
-    
-    public Boolean isFreeAgent() {
-    	return freeAgent;
-    }
-    
-    
 
 }
 
