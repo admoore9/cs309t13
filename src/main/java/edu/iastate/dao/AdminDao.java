@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Admin;
-import edu.iastate.models.Player;
 
 public class AdminDao extends MemberDao {
     
@@ -51,5 +50,21 @@ public class AdminDao extends MemberDao {
         transaction.commit();
         entityManager.close();
         return admin;
+    }
+    
+    /**
+     * Saves the given admin to the database
+     * 
+     * @param admin The admin to save to the database
+     */
+    public void saveAdmin(Admin admin) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.merge(admin);
+
+        transaction.commit();
+        entityManager.close();
     }
 }
