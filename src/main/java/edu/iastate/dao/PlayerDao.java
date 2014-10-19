@@ -41,7 +41,7 @@ public class PlayerDao extends MemberDao {
     /**
      * Gets a player matching the given id
      * 
-     * @param id The id of the tournament you wish to fetch
+     * @param id The id of the player you wish to fetch
      * @return player by id
      */
     public Player getPlayerById(int id) {
