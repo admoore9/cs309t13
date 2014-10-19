@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import edu.iastate.models.Member.UserType;
+
 /**
  * 
  * @author nawaf
@@ -42,11 +44,20 @@ public class Player extends Member {
 //	     this.badges = badges;
 //	}
 	    
+    public Player() {
+        super();
+    }
+    
+    public Player(String name, String username, String password) {
+        super(name, username, password,
+                UserType.PLAYER);
+    }
+    
 	public void setFreeAgent(Boolean freeAgent) {
 		this.freeAgent = freeAgent;
 	}
     
-    public Boolean getFreeAgent() {
+    public Boolean isFreeAgent() {
     	return freeAgent;
     }
     
