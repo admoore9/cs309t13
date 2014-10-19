@@ -11,8 +11,7 @@ round {
 
 game {
     display: block;
-    position: relative;
-    margin-bottom: 30px;
+    position: absolute;
 }
 
 team {

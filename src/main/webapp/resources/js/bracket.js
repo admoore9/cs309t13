@@ -36,9 +36,8 @@ Game.prototype.getHTML = function() {
         self.html.append(team.getHTML());
     });
 
+    // Handle not know what team will advance ye
     for(var i = 0; i < self.teams_per_game - self.teams.length; i++) {
-        // team = new Team(-1, '-');
-        // self.html.append(team.getHTML());
         self.html.append((new Team(-1, '--').getHTML()));
     }
     return self.html;
@@ -66,11 +65,34 @@ Round.prototype.orderGames = function() {
         game.orderTeams();
     });
 };
-Round.prototype.getHTML = function() {
+Round.prototype.getHTML = function(round_number) {
     var self = this;
     self.html.children().remove();
     self.games.forEach(function(game, index, array) {
-        self.html.append(game.getHTML());
+        var gameHTML = game.getHTML();
+        var game_height = gameHTML.height();
+
+        function getVerticalGap(round_num) {
+            if(round_num === 0) {
+                return 140;
+            }
+            return 2 * getVerticalGap(round_num - 1) - game_height;
+        }
+
+        function getVerticalOffset(round_num) {
+            if(round_num === 0) {
+                return 0;
+            }
+            return getVerticalOffset(round_num - 1) + 0.5 * (game_height + getVerticalGap(round_num - 1));
+        }
+
+        var left = round_number * 200;
+        var vertical_offset = getVerticalOffset(round_number);
+        var vertical_gap = getVerticalGap(round_number);
+        var top = vertical_offset + index * (game_height + vertical_gap);
+
+        gameHTML.offset({top: top, left: left});
+        self.html.append(gameHTML);
     });
     return self.html;
 };
@@ -209,7 +231,7 @@ Bracket.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
     self.rounds.forEach(function(round, index, array) {
-        self.html.append(round.getHTML());
+        self.html.append(round.getHTML(index));
     });
     return self.html;
 };
