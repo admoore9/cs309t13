@@ -2,6 +2,7 @@ package edu.iastate.tests;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.iastate.dao.MemberDao;
@@ -9,9 +10,12 @@ import edu.iastate.models.Member;
 
 public class MemberTests {
 
-//    @Before
-//    public void setUp() throws Exception {
-//    }
+    MemberDao memberDao;
+    
+    @Before
+    public void setUp() throws Exception {
+        memberDao = new MemberDao();
+    }
 //
 //    @After
 //    public void tearDown() throws Exception {
@@ -19,12 +23,17 @@ public class MemberTests {
 
     @Test
     public void returnAllMembersTest() {
-        MemberDao memberDao = new MemberDao();
-        List<Member> members = memberDao.returnAllMembers();
+        List<Member> members = memberDao.getAllMembers();
         System.out.println("Names:");
         for (Member member : members) {
             System.out.println(member.getName());
         }
+    }
+    
+    @Test
+    public void getMemberByIdTest() {
+        Member member = memberDao.getMemberById("1");
+        System.out.println(member.getName());
     }
 
 }

@@ -32,7 +32,7 @@ public class Player extends Member {
     private List<Team> teams;
     
     /**
-     * A list of surveys completed by player for each game
+     * A list of surveys completed by player for each tournament
      */
 //	@OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
 //    private List<Survey> surveys;
@@ -56,11 +56,20 @@ public class Player extends Member {
 //	     this.badges = badges;
 //	}
 	    
+    public Player() {
+        super();
+    }
+    
+    public Player(String name, String username, String password) {
+        super(name, username, password,
+                UserType.PLAYER);
+    }
+    
 	public void setFreeAgent(Boolean freeAgent) {
 		this.freeAgent = freeAgent;
 	}
     
-    public Boolean getFreeAgent() {
+    public Boolean isFreeAgent() {
     	return freeAgent;
     }
 
