@@ -11,13 +11,14 @@ Team.prototype.getHTML = function() {
     return self.html;
 };
 
-var Game = function(id, next_game_id, round_number, time, location, teams) {
+var Game = function(id, next_game_id, round_number, time, location, teams_per_game, teams) {
     var self = this;
     self.id = id;
     self.next_game_id = next_game_id;
     self.round_number = round_number;
     self.time = time;
     self.location = location;
+    self.teams_per_game = teams_per_game;
     self.teams = teams;
     self.html = $('<game></game>');
 };
@@ -33,6 +34,12 @@ Game.prototype.getHTML = function() {
     self.teams.forEach(function(team, index, aray) {
         self.html.append(team.getHTML());
     });
+
+    for(var i = 0; i < self.teams_per_game - self.teams.length; i++) {
+        // team = new Team(-1, '-');
+        // self.html.append(team.getHTML());
+        self.html.append((new Team(-1, '--').getHTML()));
+    }
     return self.html;
 };
 
@@ -77,7 +84,7 @@ Bracket.prototype.processTournament = function(tournament) {
     var self = this;
     rounds_dict = {};
     tournament.games.forEach(function(elem, index, array) {
-        var game = new Game(elem.id, elem.next_game.id, elem.round_number, elem.time, elem.location, []);
+        var game = new Game(elem.id, elem.next_game.id, elem.round_number, elem.time, elem.location, tournament.teams_per_game, []);
         elem.teams.forEach(function(team, index, array) {
             game.teams.push(new Team(team.id, team.name));
         });
@@ -114,6 +121,7 @@ Bracket.prototype.formBracket = function() {
 Bracket.prototype.formBracketTest = function() {
     var self = this;
     var tournament = {
+        teams_per_game: 2,
         games: [
             {
                 id: 1,
@@ -155,8 +163,7 @@ Bracket.prototype.formBracketTest = function() {
                 time: 't4',
                 location: 'l4',
                 teams: [
-                    {id: 7, name: 'name7'},
-                    {id: 8, name: 'name8'}
+                    {id: 7, name: 'name7'}
                 ]
             },
             {
