@@ -36,7 +36,7 @@ public class PlayerTests {
     
     @Test
     public void getPlayerByIdTest() {
-        Player player = playerDao.getPlayerById("10");
+        Player player = playerDao.getPlayerById(10);
         System.out.println(player.getName());
     }
     
