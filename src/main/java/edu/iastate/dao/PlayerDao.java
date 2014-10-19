@@ -69,16 +69,4 @@ public class PlayerDao extends MemberDao {
         transaction.commit();
         entityManager.close();
     }
-    
-//    public void deletePlayerById(String id) {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//
-//        TypedQuery<Player> query = entityManager.createQuery("DELETE FROM Player WHERE member_id = :id", Player.class);
-//        query.setParameter("id", id);
-//        query.executeUpdate();
-//        transaction.commit();
-//        entityManager.close();
-//    }
 }
