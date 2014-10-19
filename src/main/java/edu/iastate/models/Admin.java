@@ -18,21 +18,15 @@ public class Admin extends Member {
         super(name, username, password, UserType.ADMIN);
     }
 
-    public enum View {ADMIN, PLAYER, OFFICIAL}; 
-    
-    /**
-     * 
-     */
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "current_view")
-    private View curView;
+    private UserType currentView;
     
-    public View getCurView() {
-        return curView;
+    public UserType getCurrentView() {
+        return currentView;
     }
-    
-    public void setCurView(View newCurView) {
-        this.curView = newCurView;
+
+    public void setCurrentView(UserType view) {
+        this.currentView = view;
     }
 	
 }
