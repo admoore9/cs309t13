@@ -8,6 +8,7 @@ Team.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
     self.html.text(self.name);
+    self.html.append($('<score></score>').text(0));
     return self.html;
 };
 

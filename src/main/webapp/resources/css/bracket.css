@@ -26,3 +26,14 @@ team {
 team.winner {
     background-color: gold;
 }
+
+score {
+    display: block;
+    position: relative;
+    width: 20px;
+    float: right;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: black;
+    text-align: center;
+}
