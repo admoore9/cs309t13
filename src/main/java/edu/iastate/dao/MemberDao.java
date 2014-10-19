@@ -74,18 +74,6 @@ public class MemberDao {
         entityManager.close();
     }
     
-//    public void deleteMemberById(String id) {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//
-//        TypedQuery<Member> query = entityManager.createQuery("DELETE FROM Member WHERE member_id = :id", Member.class);
-//        query.setParameter("id", id);
-//        query.executeUpdate();
-//        transaction.commit();
-//        entityManager.close();
-//    }
-
     public void setName(int id, String newName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -112,7 +100,7 @@ public class MemberDao {
     	return members;
     }
     
-    public Member getMemberById(String id) {
+    public Member getMemberById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
