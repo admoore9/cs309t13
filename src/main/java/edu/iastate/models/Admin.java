@@ -10,13 +10,13 @@ import javax.persistence.Table;
 @Table(name = "Admin")
 public class Admin extends Member {
 	
-//    public Admin() {
-//        super();
-//    }
-//
-//    public Admin(String name, String username, String password) {
-//        super(name, username, password, UserType.ADMIN);
-//    }
+    public Admin() {
+        super();
+    }
+
+    public Admin(String name, String username, String password) {
+        super(name, username, password, UserType.ADMIN);
+    }
 
     public enum View {ADMIN, PLAYER, OFFICIAL}; 
     
