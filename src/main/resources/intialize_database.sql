@@ -24,7 +24,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
-  `free_agent` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
   CONSTRAINT `fk_player_id`
