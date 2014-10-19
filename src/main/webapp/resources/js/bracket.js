@@ -70,11 +70,16 @@ Round.prototype.getHTML = function(round_number) {
     self.html.children().remove();
     self.games.forEach(function(game, index, array) {
         var gameHTML = game.getHTML();
+
+        // Append hidden version of element so height and width are available
+        gameHTML.hide();
+        $('body').append(gameHTML);
         var game_height = gameHTML.height();
+        var game_width = gameHTML.width();
 
         function getVerticalGap(round_num) {
             if(round_num === 0) {
-                return 140;
+                return game_height + 40;
             }
             return 2 * getVerticalGap(round_num - 1) - game_height;
         }
@@ -86,12 +91,17 @@ Round.prototype.getHTML = function(round_number) {
             return getVerticalOffset(round_num - 1) + 0.5 * (game_height + getVerticalGap(round_num - 1));
         }
 
-        var left = round_number * 200;
+        var left = round_number * (game_width + 60);
         var vertical_offset = getVerticalOffset(round_number);
         var vertical_gap = getVerticalGap(round_number);
         var top = vertical_offset + index * (game_height + vertical_gap);
 
         gameHTML.offset({top: top, left: left});
+
+        // Remove the hidden element and the hidden class from the element
+        gameHTML.remove();
+        gameHTML.show();
+
         self.html.append(gameHTML);
     });
     return self.html;
