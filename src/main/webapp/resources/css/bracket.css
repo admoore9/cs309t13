@@ -16,7 +16,6 @@ game {
 
 team {
     display: block;
-    position: relative;
     width: 100px;
     background-color: lime;
     border-style: outset;
@@ -28,7 +27,6 @@ team.winner {
 
 score {
     display: block;
-    position: relative;
     width: 20px;
     float: right;
     border-left-style: solid;
