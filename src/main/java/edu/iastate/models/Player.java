@@ -55,6 +55,7 @@ public class Player extends Member {
 //	public void setBadges(List<Badge> badges) {
 //	     this.badges = badges;
 //	}
+    
 	    
     public Player() {
         super();
@@ -63,6 +64,11 @@ public class Player extends Member {
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);
+    }
+    
+  //---------Test implementation---------
+    public int getSkillLevel() {
+    	return 50;
     }
     
 	public void setFreeAgent(Boolean freeAgent) {

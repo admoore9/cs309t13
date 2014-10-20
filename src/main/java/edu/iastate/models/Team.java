@@ -45,18 +45,34 @@ public class Team {
     @JoinColumn(name = "member_id")
     private Player teamLeader;
 
-    public Player getTeamLeader() {
+	@ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
+	
+	@Column(name = "team_skill")
+	private int teamSkillLevel; 
+	
+	public Team() {
+		
+	}
+	
+	public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
+						List<Game> games, Player teamLeader){
+		this.id = id;
+		this.name = name;
+		this.acceptFreeAgents = acceptFreeAgents;
+		this.players = players;
+		this.games = games;
+		this.teamLeader = teamLeader;
+	}
+	
+	public Player getTeamLeader() {
 		return teamLeader;
 	}
 
 	public void setTeamLeader(Player teamLeader) {
 		this.teamLeader = teamLeader;
 	}
-
-	@ManyToOne
-    @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
-	
 
 	public int getId() {
 		return id;
@@ -104,6 +120,25 @@ public class Team {
 
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
+	}
+	
+	public int getTeamSkillLevel() {
+		calculateSkillLevel();
+		return teamSkillLevel;
+	}
+	
+	public void calculateSkillLevel() {
+		int skillLevel = 0;
+		int numPlayers = 0;
+		for(Player player : players){
+			skillLevel+=player.getSkillLevel();
+			numPlayers++;
+		}
+		teamSkillLevel = skillLevel/numPlayers;
+	}
+
+	public void setTeamSkillLevel(int teamSkillLevel) {
+		this.teamSkillLevel = teamSkillLevel;
 	}
 
 	@Override

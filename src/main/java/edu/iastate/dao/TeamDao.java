@@ -98,6 +98,8 @@ public class TeamDao {
      * @param team The team to save to the database
      */
     public void saveTeam(Team team) {
+    	team.calculateSkillLevel(); //Updates the skill level if changes were made
+    			
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();

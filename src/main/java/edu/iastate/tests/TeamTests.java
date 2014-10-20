@@ -25,7 +25,7 @@ public class TeamTests {
         Team team = new Team();
         GameDao gamedao = new GameDao();
         team.setAcceptFreeAgents(true);
-        team.setName("Test1");
+        team.setName("SKillLevelTest2");
         team.setTournament(tournament);
         team.setGames(gamedao.getAllGames());
         team.setPlayers(playerdao.getAllPlayers());
