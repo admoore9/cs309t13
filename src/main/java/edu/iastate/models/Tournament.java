@@ -158,6 +158,9 @@ public class Tournament {
      * Forms the bracket for the tournament. Doesn't do anything if the bracket
      * has already been formed.
      */
+    // TODO double elim?
+    // TODO save games
+    // TODO no play in games
     public void formBracket() {
         if(this.isBracketFormed()) {
             return;
@@ -173,17 +176,20 @@ public class Tournament {
         int numPlayinTeams = leftoverTeams + numPlayinGames;
 
         List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-        List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames);
-        List<Game> secondRoundPlayinGames = formNextRound(playinGames);
+        List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames, 1);
+        List<Game> secondRoundPlayinGames = formNextRound(playinGames, 2);
 
         // The teams that didn't have a play in game
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams);
+        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, 2);
         List<Game> currRoundGames = new ArrayList<Game>();
         currRoundGames.addAll(secondRoundPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
+
+        int roundNumber = 3;
         while(currRoundGames.size() > 1) {
-            currRoundGames = formNextRound(currRoundGames);
+            currRoundGames = formNextRound(currRoundGames, roundNumber);
+            roundNumber++;
         }
     }
 
@@ -193,7 +199,8 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    private List<Game> groupTeamsIntoGames(List<Team> currRoundTeams) {
+    // TODO round number
+    private List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber) {
         int gamesNeeded = (int) Math.ceil(MathUtils.log(currRoundTeams.size(), TEAMS_PER_GAME));
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
@@ -218,7 +225,7 @@ public class Tournament {
      * @param currRoundGames The games that make up the current round.
      * @return The games that make up the newly created next round.
      */
-    private List<Game> formNextRound(List<Game> currRoundGames) {
+    private List<Game> formNextRound(List<Game> currRoundGames, int roundNumber) {
         // TODO shouldn't have to balance teams
         int nextRoundLen = (int) Math.ceil(MathUtils.log(currRoundGames.size(), TEAMS_PER_GAME));
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
@@ -226,6 +233,7 @@ public class Tournament {
 
         int count = 0;
         for(int i = 0; i < nextRoundLen; i++) {
+            // TODO round number
             Game nextGame = new Game();
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 currRoundGames.get(count).setNextGame(nextGame);

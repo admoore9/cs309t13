@@ -1,17 +1,13 @@
 package edu.iastate.models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,9 +27,6 @@ public class Game {
     @GeneratedValue
     @Column(name = "game_id")
     private int id;
-
-    @Column(name = "round_number")
-    private int roundNumber;
 
     @Column(name = "game_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -76,12 +69,12 @@ public class Game {
 
     public void addTeam(Team team) {}
 
+    // TODO implememnt
     public int getRoundNumber() {
-        return roundNumber;
+        return -1;
     }
 
-    public void setRoundNumber(int roundNumber) {
-        this.roundNumber = roundNumber;
+    public void setRoundNumber(int roundNumber) {}
 
     public void setGameLocation(String gameLocation) {
         this.gameLocation = gameLocation;
