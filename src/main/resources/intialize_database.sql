@@ -119,6 +119,11 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
     REFERENCES `cs309t13`.`Game` (`game_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
+   CONSTRAINT `fk_Team_Player1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Team_Tournament1`
     FOREIGN KEY (`tournament_id`)
     REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
