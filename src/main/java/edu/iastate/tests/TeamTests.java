@@ -30,7 +30,7 @@ public class TeamTests {
         team.setGames(gamedao.getAllGames());
         team.setPlayers(playerdao.returnAllPlayers());
         TeamDao teamdao = new TeamDao();
-        teamdao.saveTeam(team);
+        //teamdao.saveTeam(team);
         /*System.out.println("Names:");
         for (Player player : players) {
             System.out.println(player.getName());
