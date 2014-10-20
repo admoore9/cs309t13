@@ -35,13 +35,6 @@ public class Member {
     @Column(name = "password")
     private String password; 
     
-    @Column(name = "is_admin")
-    private Boolean isAdmin;
-    
-    @Column(name = "is_official")
-    private Boolean isOfficial;
-    
-
     public enum UserType {PLAYER, OFFICIAL, ADMIN}; 
 
     @Enumerated(EnumType.ORDINAL)
@@ -104,22 +97,5 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public Boolean getIsOfficial() {
-        return isOfficial;
-    }
-
-    public void setIsOfficial(Boolean isOfficial) {
-        this.isOfficial = isOfficial;
-    }
-    
 }
 

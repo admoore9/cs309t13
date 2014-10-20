@@ -24,10 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Player")
 public class Player extends Member {
-	
-    @Column(name = "free_agent")
-    private Boolean freeAgent;
-    
+
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
     
@@ -55,15 +52,5 @@ public class Player extends Member {
 //	public void setBadges(List<Badge> badges) {
 //	     this.badges = badges;
 //	}
-	    
-	public void setFreeAgent(Boolean freeAgent) {
-		this.freeAgent = freeAgent;
-	}
-    
-    public Boolean getFreeAgent() {
-    	return freeAgent;
-    }
-
-
 }
 
