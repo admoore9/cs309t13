@@ -11,3 +11,9 @@
 - You can start it by running `mysql.server start` via command line.
 - You should have the root user configured to have no password to allow connection (this is the default).
 - It should also be up to date with the "intialize_database.sql" in src/main/resources.
+
+## Using Bootstrap:
+Bootstrap will be stored on local development machines in order to speed up pushing and pulling from Github.
+
+1. Download Bootstrap from the [Bootstrap Website](http://getbootstrap.com/customize/) by scrolling down and clicking "Compile and Download".
+2. Unzip the folder and add it to your project directory under `src/main/webapp/resources/js/`
