@@ -61,4 +61,8 @@ public class Survey {
     public int getSurveyScore() {
         return surveyScore;
     }
+
+    public void setSurveyScore(int surveyScore) {
+        this.surveyScore = surveyScore;
+    }
 }
