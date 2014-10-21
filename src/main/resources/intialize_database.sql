@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   `game_location` VARCHAR(100) NULL,
   `game_time` TIMESTAMP NULL,
   `tournament_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
   `next_game_id` INT NOT NULL,
   PRIMARY KEY (`game_id`),
   INDEX `fk_Game_Tournament_idx` (`tournament_id` ASC),
@@ -91,6 +92,11 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   CONSTRAINT `fk_Game_Tournament`
     FOREIGN KEY (`tournament_id`)
     REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Game_Player1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Player` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_Game1`
