@@ -1,4 +1,4 @@
-var IS_REFEREE = true;
+var IS_REFEREE = true;  // TODO json from server
 
 var Team = function(id, name) {
     var self = this;
@@ -14,21 +14,29 @@ Team.prototype.getHTML = function() {
     self.name_html = $('<span></span>').text(self.name);
     self.html.append(self.name_html);
 
-    if(IS_REFEREE) {
+    if(!IS_REFEREE) {
+        self.html.append($('<score></score>').text(0));
+    } else {
         self.input_box = $('<input>').width(20);
         var score = $('<score></score>');
         score.append(self.input_box);
         self.html.append(score);
-    } else {
-        self.html.append($('<score></score>').text(0));
     }
 
     return self.html;
 };
-Team.prototype.setHandlers = function() {
+Team.prototype.setHandlers = function(game_id) {
     var self = this;
     self.name_html.on('click', function() {
-        console.log(self.name);
+        // Get players from server
+        $.get('/team/' + self.id + '/players', function(response) {
+            // Form popover or something?
+        });
+    });
+
+    self.input_box.on('input', function() {
+        // Post new score to server
+        $.post('/game/' + game_id + '/update_score', {team_id: self.id, score: self.input_box.val()}, function() {}, 'json');
     });
 };
 
@@ -65,7 +73,7 @@ Game.prototype.getHTML = function() {
 Game.prototype.setHandlers = function() {
     var self = this;
     self.teams.forEach(function(team, index, array) {
-        team.setHandlers();
+        team.setHandlers(self.id);
     });
 };
 
