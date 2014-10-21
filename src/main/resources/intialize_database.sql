@@ -84,16 +84,10 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   `game_location` VARCHAR(100) NULL,
   `game_time` TIMESTAMP NULL,
   `tournament_id` INT NOT NULL,
-  `member_id` INT NOT NULL,
   `next_game_id` INT NOT NULL,
   PRIMARY KEY (`game_id`),
   INDEX `fk_Game_Tournament_idx` (`tournament_id` ASC),
   INDEX `fk_Game_Game1_idx` (`next_game_id` ASC),
-  CONSTRAINT `fk_Game_Tournament`
-    FOREIGN KEY (`tournament_id`)
-    REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_Player1`
     FOREIGN KEY (`member_id`)
     REFERENCES `cs309t13`.`Player` (`member_id`)
@@ -116,15 +110,17 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   `tournament_id` INT NOT NULL,
   `team_name` VARCHAR(45) NULL,
   `accepts_free_agents` TINYINT(1) NULL,
+  `member_id` INT NOT NULL,
   PRIMARY KEY (`team_id`),
   INDEX `fk_Team_Game1_idx` (`game_id` ASC),
   INDEX `fk_Team_Tournament1_idx` (`tournament_id` ASC),
+  INDEX `fk_Team_Player1_idx` (`member_id` ASC),
   CONSTRAINT `fk_Team_Game1`
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`Game` (`game_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-   CONSTRAINT `fk_Team_Player1`
+  CONSTRAINT `fk_Team_Player1`
     FOREIGN KEY (`member_id`)
     REFERENCES `cs309t13`.`player` (`member_id`)
     ON DELETE NO ACTION
