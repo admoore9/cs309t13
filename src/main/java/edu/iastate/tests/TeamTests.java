@@ -21,7 +21,7 @@ public class TeamTests {
         TournamentDao tournamentdao = new TournamentDao();
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
-        team.setName("TestSaveTeam4");
+        team.setName("TestSaveTeam5");
         team.setPlayers(playerdao.getAllPlayers());
         team.setTournament(tournamentdao.getTournamentById(1, false, false));
         TeamDao teamdao = new TeamDao();
