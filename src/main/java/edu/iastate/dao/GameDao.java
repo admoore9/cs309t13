@@ -112,4 +112,5 @@ public class GameDao {
     private void loadTeams(Game game) {
      game.getTeams().size();
     }
+
 }

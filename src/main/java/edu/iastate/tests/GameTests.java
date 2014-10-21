@@ -18,44 +18,46 @@ import edu.iastate.models.Team;
 
 public class GameTests {
 
-	@Test
+    @Test
+    public void getGameByIdTest() {
+        GameDao gamedao = new GameDao();
+        Game game = gamedao.getGameById(2, true);
+        System.out.println(game.getGameLocation());
+    }
+
+    @Test
+    public void modifyGameTest() {
+        GameDao gamedao = new GameDao();
+        Game game = new Game();
+        game = gamedao.getGameById(8, false);
+        game.setNextGame(gamedao.getGameById(1, false));
+        gamedao.saveGame(game);
+    }
+
+    @Test
+    public void saveGameTest() {
+        Game game = new Game();
+        game.setGameLocation("saveGameTestLocation123");
+        game.setGameTime(new Date());
+        List<Team> teams = new ArrayList<Team>();
+        TeamDao teamdao = new TeamDao();
+        teams.add(teamdao.getTeamById(10, false, false));
+        //teams.add(teamdao.getTeamById(1, false, false));
+        game.setTeams(teams);
+        TournamentDao tournamentdao = new TournamentDao();
+        game.setTournament(tournamentdao.getTournamentById(1, false, false));
+        GameDao gamedao = new GameDao();
+        gamedao.saveGame(game);
+        System.out.println(gamedao.getGameById(2, false).getGameLocation());
+    }
+
+    @Test
     public void returnAllGamesTest() {
         GameDao gameDao = new GameDao();
         List<Game> games = gameDao.getAllGames();
-//        System.out.println("Names:");
-//        for (Game game: games) {
-//            System.out.println(game.getGameLocation());
-//        }
+        System.out.println("Location:");
+        for (Game game: games) {
+            System.out.println(game.getGameLocation());
+        }
     }
-	
-	@Test
-	public void getGameByIdTest() {
-		GameDao gamedao = new GameDao();
-		Game game = gamedao.getGameById(2, true);
-		System.out.println(game.getGameLocation());
-	}
-	
-	@Test
-	public void saveGameTest() {
-		GameDao gamedao = new GameDao();
-		TournamentDao tournamentdao = new TournamentDao();
-		Game game = new Game();
-		Date date = new Date();
-		TeamDao teamdao = new TeamDao();
-		game.setGameLocation("Test Location1");
-		game.setGameTime(date);
-		game.setNextGame(gamedao.getGameById(2, false));
-		game.setTeams(teamdao.getAllTeams());
-		game.setTournament(tournamentdao.getTournamentById(1, false, false));
-		gamedao.saveGame(game);
-	}
-	
-	@Test
-	public void modifyGameTest() {
-		GameDao gamedao = new GameDao();
-		Game game = new Game();
-		game = gamedao.getGameById(2, false);
-		game.setNextGame(gamedao.getGameById(1, false));
-		gamedao.saveGame(game);
-	}
 }

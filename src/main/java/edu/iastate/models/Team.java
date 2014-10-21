@@ -30,14 +30,14 @@ public class Team {
 
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
-    
-   @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-   		inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-   @ManyToMany(fetch = FetchType.LAZY)
-   private List<Player> players;
+
+    @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
+            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Player> players;
 
     @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-    		inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
+            inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Game> games;
 
@@ -56,75 +56,75 @@ public class Team {
 	@ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
-	
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public boolean isAcceptFreeAgents() {
-		return acceptFreeAgents;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAcceptFreeAgents(boolean acceptFreeAgents) {
-		this.acceptFreeAgents = acceptFreeAgents;
-	}
+    public boolean isAcceptFreeAgents() {
+        return acceptFreeAgents;
+    }
 
-	public List<Player> getPlayers() {
-		return players;
-	}
+    public void setAcceptFreeAgents(boolean acceptFreeAgents) {
+        this.acceptFreeAgents = acceptFreeAgents;
+    }
 
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
+    public List<Player> getPlayers() {
+        return players;
+    }
 
-	public List<Game> getGames() {
-		return games;
-	}
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
 
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
+    public List<Game> getGames() {
+        return games;
+    }
 
-	public Tournament getTournament() {
-		return tournament;
-	}
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 
-	public void setTournament(Tournament tournament) {
-		this.tournament = tournament;
-	}
+    public Tournament getTournament() {
+        return tournament;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Team other = (Team) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Team other = (Team) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
 }
