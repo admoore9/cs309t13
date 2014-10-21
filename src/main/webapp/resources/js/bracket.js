@@ -1,9 +1,10 @@
-var IS_REFEREE = true;  // TODO json from server
+var IS_REFEREE;
 
 var Team = function(id, name) {
     var self = this;
     self.id = id;
     self.name = name;
+    self.score = 0;
     self.html = $('<team></team>');
     self.input_box = null;
     self.name_html = null;
@@ -15,11 +16,10 @@ Team.prototype.getHTML = function() {
     self.html.append(self.name_html);
 
     if(!IS_REFEREE) {
-        self.html.append($('<score></score>').text(0));
+        self.html.append($('<score></score>').text(self.score));
     } else {
-        self.input_box = $('<input>').width(20);
-        var score = $('<score></score>');
-        score.append(self.input_box);
+        self.input_box = $('<input>').width(20).val(self.score);
+        $('<score></score>').append(self.input_box);
         self.html.append(score);
     }
 
@@ -28,16 +28,20 @@ Team.prototype.getHTML = function() {
 Team.prototype.setHandlers = function(game_id) {
     var self = this;
     self.name_html.on('click', function() {
+        console.log(self.name);
         // Get players from server
-        $.get('/team/' + self.id + '/players', function(response) {
-            // Form popover or something?
-        });
+        // $.get('/team/' + self.id + '/players', function(response) {
+        //     // Form popover or something?
+        // });
     });
 
-    self.input_box.on('input', function() {
-        // Post new score to server
-        $.post('/game/' + game_id + '/update_score', {team_id: self.id, score: self.input_box.val()}, function() {}, 'json');
-    });
+    if(IS_REFEREE) {
+        self.input_box.on('input', function() {
+            console.log(self.input_box.val());
+            // Post new score to server
+            // $.post('/game/' + game_id + '/update_score', {team_id: self.id, score: self.input_box.val()}, function() {}, 'json');
+        });
+    }
 };
 
 var Game = function(id, next_game_id, round_number, time, location, teams_per_game, teams) {
@@ -171,6 +175,7 @@ var Bracket = function(id) {
 };
 Bracket.prototype.processTournament = function(tournament) {
     var self = this;
+    IS_REFEREE = tournament.is_referee;
     rounds_dict = {};
     tournament.games.forEach(function(elem, index, array) {
         var game = new Game(elem.id, elem.next_game.id, elem.round_number, elem.time, elem.location, tournament.teams_per_game, []);
@@ -211,11 +216,34 @@ Bracket.prototype.formBracketTest = function() {
     var self = this;
     var tournament = {
         teams_per_game: 2,
+        is_referee: false,
         games: [
+            {
+                id: 0,
+                next_game: {id: 2},
+                round_number: 1,
+                time: 't0',
+                location: 'l0',
+                teams: [
+                    {id: 0, name: 'name0'},
+                    {id: 1, name: 'name1'}
+                ]
+            },
+            {
+                id: -1,
+                next_game: {id: 2},
+                round_number: 1,
+                time: 't0',
+                location: 'l0',
+                teams: [
+                    {id: -1, name: 'name-1'},
+                    {id: 2, name: 'name2'}
+                ]
+            },
             {
                 id: 1,
                 next_game: {id: 5},
-                round_number: 1,
+                round_number: 2,
                 time: 't1',
                 location: 'l1',
                 teams: [
@@ -226,7 +254,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 2,
                 next_game: {id: 5},
-                round_number: 1,
+                round_number: 2,
                 time: 't2',
                 location: 'l2',
                 teams: [
@@ -237,7 +265,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 3,
                 next_game: {id: 6},
-                round_number: 1,
+                round_number: 2,
                 time: 't3',
                 location: 'l3',
                 teams: [
@@ -248,7 +276,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 4,
                 next_game: {id: 6},
-                round_number: 1,
+                round_number: 2,
                 time: 't4',
                 location: 'l4',
                 teams: [
@@ -258,7 +286,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 5,
                 next_game: {id: 7},
-                round_number: 2,
+                round_number: 3,
                 time: 't5',
                 location: 'l5',
                 teams: [
@@ -269,7 +297,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 6,
                 next_game: {id: 7},
-                round_number: 2,
+                round_number: 3,
                 time: 't6',
                 location: 'l6',
                 teams: [
@@ -280,7 +308,7 @@ Bracket.prototype.formBracketTest = function() {
             {
                 id: 7,
                 next_game: {id: 0},
-                round_number: 3,
+                round_number: 4,
                 time: 't7',
                 location: 'l7',
                 teams: [
