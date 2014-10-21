@@ -4,12 +4,6 @@ var Team = function(id, name) {
     self.name = name;
     self.html = $('<team></team>');
 };
-Team.prototype.appendHTML = function(parent) {
-    var self = this;
-    self.html.text(self.name);
-    self.html.append($('<score></score>').text(0));
-    parent.append(self.html);
-};
 Team.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
@@ -34,19 +28,6 @@ Game.prototype.orderTeams = function() {
     self.teams.sort(function(team1, team2) {
         return team1.id - team2.id;
     });
-};
-Game.prototype.appendHTML = function(parent, top, left) {
-    var self = this;
-    self.html.offset({top: top, left: left});
-    parent.append(self.html);
-
-    self.teams.forEach(function(team, index, array) {
-        team.appendHTML(self.html);
-    });
-
-    for(var i = 0; i < self.teams_per_game - self.teams.length; i++) {
-        (new Team(-1, '--')).appendHTML(self.html);
-    }
 };
 Game.prototype.getHTML = function() {
     var self = this;
@@ -127,15 +108,19 @@ Round.prototype.setHeights = function() {
     self.vertical_offset = self.getVerticalOffset(self.num);
     self.vertical_gap = self.getVerticalGap(self.num);
 };
-Round.prototype.appendHTML = function(parent) {
+Round.prototype.getHTML = function() {
     var self = this;
+    self.html.children().remove();
     self.setHeights();
-    parent.append(self.html);
 
     self.games.forEach(function(game, index, array) {
+        var gameHTML = game.getHTML();
         var top = self.vertical_offset + index * (self.game_height + self.vertical_gap);
-        game.appendHTML(self.html, top, self.left);
+
+        gameHTML.offset({top: top, left: self.left});
+        self.html.append(gameHTML);
     });
+    return self.html;
 };
 
 var Bracket = function(id) {
@@ -268,10 +253,11 @@ Bracket.prototype.formBracketTest = function() {
     self.processTournament(tournament);
     self.orderRounds();
 };
-Bracket.prototype.appendHTML = function(parent) {
+Bracket.prototype.getHTML = function() {
     var self = this;
-    parent.append(self.html);
+    self.html.children().remove();
     self.rounds.forEach(function(round, index, array) {
-        round.appendHTML(self.html);
+        self.html.append(round.getHTML());
     });
+    return self.html;
 };
