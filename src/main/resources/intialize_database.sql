@@ -126,6 +126,30 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Survey`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Survey` (
+  `survey_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  `tournament_id` INT NOT NULL,
+  `survey_score` INT NOT NULL,
+  PRIMARY KEY (`survey_id`),
+  INDEX `fk_member_id` (`member_id` ASC),
+  INDEX `fk_tournament_id` (`tournament_id` ASC),
+  CONSTRAINT `fk_member_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tournament_id`
+    FOREIGN KEY (`tournament_id`)
+    REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE=InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
