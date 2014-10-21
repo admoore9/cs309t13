@@ -13,7 +13,7 @@ import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
 public class TeamTests {
-	@Test
+    @Test
     public void saveTeamTest() {
         Team team = new Team();
         GameDao gamedao = new GameDao();

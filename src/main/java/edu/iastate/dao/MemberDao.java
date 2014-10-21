@@ -12,7 +12,7 @@ import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
-	
+
     protected final EntityManagerFactory entityManagerFactory;
 
     /**
@@ -49,10 +49,10 @@ public class MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
-    	return member;
+
+        return member;
     }
-    
+
     /**
      * register a new user
      * @param name Real name of user
@@ -61,9 +61,9 @@ public class MemberDao {
      * @param userType One of the user types allowed in the system.
      */
     public void register(String name, String username, String password, UserType userType) {
-        
+
         Member member = new Member(name, username, password, userType);
-        
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -73,19 +73,19 @@ public class MemberDao {
         transaction.commit();
         entityManager.close();
     }
-    
+
     public void setName(int id, String newName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        
+
         TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
         query.setParameter("name", newName);
 
         transaction.commit();
         entityManager.close();
     }
-    
+
     public List<Member> getAllMembers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -96,10 +96,10 @@ public class MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
-    	return members;
+
+        return members;
     }
-    
+
     public Member getMemberById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -112,7 +112,7 @@ public class MemberDao {
         entityManager.close();
         return member;
     }
-    
+
     /**
      * Saves the given member to the database
      * 

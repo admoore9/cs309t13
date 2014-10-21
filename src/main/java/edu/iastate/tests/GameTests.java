@@ -16,23 +16,23 @@ import edu.iastate.models.Team;
 
 public class GameTests {
 
-	@Test
-	public void saveGameTest() {
-		Game game = new Game();
-		game.setGameLocation("saveGameTestLocation");
-		game.setGameTime(new Date());
-		List<Team> teams = new ArrayList<Team>();
-		TeamDao teamdao = new TeamDao();
-		teams.add(teamdao.getTeamById(1, false, false));
-		teams.add(teamdao.getTeamById(1, false, false));
-		game.setTeams(teams);
-		TournamentDao tournamentdao = new TournamentDao();
-		game.setTournament(tournamentdao.getTournamentById(1, false, false));
-		GameDao gamedao = new GameDao();
-		//gamedao.saveGame(game);
-		System.out.println(gamedao.getGameById(5, false).getGameLocation());
-	}
-	@Test
+    @Test
+    public void saveGameTest() {
+        Game game = new Game();
+        game.setGameLocation("saveGameTestLocation");
+        game.setGameTime(new Date());
+        List<Team> teams = new ArrayList<Team>();
+        TeamDao teamdao = new TeamDao();
+        teams.add(teamdao.getTeamById(1, false, false));
+        teams.add(teamdao.getTeamById(1, false, false));
+        game.setTeams(teams);
+        TournamentDao tournamentdao = new TournamentDao();
+        game.setTournament(tournamentdao.getTournamentById(1, false, false));
+        GameDao gamedao = new GameDao();
+        //gamedao.saveGame(game);
+        System.out.println(gamedao.getGameById(5, false).getGameLocation());
+    }
+    @Test
     public void returnAllGamesTest() {
         GameDao gameDao = new GameDao();
         List<Game> games = gameDao.getAllGames();

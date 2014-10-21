@@ -11,16 +11,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Official")
 public class Official extends Member {
-	
-	@ManyToMany(mappedBy = "officials")
+
+    @ManyToMany(mappedBy = "officials")
     private List<Game> games;
 
-	public List<Game> getGames() {
-		return games;
-	}
+    public List<Game> getGames() {
+        return games;
+    }
 
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 }
 

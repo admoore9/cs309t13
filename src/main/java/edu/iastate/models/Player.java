@@ -29,11 +29,11 @@ public class Player extends Member {
 
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
-    
+
     public Player() {
         super();
     }
-    
+
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);

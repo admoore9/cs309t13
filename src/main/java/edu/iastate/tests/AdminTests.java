@@ -12,12 +12,12 @@ import edu.iastate.models.Member.UserType;
 public class AdminTests {
 
     AdminDao adminDao;
-    
+
     @Before
     public void setUp() throws Exception {
         adminDao = new AdminDao();
     }
-    
+
     @Test
     public void changeCurrentView() {
         Admin admin = adminDao.getAdminById(7);
@@ -26,7 +26,7 @@ public class AdminTests {
         System.out.println("Name: " + admin.getName() + " View: " + admin.getCurrentView());
         adminDao.saveAdmin(admin);
     }
-    
+
     @Test
     public void getAllAdminsTest() {
         List<Admin> admins = adminDao.getAllAdmins();

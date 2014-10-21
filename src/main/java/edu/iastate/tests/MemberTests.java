@@ -11,7 +11,7 @@ import edu.iastate.models.Member;
 public class MemberTests {
 
     MemberDao memberDao;
-    
+
     @Before
     public void setUp() throws Exception {
         memberDao = new MemberDao();
@@ -25,7 +25,7 @@ public class MemberTests {
             System.out.println(member.getName());
         }
     }
-    
+
     @Test
     public void getMemberByIdTest() {
         Member member = memberDao.getMemberById(7);
