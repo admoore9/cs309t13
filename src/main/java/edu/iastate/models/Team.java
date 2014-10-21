@@ -127,6 +127,10 @@ public class Team {
 		return teamSkillLevel;
 	}
 	
+	/**
+	 * Calculates the skill level of the team based on
+	 * skill level of players of team
+	 */
 	public void calculateSkillLevel() {
 		int skillLevel = 0;
 		int numPlayers = 0;
@@ -136,6 +140,62 @@ public class Team {
 		}
 		teamSkillLevel = skillLevel/numPlayers;
 	}
+	   
+	/**
+     * Adds a game to the team, does nothing if game has already been
+     * added or is null
+     * 
+     * @param game
+     * The game to be added
+     */
+    public void addGameToTeam(Game game) {
+        if(game == null || this.games.contains(game)) {
+            return;
+        }
+        this.games.add(game);
+    }
+    
+    /**
+     * Removes a game from the team. Does nothing if game is not in current
+     * team's list or game is null
+     * 
+     * @param game
+     * The game to be removed
+     */
+    public void removeGameFromTeam(Game game) {
+        if(game==null || !this.games.contains(game)) {
+            return;
+        }
+        this.games.remove(game);
+    }
+    
+    /**
+     * Adds player to this team. Does nothing if player is null or
+     * player already exists in current team
+     * 
+     * @param player
+     * The player to be added
+     */
+    public void addPlayerToTeam(Player player) {
+        if(player == null || this.players.contains(player)) {
+            return;
+        }
+        this.players.add(player);
+    }
+    
+    /**
+     * Removes player from team. Does nothing if player is null
+     * or player does not exist in team
+     * 
+     * @param player
+     * The player to be removed 
+     */
+    public void removePlayerToTeam(Player player) {
+        if(player == null || !this.players.contains(player)) {
+            return;
+        }
+        this.players.remove(player);
+    }
 
 	public void setTeamSkillLevel(int teamSkillLevel) {
 		this.teamSkillLevel = teamSkillLevel;

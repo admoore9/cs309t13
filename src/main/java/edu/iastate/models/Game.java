@@ -129,5 +129,60 @@ public class Game {
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
-
+    
+    /**
+     * Adds team to game. Does nothing if team is null or
+     * Game already has this team
+     * 
+     * @param team
+     * Team to be added
+     */
+    public void addTeamToGame(Team team) {
+        if(team == null || this.teams.contains(team)) {
+            return;
+        }
+        this.teams.add(team);
+    }
+    
+    /**
+     * Removes team to game. Does nothing if team is null or
+     * Game does not have this team
+     * 
+     * @param team
+     * The team to be removed
+     */
+    public void removeTeamFromGame(Team team) {
+        if(team == null || !this.teams.contains(team)) {
+            return;
+        }
+        this.teams.remove(team);
+    }
+    
+    /**
+     * Add official to this game. Does nothing if official is null or
+     * official already exists in game
+     * 
+     * @param official
+     * The official to be added 
+     */
+    public void addOfficialToGame(Official official) {
+        if(official == null || this.officials.contains(official)) {
+            return;
+        }
+        this.officials.add(official);
+    }
+    
+    /**
+     * Remove official from this game. Does nothing if official is null or
+     * official does not exist in game
+     * 
+     * @param official
+     * The official to be removed 
+     */
+    public void removeOfficialFromGame(Official official) {
+        if(official == null || this.officials.contains(official)) {
+            return;
+        }
+        this.officials.remove(official);
+    }
 }
