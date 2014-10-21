@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 
 /**
  * 
@@ -16,28 +18,29 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+@Table(name = "Member")
 public class Member {
 
     @Id
     @GeneratedValue
     @Column(name = "member_id")
     private int member_id;  
-    
+
     @Column(name = "name")
     private String name;    
 
     @Column(name = "username")
     private String username; 
-    
+
     @Column(name = "password")
     private String password; 
-    
+
     public enum UserType {PLAYER, OFFICIAL, ADMIN}; 
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-    
+
     public Member() {}
 
     public Member(String name, String username, String password,
@@ -47,14 +50,14 @@ public class Member {
         this.password = password;
         this.userType = userType;
     }
-    
+
     public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.userType = UserType.PLAYER;
     }  
-    
+
     public UserType getUserType() {
         return userType;
     }
@@ -62,7 +65,7 @@ public class Member {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
-    
+
     public int getId() {
         return member_id;
     }
@@ -94,6 +97,5 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
 

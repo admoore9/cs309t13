@@ -3,12 +3,14 @@ package edu.iastate.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,15 +41,18 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
-    // private String nextGame;
-    //
-    // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "game")
-    // private List<Team> teams;
-
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
+
+
+    @ManyToMany(mappedBy = "games")
+    private List<Team> teams;
+
+    @JoinTable(name = "officialgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
+            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Official> officials;
 
     public int getId() {
         return id;
@@ -69,25 +74,40 @@ public class Game {
         return gameLocation;
     }
 
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Game other = (Game) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
     public void setGameLocation(String gameLocation) {
         this.gameLocation = gameLocation;
     }
 
-    // public String getNextGame() {
-    // return nextGame;
-    // }
-    //
-    // public void getNextGame(String nextGame) {
-    // this.nextGame = nextGame;
-    // }
-    //
-    // public List<Team> getTeams() {
-    // return teams;
-    // }
-    //
-    // public void setTeams(List<Team> teams) {
-    // this.teams = teams;
-    // }
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
 
     public Tournament getTournament() {
         return tournament;
@@ -96,4 +116,5 @@ public class Game {
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
+
 }

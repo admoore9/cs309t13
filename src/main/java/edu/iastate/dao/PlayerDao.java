@@ -7,10 +7,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import edu.iastate.models.Member;
+import edu.iastate.models.Player;
+import edu.iastate.utils.EntityManagerFactorySingleton;
 import edu.iastate.models.Player;
 
 public class PlayerDao extends MemberDao {
-	
+
     public PlayerDao() {
         super();
     }
@@ -32,10 +35,10 @@ public class PlayerDao extends MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
+
         return players;
     }
-    
+
     /**
      * Gets a player matching the given id
      * 
@@ -57,7 +60,7 @@ public class PlayerDao extends MemberDao {
 
     public void register(String name, String username, String password) {
         Player player = new Player(name, username, password);
-        
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -67,7 +70,7 @@ public class PlayerDao extends MemberDao {
         transaction.commit();
         entityManager.close();
     }
-    
+
     /**
      * Saves the given player to the database
      * 

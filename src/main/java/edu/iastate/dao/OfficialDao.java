@@ -29,10 +29,10 @@ public class OfficialDao extends MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
+
         return officials;
     }
-    
+
     /**
      * Saves the given official to the database
      * 
