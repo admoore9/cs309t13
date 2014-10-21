@@ -21,3 +21,4 @@ doc/*
 .idea/*
 cs309t13.iml
 /target/
+src/main/webapp/resources/js/bootstrap/*
