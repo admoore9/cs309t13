@@ -92,7 +92,7 @@ public class GameDao {
         transaction.commit();
         entityManager.close();
     }
-
+    
     /**
      * Loads the foreign keys for a game based on the booleans
      * 

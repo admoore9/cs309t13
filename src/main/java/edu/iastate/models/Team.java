@@ -30,17 +30,17 @@ public class Team {
 
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
-    
-   @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-   		inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-   @ManyToMany(fetch = FetchType.LAZY)
-   private List<Player> players;
+
+    @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
+            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Player> players;
 
     @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-    		inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
+            inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Game> games;
-
+    
     @OneToOne
     @JoinColumn(name = "member_id")
     private Player teamLeader;

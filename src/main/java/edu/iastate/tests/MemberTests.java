@@ -11,15 +11,11 @@ import edu.iastate.models.Member;
 public class MemberTests {
 
     MemberDao memberDao;
-    
+
     @Before
     public void setUp() throws Exception {
         memberDao = new MemberDao();
     }
-//
-//    @After
-//    public void tearDown() throws Exception {
-//    }
 
     @Test
     public void returnAllMembersTest() {
@@ -29,10 +25,10 @@ public class MemberTests {
             System.out.println(member.getName());
         }
     }
-    
+
     @Test
     public void getMemberByIdTest() {
-        Member member = memberDao.getMemberById("1");
+        Member member = memberDao.getMemberById(7);
         System.out.println(member.getName());
     }
 

@@ -53,6 +53,11 @@ public class Game {
     @ManyToMany(mappedBy = "games")
     private List<Team> teams;
 
+    @JoinTable(name = "officialgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
+            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Official> officials;
+
     public int getId() {
         return id;
     }
@@ -83,39 +88,38 @@ public class Game {
 
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Game other = (Game) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Game other = (Game) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
     public void setGameLocation(String gameLocation) {
         this.gameLocation = gameLocation;
     }
 
-    
     public List<Team> getTeams() {
-     return teams;
+        return teams;
     }
-    
+
     public void setTeams(List<Team> teams) {
-     this.teams = teams;
+        this.teams = teams;
     }
 
     public Tournament getTournament() {

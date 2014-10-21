@@ -1,5 +1,8 @@
 package edu.iastate.tests;
 
+
+import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -11,11 +14,12 @@ import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Player;
+import edu.iastate.models.Team;
 
 public class GameTests {
 
-	
-	@Test
+    
+    @Test
     public void returnAllGamesTest() {
         GameDao gameDao = new GameDao();
         List<Game> games = gameDao.getAllGames();

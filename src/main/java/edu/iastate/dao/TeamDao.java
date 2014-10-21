@@ -55,19 +55,8 @@ public class TeamDao {
         entityManager.close();
         return teams;
     }
-    
-    /**
-     * Gets team list for a given tournament
-     * 
-     * @param id The id of the tournament you wish to fetch
-     * @return The list of teams for given tournament id
-     */
-    public List<Team> getTournamentTeams(int id) {
-        TournamentDao tournamentDao = new TournamentDao();        
-        return tournamentDao.getTournamentById(id, false, true).getTeams();
-    }
-    
-   
+
+
     /**
      * Get a team's information using team ID
      * 
@@ -77,7 +66,7 @@ public class TeamDao {
      * @return
      */
     public Team getTeamById(int id, boolean getGames, boolean getPlayers) {
-    	EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
