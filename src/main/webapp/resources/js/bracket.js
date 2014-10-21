@@ -25,6 +25,12 @@ Team.prototype.getHTML = function() {
 
     return self.html;
 };
+Team.prototype.setHandlers = function() {
+    var self = this;
+    self.name_html.on('click', function() {
+        console.log(self.name);
+    });
+};
 
 var Game = function(id, next_game_id, round_number, time, location, teams_per_game, teams) {
     var self = this;
@@ -55,6 +61,12 @@ Game.prototype.getHTML = function() {
         self.html.append((new Team(-1, '--').getHTML()));
     }
     return self.html;
+};
+Game.prototype.setHandlers = function() {
+    var self = this;
+    self.teams.forEach(function(team, index, array) {
+        team.setHandlers();
+    });
 };
 
 var Round = function(num, games) {
@@ -135,6 +147,12 @@ Round.prototype.getHTML = function() {
         self.html.append(gameHTML);
     });
     return self.html;
+};
+Round.prototype.setHandlers = function() {
+    var self = this;
+    self.games.forEach(function(game, index, array) {
+        game.setHandlers();
+    });
 };
 
 var Bracket = function(id) {
@@ -267,11 +285,23 @@ Bracket.prototype.formBracketTest = function() {
     self.processTournament(tournament);
     self.orderRounds();
 };
-Bracket.prototype.getHTML = function() {
+Bracket.prototype.setHandlers = function() {
+    var self = this;
+    self.rounds.forEach(function(round, index, array) {
+        round.setHandlers();
+    });
+};
+Bracket.prototype.formHTML = function() {
     var self = this;
     self.html.children().remove();
     self.rounds.forEach(function(round, index, array) {
         self.html.append(round.getHTML());
     });
-    return self.html;
+};
+Bracket.prototype.appendBracket = function(parent) {
+    var self = this;
+    self.formBracketTest();
+    self.formHTML();
+    parent.append(self.html);
+    self.setHandlers();
 };
