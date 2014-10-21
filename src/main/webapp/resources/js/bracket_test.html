@@ -13,7 +13,8 @@
         $(document).ready(function() {
             var bracket = new Bracket();
             bracket.formBracketTest();
-            $('#bracket').append(bracket.getHTML());
+            bracket.appendHTML($('#bracket'));
+            // $('#bracket').append(bracket.getHTML());
         });
     </script>
 </html>
