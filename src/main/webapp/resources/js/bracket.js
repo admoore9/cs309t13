@@ -81,31 +81,43 @@ Round.prototype.getVerticalOffset = function(round_number) {
     }
     return self.getVerticalOffset(round_number - 1) + 0.5 * (self.game_height + self.getVerticalGap(round_number - 1));
 };
+Round.prototype.setHeights = function() {
+    var self = this;
+
+    var game = self.games[0];
+    if(game === null || game === undefined) {
+        self.left = -1;
+        self.vertical_offset = -1;
+        self.vertical_gap = -1;
+        return;
+    }
+    var gameHTML = game.getHTML();
+
+    // Append hidden version of element so height and width are available
+    gameHTML.hide();
+    $('body').append(gameHTML);
+
+    self.game_height = gameHTML.height();
+    var game_width = gameHTML.width();
+
+    // Remove the hidden element and the hidden class from the element
+    gameHTML.remove();
+    gameHTML.show();
+
+    self.left = (self.num - 1) * (game_width + 60);
+    self.vertical_offset = self.getVerticalOffset(self.num);
+    self.vertical_gap = self.getVerticalGap(self.num);
+};
 Round.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
-    console.log(self.num);
+    self.setHeights();
 
     self.games.forEach(function(game, index, array) {
         var gameHTML = game.getHTML();
+        var top = self.vertical_offset + index * (self.game_height + self.vertical_gap);
 
-        // Append hidden version of element so height and width are available
-        gameHTML.hide();
-        $('body').append(gameHTML);
-
-        self.game_height = gameHTML.height();
-        var game_width = gameHTML.width();
-
-        // Remove the hidden element and the hidden class from the element
-        gameHTML.remove();
-        gameHTML.show();
-
-        var left = (self.num - 1) * (game_width + 60);
-        var vertical_offset = self.getVerticalOffset(self.num);
-        var vertical_gap = self.getVerticalGap(self.num);
-        var top = vertical_offset + index * (self.game_height + vertical_gap);
-
-        gameHTML.offset({top: top, left: left});
+        gameHTML.offset({top: top, left: self.left});
         self.html.append(gameHTML);
     });
     return self.html;
