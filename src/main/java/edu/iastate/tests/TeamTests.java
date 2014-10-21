@@ -21,15 +21,18 @@ public class TeamTests {
         TournamentDao tournamentdao = new TournamentDao();
         Tournament tournament = tournamentdao.getTournamentById(1, false, false);
         PlayerDao playerdao = new PlayerDao();
-        
+	}
+	
+    public void saveTeamTest() {
         Team team = new Team();
         GameDao gamedao = new GameDao();
-        team.setAcceptFreeAgents(true);
-        team.setName("Test1");
-        team.setTournament(tournament);
+        PlayerDao playerdao = new PlayerDao();
+        TournamentDao tournamentdao = new TournamentDao();
+        team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
+        team.setName("TestSaveTeam5");
         team.setPlayers(playerdao.getAllPlayers());
-        team.setTeamLeader(playerdao.getPlayerById("3"));
+        team.setTournament(tournamentdao.getTournamentById(1, false, false));
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
         System.out.println(team.getTeamLeader().getName());

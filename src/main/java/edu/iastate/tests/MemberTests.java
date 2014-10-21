@@ -16,10 +16,6 @@ public class MemberTests {
     public void setUp() throws Exception {
         memberDao = new MemberDao();
     }
-//
-//    @After
-//    public void tearDown() throws Exception {
-//    }
 
     @Test
     public void returnAllMembersTest() {
@@ -32,7 +28,7 @@ public class MemberTests {
     
     @Test
     public void getMemberByIdTest() {
-        Member member = memberDao.getMemberById("1");
+        Member member = memberDao.getMemberById(7);
         System.out.println(member.getName());
     }
 

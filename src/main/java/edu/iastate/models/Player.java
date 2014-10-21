@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,10 +25,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Player")
 public class Player extends Member {
-	
+
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
-    
+
     /**
      * A list of surveys completed by player for each tournament
      */
@@ -52,7 +53,7 @@ public class Player extends Member {
 //	public void setBadges(List<Badge> badges) {
 //	     this.badges = badges;
 //	}
-	    
+
     public Player() {
         super();
     }
