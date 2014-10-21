@@ -15,20 +15,15 @@ import edu.iastate.models.Tournament;
 public class TeamTests {
 	@Test
     public void saveTeamTest() {
-        PlayerDao playerDao = new PlayerDao();
-        List<Player> players = playerDao.getAllPlayers();
-        
-        TournamentDao tournamentdao = new TournamentDao();
-        Tournament tournament = tournamentdao.getTournamentById(1, false, false);
-        PlayerDao playerdao = new PlayerDao();
-        
         Team team = new Team();
         GameDao gamedao = new GameDao();
-        team.setAcceptFreeAgents(true);
-        team.setName("MasterMergeTest2");
-        team.setTournament(tournament);
+        PlayerDao playerdao = new PlayerDao();
+        TournamentDao tournamentdao = new TournamentDao();
+        team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
+        team.setName("TestSaveTeam4");
         team.setPlayers(playerdao.getAllPlayers());
+        team.setTournament(tournamentdao.getTournamentById(1, false, false));
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
         /*System.out.println("Names:");
