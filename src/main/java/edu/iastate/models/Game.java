@@ -77,14 +77,14 @@ public class Game {
     public String getGameLocation() {
         return gameLocation;
     }
-    
-    public Game getNextGame() {
-		return nextGame;
-	}
 
-	public void setNextGame(Game nextGame) {
-		this.nextGame = nextGame;
-	}
+    public Game getNextGame() {
+        return nextGame;
+    }
+
+    public void setNextGame(Game nextGame) {
+        this.nextGame = nextGame;
+    }
 
 
 

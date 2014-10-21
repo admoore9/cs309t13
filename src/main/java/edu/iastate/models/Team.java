@@ -46,14 +46,14 @@ public class Team {
     private Player teamLeader;
 
     public Player getTeamLeader() {
-		return teamLeader;
-	}
+        return teamLeader;
+    }
 
-	public void setTeamLeader(Player teamLeader) {
-		this.teamLeader = teamLeader;
-	}
+    public void setTeamLeader(Player teamLeader) {
+        this.teamLeader = teamLeader;
+    }
 
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 

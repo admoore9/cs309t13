@@ -100,8 +100,8 @@ public class GameDao {
      * @param getTeams Whether to get the teams for the tournament
      */
     private void loadForeignKeys(Game game, boolean getTeams) {
-    	if (getTeams)
-    		loadTeams(game);
+        if (getTeams)
+            loadTeams(game);
     }
 
     /**
@@ -110,7 +110,7 @@ public class GameDao {
      * @param game The game to load teams for
      */
     private void loadTeams(Game game) {
-     game.getTeams().size();
+        game.getTeams().size();
     }
 
 }
