@@ -24,7 +24,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
-  `free_agent` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
   CONSTRAINT `fk_player_id`
@@ -165,6 +164,25 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`officialgamemapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
+  `member_id` INT NOT NULL,
+  `game_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`, `game_id`),
+  INDEX `fk_game_mapper2_idx` (`game_id` ASC),
+  CONSTRAINT `fk_officialid_mapper1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`official` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_gameid_mapper2`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `cs309t13`.`game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

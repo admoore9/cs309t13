@@ -51,6 +51,11 @@ public class Game {
 
     @ManyToMany(mappedBy = "games")
     private List<Team> teams;
+    
+    @JoinTable(name = "officialgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
+       		inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Official> officials;
 
     public int getId() {
         return id;

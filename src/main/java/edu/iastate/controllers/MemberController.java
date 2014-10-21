@@ -21,7 +21,7 @@ public class MemberController {
     public String test(Model model) {
     	
         MemberDao memberDao = new MemberDao();
-        List<Member> members =  memberDao.returnAllMembers();
+        List<Member> members =  memberDao.getAllMembers();
         model.addAttribute("members", members);
 
         return "members";
