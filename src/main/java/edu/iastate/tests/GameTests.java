@@ -37,12 +37,12 @@ public class GameTests {
     @Test
     public void saveGameTest() {
         Game game = new Game();
-        game.setGameLocation("saveGameTestLocation123");
+        game.setGameLocation("saveGameTestLocation");
         game.setGameTime(new Date());
         List<Team> teams = new ArrayList<Team>();
         TeamDao teamdao = new TeamDao();
-        teams.add(teamdao.getTeamById(10, false, false));
-        //teams.add(teamdao.getTeamById(1, false, false));
+        teams.add(teamdao.getTeamById(1, false, false));
+        teams.add(teamdao.getTeamById(1, false, false));
         game.setTeams(teams);
         TournamentDao tournamentdao = new TournamentDao();
         game.setTournament(tournamentdao.getTournamentById(1, false, false));
