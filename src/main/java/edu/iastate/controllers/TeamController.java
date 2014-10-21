@@ -17,11 +17,11 @@ import edu.iastate.models.*;
 @RequestMapping("/team")
 public class TeamController {
 
-	@RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String getTeam(Model model) {
-		TeamDao teamdao = new TeamDao();
-		Team team = teamdao.getTeamById(2, true, true);
-		model.addAttribute("teams", team.getGames());
-	    return "team";
+        TeamDao teamdao = new TeamDao();
+        Team team = teamdao.getTeamById(2, true, true);
+        model.addAttribute("teams", team.getGames());
+        return "team";
     }
 }
