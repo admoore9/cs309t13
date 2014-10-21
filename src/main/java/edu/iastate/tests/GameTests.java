@@ -42,7 +42,7 @@ public class GameTests {
 		Game game = new Game();
 		Date date = new Date();
 		TeamDao teamdao = new TeamDao();
-		game.setGameLocation("Test Location2");
+		game.setGameLocation("Test Location1");
 		game.setGameTime(date);
 		game.setNextGame(gamedao.getGameById(2, false));
 		game.setTeams(teamdao.getAllTeams());

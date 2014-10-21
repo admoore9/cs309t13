@@ -36,7 +36,7 @@ public class PlayerTests {
     @Test
     public void savePlayerTest() {
     	Player player = new Player();
-    	player.setName("TestSavePlayer3");
+    	player.setName("TestSavePlayer4");
     	player.setPassword("asdf");
     	player.setUsername("TSP");
     	player.setUserType(UserType.PLAYER);

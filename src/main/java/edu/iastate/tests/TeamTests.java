@@ -23,6 +23,7 @@ public class TeamTests {
         PlayerDao playerdao = new PlayerDao();
 	}
 	
+	@Test
     public void saveTeamTest() {
         Team team = new Team();
         GameDao gamedao = new GameDao();
@@ -30,9 +31,10 @@ public class TeamTests {
         TournamentDao tournamentdao = new TournamentDao();
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
-        team.setName("TestSaveTeam5");
+        team.setName("TestSaveTeam");
         team.setPlayers(playerdao.getAllPlayers());
         team.setTournament(tournamentdao.getTournamentById(1, false, false));
+        team.setTeamLeader(playerdao.getPlayerById(2));
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
         System.out.println(team.getTeamLeader().getName());
