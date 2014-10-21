@@ -65,6 +65,22 @@ Round.prototype.orderGames = function() {
         game.orderTeams();
     });
 };
+Round.prototype.getVerticalGap = function(round_number) {
+    var self = this;
+
+    if(round_number == 1) {
+        return 40;
+    }
+    return 2 * self.getVerticalGap(round_number - 1) + self.game_height;
+};
+Round.prototype.getVerticalOffset = function(round_number) {
+    var self = this;
+
+    if(round_number == 1) {
+        return 0;
+    }
+    return self.getVerticalOffset(round_number - 1) + 0.5 * (self.game_height + self.getVerticalGap(round_number - 1));
+};
 Round.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
@@ -77,31 +93,17 @@ Round.prototype.getHTML = function() {
         gameHTML.hide();
         $('body').append(gameHTML);
 
-        var game_height = gameHTML.height();
+        self.game_height = gameHTML.height();
         var game_width = gameHTML.width();
 
         // Remove the hidden element and the hidden class from the element
         gameHTML.remove();
         gameHTML.show();
 
-        function getVerticalGap(round_num) {
-            if(round_num == 1) {
-                return 40;
-            }
-            return 2 * getVerticalGap(round_num - 1) + game_height;
-        }
-
-        function getVerticalOffset(round_num) {
-            if(round_num == 1) {
-                return 0;
-            }
-            return getVerticalOffset(round_num - 1) + 0.5 * (game_height + getVerticalGap(round_num - 1));
-        }
-
         var left = (self.num - 1) * (game_width + 60);
-        var vertical_offset = getVerticalOffset(self.num);
-        var vertical_gap = getVerticalGap(self.num);
-        var top = vertical_offset + index * (game_height + vertical_gap);
+        var vertical_offset = self.getVerticalOffset(self.num);
+        var vertical_gap = self.getVerticalGap(self.num);
+        var top = vertical_offset + index * (self.game_height + vertical_gap);
 
         gameHTML.offset({top: top, left: left});
         self.html.append(gameHTML);
