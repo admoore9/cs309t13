@@ -88,9 +88,9 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   PRIMARY KEY (`game_id`),
   INDEX `fk_Game_Tournament_idx` (`tournament_id` ASC),
   INDEX `fk_Game_Game1_idx` (`next_game_id` ASC),
-  CONSTRAINT `fk_Game_Player1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Player` (`member_id`)
+  CONSTRAINT `fk_Game_Tournament`
+    FOREIGN KEY (`tournament_id`)
+    REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_Game1`
