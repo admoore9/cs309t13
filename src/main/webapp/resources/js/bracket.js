@@ -1,14 +1,28 @@
+var IS_REFEREE = true;
+
 var Team = function(id, name) {
     var self = this;
     self.id = id;
     self.name = name;
     self.html = $('<team></team>');
+    self.input_box = null;
+    self.name_html = null;
 };
 Team.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
-    self.html.text(self.name);
-    self.html.append($('<score></score>').text(0));
+    self.name_html = $('<span></span>').text(self.name);
+    self.html.append(self.name_html);
+
+    if(IS_REFEREE) {
+        self.input_box = $('<input>').width(20);
+        var score = $('<score></score>');
+        score.append(self.input_box);
+        self.html.append(score);
+    } else {
+        self.html.append($('<score></score>').text(0));
+    }
+
     return self.html;
 };
 
