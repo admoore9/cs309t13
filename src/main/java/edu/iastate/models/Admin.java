@@ -9,7 +9,7 @@ import javax.persistence.Table;
 public class Admin extends Member {
 
     public Admin() {
-        super();
+        super(UserType.ADMIN);
     }
 
     public Admin(String name, String username, String password) {
@@ -25,19 +25,6 @@ public class Admin extends Member {
 
     public void setCurrentView(UserType view) {
         this.currentView = view;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
     }
 
 }
