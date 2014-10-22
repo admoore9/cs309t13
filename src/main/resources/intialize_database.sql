@@ -48,6 +48,20 @@ CREATE TABLE `cs309t13`.`Official` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `cs309t13`.`Coordinator`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`Coordinator` (
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`),
+  INDEX `fk_member_id_idx` (`member_id` ASC),
+  CONSTRAINT `fk_coordinator_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `cs309t13`.`Admin`
 -- -----------------------------------------------------
 CREATE TABLE `cs309t13`.`Admin` (
