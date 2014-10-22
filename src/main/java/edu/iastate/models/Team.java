@@ -45,130 +45,102 @@ public class Team {
     @JoinColumn(name = "member_id")
     private Player teamLeader;
 
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
-	
-	@Column(name = "team_skill")
-	private int teamSkillLevel; 
-	
-	public Team() {
-		
-	}
-	
-	public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
-						List<Game> games, Player teamLeader){
-		this.id = id;
-		this.name = name;
-		this.acceptFreeAgents = acceptFreeAgents;
-		this.players = players;
-		this.games = games;
-		this.teamLeader = teamLeader;
-	}
-	
-	public Player getTeamLeader() {
-		return teamLeader;
-	}
+
+    @Column(name = "team_skill")
+    private int teamSkillLevel; 
+
+    public Team() {
+
+    }
+
+    public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
+            List<Game> games, Player teamLeader){
+        this.id = id;
+        this.name = name;
+        this.acceptFreeAgents = acceptFreeAgents;
+        this.players = players;
+        this.games = games;
+        this.teamLeader = teamLeader;
+    }
+
+    public Player getTeamLeader() {
+        return teamLeader;
+    }
 
     public void setTeamLeader(Player teamLeader) {
         this.teamLeader = teamLeader;
     }
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isAcceptFreeAgents() {
-		return acceptFreeAgents;
-	}
-
-	public void setAcceptFreeAgents(boolean acceptFreeAgents) {
-		this.acceptFreeAgents = acceptFreeAgents;
-	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
-
-	public List<Game> getGames() {
-		return games;
-	}
-
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
-
-	public Tournament getTournament() {
-		return tournament;
-	}
-
-	public void setTournament(Tournament tournament) {
-		this.tournament = tournament;
-	}
-	
-	public int getTeamSkillLevel() {
-		calculateSkillLevel();
-		return teamSkillLevel;
-	}
-	
-	/**
-	 * Calculates the skill level of the team based on
-	 * skill level of players of team
-	 */
-	public void calculateSkillLevel() {
-		int skillLevel = 0;
-		int numPlayers = 0;
-		for(Player player : players){
-			skillLevel+=player.getSkillLevel();
-			numPlayers++;
-		}
-		teamSkillLevel = skillLevel/numPlayers;
-	}
-	   
-	/**
-     * Adds a game to the team, does nothing if game has already been
-     * added or is null
-     * 
-     * @param game
-     * The game to be added
-     */
-    public void addGameToTeam(Game game) {
-        if(game == null || this.games.contains(game)) {
-            return;
-        }
-        this.games.add(game);
+    public int getId() {
+        return id;
     }
-    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isAcceptFreeAgents() {
+        return acceptFreeAgents;
+    }
+
+    public void setAcceptFreeAgents(boolean acceptFreeAgents) {
+        this.acceptFreeAgents = acceptFreeAgents;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
+
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
+    }
+
+    public int getTeamSkillLevel() {
+        calculateSkillLevel();
+        return teamSkillLevel;
+    }
+
     /**
-     * Removes a game from the team. Does nothing if game is not in current
-     * team's list or game is null
-     * 
-     * @param game
-     * The game to be removed
+     * Calculates the skill level of the team based on
+     * skill level of players of team
      */
-    public void removeGameFromTeam(Game game) {
-        if(game==null || !this.games.contains(game)) {
-            return;
+    public void calculateSkillLevel() {
+        int skillLevel = 0;
+        int numPlayers = 0;
+        for(Player player : players){
+            skillLevel+=player.getSkillLevel();
+            numPlayers++;
         }
-        this.games.remove(game);
+        teamSkillLevel = skillLevel/numPlayers;
     }
-    
+
     /**
      * Adds player to this team. Does nothing if player is null or
      * player already exists in current team
@@ -181,8 +153,9 @@ public class Team {
             return;
         }
         this.players.add(player);
+        calculateSkillLevel(); //Updates the skill level
     }
-    
+
     /**
      * Removes player from team. Does nothing if player is null
      * or player does not exist in team
@@ -195,31 +168,32 @@ public class Team {
             return;
         }
         this.players.remove(player);
+        calculateSkillLevel(); //Updates the skill level
     }
 
-	public void setTeamSkillLevel(int teamSkillLevel) {
-		this.teamSkillLevel = teamSkillLevel;
-	}
+    public void setTeamSkillLevel(int teamSkillLevel) {
+        this.teamSkillLevel = teamSkillLevel;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Team other = (Team) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Team other = (Team) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
 }
