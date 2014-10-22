@@ -39,7 +39,7 @@ public class Member {
     @Column(name = "password")
     private String password; 
 
-    public enum UserType {PLAYER, OFFICIAL, ADMIN}; 
+    public enum UserType {PLAYER, OFFICIAL, COORDINATOR, ADMIN}; 
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
