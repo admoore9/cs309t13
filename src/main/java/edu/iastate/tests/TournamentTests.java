@@ -10,7 +10,7 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Player;
 
 public class TournamentTests {
-	@Test
+    @Test
     public void returnAllPlayerTest() {
         TournamentDao tournamentdao = new TournamentDao();
         List<Game> games = tournamentdao.getTournamentById(1, true, false).getGames();
