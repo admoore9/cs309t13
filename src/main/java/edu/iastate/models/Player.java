@@ -21,25 +21,12 @@ public class Player extends Member {
     private List<Team> teams;
 
     public Player() {
-        super();
+        super(UserType.PLAYER);
     }
 
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
     }
 }
 
