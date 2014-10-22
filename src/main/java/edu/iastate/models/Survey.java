@@ -32,7 +32,7 @@ public class Survey {
     private Tournament tournament;
 
     @Column(name = "survey_score")
-    private int surveyScore;
+    private int surveyScore = 0;
 
     public int getId() {
         return id;
@@ -60,5 +60,9 @@ public class Survey {
 
     public int getSurveyScore() {
         return surveyScore;
+    }
+
+    public void setSurveyScore(int surveyScore) {
+        this.surveyScore = surveyScore;
     }
 }

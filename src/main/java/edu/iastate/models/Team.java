@@ -40,7 +40,7 @@ public class Team {
             inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Game> games;
-    
+
     @OneToOne
     @JoinColumn(name = "member_id")
     private Player teamLeader;
@@ -70,9 +70,9 @@ public class Team {
 		return teamLeader;
 	}
 
-	public void setTeamLeader(Player teamLeader) {
-		this.teamLeader = teamLeader;
-	}
+    public void setTeamLeader(Player teamLeader) {
+        this.teamLeader = teamLeader;
+    }
 
 	public int getId() {
 		return id;

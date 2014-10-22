@@ -26,7 +26,6 @@ import javax.persistence.Table;
 @Table(name = "Player")
 public class Player extends Member {
 
-
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
@@ -39,11 +38,11 @@ public class Player extends Member {
                 UserType.PLAYER);
     }
 
-  //---------Test implementation---------
+  //---------Stub------------------------
     public int getSkillLevel() {
     	return 50;
     }
-    
+  //-------------------------------------
 
 }
 

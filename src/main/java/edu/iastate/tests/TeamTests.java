@@ -24,6 +24,7 @@ public class TeamTests {
         team.setName("TestSaveTeam5");
         team.setPlayers(playerdao.getAllPlayers());
         team.setTournament(tournamentdao.getTournamentById(1, false, false));
+        team.setTeamLeader(playerdao.getPlayerById(2));
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
         System.out.println(team.getTeamLeader().getName());
