@@ -3,7 +3,7 @@ package edu.iastate.models;
 public class Coordinator extends Member {
 
     public Coordinator() {
-        super();
+        super(UserType.COORDINATOR);
     }
 
     public Coordinator(String name, String username, String password,
