@@ -105,5 +105,28 @@ public class Member {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + member_id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Member other = (Member) obj;
+        if (member_id != other.member_id)
+            return false;
+        return true;
+    }
+
 }
 
