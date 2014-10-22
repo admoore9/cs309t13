@@ -16,6 +16,9 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `is_admin` TINYINT(1) NULL,
   `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
+  `sex` VARCHAR(1) NULL,
+  `height` INT NULL,
+  `weight` INT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
