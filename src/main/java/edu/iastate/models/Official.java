@@ -11,25 +11,12 @@ import javax.persistence.Table;
 public class Official extends Member {
 
     public Official() {
-        super();
+        super(UserType.OFFICIAL);
     }
 
     public Official(String name, String username, String password) {
         super(name, username, password,
                 UserType.OFFICIAL);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
     }
 
     @ManyToMany(mappedBy = "officials")
