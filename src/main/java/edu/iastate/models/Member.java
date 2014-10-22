@@ -50,6 +50,9 @@ public class Member {
     
     public Member() {}
 
+    protected Member(UserType userType) {
+        this.userType = userType;
+    }
     public Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
