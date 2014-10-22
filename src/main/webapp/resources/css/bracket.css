@@ -1,0 +1,36 @@
+bracket {
+    display: block;
+}
+
+round {
+    display: block;
+    position: relative;
+    float: left;
+    margin-right: 50px;
+}
+
+game {
+    display: block;
+    position: absolute;
+}
+
+team {
+    display: block;
+    width: 100px;
+    background-color: lime;
+    border-style: outset;
+}
+
+team.winner {
+    background-color: gold;
+}
+
+score {
+    display: block;
+    width: 20px;
+    float: right;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: black;
+    text-align: center;
+}

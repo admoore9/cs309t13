@@ -3,7 +3,6 @@ package edu.iastate.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,14 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  * Game class
- * 
+ *
  * @author Andrew
  *
  */
@@ -45,12 +43,10 @@ public class Game {
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
-
     @ManyToMany(mappedBy = "games")
     private List<Team> teams;
 
-    @JoinTable(name = "officialgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
-            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @JoinTable(name = "officialgamemapper", joinColumns = { @JoinColumn(name = "game_id", referencedColumnName = "game_id") }, inverseJoinColumns = { @JoinColumn(name = "member_id", referencedColumnName = "member_id") })
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
 
@@ -74,6 +70,16 @@ public class Game {
         return gameLocation;
     }
 
+    public void setNextGame(Game game) {}
+
+    public void addTeam(Team team) {}
+
+    // TODO implememnt
+    public int getRoundNumber() {
+        return -1;
+    }
+
+    public void setRoundNumber(int roundNumber) {}
 
     @Override
     public int hashCode() {
@@ -85,14 +91,14 @@ public class Game {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if(this == obj)
             return true;
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
             return false;
         Game other = (Game) obj;
-        if (id != other.id)
+        if(id != other.id)
             return false;
         return true;
     }
