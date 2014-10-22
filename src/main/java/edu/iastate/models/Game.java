@@ -39,6 +39,10 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
+    @ManyToOne(fetch  = FetchType.LAZY)
+    @JoinColumn(name = "next_game_id", referencedColumnName = "game_id")
+    private Game nextGame;
+
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
@@ -70,7 +74,13 @@ public class Game {
         return gameLocation;
     }
 
-    public void setNextGame(Game game) {}
+    public Game getNextGame() {
+        return nextGame;
+    }
+
+    public void setNextGame(Game nextGame) {
+        this.nextGame = nextGame;
+    }
 
     public void addTeam(Team team) {}
 

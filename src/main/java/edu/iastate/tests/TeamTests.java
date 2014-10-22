@@ -13,6 +13,7 @@ import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
 public class TeamTests {
+
     @Test
     public void saveTeamTest() {
         Team team = new Team();
@@ -24,8 +25,10 @@ public class TeamTests {
         team.setName("TestSaveTeam5");
         team.setPlayers(playerdao.getAllPlayers());
         team.setTournament(tournamentdao.getTournamentById(1, false, false));
+        team.setTeamLeader(playerdao.getPlayerById(2));
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
+        System.out.println(team.getTeamLeader().getName());
         /*System.out.println("Names:");
         for (Player player : players) {
             System.out.println(player.getName());

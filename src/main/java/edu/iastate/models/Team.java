@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -39,6 +40,18 @@ public class Team {
             inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Game> games;
+
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Player teamLeader;
+
+    public Player getTeamLeader() {
+        return teamLeader;
+    }
+
+    public void setTeamLeader(Player teamLeader) {
+        this.teamLeader = teamLeader;
+    }
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")

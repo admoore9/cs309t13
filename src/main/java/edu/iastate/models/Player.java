@@ -26,7 +26,6 @@ import javax.persistence.Table;
 @Table(name = "Player")
 public class Player extends Member {
 
-
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
@@ -38,6 +37,5 @@ public class Player extends Member {
         super(name, username, password,
                 UserType.PLAYER);
     }
-
 }
 

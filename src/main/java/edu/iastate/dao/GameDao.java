@@ -70,7 +70,7 @@ public class GameDao {
         TypedQuery<Game> query = entityManager.createQuery("select g from Game g where g.id = :id", Game.class);
         query.setParameter("id", id);
         Game game = query.getSingleResult();
-        // loadForeignKeys(game, getTeams);
+        loadForeignKeys(game, getTeams);
 
         transaction.commit();
         entityManager.close();
@@ -92,4 +92,25 @@ public class GameDao {
         transaction.commit();
         entityManager.close();
     }
+
+    /**
+     * Loads the foreign keys for a game based on the booleans
+     * 
+     * @param game The game to load the foreign keys for
+     * @param getTeams Whether to get the teams for the tournament
+     */
+    private void loadForeignKeys(Game game, boolean getTeams) {
+        if (getTeams)
+            loadTeams(game);
+    }
+
+    /**
+     * Loads the teams for a game
+     * 
+     * @param game The game to load teams for
+     */
+    private void loadTeams(Game game) {
+        game.getTeams().size();
+    }
+
 }
