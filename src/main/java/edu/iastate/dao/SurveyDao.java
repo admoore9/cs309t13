@@ -7,24 +7,24 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import edu.iastate.models.Game;
+import edu.iastate.models.Survey;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 /**
- * Data Access Object for the Game class, this should be used for
- * interacting with the Game table in the database.
+ * Data Access Object for the Survey class, this should be used for interacting
+ * with the Survey table in the database.
  * 
  * @author Andrew
  *
  */
-public class GameDao {
+public class SurveyDao {
 
     private final EntityManagerFactory entityManagerFactory;
 
     /**
      * standard constructor
      */
-    public GameDao() {
+    public SurveyDao() {
         this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
     }
 
@@ -33,61 +33,62 @@ public class GameDao {
      * 
      * @param entityManagerFactory The factory to use to get sessions
      */
-    public GameDao(EntityManagerFactory entityManagerFactory) {
+    public SurveyDao(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
     /**
-     * Gets a list of all the games in the database
+     * Gets a list of all the surveys in the database
      * 
-     * @return List of all the games
+     * @return List of all the surveys
      */
-    public List<Game> getAllGames() {
+    public List<Survey> getAllSurveys() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Game> query = entityManager.createQuery("from Game", Game.class);
-        List<Game> games = query.getResultList();
+        TypedQuery<Survey> query = entityManager.createQuery("from Survey", Survey.class);
+        List<Survey> surveys = query.getResultList();
 
         transaction.commit();
         entityManager.close();
-        return games;
+        return surveys;
     }
-
+    
     /**
-     * Gets a Game matching the given id
+     * Gets the survey for a player in a particular survey
      * 
-     * @param id The id of the game you wish to fetch
-     * @param getTeams Whether the teams should be fetched
-     * @return The game with the given id
+     * @param player_id The player id to get the survey for
+     * @param tournament_id The tournament id to get the survey for
+     * @return The survey corresponding to the player and tournament id
      */
-    public Game getGameById(int id, boolean getTeams) {
+    public Survey getSurvey(int tournament_id, int player_id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Game> query = entityManager.createQuery("select g from Game g where g.id = :id", Game.class);
-        query.setParameter("id", id);
-        Game game = query.getSingleResult();
-        // loadForeignKeys(game, getTeams);
+        TypedQuery<Survey> query = entityManager.createQuery("select s from Survey s where s.tournament_id = :tournament_id"
+                + "and s.player_id = :player_id", Survey.class);
+        query.setParameter("tournament_id", tournament_id);
+        query.setParameter("player_id", player_id);
+        Survey survey = query.getSingleResult();
 
         transaction.commit();
         entityManager.close();
-        return game;
+        return survey;
     }
 
     /**
-     * Saves the given game to the database
+     * Saves the given survey to the database
      * 
-     * @param game the tame to save to the database
+     * @param survey The Survey to save to the database
      */
-    public void saveGame(Game game) {
+    public void saveSurvey(Survey survey) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.merge(game);
+        entityManager.merge(survey);
 
         transaction.commit();
         entityManager.close();

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
  * 
@@ -16,6 +17,7 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Member")
 public class Member {
 
     @Id
@@ -32,14 +34,6 @@ public class Member {
     @Column(name = "password")
     private String password;
 
-    public enum UserType {
-        PLAYER, OFFICIAL, ADMIN
-    };
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "user_type")
-    private UserType userType;
-
     @Column(name = "sex")
     private String sex;
 
@@ -48,6 +42,14 @@ public class Member {
 
     @Column(name = "weight")
     private int weight;
+
+    public enum UserType {
+        PLAYER, OFFICIAL, ADMIN
+    };
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "user_type")
+    private UserType userType;
 
     public Member() {
     }
