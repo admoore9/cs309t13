@@ -51,13 +51,6 @@ public class Member {
         this.userType = userType;
     }
 
-    public Member(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = UserType.PLAYER;
-    }  
-
     public UserType getUserType() {
         return userType;
     }
