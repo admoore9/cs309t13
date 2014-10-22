@@ -19,7 +19,7 @@ Team.prototype.getHTML = function() {
         self.html.append($('<score></score>').text(self.score));
     } else {
         self.input_box = $('<input>').width(20).val(self.score);
-        $('<score></score>').append(self.input_box);
+        var score = $('<score></score>').append(self.input_box);
         self.html.append(score);
     }
 
