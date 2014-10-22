@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 
 public class MemberTests {
 
@@ -31,5 +32,16 @@ public class MemberTests {
         Member member = memberDao.getMemberById(7);
         System.out.println(member.getName());
     }
+    
+    @Test
+    public void saveMemberTest() {
+        Member member = new Member();
+        member.setName("Testing add");
+        member.setPassword("asdf");
+        member.setUserType(UserType.OFFICIAL);
+        memberDao.saveMember(member);
+    }
+    
+    
 
 }

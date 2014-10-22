@@ -82,8 +82,6 @@ public class Game {
         this.nextGame = nextGame;
     }
 
-    public void addTeam(Team team) {}
-
     // TODO implememnt
     public int getRoundNumber() {
         return -1;
@@ -140,11 +138,12 @@ public class Game {
      * @param team
      * Team to be added
      */
-    public void addTeamToGame(Team team) {
+    public void addTeam(Team team) {
         if(team == null || this.teams.contains(team)) {
             return;
         }
         this.teams.add(team);
+        System.out.println("Game added!");
     }
     
     /**
@@ -154,7 +153,7 @@ public class Game {
      * @param team
      * The team to be removed
      */
-    public void removeTeamFromGame(Team team) {
+    public void removeTeam(Team team) {
         if(team == null || !this.teams.contains(team)) {
             return;
         }
@@ -168,7 +167,7 @@ public class Game {
      * @param official
      * The official to be added 
      */
-    public void addOfficialToGame(Official official) {
+    public void addOfficial(Official official) {
         if(official == null || this.officials.contains(official)) {
             return;
         }
@@ -182,7 +181,7 @@ public class Game {
      * @param official
      * The official to be removed 
      */
-    public void removeOfficialFromGame(Official official) {
+    public void removeOfficial(Official official) {
         if(official == null || this.officials.contains(official)) {
             return;
         }

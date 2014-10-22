@@ -148,7 +148,7 @@ public class Team {
      * @param player
      * The player to be added
      */
-    public void addPlayerToTeam(Player player) {
+    public void addPlayer(Player player) {
         if(player == null || this.players.contains(player)) {
             return;
         }
@@ -163,7 +163,7 @@ public class Team {
      * @param player
      * The player to be removed 
      */
-    public void removePlayerToTeam(Player player) {
+    public void removePlayer(Player player) {
         if(player == null || !this.players.contains(player)) {
             return;
         }
