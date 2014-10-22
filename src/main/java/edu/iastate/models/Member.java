@@ -1,13 +1,17 @@
 package edu.iastate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -41,6 +45,9 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    private List<Survey> surveys;
+    
     public Member() {}
 
     public Member(String name, String username, String password,
@@ -51,6 +58,14 @@ public class Member {
         this.userType = userType;
     }
 
+    public List<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
+    }
+    
     public UserType getUserType() {
         return userType;
     }
