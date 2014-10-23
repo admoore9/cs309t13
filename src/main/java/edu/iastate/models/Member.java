@@ -38,10 +38,10 @@ public class Member {
     private String sex;
 
     @Column(name = "height")
-    private int height;
+    private Integer height;
 
     @Column(name = "weight")
-    private int weight;
+    private Integer weight;
 
     public enum UserType {
         PLAYER, OFFICIAL, ADMIN
@@ -120,7 +120,7 @@ public class Member {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
@@ -128,7 +128,7 @@ public class Member {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 }
