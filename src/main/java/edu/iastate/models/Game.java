@@ -46,8 +46,6 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
-
-    //@ManyToMany(mappedBy = "games")
     
     @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
         inverseJoinColumns={ @JoinColumn(name = "team_id", referencedColumnName = "team_id")})
