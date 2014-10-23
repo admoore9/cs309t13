@@ -30,9 +30,9 @@ Team.prototype.setHandlers = function(game_id) {
     self.name_html.on('click', function() {
         console.log(self.name);
         // Get players from server
-        // $.get('/team/' + self.id + '/players', function(response) {
-        //     // Form popover or something?
-        // });
+        $.get('/team/' + self.id + '/players', function(response) {
+            console.log(response);
+        }, 'json');
     });
 
     if(IS_REFEREE) {
