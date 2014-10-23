@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`team_id`, `member_id`),
   INDEX `fk_member_id1_idx` (`member_id` ASC),
-  CONSTRAINT `fk_team_id1`
+  CONSTRAINT `fk_team_id2`
     FOREIGN KEY (`team_id`)
     REFERENCES `cs309t13`.`team` (`team_id`)
     ON DELETE NO ACTION
