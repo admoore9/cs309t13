@@ -13,11 +13,7 @@ $( document ).ready(function() {
 			}
 		});
 	});
-});
-
-function validateForm() {
-	return false;
-};
+	
 
 function cancelForm() {
 	window.history.back()
