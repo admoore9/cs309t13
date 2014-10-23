@@ -136,6 +136,29 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `cs309t13`.`Survey`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Survey` (
+  `survey_id` INT NOT NULL AUTO_INCREMENT,
+  `player_id` INT NOT NULL,
+  `tournament_id` INT NOT NULL,
+  `survey_score` INT NOT NULL,
+  PRIMARY KEY (`survey_id`),
+  INDEX `fk_tournament_id_idx` (`tournament_id` ASC),
+  INDEX `fk_Survey_PlayerId_idx` (`player_id` ASC),
+  CONSTRAINT `fk_Survey_PlayerId`
+    FOREIGN KEY (`player_id`)
+    REFERENCES `Player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tournament_id` FOREIGN
+    KEY (`tournament_id`)
+    REFERENCES `Tournament` (`tournament_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE=InnoDB;
+
+-- -----------------------------------------------------
 -- Table `cs309t13`.`teamgamemapper`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`teamgamemapper` (
@@ -193,29 +216,6 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
     REFERENCES `cs309t13`.`game` (`game_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
--- -----------------------------------------------------
--- Table `cs309t13`.`Survey`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Survey` (
-  `survey_id` INT NOT NULL AUTO_INCREMENT,
-  `member_id` INT NOT NULL,
-  `tournament_id` INT NOT NULL,
-  `survey_score` INT NOT NULL,
-  PRIMARY KEY (`survey_id`),
-  INDEX `fk_member_id` (`member_id` ASC),
-  INDEX `fk_tournament_id` (`tournament_id` ASC),
-  CONSTRAINT `fk_member_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tournament_id`
-    FOREIGN KEY (`tournament_id`)
-    REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE=InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
