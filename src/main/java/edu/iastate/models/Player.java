@@ -43,6 +43,5 @@ public class Player extends Member {
     	return 50;
     }
   //-------------------------------------
-
 }
 
