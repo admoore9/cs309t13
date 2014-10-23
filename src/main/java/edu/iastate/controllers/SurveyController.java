@@ -33,13 +33,13 @@ public class SurveyController {
             @RequestParam(value = "compLvl") Integer compLvl,
             @RequestParam(value = "isClubPlayer") boolean isClubPlayer) {
 
-        MemberDao memberDao = new MemberDao();
-        TournamentDao tournamentDao = new TournamentDao();
+        PlayerDao playerDao = new PlayerDao();
         SurveyDao surveyDao = new SurveyDao();
+        TournamentDao tournamentDao = new TournamentDao();
 
-        Tournament tournament = tournamentDao.getTournamentById(1, false, false);
-        Member member = memberDao.getMemberById(1);
+        Player player = playerDao.getAllPlayers().get(0);
         Survey survey = new Survey();
+        Tournament tournament = tournamentDao.getAllTournaments().get(0);
 
         if (sex != null)
             player.setSex(sex);
