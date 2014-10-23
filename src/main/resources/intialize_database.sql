@@ -13,8 +13,6 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `name` VARCHAR(45) NULL,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
-  `is_admin` TINYINT(1) NULL,
-  `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
   `sex` VARCHAR(1) NULL,
   `height` INT NULL,
