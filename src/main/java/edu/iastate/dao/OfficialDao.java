@@ -44,7 +44,8 @@ public class OfficialDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Official> query = entityManager.createQuery("from Official p where p.member_id = " + id, Official.class);
+        TypedQuery<Official> query = entityManager.createQuery("from Official p where p.member_id = :id", Official.class);
+        query.setParameter("id", id);
         Official official = query.getSingleResult();
 
         transaction.commit();

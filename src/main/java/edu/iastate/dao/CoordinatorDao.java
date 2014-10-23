@@ -47,7 +47,8 @@ public class CoordinatorDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Coordinator> query = entityManager.createQuery("from coordinator p where p.member_id = " + id, Coordinator.class);
+        TypedQuery<Coordinator> query = entityManager.createQuery("from coordinator p where p.member_id = :id", Coordinator.class);
+        query.setParameter("id", id);
         Coordinator coordinator = query.getSingleResult();
 
         transaction.commit();

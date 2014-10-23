@@ -46,7 +46,8 @@ public class PlayerDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Player> query = entityManager.createQuery("from Player p where p.member_id = " + id, Player.class);
+        TypedQuery<Player> query = entityManager.createQuery("from Player p where p.member_id = :id", Player.class);
+        query.setParameter("id", id);
         Player player = query.getSingleResult();
 
         transaction.commit();
