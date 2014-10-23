@@ -8,12 +8,17 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#surveyForm').serialize(),
 			success: function(data) {
-				alert(data);
+				$('#surveyForm').fadeOut(500);
+				$('#surveyAlert').delay(500).fadeIn(500);
 			}
 		});
 	});
 });
 
 function validateForm() {
-	return true;
+	return false;
 };
+
+function cancelForm() {
+	window.history.back()
+}
