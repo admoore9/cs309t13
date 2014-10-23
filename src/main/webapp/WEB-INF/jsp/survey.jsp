@@ -31,10 +31,10 @@
                   <label class="col-md-4 control-label" for="sex">Sex:</label>
                   <div class="col-md-2">
                       <label class="radio-inline" for="sex-0">
-                      <input type="radio" name="sex" id="sex-0" value="M">Male
+                      <input type="radio" name="sex" id="sex-0" value="m">Male
                       </label> 
                       <label class="radio-inline" for="sex-1">
-                          <input type="radio" name="sex" id="sex-1" value="F">Female
+                          <input type="radio" name="sex" id="sex-1" value="f">Female
                       </label>
                   </div>
               </div>
