@@ -16,6 +16,9 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `is_admin` TINYINT(1) NULL,
   `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
+  `sex` VARCHAR(1) NULL,
+  `height` INT NULL,
+  `weight` INT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
@@ -110,12 +113,19 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   `tournament_id` INT NOT NULL,
   `team_name` VARCHAR(45) NULL,
   `accepts_free_agents` TINYINT(1) NULL,
+  `member_id` INT NOT NULL,
   PRIMARY KEY (`team_id`),
   INDEX `fk_Team_Game1_idx` (`game_id` ASC),
   INDEX `fk_Team_Tournament1_idx` (`tournament_id` ASC),
+  INDEX `fk_Team_Player1_idx` (`member_id` ASC),
   CONSTRAINT `fk_Team_Game1`
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`Game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Team_Player1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Team_Tournament1`

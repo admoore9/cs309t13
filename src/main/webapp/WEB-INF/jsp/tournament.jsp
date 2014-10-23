@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
+    </head>
     <body>
         <h2>Tournament</h2>
         <h4>Recent Tournaments</h4>
@@ -15,7 +18,7 @@
         <input type="number" id="tournament-by-id-input"/>
         <div id="tournament-by-id-data"></div>
     </body>
-    
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/tournament.js" />"></script>
 </html>
