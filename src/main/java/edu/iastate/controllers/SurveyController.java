@@ -23,7 +23,7 @@ public class SurveyController {
         return "survey";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public @ResponseBody void surveySubmit(
             @RequestParam(value = "sex") String sex,
             @RequestParam(value = "height") Integer height,
