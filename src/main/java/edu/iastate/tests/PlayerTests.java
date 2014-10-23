@@ -63,7 +63,6 @@ public class PlayerTests {
     
     @Test
     public void getPlayerByIdTest() {
-
         // Given
         when(entityManager.createQuery(selectByIdQuery, Player.class)).thenReturn(query);
         Player expectedPlayer = new Player("Nawaf", "nawaf", "123");
