@@ -68,7 +68,7 @@ public class GameTests {
         Game game = gamedao.getGameById(9, true);
         TeamDao teamdao = new TeamDao();
         Team team = teamdao.getTeamById(10, false, false);
-        game.addTeam(team);
+        game.removeTeam(team);
         for (Team t: game.getTeams()) {
           System.out.println(game.getId() + " " + t.getId());
         }
