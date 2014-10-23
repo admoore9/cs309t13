@@ -30,8 +30,8 @@ public class GameTests {
 //    public void modifyGameTest() {
 //        GameDao gamedao = new GameDao();
 //        Game game = new Game();
-//        game = gamedao.getGameById(8, false);
-//        game.setNextGame(gamedao.getGameById(1, false));
+//        game = gamedao.getGameById(5, false);
+//        game.setNextGame(gamedao.getGameById(7, false));
 //        gamedao.saveGame(game);
 //    }
 //
@@ -65,12 +65,12 @@ public class GameTests {
     @Test
     public void addTeamToGameTest() {
         GameDao gamedao = new GameDao();
-        Game game = gamedao.getGameById(7, true);
+        Game game = gamedao.getGameById(9, true);
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(11, false, false);
+        Team team = teamdao.getTeamById(10, false, false);
         game.addTeam(team);
         for (Team t: game.getTeams()) {
-          System.out.println(t.getId());
+          System.out.println(game.getId() + " " + t.getId());
         }
         gamedao.saveGame(game);
     }

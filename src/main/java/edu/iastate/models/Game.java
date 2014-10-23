@@ -47,7 +47,11 @@ public class Game {
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
-    @ManyToMany(mappedBy = "games")
+    //@ManyToMany(mappedBy = "games")
+    
+    @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
+        inverseJoinColumns={ @JoinColumn(name = "team_id", referencedColumnName = "team_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = { @JoinColumn(name = "game_id", referencedColumnName = "game_id") }, inverseJoinColumns = { @JoinColumn(name = "member_id", referencedColumnName = "member_id") })
