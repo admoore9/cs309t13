@@ -25,7 +25,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Player`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Player` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -39,7 +39,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Official`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Official` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Official` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -53,7 +53,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Admin`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Admin` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Admin` (
   `member_id` INT NOT NULL,
   `current_view` int(4) NOT NULL,
   PRIMARY KEY (`member_id`),

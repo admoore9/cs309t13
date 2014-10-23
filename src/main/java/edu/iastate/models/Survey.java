@@ -24,8 +24,8 @@ public class Survey {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
-    private Player player;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
@@ -42,12 +42,12 @@ public class Survey {
         this.id = id;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Member getMember() {
+        return member;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public Tournament getTournament() {
