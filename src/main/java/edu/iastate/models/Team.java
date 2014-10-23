@@ -102,6 +102,7 @@ public class Team {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+        calculateSkillLevel();
     }
 
     public List<Game> getGames() {
@@ -133,7 +134,7 @@ public class Team {
         int skillLevel = 0;
         int numPlayers = 0;
         for(Player player : players){
-            skillLevel+=player.getSkillLevel();
+            skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
             numPlayers++;
         }
         teamSkillLevel = skillLevel/numPlayers;
