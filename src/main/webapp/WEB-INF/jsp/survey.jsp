@@ -23,7 +23,7 @@
             </div>
         </div>
     
-        <form class="form-horizontal" id="surveyForm" onsubmit="return validateForm();">
+        <form class="form-horizontal" id="surveyForm">
             <fieldset>
               <legend>Player Evaluation for </legend>
               
@@ -31,7 +31,7 @@
                   <label class="col-md-4 control-label" for="sex">Sex:</label>
                   <div class="col-md-2">
                       <label class="radio-inline" for="sex-0">
-                      <input type="radio" name="sex" id="sex-0" value="M" required>Male
+                      <input type="radio" name="sex" id="sex-0" value="M">Male
                       </label> 
                       <label class="radio-inline" for="sex-1">
                           <input type="radio" name="sex" id="sex-1" value="F">Female
@@ -42,21 +42,21 @@
               <div class="form-group">
                   <label class="col-md-4 control-label" for="height">Height:</label>  
                   <div class="col-md-2">
-                      <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md" required>
+                      <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-4 control-label" for="weight">Weight:</label>  
                   <div class="col-md-2">
-                      <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md" required>
+                      <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">
                   </div>
               </div>
               
               <div class="form-group">
                   <label class="col-md-4 control-label" for="compYears">Competitive years played in this sport:</label>
                   <div class="col-md-2">
-                      <select id="compYears" name="compYears" class="form-control" required>
+                      <select id="compYears" name="compYears" class="form-control">
                         <option value=""> Select...</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -72,7 +72,7 @@
               <div class="form-group">
                   <label class="col-md-4 control-label" for="intsPlayed">Number of times playing in this intramural:</label>
                   <div class="col-md-2">
-                      <select id="intsPlayed" name="intsPlayed" class="form-control" required>
+                      <select id="intsPlayed" name="intsPlayed" class="form-control">
                           <option value=""> Select...</option>
                           <option value="0">0</option>
                           <option value="1">1</option>
@@ -88,7 +88,7 @@
               <div class="form-group">
                   <label class="col-md-4 control-label" for="compLvl">How competitive do you want to be:</label>
                   <div class="col-md-2">
-                      <select id="compLvl" name="compLvl" class="form-control" required>
+                      <select id="compLvl" name="compLvl" class="form-control">
                           <option value=""> Select...</option>
                           <option value="5">5 - very competitive</option>
                           <option value="4">4</option>
@@ -103,7 +103,7 @@
                   <label class="col-md-4 control-label" for="isClubMember">University club experience in this sport:</label>
                   <div class="col-md-2">
                       <label class="radio-inline" for="isClubMember-0">
-                          <input type="radio" name="isClubMember" id="isClubMember-0" value="false" required>No
+                          <input type="radio" name="isClubMember" id="isClubMember-0" value="false">No
                       </label> 
                       <label class="radio-inline" for="isClubMember-1">
                           <input type="radio" name="isClubMember" id="isClubMember-1" value="true">Yes
