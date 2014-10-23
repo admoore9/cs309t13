@@ -2,7 +2,7 @@ $( document ).ready(function() {
 	$('#surveyForm').submit(function(event) {
 		// Stop form from submitting normally
 		event.preventDefault();
-		var url = "/survey";
+		var url = "/survey/submit";
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -13,7 +13,7 @@ $( document ).ready(function() {
 			}
 		});
 	});
-}
+});
 
 function cancelForm() {
 	window.history.back()
