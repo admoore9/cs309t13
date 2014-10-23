@@ -100,13 +100,13 @@
               </div>
 
               <div class="form-group">
-                  <label class="col-md-4 control-label" for="isClubMember">University club experience in this sport:</label>
+                  <label class="col-md-4 control-label" for="isClubPlayer">University club experience in this sport:</label>
                   <div class="col-md-2">
-                      <label class="radio-inline" for="isClubMember-0">
-                          <input type="radio" name="isClubMember" id="isClubMember-0" value="false">No
+                      <label class="radio-inline" for="isClubPlayer-0">
+                          <input type="radio" name="isClubPlayer" id="isClubPlayer-0" value="false">No
                       </label> 
-                      <label class="radio-inline" for="isClubMember-1">
-                          <input type="radio" name="isClubMember" id="isClubMember-1" value="true">Yes
+                      <label class="radio-inline" for="isClubPlayer-1">
+                          <input type="radio" name="isClubPlayer" id="isClubPlayer-1" value="true">Yes
                       </label>
                   </div>
               </div>

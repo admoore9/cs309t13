@@ -56,21 +56,21 @@ public class SurveyDao {
     }
 
     /**
-     * Gets the survey for a member in a particular survey
+     * Gets the survey for a player in a particular survey
      * 
-     * @param member_id The member id to get the survey for
+     * @param player_id The player id to get the survey for
      * @param tournament_id The tournament id to get the survey for
-     * @return The survey corresponding to the member and tournament id
+     * @return The survey corresponding to the player and tournament id
      */
-    public Survey getSurvey(int tournament_id, int member_id) {
+    public Survey getSurvey(int tournament_id, int player_id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
         TypedQuery<Survey> query = entityManager.createQuery("select s from Survey s where s.tournament_id = :tournament_id"
-                + "and s.member_id = :member_id", Survey.class);
+                + "and s.player_id = :player_id", Survey.class);
         query.setParameter("tournament_id", tournament_id);
-        query.setParameter("member_id", member_id);
+        query.setParameter("player_id", player_id);
         Survey survey = query.getSingleResult();
 
         transaction.commit();

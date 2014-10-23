@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.MemberDao;
+import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.SurveyDao;
 import edu.iastate.dao.TournamentDao;
-import edu.iastate.models.Member;
+import edu.iastate.models.Player;
 import edu.iastate.models.Survey;
 import edu.iastate.models.Tournament;
 
@@ -31,7 +31,7 @@ public class SurveyController {
             @RequestParam(value = "compYears") Integer compYears,
             @RequestParam(value = "intsPlayed") Integer intsPlayed,
             @RequestParam(value = "compLvl") Integer compLvl,
-            @RequestParam(value = "isClubMember") boolean isClubMember) {
+            @RequestParam(value = "isClubPlayer") boolean isClubPlayer) {
 
         MemberDao memberDao = new MemberDao();
         TournamentDao tournamentDao = new TournamentDao();
@@ -42,23 +42,23 @@ public class SurveyController {
         Survey survey = new Survey();
 
         if (sex != null)
-            member.setSex(sex);
+            player.setSex(sex);
         if (height != null)
-            member.setHeight(height);
+            player.setHeight(height);
         if (weight != null)
-            member.setWeight(weight);
+            player.setWeight(weight);
 
         survey.setTournament(tournament);
-        survey.setMember(member);
-        survey.setSurveyScore(calculateSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubMember));
+        survey.setPlayer(player);
+        survey.setSurveyScore(calculateSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubPlayer));
 
-        memberDao.saveMember(member);
+        playerDao.savePlayer(player);
         surveyDao.saveSurvey(survey);
     }
 
     private int calculateSurveyScore(String sex, Integer height, Integer weight,
-            Integer compYears, Integer intsPlayed, Integer compLvl, boolean isClubMember) {
-        int score = 0;
+            Integer compYears, Integer intsPlayed, Integer compLvl, boolean isClubPlayer) {
+        int score = 5;
         return score;
     }
 }
