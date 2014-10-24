@@ -171,13 +171,21 @@ public class Game {
      * official already exists in game
      * 
      * @param official
-     * The official to be added 
+     * The official to be added
+     * @return
+     * returns 1 if successful, 0 if reached max officials per game
+     * and -1 if official is null or official already exists
+     *  
      */
-    public void addOfficial(Official official) {
+    public int addOfficial(Official official) {
         if(official == null || this.officials.contains(official)) {
-            return;
+            return -1;
+        }
+        if(this.officials.size() == tournament.OFFICIALS_PER_GAME) {
+            return 0;
         }
         this.officials.add(official);
+        return 1;
     }
     
     /**
@@ -192,5 +200,25 @@ public class Game {
             return;
         }
         this.officials.remove(official);
+    }
+    
+    /**
+     * Checks if this game has the required teams per game 
+     * 
+     * @return
+     * True if it does have the required games, false other wise
+     */
+    public boolean hasTeamsPerGame() {
+        return this.teams.size() == tournament.TEAMS_PER_GAME;
+    }
+    
+    /**
+     * Checks if this game has the required teams per game 
+     * 
+     * @return
+     * True if it does have the required games, false other wise
+     */
+    public boolean hasOfficialsPerGame() {
+        return this.officials.size() == tournament.OFFICIALS_PER_GAME;
     }
 }

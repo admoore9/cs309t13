@@ -170,6 +170,16 @@ public class Team {
         this.players.remove(player);
         calculateSkillLevel(); //Updates the skill level
     }
+    
+    /**
+     * Returns true if this team has minimum number of required players 
+     * 
+     * @return
+     * true of condition is met
+     */
+    public boolean hasMinPlayers() {
+        return this.players.size()>=tournament.getMinPlayers();
+    }
 
     public void setTeamSkillLevel(int teamSkillLevel) {
         this.teamSkillLevel = teamSkillLevel;
