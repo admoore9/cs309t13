@@ -144,12 +144,16 @@ public class Team {
      * @param player
      * The player to be added
      */
-    public void addPlayer(Player player) {
+    public int addPlayer(Player player) {
         if(player == null || this.players.contains(player)) {
-            return;
+            return -1;
+        }
+        if(this.players.size() == tournament.getMaxPlayers()) {
+            return 0;
         }
         this.players.add(player);
         calculateSkillLevel(); //Updates the skill level
+        return 1;
     }
 
     /**
