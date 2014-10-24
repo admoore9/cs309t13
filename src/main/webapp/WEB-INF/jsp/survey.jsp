@@ -52,13 +52,11 @@
                 <label for="compYears">Competitive years played in this sport:</label>
                 <select id="compYears" name="compYears" class="form-control">
                   <option value=""> Select...</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">5+</option>
+                  <option value="1">0</option>
+                  <option value="2">1</option>
+                  <option value="3">2</option>
+                  <option value="4">3</option>
+                  <option value="5">More than 3</option>
                 </select>
             </div>
             
@@ -66,13 +64,11 @@
                 <label for="intsPlayed">Number of times playing in this intramural:</label>
                 <select id="intsPlayed" name="intsPlayed" class="form-control">
                     <option value=""> Select...</option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    <option value="1">0</option>
+                    <option value="2">1</option>
+                    <option value="3">2</option>
+                    <option value="4">3</option>
+                    <option value="5">More than 3</option>
                 </select>
             </div>
             
@@ -80,11 +76,11 @@
                 <label for="compLvl">How competitive do you want to be:</label>
                 <select id="compLvl" name="compLvl" class="form-control">
                     <option value=""> Select...</option>
-                    <option value="5">5 - very competitive</option>
-                    <option value="4">4</option>
-                    <option value="3">3 - neutral</option>
-                    <option value="2">2</option>
                     <option value="1">1 - not competitive</option>
+                    <option value="2">2</option>
+                    <option value="3">3 - neutral</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - very competitive</option>
                 </select>
             </div>
 
