@@ -46,10 +46,10 @@ public class Member {
 
     @Column(name = "weight")
     private int weight;
-    
+
     public enum UserType {
         PLAYER, OFFICIAL, COORDINATOR, ADMIN
-    }; 
+    };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
@@ -63,6 +63,7 @@ public class Member {
     protected Member(UserType userType) {
         this.userType = userType;
     }
+
     public Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
