@@ -22,7 +22,7 @@
                 <strong>Success!</strong> Your survey has been submitted!
             </div>
         </div>
-        <div class="container">
+        <div class="container" id="surveyContainer">
             <div id="surveyBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -106,11 +106,9 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <div class="btn-group">
-                                        <input type="submit" name="submitSurvey" class="btn btn-primary" value="Submit!"/>
-                                        <button class="btn btn-default" type="button" onClick="cancelForm()">Cancel</button>
-                                    </div>
+                                <div class="btn-group">
+                                    <input type="submit" name="submitSurvey" class="btn btn-primary" value="Submit!"/>
+                                    <button class="btn btn-default" type="button" onClick="cancelForm()">Cancel</button>
                                 </div>
                             </div>
                         </form>

@@ -8,7 +8,7 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#surveyForm').serialize(),
 			success: function(data) {
-				$('#surveyForm').fadeOut(500);
+				$('#surveyContainer').fadeOut(500);
 				$('#surveyAlert').delay(500).fadeIn(500);
 			}
 		});
