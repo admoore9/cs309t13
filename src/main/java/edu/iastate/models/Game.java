@@ -138,14 +138,18 @@ public class Game {
      * Game already has this team
      * 
      * @param team
-     * Team to be added
+     * Team to be added, 1 if successful and 0 if game has reached max teams
+     * and -1 if team is null or game already contains team
      */
-    public void addTeam(Team team) {
+    public int addTeam(Team team) {
         if(team == null || this.teams.contains(team)) {
-            return;
+            return -1;
+        }
+        if(this.teams.size()==tournament.TEAMS_PER_GAME) {
+            return 0;
         }
         this.teams.add(team);
-        System.out.println("Game added!");
+        return 1;
     }
     
     /**
