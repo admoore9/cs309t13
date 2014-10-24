@@ -13,8 +13,6 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `name` VARCHAR(45) NULL,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
-  `is_admin` TINYINT(1) NULL,
-  `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
   `sex` VARCHAR(1) NULL,
   `height` INT NULL,
@@ -44,6 +42,20 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Official` (
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
   CONSTRAINT `fk_official_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Coordinator`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`Coordinator` (
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`),
+  INDEX `fk_member_id_idx` (`member_id` ASC),
+  CONSTRAINT `fk_coordinator_id`
     FOREIGN KEY (`member_id`)
     REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
@@ -186,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`team_id`, `member_id`),
   INDEX `fk_member_id1_idx` (`member_id` ASC),
-  CONSTRAINT `fk_team_id1`
+  CONSTRAINT `fk_team_id2`
     FOREIGN KEY (`team_id`)
     REFERENCES `cs309t13`.`team` (`team_id`)
     ON DELETE NO ACTION

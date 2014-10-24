@@ -28,7 +28,7 @@ public class MemberTests {
 
     @Test
     public void getMemberByIdTest() {
-        Member member = memberDao.getMemberById(7);
+        Member member = memberDao.getMemberById(1);
         System.out.println(member.getName());
     }
 

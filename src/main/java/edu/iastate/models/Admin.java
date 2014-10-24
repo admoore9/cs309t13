@@ -9,7 +9,7 @@ import javax.persistence.Table;
 public class Admin extends Member {
 
     public Admin() {
-        super();
+        super(UserType.ADMIN);
     }
 
     public Admin(String name, String username, String password) {

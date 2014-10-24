@@ -3,17 +3,8 @@ package edu.iastate.models;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-
-
 import javax.persistence.Table;
 
 /**
@@ -26,16 +17,24 @@ import javax.persistence.Table;
 @Table(name = "Player")
 public class Player extends Member {
 
-    @ManyToMany(mappedBy = "players")
-    private List<Team> teams;
-
     public Player() {
-        super();
+        super(UserType.PLAYER);
     }
 
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);
+    }
+
+    @ManyToMany(mappedBy = "players")
+    private List<Team> teams;
+    
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }
 

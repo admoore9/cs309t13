@@ -44,7 +44,8 @@ public class AdminDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Admin> query = entityManager.createQuery("from Admin a where a.member_id = " + id, Admin.class);
+        TypedQuery<Admin> query = entityManager.createQuery("from Admin a where a.member_id = :id", Admin.class);
+        query.setParameter("id", id);
         Admin admin = query.getSingleResult();
 
         transaction.commit();
