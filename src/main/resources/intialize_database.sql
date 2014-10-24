@@ -152,14 +152,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Survey` (
   `survey_id` INT NOT NULL AUTO_INCREMENT,
-  `player_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
   `tournament_id` INT NOT NULL,
   `survey_score` INT NOT NULL,
   PRIMARY KEY (`survey_id`),
   INDEX `fk_tournament_id_idx` (`tournament_id` ASC),
-  INDEX `fk_Survey_PlayerId_idx` (`player_id` ASC),
+  INDEX `fk_Survey_PlayerId_idx` (`member_id` ASC),
   CONSTRAINT `fk_Survey_PlayerId`
-    FOREIGN KEY (`player_id`)
+    FOREIGN KEY (`member_id`)
     REFERENCES `Player` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
