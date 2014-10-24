@@ -22,7 +22,7 @@
                 <strong>Success!</strong> Your survey has been submitted!
             </div>
         </div>
-    
+
         <form role="form" id="surveyForm" class="col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2">
             <div class="form-group">
                 <label for="sex">Sex:</label>
