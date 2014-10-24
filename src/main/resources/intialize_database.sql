@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   `team_name` VARCHAR(45) NULL,
   `accepts_free_agents` TINYINT(1) NULL,
   `member_id` INT NOT NULL,
-  `team_skill` INT NULL DEFAULT,
+  `team_skill` INT NULL DEFAULT 0,
   PRIMARY KEY (`team_id`),
   INDEX `fk_Team_Game1_idx` (`game_id` ASC),
   INDEX `fk_Team_Tournament1_idx` (`tournament_id` ASC),

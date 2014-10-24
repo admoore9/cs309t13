@@ -122,7 +122,6 @@ public class Team {
     }
 
     public int getTeamSkillLevel() {
-        calculateSkillLevel();
         return teamSkillLevel;
     }
 
@@ -132,12 +131,10 @@ public class Team {
      */
     public void calculateSkillLevel() {
         int skillLevel = 0;
-        int numPlayers = 0;
         for(Player player : players){
             skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
-            numPlayers++;
         }
-        teamSkillLevel = skillLevel/numPlayers;
+        teamSkillLevel = skillLevel/players.size();
     }
 
     /**
