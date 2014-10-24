@@ -42,14 +42,14 @@ public class Member {
     private String sex;
 
     @Column(name = "height")
-    private int height;
+    private Integer height;
 
     @Column(name = "weight")
-    private int weight;
-    
+    private Integer weight;
+
     public enum UserType {
         PLAYER, OFFICIAL, COORDINATOR, ADMIN
-    }; 
+    };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
@@ -63,6 +63,7 @@ public class Member {
     protected Member(UserType userType) {
         this.userType = userType;
     }
+
     public Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
@@ -170,7 +171,7 @@ public class Member {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
@@ -178,7 +179,7 @@ public class Member {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 }

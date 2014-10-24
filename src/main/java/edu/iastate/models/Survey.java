@@ -24,7 +24,7 @@ public class Survey {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
+    @JoinColumn(name = "member_id")
     private Player player;
 
     @ManyToOne

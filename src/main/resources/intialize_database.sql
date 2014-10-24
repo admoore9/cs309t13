@@ -23,7 +23,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Player`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Player` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -37,7 +37,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Official`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Official` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Official` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -65,7 +65,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Admin`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Admin` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Admin` (
   `member_id` INT NOT NULL,
   `current_view` int(4) NOT NULL,
   PRIMARY KEY (`member_id`),
@@ -149,6 +149,29 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `cs309t13`.`Survey`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Survey` (
+  `survey_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  `tournament_id` INT NOT NULL,
+  `survey_score` INT NOT NULL,
+  PRIMARY KEY (`survey_id`),
+  INDEX `fk_tournament_id_idx` (`tournament_id` ASC),
+  INDEX `fk_Survey_PlayerId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Survey_PlayerId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tournament_id` FOREIGN
+    KEY (`tournament_id`)
+    REFERENCES `Tournament` (`tournament_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE=InnoDB;
+
+-- -----------------------------------------------------
 -- Table `cs309t13`.`teamgamemapper`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`teamgamemapper` (
@@ -206,29 +229,6 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
     REFERENCES `cs309t13`.`game` (`game_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
--- -----------------------------------------------------
--- Table `cs309t13`.`Survey`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Survey` (
-  `survey_id` INT NOT NULL AUTO_INCREMENT,
-  `member_id` INT NOT NULL,
-  `tournament_id` INT NOT NULL,
-  `survey_score` INT NOT NULL,
-  PRIMARY KEY (`survey_id`),
-  INDEX `fk_member_id` (`member_id` ASC),
-  INDEX `fk_tournament_id` (`tournament_id` ASC),
-  CONSTRAINT `fk_member_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tournament_id`
-    FOREIGN KEY (`tournament_id`)
-    REFERENCES `cs309t13`.`Tournament` (`tournament_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE=InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

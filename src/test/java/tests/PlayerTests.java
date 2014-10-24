@@ -1,4 +1,4 @@
-package edu.iastate.tests;
+package tests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;

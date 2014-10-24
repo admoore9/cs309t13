@@ -1,18 +1,15 @@
-package edu.iastate.tests;
+package tests;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 
+import antlr.collections.List;
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.PlayerDao;
+import edu.iastate.models.*;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
-import edu.iastate.models.Game;
-import edu.iastate.models.Player;
-import edu.iastate.models.Team;
-import edu.iastate.models.Tournament;
 
 public class TeamTests {
     @Test
@@ -24,7 +21,7 @@ public class TeamTests {
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
         team.setName("TestAddGame");
-        List<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<Player>();
         players.add(playerdao.getPlayerById(1));
         players.add(playerdao.getPlayerById(2));
         team.setPlayers(players);
