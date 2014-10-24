@@ -27,6 +27,9 @@ public class Tournament {
 
     // TODO: Make this settable per tournament
     public static final int TEAMS_PER_GAME = 2;
+    
+    //TODO: Make this settable per tournament
+    public static final int OFFICIALS_PER_GAME = 2;
 
     @Id
     @GeneratedValue

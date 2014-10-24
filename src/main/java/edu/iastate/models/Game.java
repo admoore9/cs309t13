@@ -46,8 +46,10 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
-
-    @ManyToMany(mappedBy = "games")
+    
+    @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, 
+        inverseJoinColumns={ @JoinColumn(name = "team_id", referencedColumnName = "team_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = { @JoinColumn(name = "game_id", referencedColumnName = "game_id") }, inverseJoinColumns = { @JoinColumn(name = "member_id", referencedColumnName = "member_id") })
@@ -81,8 +83,6 @@ public class Game {
     public void setNextGame(Game nextGame) {
         this.nextGame = nextGame;
     }
-
-    public void addTeam(Team team) {}
 
     // TODO implememnt
     public int getRoundNumber() {
@@ -132,5 +132,93 @@ public class Game {
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
-
+    
+    /**
+     * Adds team to game. Does nothing if team is null or
+     * Game already has this team
+     * 
+     * @param team
+     * Team to be added, 1 if successful and 0 if game has reached max teams
+     * and -1 if team is null or game already contains team
+     */
+    public int addTeam(Team team) {
+        if(team == null || this.teams.contains(team)) {
+            return -1;
+        }
+        if(this.teams.size()==tournament.TEAMS_PER_GAME) {
+            return 0;
+        }
+        this.teams.add(team);
+        return 1;
+    }
+    
+    /**
+     * Removes team to game. Does nothing if team is null or
+     * Game does not have this team
+     * 
+     * @param team
+     * The team to be removed
+     */
+    public void removeTeam(Team team) {
+        if(team == null || !this.teams.contains(team)) {
+            return;
+        }
+        this.teams.remove(team);
+    }
+    
+    /**
+     * Add official to this game. Does nothing if official is null or
+     * official already exists in game
+     * 
+     * @param official
+     * The official to be added
+     * @return
+     * returns 1 if successful, 0 if reached max officials per game
+     * and -1 if official is null or official already exists
+     *  
+     */
+    public int addOfficial(Official official) {
+        if(official == null || this.officials.contains(official)) {
+            return -1;
+        }
+        if(this.officials.size() == tournament.OFFICIALS_PER_GAME) {
+            return 0;
+        }
+        this.officials.add(official);
+        return 1;
+    }
+    
+    /**
+     * Remove official from this game. Does nothing if official is null or
+     * official does not exist in game
+     * 
+     * @param official
+     * The official to be removed 
+     */
+    public void removeOfficial(Official official) {
+        if(official == null || this.officials.contains(official)) {
+            return;
+        }
+        this.officials.remove(official);
+    }
+    
+    /**
+     * Checks if this game has the required teams per game 
+     * 
+     * @return
+     * True if it does have the required games, false other wise
+     */
+    public boolean hasTeamsPerGame() {
+        return this.teams.size() == tournament.TEAMS_PER_GAME;
+    }
+    
+    /**
+     * Checks if this game has the required teams per game 
+     * 
+     * @return
+     * True if it does have the required games, false other wise
+     */
+    public boolean hasOfficialsPerGame() {
+        return this.officials.size() == tournament.OFFICIALS_PER_GAME;
+    }
 }

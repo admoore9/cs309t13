@@ -36,14 +36,33 @@ public class Team {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;
 
-    @JoinTable(name="teamgamemapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-            inverseJoinColumns={ @JoinColumn(name = "game_id", referencedColumnName = "game_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "teams")
     private List<Game> games;
 
     @OneToOne
     @JoinColumn(name = "member_id")
     private Player teamLeader;
+
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
+
+    @Column(name = "team_skill")
+    private int teamSkillLevel; 
+
+    public Team() {
+
+    }
+
+    public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
+            List<Game> games, Player teamLeader){
+        this.id = id;
+        this.name = name;
+        this.acceptFreeAgents = acceptFreeAgents;
+        this.players = players;
+        this.games = games;
+        this.teamLeader = teamLeader;
+    }
 
     public Player getTeamLeader() {
         return teamLeader;
@@ -52,11 +71,6 @@ public class Team {
     public void setTeamLeader(Player teamLeader) {
         this.teamLeader = teamLeader;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
-
 
     public int getId() {
         return id;
@@ -88,6 +102,7 @@ public class Team {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+        calculateSkillLevel();
     }
 
     public List<Game> getGames() {
@@ -104,6 +119,70 @@ public class Team {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+
+    public int getTeamSkillLevel() {
+        return teamSkillLevel;
+    }
+
+    /**
+     * Calculates the skill level of the team based on
+     * skill level of players of team
+     */
+    public void calculateSkillLevel() {
+        int skillLevel = 0;
+        for(Player player : players){
+            skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
+        }
+        teamSkillLevel = skillLevel/players.size();
+    }
+
+    /**
+     * Adds player to this team. Does nothing if player is null or
+     * player already exists in current team
+     * 
+     * @param player
+     * The player to be added
+     */
+    public int addPlayer(Player player) {
+        if(player == null || this.players.contains(player)) {
+            return -1;
+        }
+        if(this.players.size() == tournament.getMaxPlayers()) {
+            return 0;
+        }
+        this.players.add(player);
+        calculateSkillLevel(); //Updates the skill level
+        return 1;
+    }
+
+    /**
+     * Removes player from team. Does nothing if player is null
+     * or player does not exist in team
+     * 
+     * @param player
+     * The player to be removed 
+     */
+    public void removePlayer(Player player) {
+        if(player == null || !this.players.contains(player)) {
+            return;
+        }
+        this.players.remove(player);
+        calculateSkillLevel(); //Updates the skill level
+    }
+    
+    /**
+     * Returns true if this team has minimum number of required players 
+     * 
+     * @return
+     * true of condition is met
+     */
+    public boolean hasMinPlayers() {
+        return this.players.size()>=tournament.getMinPlayers();
+    }
+
+    public void setTeamSkillLevel(int teamSkillLevel) {
+        this.teamSkillLevel = teamSkillLevel;
     }
 
     @Override
