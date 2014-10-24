@@ -1,13 +1,17 @@
 package edu.iastate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -44,30 +48,38 @@ public class Member {
     private int weight;
 
     public enum UserType {
-        PLAYER, OFFICIAL, ADMIN
+        PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
 
-    public Member() {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    private List<Survey> surveys;
+    
+    public Member() {}
+
+    protected Member(UserType userType) {
+        this.userType = userType;
     }
 
-    public Member(String name, String username, String password, UserType userType) {
+    public Member(String name, String username, String password,
+            UserType userType) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.userType = userType;
     }
 
-    public Member(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = UserType.PLAYER;
+    public List<Survey> getSurveys() {
+        return surveys;
     }
 
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
+    }
+    
     public UserType getUserType() {
         return userType;
     }
@@ -130,5 +142,27 @@ public class Member {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + member_id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Member other = (Member) obj;
+        if (member_id != other.member_id)
+            return false;
+        return true;
     }
 }
