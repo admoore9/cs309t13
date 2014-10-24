@@ -1,4 +1,4 @@
-package edu.iastate.tests;
+package tests;
 
 import java.util.List;
 
