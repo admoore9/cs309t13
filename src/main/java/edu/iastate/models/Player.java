@@ -28,7 +28,7 @@ public class Player extends Member {
 
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
-    
+
     public List<Team> getTeams() {
         return teams;
     }

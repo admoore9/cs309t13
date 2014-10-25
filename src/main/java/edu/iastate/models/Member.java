@@ -80,6 +80,23 @@ public class Member {
         this.surveys = surveys;
     }
     
+    /**
+     * Returns the survey pertaining to a particular tournament
+     * 
+     * @param tournament
+     * The tournament whose survey we are interested in
+     * @return
+     * Survey object pertaining to that tournament
+     */
+    public Survey getSurveyByTournament(Tournament tournament) {
+        for(Survey s: surveys) {
+            if(s.getTournament().equals(tournament)) {
+                return s;
+            }
+        }
+        return null;
+    }
+    
     public UserType getUserType() {
         return userType;
     }
@@ -120,6 +137,28 @@ public class Member {
         this.password = password;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + member_id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Member other = (Member) obj;
+        if (member_id != other.member_id)
+            return false;
+        return true;
+    }    
+
     public String getSex() {
         return sex;
     }
@@ -142,27 +181,5 @@ public class Member {
 
     public void setWeight(Integer weight) {
         this.weight = weight;
-    }
-    
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + member_id;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Member other = (Member) obj;
-        if (member_id != other.member_id)
-            return false;
-        return true;
     }
 }
