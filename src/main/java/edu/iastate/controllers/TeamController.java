@@ -28,9 +28,13 @@ public class TeamController {
 
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
     public @ResponseBody List<Player> getPlayersForTeam(@PathVariable int id) {
-        System.out.println("here");
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true);
+        for(Player player : team.getPlayers()) {
+            // Causing circular references... Should actually fix that
+            player.setSurveys(null);
+            player.setTeams(null);
+        }
         return team.getPlayers();
     }
 }
