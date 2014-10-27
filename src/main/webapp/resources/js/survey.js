@@ -13,6 +13,14 @@ $( document ).ready(function() {
 				validators: {
 					notEmpty: {
 						message: 'Your height is required'
+					},
+					integer: {
+						message: 'This field mest be numeric'
+					},
+					between: {
+						min: 0,
+						max: 100,
+						message: 'Must be between 0 and 100'
 					}
 				}
 			},
@@ -20,6 +28,14 @@ $( document ).ready(function() {
 				validators: {
 					notEmpty: {
 						message: 'Your weight is required'
+					},
+					integer: {
+						message: 'This field mest be numeric'
+					},
+					between: {
+						min: 0,
+						max: 1000,
+						message: 'Must be between 0 and 1000'
 					}
 				}
 			},
