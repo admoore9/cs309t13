@@ -14,6 +14,10 @@
         <!-- Bootstrap JavaScript plug-ins -->
         <script src="../../resources/js/bootstrap/js/bootstrap.min.js"></script>
         <script src="../../resources/js/survey.js"></script>
+        
+        <!-- Bootstrap validator -->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
     </head>
     <body>
         <div id="surveyAlert" style="display: none;" style="width: 300px;">
