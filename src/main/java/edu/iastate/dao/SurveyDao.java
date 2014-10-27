@@ -54,7 +54,7 @@ public class SurveyDao {
         entityManager.close();
         return surveys;
     }
-    
+
     /**
      * Gets the survey for a player in a particular survey
      * 

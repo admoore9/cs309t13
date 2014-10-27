@@ -1,13 +1,11 @@
-package edu.iastate.tests;
+package tests;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
-import edu.iastate.models.Player;
 
 public class TournamentTests {
     @Test

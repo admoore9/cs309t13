@@ -1,4 +1,4 @@
-package edu.iastate.tests;
+package tests;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 
 public class MemberTests {
 
@@ -28,8 +29,19 @@ public class MemberTests {
 
     @Test
     public void getMemberByIdTest() {
-        Member member = memberDao.getMemberById(7);
+        Member member = memberDao.getMemberById(1);
         System.out.println(member.getName());
     }
+    
+    @Test
+    public void saveMemberTest() {
+        Member member = new Member();
+        member.setName("Testing add");
+        member.setPassword("asdf");
+        member.setUserType(UserType.OFFICIAL);
+        memberDao.saveMember(member);
+    }
+    
+    
 
 }
