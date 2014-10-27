@@ -36,12 +36,17 @@ public class SurveyController {
             @RequestParam(value = "compLvl") Integer compLvl,
             @RequestParam(value = "isClubPlayer") boolean isClubPlayer) {
 
+        // set up database access objects
         PlayerDao playerDao = new PlayerDao();
         SurveyDao surveyDao = new SurveyDao();
         TournamentDao tournamentDao = new TournamentDao();
 
+        // TODO use the player from the session id
+        // get first player from database
         Player player = playerDao.getAllPlayers().get(0);
         Survey survey = new Survey();
+        // TODO use the correct tournament
+        // get first tournament from database
         Tournament tournament = tournamentDao.getAllTournaments().get(0);
 
         if (sex != null)
@@ -51,11 +56,14 @@ public class SurveyController {
         if (weight != null)
             player.setWeight(weight);
 
+        int surveyScore = calcSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubPlayer);
+
+        // set the surveys parameters
         survey.setTournament(tournament);
         survey.setPlayer(player);
+        survey.setSurveyScore(surveyScore);
 
-        survey.setSurveyScore(calcSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubPlayer));
-
+        // Save updated player and survey to database
         playerDao.savePlayer(player);
         surveyDao.saveSurvey(survey);
     }
