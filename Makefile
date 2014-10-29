@@ -29,4 +29,3 @@ deploy:
 	mysql -u root -e "source /home/nawaf/cs309t13/src/main/resources/intialize_database.sql";
 undeploy:
 	mvn tomcat7:undeploy;
-	mysql -u root -e "DROP DATABASE `cs309t13`;";
