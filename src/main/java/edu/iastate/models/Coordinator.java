@@ -1,6 +1,10 @@
 package edu.iastate.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Coordinator")
 public class Coordinator extends Official {
 
     public Coordinator() {
