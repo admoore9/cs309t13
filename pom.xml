@@ -118,9 +118,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <server>localhost</server>
-                    <path>/${project.build.finalName}</path>
+                    <url>http://proj-309-t13.cs.iastate.edu:8080/manager/text</url>
+                    <server>proj-309-t13.cs.iastate.edu</server>
+                    <path>/</path>
                     <username>admin</username>
                     <password>adminadmin</password>
                 </configuration>
