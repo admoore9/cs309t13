@@ -28,6 +28,17 @@ public class Player extends Member {
 
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
+    
+    @ManyToMany(mappedBy = "invitedPlayers")
+    private List<Team> invitedTeams;
+
+    public List<Team> getInvitedTeams() {
+        return invitedTeams;
+    }
+
+    public void setInvitedTeams(List<Team> invitedTeams) {
+        this.invitedTeams = invitedTeams;
+    }
 
     public List<Team> getTeams() {
         return teams;

@@ -35,6 +35,11 @@ public class Team {
             inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;
+    
+    @JoinTable(name = "teaminvitedplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
+            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Player> invitedPlayers;
 
     @ManyToMany(mappedBy = "teams")
     private List<Game> games;
@@ -104,6 +109,14 @@ public class Team {
         this.players = players;
         calculateSkillLevel();
     }
+    
+    public List<Player> getInvitedPlayers() {
+        return invitedPlayers;
+    }
+
+    public void setInvitedPlayers(List<Player> invitedPlayers) {
+        this.invitedPlayers = invitedPlayers;
+    }
 
     public List<Game> getGames() {
         return games;
@@ -143,6 +156,10 @@ public class Team {
      * 
      * @param player
      * The player to be added
+     * @return
+     * -1 if null or player already exists
+     * 0 if maximum has reached
+     * 1 if successful
      */
     public int addPlayer(Player player) {
         if(player == null || this.players.contains(player)) {
@@ -152,6 +169,7 @@ public class Team {
             return 0;
         }
         this.players.add(player);
+        removeInvitedPlayer(player);
         calculateSkillLevel(); //Updates the skill level
         return 1;
     }
@@ -169,6 +187,44 @@ public class Team {
         }
         this.players.remove(player);
         calculateSkillLevel(); //Updates the skill level
+    }
+    
+    /**
+     * Adds player to this team's invited player list. Does nothing if player is null or
+     * player already exists in current invited list
+     * 
+     * @param player
+     * The player to be added
+     * @return
+     * -1 if null or player already exists
+     * 0 if player is already in team
+     * 1 if successful
+     * 
+     */
+    public int addInvitedPlayer(Player player) {
+        if(player == null || this.invitedPlayers.contains(player)) {
+            return -1;
+        }
+        if(this.players.contains(player)) {
+            return 0;
+        }
+        
+        this.invitedPlayers.add(player);
+        return 1;
+    }
+
+    /**
+     * Removes player from team. Does nothing if player is null
+     * or player does not exist in team
+     * 
+     * @param player
+     * The player to be removed 
+     */
+    public void removeInvitedPlayer(Player player) {
+        if(player == null || !this.invitedPlayers.contains(player)) {
+            return;
+        }
+        this.invitedPlayers.remove(player);
     }
     
     /**
