@@ -26,6 +26,6 @@ run-with-tests: build-with-tests run-application
 
 deploy:
 	mvn tomcat7:deploy;
-	mysql -u root -e "source /home/nawaf/cs309t13/src/main/resources/intialize_database.sql";
+
 undeploy:
 	mvn tomcat7:undeploy;
