@@ -55,19 +55,8 @@ public class TeamDao {
         entityManager.close();
         return teams;
     }
-    
-    /**
-     * Gets team list for a given tournament
-     * 
-     * @param id The id of the tournament you wish to fetch
-     * @return The list of teams for given tournament id
-     */
-    public List<Team> getTournamentTeams(int id) {
-        TournamentDao tournamentDao = new TournamentDao();        
-        return tournamentDao.getTournamentById(id, false, true).getTeams();
-    }
-    
-   
+
+
     /**
      * Get a team's information using team ID
      * 
@@ -77,7 +66,7 @@ public class TeamDao {
      * @return
      */
     public Team getTeamById(int id, boolean getGames, boolean getPlayers) {
-    	EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
@@ -85,7 +74,7 @@ public class TeamDao {
                 Team.class);
         query.setParameter("id", id);
         Team team = query.getSingleResult();
-        //loadForeignKeys(team, getGames, getPlayers);
+        loadForeignKeys(team, getGames, getPlayers);
 
         transaction.commit();
         entityManager.close();
@@ -115,30 +104,30 @@ public class TeamDao {
      * @param getGames Whether to get the games for the tournament
      * @param getPlayers Whether to get the players for the tournament
      */
-    /*private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers) {
+    private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers) {
         if(getGames) {
             loadGames(team);
         }
         if(getPlayers) {
             loadPlayers(team);
         }
-    }*/
+    }
 
     /**
      * Loads the games for a team
      * 
      * @param team the team to load games for
      */
-   /* private void loadGames(Team team) {
+    private void loadGames(Team team) {
         team.getGames().size();
     }
 
-    *//**
+    /**
      * Loads the players on a team
      * 
      * @param team the team to load teams for
-     *//*
+     */
     private void loadPlayers(Team team) {
         team.getPlayers().size();
-    }*/
+    }
 }

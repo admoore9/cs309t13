@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import edu.iastate.models.Admin;
 
 public class AdminDao extends MemberDao {
-    
+
     public AdminDao() {
         super();
     }
@@ -18,7 +18,7 @@ public class AdminDao extends MemberDao {
     public AdminDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);
     }
-    
+
     public List<Admin> getAllAdmins() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -29,10 +29,10 @@ public class AdminDao extends MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
+
         return admins;
     }
-    
+
     /**
      * Gets an admin matching the given id
      * 
@@ -44,14 +44,15 @@ public class AdminDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Admin> query = entityManager.createQuery("from Admin a where a.member_id = " + id, Admin.class);
+        TypedQuery<Admin> query = entityManager.createQuery("from Admin a where a.member_id = :id", Admin.class);
+        query.setParameter("id", id);
         Admin admin = query.getSingleResult();
 
         transaction.commit();
         entityManager.close();
         return admin;
     }
-    
+
     /**
      * Saves the given admin to the database
      * 

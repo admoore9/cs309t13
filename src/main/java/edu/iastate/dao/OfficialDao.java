@@ -29,10 +29,30 @@ public class OfficialDao extends MemberDao {
 
         transaction.commit();
         entityManager.close();
-        
+
         return officials;
     }
-    
+
+    /**
+     * Gets a official matching the given id
+     *
+     * @param id The id of the official you wish to fetch
+     * @return official by id
+     */
+    public Official getOfficialById(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Official> query = entityManager.createQuery("from Official p where p.member_id = :id", Official.class);
+        query.setParameter("id", id);
+        Official official = query.getSingleResult();
+
+        transaction.commit();
+        entityManager.close();
+        return official;
+    }
+
     /**
      * Saves the given official to the database
      * 

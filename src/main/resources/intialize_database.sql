@@ -13,16 +13,17 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `name` VARCHAR(45) NULL,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
-  `is_admin` TINYINT(1) NULL,
-  `is_official` TINYINT(1) NULL,
   `user_type` int(4) NOT NULL,
+  `sex` VARCHAR(1) NULL,
+  `height` INT NULL,
+  `weight` INT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Player`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Player` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -36,7 +37,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Official`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Official` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Official` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -48,9 +49,23 @@ CREATE TABLE `cs309t13`.`Official` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `cs309t13`.`Coordinator`
+-- -----------------------------------------------------
+CREATE TABLE `cs309t13`.`Coordinator` (
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`),
+  INDEX `fk_member_id_idx` (`member_id` ASC),
+  CONSTRAINT `fk_coordinator_id`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `cs309t13`.`Admin`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Admin` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Admin` (
   `member_id` INT NOT NULL,
   `current_view` int(4) NOT NULL,
   PRIMARY KEY (`member_id`),
@@ -110,12 +125,20 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   `tournament_id` INT NOT NULL,
   `team_name` VARCHAR(45) NULL,
   `accepts_free_agents` TINYINT(1) NULL,
+  `member_id` INT NOT NULL,
+  `team_skill` INT NULL DEFAULT 0,
   PRIMARY KEY (`team_id`),
   INDEX `fk_Team_Game1_idx` (`game_id` ASC),
   INDEX `fk_Team_Tournament1_idx` (`tournament_id` ASC),
+  INDEX `fk_Team_Player1_idx` (`member_id` ASC),
   CONSTRAINT `fk_Team_Game1`
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`Game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Team_Player1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Team_Tournament1`
@@ -124,6 +147,88 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Survey`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Survey` (
+  `survey_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  `tournament_id` INT NOT NULL,
+  `survey_score` INT NOT NULL,
+  PRIMARY KEY (`survey_id`),
+  INDEX `fk_tournament_id_idx` (`tournament_id` ASC),
+  INDEX `fk_Survey_PlayerId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Survey_PlayerId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tournament_id` FOREIGN
+    KEY (`tournament_id`)
+    REFERENCES `Tournament` (`tournament_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teamgamemapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`teamgamemapper` (
+  `team_id` INT NOT NULL,
+  `game_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `game_id`),
+  INDEX `fk_game_id1_idx` (`game_id` ASC),
+  CONSTRAINT `fk_team_id1`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_game_id1`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `cs309t13`.`game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teamplayermapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
+  `team_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `member_id`),
+  INDEX `fk_member_id1_idx` (`member_id` ASC),
+  CONSTRAINT `fk_team_id2`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_member_id1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`officialgamemapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
+  `member_id` INT NOT NULL,
+  `game_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`, `game_id`),
+  INDEX `fk_game_mapper2_idx` (`game_id` ASC),
+  CONSTRAINT `fk_officialid_mapper1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`official` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_gameid_mapper2`
+    FOREIGN KEY (`game_id`)
+    REFERENCES `cs309t13`.`game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

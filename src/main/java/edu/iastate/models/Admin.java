@@ -7,9 +7,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Admin")
 public class Admin extends Member {
-	
+
     public Admin() {
-        super();
+        super(UserType.ADMIN);
     }
 
     public Admin(String name, String username, String password) {
@@ -18,7 +18,7 @@ public class Admin extends Member {
 
     @Column(name = "current_view")
     private UserType currentView;
-    
+
     public UserType getCurrentView() {
         return currentView;
     }
@@ -26,5 +26,5 @@ public class Admin extends Member {
     public void setCurrentView(UserType view) {
         this.currentView = view;
     }
-	
+
 }

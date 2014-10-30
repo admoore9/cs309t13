@@ -30,5 +30,4 @@ public class TournamentController {
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
         return tournament;
     }
-
 }

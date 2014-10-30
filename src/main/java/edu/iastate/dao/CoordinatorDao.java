@@ -7,66 +7,66 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import edu.iastate.models.Player;
+import edu.iastate.models.Coordinator;
 
-public class PlayerDao extends MemberDao {
+public class CoordinatorDao extends MemberDao {
 
-    public PlayerDao() {
+    public CoordinatorDao() {
         super();
     }
 
-    public PlayerDao(EntityManagerFactory entityManagerFactory) {
+    public CoordinatorDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);
     }
 
     /**
-     * @return List of all players
+     * @return List of all coordinators
      */
-    public List<Player> getAllPlayers() {
+    public List<Coordinator> getAllCoordinators() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Player> query = entityManager.createQuery("from Player", Player.class);
-        List<Player> players = query.getResultList();
+        TypedQuery<Coordinator> query = entityManager.createQuery("from Coordinator", Coordinator.class);
+        List<Coordinator> coordinators = query.getResultList();
 
         transaction.commit();
         entityManager.close();
 
-        return players;
+        return coordinators;
     }
 
     /**
-     * Gets a player matching the given id
+     * Gets a coordinator matching the given id
      * 
-     * @param id The id of the player you wish to fetch
-     * @return player by id
+     * @param id The id of the coordinator you wish to fetch
+     * @return coordinator by id
      */
-    public Player getPlayerById(int id) {
+    public Coordinator getCoordinatorById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Player> query = entityManager.createQuery("from Player p where p.member_id = :id", Player.class);
+        TypedQuery<Coordinator> query = entityManager.createQuery("from coordinator p where p.member_id = :id", Coordinator.class);
         query.setParameter("id", id);
-        Player player = query.getSingleResult();
+        Coordinator coordinator = query.getSingleResult();
 
         transaction.commit();
         entityManager.close();
-        return player;
+        return coordinator;
     }
 
     /**
-     * Saves the given player to the database
+     * Saves the given coordinator to the database
      * 
-     * @param player The player to save to the database
+     * @param coordinator The coordinator to save to the database
      */
-    public void savePlayer(Player player) {
+    public void saveCoordinator(Coordinator coordinator) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.merge(player);
+        entityManager.merge(coordinator);
 
         transaction.commit();
         entityManager.close();
