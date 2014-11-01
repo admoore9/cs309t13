@@ -188,6 +188,7 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
+        List<Game> games = new ArrayList<Game>();
 
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
@@ -200,7 +201,7 @@ public class Tournament {
 
         List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
         List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames, 1);
-        this.games.addAll(playinGames);
+        games.addAll(playinGames);
 
         List<Game> secondRoundPlayinGames = formNextRound(playinGames, 2);
 
@@ -210,34 +211,21 @@ public class Tournament {
         List<Game> currRoundGames = new ArrayList<Game>();
         currRoundGames.addAll(secondRoundPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
-        this.games.addAll(currRoundGames);
+        games.addAll(currRoundGames);
 
         int roundNumber = 3;
         while(currRoundGames.size() > 1) {
             currRoundGames = formNextRound(currRoundGames, roundNumber);
-            this.games.addAll(currRoundGames);
+            games.addAll(currRoundGames);
             roundNumber++;
         }
 
-        this.games = new ArrayList<Game>();
-        Game g1 = new Game();
-        g1.setTournament(this);
-        g1.setRoundNumber(2);
-
-        gameDao.createGame(g1);
-        System.out.println(g1.getId());
-
-        Game g2 = new Game();
-        g2.setTournament(this);
-        g2.setRoundNumber(1);
-        Game g3 = new Game();
-        g3.setTournament(this);
-
-        g3.setRoundNumber(1);
-        g2.setNextGame(g1);
-        g3.setNextGame(g1);
-        gameDao.saveGame(g2);
-        gameDao.saveGame(g3);
+        gameDao.createGame(games.get(games.size() - 1));
+        if(games.size() > 1) {
+            for(int i = games.size() - 2; i >= 0; i--) {
+                gameDao.saveGame(games.get(i));
+            }
+        }
     }
 
     /**
