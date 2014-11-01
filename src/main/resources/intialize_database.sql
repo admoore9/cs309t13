@@ -96,6 +96,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   `game_id` INT NOT NULL AUTO_INCREMENT,
+  `round_number` INT NOT NULL,
   `game_location` VARCHAR(100) NULL,
   `game_time` TIMESTAMP NULL,
   `tournament_id` INT NOT NULL,

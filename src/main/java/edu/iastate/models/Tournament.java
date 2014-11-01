@@ -25,11 +25,7 @@ import edu.iastate.utils.MathUtils;
 @Table(name = "Tournament")
 public class Tournament {
 
-    // TODO: Make this settable per tournament
-    public static final int TEAMS_PER_GAME = 2;
-    
-    //TODO: Make this settable per tournament
-    public static final int OFFICIALS_PER_GAME = 2;
+    public Tournament() {};
 
     @Id
     @GeneratedValue
@@ -45,6 +41,13 @@ public class Tournament {
     @Column(name = "max_players")
     private int maxPlayers;
 
+    @Column(name = "teams_per_game")
+    private int teamsPerGame;
+
+    @Column(name = "officials_per_game")
+    private int officialsPerGame;
+
+    // TODO: make this do stuff
     @Column(name = "is_double_elimination")
     private boolean isDoubleElimination;
 
@@ -87,6 +90,22 @@ public class Tournament {
 
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
+    }
+
+    public int getTeamsPerGame() {
+        return teamsPerGame;
+    }
+
+    public void setTeamsPerGame(int teamsPerGame) {
+        this.teamsPerGame = teamsPerGame;
+    }
+
+    public int getOfficialsPerGame() {
+        return officialsPerGame;
+    }
+
+    public void setOfficialsPerGame(int officialsPerGame) {
+        this.officialsPerGame = officialsPerGame;
     }
 
     public boolean isDoubleElimination() {
@@ -169,10 +188,12 @@ public class Tournament {
             return;
         }
 
+        System.out.println(this.teams.size());
+
         // Get number of rounds without the play in games
-        int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), TEAMS_PER_GAME));
-        int leftoverTeams = this.teams.size() - (int) Math.pow(TEAMS_PER_GAME, roundsWithoutPlayin);
-        int leftoverTeamsPerPlayinGame = TEAMS_PER_GAME - 1;
+        int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
+        int leftoverTeams = this.teams.size() - (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
+        int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
@@ -204,13 +225,14 @@ public class Tournament {
      */
     // TODO round number
     private List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber) {
-        int gamesNeeded = (int) Math.ceil(MathUtils.log(currRoundTeams.size(), TEAMS_PER_GAME));
+        int gamesNeeded = (int) Math.ceil(1.0 * currRoundTeams.size() / this.teamsPerGame);
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
 
         int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
+            game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 game.addTeam(currRoundTeams.get(count));
                 count++;
@@ -228,16 +250,16 @@ public class Tournament {
      * @param currRoundGames The games that make up the current round.
      * @return The games that make up the newly created next round.
      */
-    private List<Game> formNextRound(List<Game> currRoundGames, int roundNumber) {
+    public List<Game> formNextRound(List<Game> currRoundGames, int roundNumber) {
         // TODO shouldn't have to balance teams
-        int nextRoundLen = (int) Math.ceil(MathUtils.log(currRoundGames.size(), TEAMS_PER_GAME));
+        int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
         List<Game> nextRoundGames = new ArrayList<Game>();
 
         int count = 0;
         for(int i = 0; i < nextRoundLen; i++) {
-            // TODO round number
             Game nextGame = new Game();
+            nextGame.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 currRoundGames.get(count).setNextGame(nextGame);
                 count++;
@@ -257,8 +279,12 @@ public class Tournament {
      * @return A list with the game number as the index and the number of teams
      *         that should be in it as the value at that index.
      */
-    private List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount) {
+    public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount) {
         Integer[] arr = new Integer[nextRoundCount];
+        for(int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
+        }
+
         for(int i = 0; i < currRoundCount; i++) {
             arr[i % nextRoundCount]++;
         }

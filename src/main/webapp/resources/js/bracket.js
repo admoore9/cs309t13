@@ -220,7 +220,7 @@ Bracket.prototype.formBracketTest = function() {
     var self = this;
     var tournament = {
         teams_per_game: 2,
-        is_referee: false,
+        is_referee: true,
         games: [
             {
                 id: 0,
