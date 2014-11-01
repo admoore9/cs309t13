@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.iastate.models.Game;
+import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
 public class TournamentTest {
@@ -43,8 +44,23 @@ public class TournamentTest {
 
         List<Game> actual = tournament.formNextRound(games, 5);
         Assert.assertEquals(4, actual.size());
+        for(int i = 0; i < actual.size(); i++) {
+            Assert.assertEquals(5, actual.get(i).getRoundNumber());
+        }
         for(int i = 0; i < games.size(); i++) {
             Assert.assertSame(actual.get(i / 2), games.get(i).getNextGame());
         }
+    }
+
+    @Test
+    public void testGroupTeamsIntoGames() {
+        tournament.setTeamsPerGame(2);
+        List<Team> teams = new ArrayList<Team>();
+        for(int i = 0; i < 10; i++) {
+            teams.add(new Team());
+        }
+
+        List<Game> gamesProduced = tournament.groupTeamsIntoGames(teams, 5);
+        Assert.assertEquals(5, gamesProduced.size());
     }
 }

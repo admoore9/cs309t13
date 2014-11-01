@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MathUtils;
 
 /**
@@ -187,8 +188,7 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
-
-        System.out.println(this.teams.size());
+        GameDao gameDao = new GameDao();
 
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
@@ -201,6 +201,8 @@ public class Tournament {
 
         List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
         List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames, 1);
+        this.games.addAll(playinGames);
+
         List<Game> secondRoundPlayinGames = formNextRound(playinGames, 2);
 
         // The teams that didn't have a play in game
@@ -209,12 +211,16 @@ public class Tournament {
         List<Game> currRoundGames = new ArrayList<Game>();
         currRoundGames.addAll(secondRoundPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
+        this.games.addAll(currRoundGames);
 
         int roundNumber = 3;
         while(currRoundGames.size() > 1) {
             currRoundGames = formNextRound(currRoundGames, roundNumber);
+            this.games.addAll(currRoundGames);
             roundNumber++;
         }
+
+        gameDao.saveAllGames(this.games);
     }
 
     /**
@@ -223,8 +229,7 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    // TODO round number
-    private List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber) {
+    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber) {
         int gamesNeeded = (int) Math.ceil(1.0 * currRoundTeams.size() / this.teamsPerGame);
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
@@ -232,6 +237,7 @@ public class Tournament {
         int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
+            game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 game.addTeam(currRoundTeams.get(count));
@@ -259,6 +265,7 @@ public class Tournament {
         int count = 0;
         for(int i = 0; i < nextRoundLen; i++) {
             Game nextGame = new Game();
+            nextGame.setTournament(this);
             nextGame.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 currRoundGames.get(count).setNextGame(nextGame);

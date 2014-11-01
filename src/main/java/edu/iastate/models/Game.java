@@ -1,8 +1,10 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +44,7 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "next_game_id", referencedColumnName = "game_id")
     private Game nextGame;
 
@@ -57,6 +59,10 @@ public class Game {
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
+
+    public Game() {
+        this.teams = new ArrayList<Team>();
+    }
 
     public int getId() {
         return id;

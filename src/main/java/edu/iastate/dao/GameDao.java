@@ -11,8 +11,8 @@ import edu.iastate.models.Game;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 /**
- * Data Access Object for the Game class, this should be used for
- * interacting with the Game table in the database.
+ * Data Access Object for the Game class, this should be used for interacting
+ * with the Game table in the database.
  * 
  * @author Andrew
  *
@@ -93,6 +93,19 @@ public class GameDao {
         entityManager.close();
     }
 
+    public void saveAllGames(List<Game> games) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        for(Game game : games) {
+            entityManager.merge(game);
+        }
+
+        transaction.commit();
+        entityManager.close();
+    }
+
     /**
      * Loads the foreign keys for a game based on the booleans
      * 
@@ -100,7 +113,7 @@ public class GameDao {
      * @param getTeams Whether to get the teams for the tournament
      */
     private void loadForeignKeys(Game game, boolean getTeams) {
-        if (getTeams)
+        if(getTeams)
             loadTeams(game);
     }
 
