@@ -219,7 +219,25 @@ public class Tournament {
             roundNumber++;
         }
 
-        gameDao.saveAllGames(this.games);
+        this.games = new ArrayList<Game>();
+        Game g1 = new Game();
+        g1.setTournament(this);
+        g1.setRoundNumber(2);
+
+        gameDao.createGame(g1);
+        System.out.println(g1.getId());
+
+        Game g2 = new Game();
+        g2.setTournament(this);
+        g2.setRoundNumber(1);
+        Game g3 = new Game();
+        g3.setTournament(this);
+
+        g3.setRoundNumber(1);
+        g2.setNextGame(g1);
+        g3.setNextGame(g1);
+        gameDao.saveGame(g2);
+        gameDao.saveGame(g3);
     }
 
     /**

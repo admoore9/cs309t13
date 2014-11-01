@@ -93,17 +93,21 @@ public class GameDao {
         entityManager.close();
     }
 
-    public void saveAllGames(List<Game> games) {
+    public void createGame(Game game) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        for(Game game : games) {
-            entityManager.merge(game);
-        }
+        entityManager.persist(game);
 
         transaction.commit();
         entityManager.close();
+    }
+
+    public void createAllGames(List<Game> games) {
+        for(Game game : games) {
+            createGame(game);
+        }
     }
 
     /**
