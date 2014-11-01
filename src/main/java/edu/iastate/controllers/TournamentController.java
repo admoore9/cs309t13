@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Tournament;
 
@@ -48,7 +49,7 @@ public class TournamentController {
     public @ResponseBody void formTournamentById(@PathVariable int id) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
-        tournament.formBracket();
+        tournament.formBracket(new GameDao());
         tournamentDao.saveTournament(tournament);
     }
 }

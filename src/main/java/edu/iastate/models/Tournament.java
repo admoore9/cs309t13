@@ -184,11 +184,10 @@ public class Tournament {
     // TODO double elim?
     // TODO save games
     // TODO no play in games
-    public void formBracket() {
+    public void formBracket(GameDao gameDao) {
         if(this.isBracketFormed()) {
             return;
         }
-        GameDao gameDao = new GameDao();
 
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
