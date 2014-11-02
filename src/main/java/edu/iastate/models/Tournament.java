@@ -194,9 +194,7 @@ public class Tournament {
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
-        System.out.println("numPlayinGame " + numPlayinGames);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
-        System.out.println(numPlayinTeams);
 
         List<Game> currRoundGames = new ArrayList<Game>();
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
@@ -214,7 +212,13 @@ public class Tournament {
         List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
 
-        formRoundsAndLink(currRoundGames, roundNumber, numPlayinGames, gameDao);
+        formRoundsAndLink(currRoundGames, roundNumber, gameDao);
+
+        for(int i = currRoundGames.size() - numPlayinGames; i < currRoundGames.size(); i++) {
+            Game game = playinGames.get(currRoundGames.size() - i - 1);
+            game.setNextGame(currRoundGames.get(i));
+            gameDao.createGame(game);
+        }
     }
 
     /**
@@ -233,7 +237,7 @@ public class Tournament {
             game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
-                game.addTeam(this.teams.get(count));
+                // game.addTeam(this.teams.get(count));
                 count++;
             }
             currRoundGames.add(game);
@@ -259,7 +263,7 @@ public class Tournament {
         return nextRoundGames;
     }
 
-    public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, int sizeMod, GameDao gameDao) {
+    public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
         if(currRoundGames.size() == 1) {
             Game game = currRoundGames.get(0);
             game.setTournament(this);
@@ -270,7 +274,7 @@ public class Tournament {
 
         // Form next round
         int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
-        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen - sizeMod);
+        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
         List<Game> nextRoundGames = new ArrayList<Game>();
 
         for(int i = 0; i < nextRoundLen; i++) {
@@ -279,7 +283,7 @@ public class Tournament {
         }
 
         // Link next round with next next round
-        formRoundsAndLink(nextRoundGames, roundNumber + 1, 0, gameDao);
+        formRoundsAndLink(nextRoundGames, roundNumber + 1, gameDao);
 
         // Link current round to next round
         int count = 0;
