@@ -82,15 +82,16 @@ public class GameDao {
      * 
      * @param game the tame to save to the database
      */
-    public void saveGame(Game game) {
+    public Game saveGame(Game game) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.merge(game);
+        Game newGame = entityManager.merge(game);
 
         transaction.commit();
         entityManager.close();
+        return newGame;
     }
 
     public void createGame(Game game) {

@@ -42,7 +42,7 @@ public class TournamentTest {
             games.add(new Game());
         }
 
-        List<Game> actual = tournament.formNextRound(games, 5);
+        List<Game> actual = tournament.formNextRound(games, 5, null);
         Assert.assertEquals(4, actual.size());
         for(int i = 0; i < actual.size(); i++) {
             Assert.assertEquals(5, actual.get(i).getRoundNumber());
@@ -60,7 +60,7 @@ public class TournamentTest {
             teams.add(new Team());
         }
 
-        List<Game> gamesProduced = tournament.groupTeamsIntoGames(teams, 5);
+        List<Game> gamesProduced = tournament.groupTeamsIntoGames(teams, 5, null);
         Assert.assertEquals(5, gamesProduced.size());
     }
 }
