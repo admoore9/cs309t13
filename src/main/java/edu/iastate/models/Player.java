@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,7 +22,8 @@ public class Player extends Member {
     }
 
     public Player(String name, String username, String password) {
-        super(name, username, password, UserType.PLAYER);
+        super(name, username, password,
+                UserType.PLAYER);
     }
 
     @ManyToMany(mappedBy = "players")
@@ -35,3 +37,4 @@ public class Player extends Member {
         this.teams = teams;
     }
 }
+

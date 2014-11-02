@@ -1,5 +1,7 @@
 package edu.iastate.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +20,10 @@ public class TournamentController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model) {
-        return "bracket";
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+        return "tournament";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

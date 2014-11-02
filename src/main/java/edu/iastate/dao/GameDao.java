@@ -80,20 +80,24 @@ public class GameDao {
     /**
      * Saves the given game to the database
      * 
-     * @param game the tame to save to the database
+     * @param game the game to save to the database
      */
-    public Game saveGame(Game game) {
+    public void saveGame(Game game) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        Game newGame = entityManager.merge(game);
+        entityManager.merge(game);
 
         transaction.commit();
         entityManager.close();
-        return newGame;
     }
 
+    /**
+     * Persists a game to the database
+     * 
+     * @param game The game to persist to the database
+     */
     public void createGame(Game game) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -103,12 +107,6 @@ public class GameDao {
 
         transaction.commit();
         entityManager.close();
-    }
-
-    public void createAllGames(List<Game> games) {
-        for(Game game : games) {
-            createGame(game);
-        }
     }
 
     /**

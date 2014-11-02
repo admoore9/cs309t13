@@ -231,36 +231,19 @@ public class Tournament {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
 
-        int count = 0;
+        // int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
             game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 // game.addTeam(this.teams.get(count));
-                count++;
+                // count++;
             }
             currRoundGames.add(game);
         }
 
         return currRoundGames;
-    }
-
-    /**
-     * Forms and returns the next round given the list of games that make up the
-     * current round.
-     *
-     * @param currRoundGames The games that make up the current round.
-     * @return The games that make up the newly created next round.
-     */
-    public List<Game> getNextRoundGames(List<Game> currRoundGames) {
-        int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
-        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
-        List<Game> nextRoundGames = new ArrayList<Game>();
-        for(int i = 0; i < nextRoundLen; i++) {
-            nextRoundGames.add(new Game());
-        }
-        return nextRoundGames;
     }
 
     public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
