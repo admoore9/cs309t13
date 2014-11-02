@@ -26,8 +26,6 @@ import edu.iastate.utils.MathUtils;
 @Table(name = "Tournament")
 public class Tournament {
 
-    public Tournament() {};
-
     @Id
     @GeneratedValue
     @Column(name = "tournament_id")
@@ -181,7 +179,6 @@ public class Tournament {
      * Forms the bracket for the tournament. Doesn't do anything if the bracket
      * has already been formed.
      */
-    // TODO no play in games
     public void formBracket(GameDao gameDao) {
         if(this.isBracketFormed()) {
             return;
