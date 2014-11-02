@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.iastate.dao.GameDao;
-import edu.iastate.utils.MathUtils;
 
 /**
  * Tournament class
@@ -183,36 +182,75 @@ public class Tournament {
      */
     // TODO no play in games
     public void formBracket(GameDao gameDao) {
-        if(this.isBracketFormed()) {
-            return;
-        }
+        Game g1 = new Game();
+        Game g2 = new Game();
+        Game g3 = new Game();
+        Game g4 = new Game();
+        Game g5 = new Game();
+        Game g6 = new Game();
+        Game g7 = new Game();
+        g7.setTournament(this);
+        gameDao.createGame(g7);
+        g6.setTournament(this);
+        g6.setNextGame(g7);
+        gameDao.createGame(g6);
+        g5.setTournament(this);
+        g5.setNextGame(g7);
+        gameDao.createGame(g5);
 
-        // Get number of rounds without the play in games
-        int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
-        int leftoverTeams = this.teams.size() - (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
-        int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
+        g4.setTournament(this);
+        g4.setNextGame(g6);
+        gameDao.createGame(g4);
 
-        // Get teams for play in games
-        int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
-        int numPlayinTeams = leftoverTeams + numPlayinGames;
+        g3.setTournament(this);
+        g3.setNextGame(g6);
+        gameDao.createGame(g3);
 
-        List<Game> currRoundGames = new ArrayList<Game>();
-        List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
-        int roundNumber = 1;
+        g2.setTournament(this);
+        g2.setNextGame(g5);
+        gameDao.createGame(g2);
 
-        if(numPlayinGames != 0) {
-            List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-            List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, gameDao);
-            List<Game> secondRoundPlayinGames = formNextRound(playinGames, roundNumber + 1, gameDao);
-            currRoundGames.addAll(secondRoundPlayinGames);
-            roundNumber++;
-        }
+        g1.setTournament(this);
+        g1.setNextGame(g5);
+        gameDao.createGame(g1);
 
-        // The teams that didn't have a play in game
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, gameDao);
-        currRoundGames.addAll(secondRoundNonPlayinGames);
-
-        formRoundsAndLink(currRoundGames, roundNumber + 1, gameDao);
+        // if(this.isBracketFormed()) {
+        // return;
+        // }
+        //
+        // // Get number of rounds without the play in games
+        // int roundsWithoutPlayin = (int)
+        // Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
+        // int leftoverTeams = this.teams.size() - (int)
+        // Math.pow(this.teamsPerGame, roundsWithoutPlayin);
+        // int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
+        //
+        // // Get teams for play in games
+        // int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams /
+        // leftoverTeamsPerPlayinGame);
+        // int numPlayinTeams = leftoverTeams + numPlayinGames;
+        //
+        // List<Game> currRoundGames = new ArrayList<Game>();
+        // List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams,
+        // this.teams.size());
+        // int roundNumber = 1;
+        //
+        // if(numPlayinGames != 0) {
+        // List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
+        // List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames,
+        // roundNumber, gameDao);
+        // List<Game> secondRoundPlayinGames = formNextRound(playinGames,
+        // roundNumber + 1, gameDao);
+        // currRoundGames.addAll(secondRoundPlayinGames);
+        // roundNumber++;
+        // }
+        //
+        // // The teams that didn't have a play in game
+        // List<Game> secondRoundNonPlayinGames =
+        // groupTeamsIntoGames(nonPlayinTeams, roundNumber, gameDao);
+        // currRoundGames.addAll(secondRoundNonPlayinGames);
+        //
+        // formRoundsAndLink(currRoundGames, roundNumber + 1, gameDao);
     }
 
     /**
@@ -266,6 +304,7 @@ public class Tournament {
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 Game game = currRoundGames.get(count);
                 game.setNextGame(nextGame);
+                gameDao.saveGame(game);
                 count++;
             }
             nextRoundGames.add(nextGame);
