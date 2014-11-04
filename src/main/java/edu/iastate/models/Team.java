@@ -2,7 +2,6 @@ package edu.iastate.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "Team")
@@ -31,8 +31,7 @@ public class Team {
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
 
-    @JoinTable(name = "teamplayermapper", joinColumns={@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, 
-            inverseJoinColumns={ @JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+    @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;
 
@@ -43,19 +42,19 @@ public class Team {
     @JoinColumn(name = "member_id")
     private Player teamLeader;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @Column(name = "team_skill")
-    private int teamSkillLevel; 
+    private int teamSkillLevel;
 
     public Team() {
 
     }
 
-    public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
-            List<Game> games, Player teamLeader){
+    public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, List<Game> games, Player teamLeader) {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
@@ -126,23 +125,22 @@ public class Team {
     }
 
     /**
-     * Calculates the skill level of the team based on
-     * skill level of players of team
+     * Calculates the skill level of the team based on skill level of players of
+     * team
      */
     public void calculateSkillLevel() {
         int skillLevel = 0;
-        for(Player player : players){
-            skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
+        for(Player player : players) {
+            skillLevel += player.getSurveyByTournament(tournament).getSurveyScore();
         }
-        teamSkillLevel = skillLevel/players.size();
+        teamSkillLevel = skillLevel / players.size();
     }
 
     /**
-     * Adds player to this team. Does nothing if player is null or
-     * player already exists in current team
+     * Adds player to this team. Does nothing if player is null or player
+     * already exists in current team
      * 
-     * @param player
-     * The player to be added
+     * @param player The player to be added
      */
     public int addPlayer(Player player) {
         if(player == null || this.players.contains(player)) {
@@ -152,33 +150,31 @@ public class Team {
             return 0;
         }
         this.players.add(player);
-        calculateSkillLevel(); //Updates the skill level
+        calculateSkillLevel(); // Updates the skill level
         return 1;
     }
 
     /**
-     * Removes player from team. Does nothing if player is null
-     * or player does not exist in team
+     * Removes player from team. Does nothing if player is null or player does
+     * not exist in team
      * 
-     * @param player
-     * The player to be removed 
+     * @param player The player to be removed
      */
     public void removePlayer(Player player) {
         if(player == null || !this.players.contains(player)) {
             return;
         }
         this.players.remove(player);
-        calculateSkillLevel(); //Updates the skill level
+        calculateSkillLevel(); // Updates the skill level
     }
-    
+
     /**
-     * Returns true if this team has minimum number of required players 
+     * Returns true if this team has minimum number of required players
      * 
-     * @return
-     * true of condition is met
+     * @return true of condition is met
      */
     public boolean hasMinPlayers() {
-        return this.players.size()>=tournament.getMinPlayers();
+        return this.players.size() >= tournament.getMinPlayers();
     }
 
     public void setTeamSkillLevel(int teamSkillLevel) {
@@ -187,14 +183,14 @@ public class Team {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if(this == obj)
             return true;
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
             return false;
         Team other = (Team) obj;
-        if (id != other.id)
+        if(id != other.id)
             return false;
         return true;
     }
