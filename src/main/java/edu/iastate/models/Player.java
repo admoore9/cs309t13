@@ -4,7 +4,9 @@ package edu.iastate.models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +33,9 @@ public class Player extends Member {
     
     @ManyToMany(mappedBy = "invitedPlayers")
     private List<Team> invitedTeams;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    private List<Survey> surveys;
 
     public List<Team> getInvitedTeams() {
         return invitedTeams;
@@ -46,6 +51,31 @@ public class Player extends Member {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+    
+    public List<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
+    }
+    
+    /**
+     * Returns the survey pertaining to a particular tournament
+     * 
+     * @param tournament
+     * The tournament whose survey we are interested in
+     * @return
+     * Survey object pertaining to that tournament
+     */
+    public Survey getSurveyByTournament(Tournament tournament) {
+        for(Survey s: surveys) {
+            if(s.getTournament().equals(tournament)) {
+                return s;
+            }
+        }
+        return null;
     }
 }
 

@@ -142,12 +142,12 @@ public class Team {
      * Calculates the skill level of the team based on
      * skill level of players of team
      */
-    public void calculateSkillLevel() {
+    private void calculateSkillLevel() {
         int skillLevel = 0;
         for(Player player : players){
             skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
         }
-        teamSkillLevel = skillLevel/players.size();
+        teamSkillLevel = 0; //skillLevel/players.size();
     }
 
     /**
@@ -162,9 +162,12 @@ public class Team {
      * 1 if successful
      */
     public int addPlayer(Player player) {
+        
         if(player == null || this.players.contains(player)) {
+            System.out.println("Here");
             return -1;
         }
+        
         if(this.players.size() == tournament.getMaxPlayers()) {
             return 0;
         }
