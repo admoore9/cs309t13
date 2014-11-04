@@ -57,9 +57,9 @@ public class Team {
     private int teamSkillLevel; 
 
     public Team() {
-        players = new ArrayList();
-        games = new ArrayList();
-        invitedPlayers = new ArrayList();
+        players = new ArrayList<Player>();
+        games = new ArrayList<Game>();
+        invitedPlayers = new ArrayList<Player>();
     }
 
     public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
@@ -153,7 +153,7 @@ public class Team {
                 skillLevel+= 0;
                 continue;
             }
-            skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
+            skillLevel+=s.getSurveyScore();
         }
         teamSkillLevel = skillLevel/players.size();
     }

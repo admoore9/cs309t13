@@ -47,11 +47,11 @@ public class TeamTests {
         TeamDao teamdao = new TeamDao();
         Team team = teamdao.getTeamById(13, true, true, true);
         PlayerDao playerdao = new PlayerDao();
-        Player player = playerdao.getPlayerById(5, true);
+        Player player = playerdao.getPlayerById(4, true);
         team.addPlayer(player);
-        for (Player p: team.getPlayers()) {
-            System.out.println(p.getName());
-        }
+//        for (Player p: team.getPlayers()) {
+//            System.out.println(p.getName());
+//        }
 
         teamdao.saveTeam(team);
     }

@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +56,11 @@ public class Game {
     @JoinTable(name = "officialgamemapper", joinColumns = { @JoinColumn(name = "game_id", referencedColumnName = "game_id") }, inverseJoinColumns = { @JoinColumn(name = "member_id", referencedColumnName = "member_id") })
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
+    
+    public Game() {
+        teams = new ArrayList<Team>();
+        officials = new ArrayList<Official>();
+    }
 
     public int getId() {
         return id;

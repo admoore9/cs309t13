@@ -1,6 +1,7 @@
 package edu.iastate.models;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ public class Player extends Member {
 
     public Player() {
         super(UserType.PLAYER);
+        surveys = new ArrayList<Survey>();
     }
 
     public Player(String name, String username, String password) {
@@ -34,7 +36,7 @@ public class Player extends Member {
     @ManyToMany(mappedBy = "invitedPlayers")
     private List<Team> invitedTeams;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
     private List<Survey> surveys;
 
     public List<Team> getInvitedTeams() {
@@ -71,6 +73,7 @@ public class Player extends Member {
      */
     public Survey getSurveyByTournament(Tournament tournament) {
         for(Survey s: surveys) {
+            
             if(s.getTournament().equals(tournament)) {
                 return s;
             }
