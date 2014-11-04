@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,7 +57,9 @@ public class Team {
     private int teamSkillLevel; 
 
     public Team() {
-
+        players = new ArrayList();
+        games = new ArrayList();
+        invitedPlayers = new ArrayList();
     }
 
     public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, 
@@ -145,9 +148,14 @@ public class Team {
     private void calculateSkillLevel() {
         int skillLevel = 0;
         for(Player player : players){
+            Survey s = player.getSurveyByTournament(tournament);
+            if(s==null) {
+                skillLevel+= 0;
+                continue;
+            }
             skillLevel+=player.getSurveyByTournament(tournament).getSurveyScore();
         }
-        teamSkillLevel = 0; //skillLevel/players.size();
+        teamSkillLevel = skillLevel/players.size();
     }
 
     /**
@@ -164,10 +172,9 @@ public class Team {
     public int addPlayer(Player player) {
         
         if(player == null || this.players.contains(player)) {
-            System.out.println("Here");
+            
             return -1;
         }
-        
         if(this.players.size() == tournament.getMaxPlayers()) {
             return 0;
         }

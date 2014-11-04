@@ -21,7 +21,7 @@ public class TeamController {
     public String getTeam(Model model) {
 
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true);
+        Team team = teamdao.getTeamById(2, true, true, false);
         model.addAttribute("teams", team.getGames());
         return "team";
     }
