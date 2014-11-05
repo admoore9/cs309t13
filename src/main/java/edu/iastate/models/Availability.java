@@ -1,7 +1,5 @@
 package edu.iastate.models;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,11 +28,7 @@ public class Availability {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "availability")
     private List<Day> days;
     
-    public Availability() {
-        // initialize days list
-        days = new ArrayList<Day>(Arrays.asList(new Day("Monday"), new Day("Tuesday"), new Day("Wednesday"), new Day("Thursday"), new Day("Friday"), new Day("Saturday"), new Day("Sunday")));
-        
-    }
+    public Availability() {}
 
     /**
      * @return the availability_id
