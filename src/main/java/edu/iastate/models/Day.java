@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Day")
-class Day {
+public class Day {
     
     @Id
     @GeneratedValue
@@ -31,10 +32,13 @@ class Day {
     
     private String name;
     
-    public Day() {}
+    public Day() {
+        availablePeriods = new ArrayList<Period>();
+    }
     
     public Day(String name) {
         this.name = name;
+        availablePeriods = new ArrayList<Period>();
     }
     public List<Period> getAvailablePeriods() {
         return availablePeriods;
@@ -50,12 +54,26 @@ class Day {
     }
     
     /**
+     * @return the availability
+     */
+    public Availability getAvailability() {
+        return availability;
+    }
+
+    /**
+     * @param availability the availability to set
+     */
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
+
+    /**
      * Add given period to available periods. 
      * If period already exists, does not do anything. 
      * If period overlaps with other period(s), merges period with overlapping period(s).
      * @param newPeriod
      */
-    public void addAvailablePeriod(Period newPeriod) {
+    public void addToAvailablePeriods(Period newPeriod) {
         if (availablePeriods.contains(newPeriod)) 
             return;
         for (Period availablePeriod : availablePeriods) {
@@ -79,7 +97,7 @@ class Day {
         availablePeriods.add(newPeriod);
     }
     
-    public void removeAvailablePeriod(Period period) {
+    public void removeFromAvailablePeriods(Period period) {
         availablePeriods.remove(period);
     }
     
