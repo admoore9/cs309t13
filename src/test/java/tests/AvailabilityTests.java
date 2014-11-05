@@ -1,14 +1,10 @@
 package tests;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Availability;
-import edu.iastate.models.Day;
-import edu.iastate.models.Period;
 import edu.iastate.models.Player;
 
 public class AvailabilityTests {
@@ -21,13 +17,6 @@ public class AvailabilityTests {
         AvailabilityDao aD = new AvailabilityDao();
         Availability availability = new Availability();
         availability.setPlayer(p);
-        System.out.println(availability.getPlayer().getId());
-        
-        List<Day> days = availability.getDays();
-//        for (Day day : days) {
-//            System.out.println(day.getName());
-//            day.addToAvailablePeriods(new Period(9, 9, 10, 10));
-//        }
         
         aD.saveAvailability(availability);
     }
