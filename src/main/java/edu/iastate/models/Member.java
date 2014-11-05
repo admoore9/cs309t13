@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -25,8 +26,8 @@ import javax.persistence.Table;
 public class Member {
 
     @Id
-    @GeneratedValue
-    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_id", unique = true, nullable = false)
     private int member_id;
 
     @Column(name = "name")
@@ -71,6 +72,7 @@ public class Member {
         this.password = password;
         this.userType = userType;
     }
+
     /**
      * Return a list of surveys for current member object
      * @return
