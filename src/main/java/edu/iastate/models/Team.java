@@ -195,6 +195,7 @@ public class Team {
         if(player == null || !this.players.contains(player)) {
             return;
         }
+        player.removeSurvey(player.getSurveyByTournament(this.tournament));
         this.players.remove(player);
         calculateSkillLevel(); //Updates the skill level
     }

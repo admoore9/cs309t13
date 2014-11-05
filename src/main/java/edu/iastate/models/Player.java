@@ -80,5 +80,19 @@ public class Player extends Member {
         }
         return null;
     }
+    
+    public void addSurvey(Survey survey) {
+        if(survey == null || surveys.contains(survey)) {
+            return;
+        }
+        surveys.add(survey);
+    }
+    
+    public void removeSurvey(Survey survey) {
+        if(survey == null || !surveys.contains(survey)) {
+            return;
+        }
+        surveys.remove(survey);
+    }
 }
 
