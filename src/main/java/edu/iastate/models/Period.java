@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Period")
-class Period {
+public class Period {
     
     @Id
     @GeneratedValue
@@ -40,22 +40,16 @@ class Period {
     /**
      * Period should not exceed or be below range
      * if startHour or endHour is below or above range, adjust/calibrate value to be within range
-     * @throws exception if start and end are equal or start is later than end
      * @param startHour
      * @param startMinute
      * @param endHour
      * @param endMinute
      */
-    public Period(int startHour, int startMinute, int endHour, int endMinute) throws Exception {
+    public Period(int startHour, int startMinute, int endHour, int endMinute) {
         if (startHour < range[0])
             startHour = range[0];
         if (endHour > range[1])
             endHour = range[1];
-        
-        if (startHour == endHour && startMinute == endMinute)
-            throw new Exception("Start and end times are identical");
-        if (startHour > endHour || ( startHour == endHour && startMinute > endMinute ) )
-            throw new Exception("Start is later than end.");
         
         this.startHour = startHour;
         this.startMinute = startMinute;
