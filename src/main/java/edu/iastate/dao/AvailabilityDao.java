@@ -1,13 +1,10 @@
 package edu.iastate.dao;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
 import edu.iastate.models.Availability;
-import edu.iastate.models.Day;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class AvailabilityDao {
@@ -35,13 +32,6 @@ public class AvailabilityDao {
 
         entityManager.persist(availability);
 
-        List<Day> days = availability.getDays();
-        for (Day day : days) {
-            day.setAvailability(availability);
-            System.out.println(day.getName());
-            entityManager.merge(day);
-        }
-        
         entityManager.merge(availability);
         
         transaction.commit();
