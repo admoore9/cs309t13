@@ -67,6 +67,7 @@ public class PlayerDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
+        entityManager.persist(player);
         entityManager.merge(player);
 
         transaction.commit();
