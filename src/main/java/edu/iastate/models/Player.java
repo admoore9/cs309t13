@@ -81,6 +81,11 @@ public class Player extends Member {
         return null;
     }
     
+    /**
+     * Adds survey to the list of surveys for player
+     * 
+     * @param survey the survey to be added top player
+     */
     public void addSurvey(Survey survey) {
         if(survey == null || surveys.contains(survey)) {
             return;
@@ -88,6 +93,11 @@ public class Player extends Member {
         surveys.add(survey);
     }
     
+    /**
+     * Removes survey from list of surveys for player
+     * 
+     * @param survey the survey to be removed from player
+     */
     public void removeSurvey(Survey survey) {
         if(survey == null || !surveys.contains(survey)) {
             return;
