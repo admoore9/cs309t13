@@ -17,39 +17,28 @@ public class Period {
     @Column(name = "period_id")
     private int period_id;
     
-    @Column
+    @Column(name = "start_hour")
     private int startHour;
-    @Column
+    @Column(name = "start_minute")
     private int startMinute;
-    @Column
+    @Column(name = "end_hour")
     private int endHour;
-    @Column
+    @Column(name = "end_minute")
     private int endMinute;
     
     @ManyToOne
     @JoinColumn(name = "day_id")
     private Day day;
     
-    /**
-     * range for acceptable hours
-     */
-    private int[] range = {8, 22};
-    
     public Period() {}
     
     /**
-     * Period should not exceed or be below range
-     * if startHour or endHour is below or above range, adjust/calibrate value to be within range
      * @param startHour
      * @param startMinute
      * @param endHour
      * @param endMinute
      */
     public Period(int startHour, int startMinute, int endHour, int endMinute) {
-        if (startHour < range[0])
-            startHour = range[0];
-        if (endHour > range[1])
-            endHour = range[1];
         
         this.startHour = startHour;
         this.startMinute = startMinute;
@@ -110,6 +99,20 @@ public class Period {
      */
     public void setEndMinute(int endMinute) {
         this.endMinute = endMinute;
+    }
+
+    /**
+     * @return the day
+     */
+    public Day getDay() {
+        return day;
+    }
+
+    /**
+     * @param day the day to set
+     */
+    public void setDay(Day day) {
+        this.day = day;
     }
 
     @Override
