@@ -17,7 +17,7 @@ public class AdminTests {
     public void setUp() throws Exception {
         adminDao = new AdminDao();
         Admin admin = new Admin("Sam", "sam", "123");
-        adminDao.saveAdmin(admin);
+        adminDao.save(admin);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class AdminTests {
         System.out.println("Name: " + admin.getName() + " View: " + admin.getCurrentView());
         admin.setCurrentView(UserType.PLAYER);
         System.out.println("Name: " + admin.getName() + " View: " + admin.getCurrentView());
-        adminDao.saveAdmin(admin);
+        adminDao.save(admin);
     }
 
     @Test

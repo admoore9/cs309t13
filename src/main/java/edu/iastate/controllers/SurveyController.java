@@ -64,7 +64,7 @@ public class SurveyController {
         survey.setSurveyScore(surveyScore);
 
         // Save updated player and survey to database
-        playerDao.savePlayer(player);
+        playerDao.save(player);
         surveyDao.saveSurvey(survey);
     }
 

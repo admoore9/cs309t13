@@ -53,19 +53,15 @@ public class AdminDao extends MemberDao {
         return admin;
     }
 
-    /**
-     * Saves the given admin to the database
-     * 
-     * @param admin The admin to save to the database
-     */
-    public void saveAdmin(Admin admin) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(admin);
-
-        transaction.commit();
-        entityManager.close();
-    }
+//    public <T extends Member> void promote(T member) {
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityTransaction transaction = entityManager.getTransaction();
+//        transaction.begin();
+//        TypedQuery<Player> query = entityManager.createQuery("INSERT INTO Player (:id) SELECT member_id from Member", Player.class);
+//        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
+//        query.setParameter("id", member.getId());
+//
+//        transaction.commit();
+//        entityManager.close();
+//    }
 }

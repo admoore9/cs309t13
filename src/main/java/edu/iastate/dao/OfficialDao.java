@@ -52,20 +52,4 @@ public class OfficialDao extends MemberDao {
         entityManager.close();
         return official;
     }
-
-    /**
-     * Saves the given official to the database
-     * 
-     * @param official The official to save to the database
-     */
-    public void saveOfficial(Official official) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(official);
-
-        transaction.commit();
-        entityManager.close();
-    }
 }

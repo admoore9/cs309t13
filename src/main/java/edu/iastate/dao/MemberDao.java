@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Member;
-import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
@@ -98,13 +97,11 @@ public class MemberDao {
      * 
      * @param member The member to save to the database
      */
-    public void saveMember(Member member) {
+    public <T extends Member> void save(T member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-
         entityManager.merge(member);
-
         transaction.commit();
         entityManager.close();
     }

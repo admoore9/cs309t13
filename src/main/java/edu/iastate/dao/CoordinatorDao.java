@@ -55,20 +55,4 @@ public class CoordinatorDao extends MemberDao {
         entityManager.close();
         return coordinator;
     }
-
-    /**
-     * Saves the given coordinator to the database
-     * 
-     * @param coordinator The coordinator to save to the database
-     */
-    public void saveCoordinator(Coordinator coordinator) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(coordinator);
-
-        transaction.commit();
-        entityManager.close();
-    }
 }
