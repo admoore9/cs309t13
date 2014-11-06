@@ -16,11 +16,13 @@ public class AdminTests {
     @Before
     public void setUp() throws Exception {
         adminDao = new AdminDao();
+        Admin admin = new Admin("Sam", "sam", "123");
+        adminDao.saveAdmin(admin);
     }
 
     @Test
     public void changeCurrentView() {
-        Admin admin = adminDao.getAdminById(7);
+        Admin admin = adminDao.getAdminById(1);
         System.out.println("Name: " + admin.getName() + " View: " + admin.getCurrentView());
         admin.setCurrentView(UserType.PLAYER);
         System.out.println("Name: " + admin.getName() + " View: " + admin.getCurrentView());
