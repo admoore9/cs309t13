@@ -25,7 +25,7 @@ public class Availability {
     @JoinColumn(name = "member_id")
     private Player player;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "availability")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "availability")
     private List<Day> days;
     
     public Availability() {}
