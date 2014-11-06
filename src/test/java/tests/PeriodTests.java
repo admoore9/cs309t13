@@ -34,9 +34,11 @@ public class PeriodTests {
         dayDao.saveDays(days);
         
         PeriodDao periodDao = new PeriodDao();
-        Period period = new Period(9, 9, 10, 10);
-        period.setDay(day);
-        periodDao.savePeriod(period);
+        for (Day day : days) {
+            Period period = new Period(9, 9, 10, 10);
+            period.setDay(day);
+            periodDao.savePeriod(period);
+        }
         
     }
 }
