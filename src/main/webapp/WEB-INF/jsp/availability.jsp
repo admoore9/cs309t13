@@ -26,12 +26,17 @@ th {
 <body>
     <table style="width: 100%">
         <tr>
-            <th>Day Name</th>
+            <th>Day</th>
+            <th>Available Period</th>
         </tr>
         <c:forEach items="${days}" var="day">
             <tr>
                 <td><c:out value="${day.getName()}" /></td>
-                <td></td>
+                <td>
+	                <c:forEach items="${day.getAvailablePeriods()}" var="period">
+                      <c:out value="${period.getStartHour()}"></c:out>:<c:out value="${period.getStartMinute()}"></c:out> - <c:out value="${period.getEndHour()}"></c:out>:<c:out value="${period.getEndMinute()}"></c:out> <br>
+	                </c:forEach>
+                </td>
             </tr>
         </c:forEach>
     </table>
