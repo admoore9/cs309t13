@@ -1,6 +1,6 @@
 package edu.iastate.controllers;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +18,9 @@ public class AvailabilityController {
     @RequestMapping(method = RequestMethod.GET)
     public String getAvailability(Model model) {
         AvailabilityDao availabilityDao = new AvailabilityDao();
-        Availability availability = availabilityDao.getAvailabilityById(1);
+        Availability availability = availabilityDao.getAvailabilityById(2);
         
-        
-        
-        List<Day> days = availability.getDays();
+        Set<Day> days = availability.getDays();
         model.addAttribute("days", days);
         return "availability";
     }
