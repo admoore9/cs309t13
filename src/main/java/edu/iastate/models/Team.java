@@ -71,6 +71,7 @@ public class Team {
 
     public void setTeamLeader(Player teamLeader) {
         this.teamLeader = teamLeader;
+        addPlayer(teamLeader);
     }
 
     public int getId() {

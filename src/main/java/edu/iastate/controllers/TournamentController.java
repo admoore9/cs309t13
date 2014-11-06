@@ -46,13 +46,19 @@ public class TournamentController {
      * 
      * @param id The id of the tournament.
      * @param name The name you wish to set the tournament to.
+     * @return true if the name was successfully set, false otherwise.
      */
     @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
-    public @ResponseBody void setTournamentName(@PathVariable int id, @RequestParam(value = "name") String name) {
+    public @ResponseBody boolean setTournamentName(@PathVariable int id, @RequestParam(value = "name") String name) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
+        if(tournament == null) {
+            return false;
+        }
+
         tournament.setName(name);
         tournamentDao.saveTournament(tournament);
+        return true;
     }
 
     /**
@@ -74,7 +80,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament.isBracketFormed()) {
+        if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
 
@@ -102,7 +108,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament.isBracketFormed()) {
+        if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
 
@@ -131,7 +137,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament.isBracketFormed()) {
+        if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
 
@@ -158,13 +164,12 @@ public class TournamentController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(teamId, false, false);
 
-        if(tournament.isBracketFormed() || team == null) {
+        if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
 
         tournament.addTeam(team);
         tournamentDao.saveTournament(tournament);
-        teamDao.saveTeam(team);
         return true;
     }
 
@@ -188,13 +193,12 @@ public class TournamentController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(teamId, false, false);
 
-        if(tournament.isBracketFormed() || team == null) {
+        if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
 
         tournament.removeTeam(team);
         tournamentDao.saveTournament(tournament);
-        teamDao.saveTeam(team);
         return true;
     }
 }
