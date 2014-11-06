@@ -1,5 +1,8 @@
 package tests;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
@@ -25,9 +28,10 @@ public class PeriodTests {
         availabilityDao.saveAvailability(availability);
         
         DayDao dayDao = new DayDao();
-        Day day = new Day("Monday");
-        day.setAvailability(availability);
-        dayDao.saveDay(day);
+        List<Day> days = Arrays.asList(new Day("Monday"), new Day("Tuesday"), new Day("Wednesday"), new Day("Thursday"), new Day("Friday"));
+        for (Day day : days)
+            day.setAvailability(availability);
+        dayDao.saveDays(days);
         
         PeriodDao periodDao = new PeriodDao();
         Period period = new Period(9, 9, 10, 10);
