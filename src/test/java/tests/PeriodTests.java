@@ -19,7 +19,7 @@ public class PeriodTests {
     public void constructorTest() {
         
         PlayerDao playerDao = new PlayerDao();
-        Player player = new Player("Muhammad", "muhammad", "123");
+        Player player = new Player("test1", "test1", "123");
         playerDao.savePlayer(player);
         
         AvailabilityDao availabilityDao = new AvailabilityDao();
