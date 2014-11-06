@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MathUtils;
 
 /**
@@ -24,12 +25,6 @@ import edu.iastate.utils.MathUtils;
 @Entity
 @Table(name = "Tournament")
 public class Tournament {
-
-    // TODO: Make this settable per tournament
-    public static final int TEAMS_PER_GAME = 2;
-    
-    //TODO: Make this settable per tournament
-    public static final int OFFICIALS_PER_GAME = 2;
 
     @Id
     @GeneratedValue
@@ -45,6 +40,13 @@ public class Tournament {
     @Column(name = "max_players")
     private int maxPlayers;
 
+    @Column(name = "teams_per_game")
+    private int teamsPerGame;
+
+    @Column(name = "officials_per_game")
+    private int officialsPerGame;
+
+    // TODO: make this do stuff
     @Column(name = "is_double_elimination")
     private boolean isDoubleElimination;
 
@@ -87,6 +89,22 @@ public class Tournament {
 
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
+    }
+
+    public int getTeamsPerGame() {
+        return teamsPerGame;
+    }
+
+    public void setTeamsPerGame(int teamsPerGame) {
+        this.teamsPerGame = teamsPerGame;
+    }
+
+    public int getOfficialsPerGame() {
+        return officialsPerGame;
+    }
+
+    public void setOfficialsPerGame(int officialsPerGame) {
+        this.officialsPerGame = officialsPerGame;
     }
 
     public boolean isDoubleElimination() {
@@ -161,38 +179,42 @@ public class Tournament {
      * Forms the bracket for the tournament. Doesn't do anything if the bracket
      * has already been formed.
      */
-    // TODO double elim?
-    // TODO save games
-    // TODO no play in games
-    public void formBracket() {
+    public void formBracket(GameDao gameDao) {
         if(this.isBracketFormed()) {
             return;
         }
 
         // Get number of rounds without the play in games
-        int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), TEAMS_PER_GAME));
-        int leftoverTeams = this.teams.size() - (int) Math.pow(TEAMS_PER_GAME, roundsWithoutPlayin);
-        int leftoverTeamsPerPlayinGame = TEAMS_PER_GAME - 1;
+        int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
+        int leftoverTeams = this.teams.size() - (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
+        int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
 
-        List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-        List<Game> playinGames = groupTeamsIntoGames(teamsPlayinGames, 1);
-        List<Game> secondRoundPlayinGames = formNextRound(playinGames, 2);
+        List<Game> currRoundGames = new ArrayList<Game>();
+        List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
+        int roundNumber = 1;
+
+        List<Game> playinGames = new ArrayList<Game>();
+        if(numPlayinGames != 0) {
+            List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
+            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames);
+            roundNumber++;
+        }
 
         // The teams that didn't have a play in game
-        List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, 2);
-        List<Game> currRoundGames = new ArrayList<Game>();
-        currRoundGames.addAll(secondRoundPlayinGames);
+        int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
+        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
 
-        int roundNumber = 3;
-        while(currRoundGames.size() > 1) {
-            currRoundGames = formNextRound(currRoundGames, roundNumber);
-            roundNumber++;
+        formRoundsAndLink(currRoundGames, roundNumber, gameDao);
+
+        for(int i = currRoundGames.size() - numPlayinGames; i < currRoundGames.size(); i++) {
+            Game game = playinGames.get(currRoundGames.size() - i - 1);
+            game.setNextGame(currRoundGames.get(i));
+            gameDao.createGame(game);
         }
     }
 
@@ -202,18 +224,18 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    // TODO round number
-    private List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber) {
-        int gamesNeeded = (int) Math.ceil(MathUtils.log(currRoundTeams.size(), TEAMS_PER_GAME));
+    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
 
-        int count = 0;
+        // int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
+            game.setTournament(this);
+            game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
-                game.addTeam(currRoundTeams.get(count));
-                count++;
+                // game.addTeam(this.teams.get(count));
+                // count++;
             }
             currRoundGames.add(game);
         }
@@ -221,31 +243,41 @@ public class Tournament {
         return currRoundGames;
     }
 
-    /**
-     * Forms and returns the next round given the list of games that make up the
-     * current round.
-     *
-     * @param currRoundGames The games that make up the current round.
-     * @return The games that make up the newly created next round.
-     */
-    private List<Game> formNextRound(List<Game> currRoundGames, int roundNumber) {
-        // TODO shouldn't have to balance teams
-        int nextRoundLen = (int) Math.ceil(MathUtils.log(currRoundGames.size(), TEAMS_PER_GAME));
+    public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
+        if(currRoundGames.size() == 1) {
+            Game game = currRoundGames.get(0);
+            game.setTournament(this);
+            game.setRoundNumber(roundNumber);
+            gameDao.createGame(game);
+            return;
+        }
+
+        // Form next round
+        int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
         List<Game> nextRoundGames = new ArrayList<Game>();
 
-        int count = 0;
         for(int i = 0; i < nextRoundLen; i++) {
-            // TODO round number
-            Game nextGame = new Game();
-            for(int j = 0; j < teamsPerGame.get(i); j++) {
-                currRoundGames.get(count).setNextGame(nextGame);
-                count++;
-            }
-            nextRoundGames.add(nextGame);
+            Game game = new Game();
+            nextRoundGames.add(game);
         }
 
-        return nextRoundGames;
+        // Link next round with next next round
+        formRoundsAndLink(nextRoundGames, roundNumber + 1, gameDao);
+
+        // Link current round to next round
+        int count = 0;
+        for(int i = 0; i < nextRoundLen; i++) {
+            Game nextGame = nextRoundGames.get(i);
+            for(int j = 0; j < teamsPerGame.get(i); j++) {
+                Game game = currRoundGames.get(count);
+                game.setNextGame(nextGame);
+                game.setTournament(this);
+                game.setRoundNumber(roundNumber);
+                gameDao.createGame(game);
+                count++;
+            }
+        }
     }
 
     /**
@@ -257,8 +289,12 @@ public class Tournament {
      * @return A list with the game number as the index and the number of teams
      *         that should be in it as the value at that index.
      */
-    private List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount) {
+    public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount) {
         Integer[] arr = new Integer[nextRoundCount];
+        for(int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
+        }
+
         for(int i = 0; i < currRoundCount; i++) {
             arr[i % nextRoundCount]++;
         }
