@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "Team")
@@ -35,6 +36,7 @@ public class Team {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "teams")
     private List<Game> games;
 

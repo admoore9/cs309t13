@@ -14,6 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 /**
  * 
  * @author nawaf
@@ -55,9 +57,10 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
     private List<Survey> surveys;
-    
+
     public Member() {}
 
     protected Member(UserType userType) {
@@ -79,24 +82,22 @@ public class Member {
     public void setSurveys(List<Survey> surveys) {
         this.surveys = surveys;
     }
-    
+
     /**
      * Returns the survey pertaining to a particular tournament
      * 
-     * @param tournament
-     * The tournament whose survey we are interested in
-     * @return
-     * Survey object pertaining to that tournament
+     * @param tournament The tournament whose survey we are interested in
+     * @return Survey object pertaining to that tournament
      */
     public Survey getSurveyByTournament(Tournament tournament) {
-        for(Survey s: surveys) {
+        for(Survey s : surveys) {
             if(s.getTournament().equals(tournament)) {
                 return s;
             }
         }
         return null;
     }
-    
+
     public UserType getUserType() {
         return userType;
     }
@@ -147,17 +148,17 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if(this == obj)
             return true;
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if (member_id != other.member_id)
+        if(member_id != other.member_id)
             return false;
         return true;
-    }    
+    }
 
     public String getSex() {
         return sex;

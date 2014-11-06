@@ -1,11 +1,12 @@
 package edu.iastate.models;
 
-
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class Player extends Member {
                 UserType.PLAYER);
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
@@ -37,4 +39,3 @@ public class Player extends Member {
         this.teams = teams;
     }
 }
-
