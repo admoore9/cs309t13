@@ -85,6 +85,66 @@ public class TeamController {
         return teamDao.getTeamById(id, true, false).getGames();
     }
 
+    /**
+     * Sets the name of the team given by id to the given name.
+     * 
+     * POST request data: name
+     * 
+     * @param id The id of the team
+     * @param name The new name for the team
+     * @return true if the name was successfully changed, false otherwise.
+     */
+    @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
+    public @ResponseBody boolean setTeamName(
+            @PathVariable int id,
+            @RequestParam(value = "name") String name) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, false);
+
+        if(team == null) {
+            return false;
+        }
+
+        team.setName(name);
+        teamDao.saveTeam(team);
+        return true;
+    }
+
+    /**
+     * Sets whether the team accepts free agents.
+     * 
+     * POST request data: acceptFreeAgents
+     * 
+     * @param id The id of the team.
+     * @param acceptFreeAgents Whether the team should accept free agents.
+     * @return true if acceptFreeAgents was successfully updated, false
+     *         otherwise.
+     */
+    @RequestMapping(value = "/{id}/acceptFreeAgents", method = RequestMethod.GET)
+    public @ResponseBody boolean setAcceptFreeAgents(
+            @PathVariable int id,
+            @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, false);
+
+        if(team == null) {
+            return false;
+        }
+
+        team.setAcceptFreeAgents(acceptFreeAgents);
+        teamDao.saveTeam(team);
+        return false;
+    }
+
+    /**
+     * Changes the given teams leader to the player with the given id.
+     * 
+     * POST request data: teamLeaderId
+     * 
+     * @param id The id of the team.
+     * @param teamLeaderId The id for the new team leader.
+     * @return true if the leader was changed successfully, false otherwise.
+     */
     @RequestMapping(value = "/{id}/teamLeader", method = RequestMethod.POST)
     public @ResponseBody boolean changeTeamLeader(
             @PathVariable int id,
@@ -101,6 +161,63 @@ public class TeamController {
 
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
-        return false;
+        return true;
+    }
+
+    /**
+     * Adds the player given by playerId to the team given by id.
+     * 
+     * POST request data: playerId
+     * 
+     * @param id The id of the team.
+     * @param playerId The id of the player to add.
+     * @return true if the player was successfully added to the team, false
+     *         otherwise.
+     */
+    // TODO add player ret val
+    @RequestMapping(value = "/{id}/addPlayer", method = RequestMethod.POST)
+    public @ResponseBody boolean addPlayerToTeam(
+            @PathVariable int id,
+            @RequestParam(value = "playerId") int playerId) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true);
+
+        if(team == null) {
+            return false;
+        }
+
+        PlayerDao playerDao = new PlayerDao();
+        Player player = playerDao.getPlayerById(playerId);
+        team.addPlayer(player);
+        teamDao.saveTeam(team);
+        return true;
+    }
+
+    /**
+     * Removes the player given by playerId form the team given by id.
+     * 
+     * POST request data: playerId
+     * 
+     * @param id The id of the team.
+     * @param playerId The id of the player to remove.
+     * @return
+     */
+    // TODO remove player ret val
+    @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
+    public @ResponseBody boolean removePlayerFromTeam(
+            @PathVariable int id,
+            @RequestParam(value = "playerId") int playerId) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true);
+
+        if(team == null) {
+            return false;
+        }
+
+        PlayerDao playerDao = new PlayerDao();
+        Player player = playerDao.getPlayerById(playerId);
+        team.removePlayer(player);
+        teamDao.saveTeam(team);
+        return true;
     }
 }
