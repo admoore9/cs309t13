@@ -161,12 +161,12 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(teamId, false, false);
-
         if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
+
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(teamId, false, false);
 
         tournament.addTeam(team);
         tournamentDao.saveTournament(tournament);
@@ -190,12 +190,12 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(teamId, false, false);
-
         if(tournament == null || tournament.isBracketFormed()) {
             return false;
         }
+
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(teamId, false, false);
 
         tournament.removeTeam(team);
         tournamentDao.saveTournament(tournament);
