@@ -48,7 +48,7 @@ public class Member {
     private Integer weight;
 
     public enum UserType {
-        PLAYER, OFFICIAL, COORDINATOR, ADMIN
+        MEMBER, PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
 
     @Enumerated(EnumType.ORDINAL)
@@ -58,19 +58,32 @@ public class Member {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
     private List<Survey> surveys;
     
-    public Member() {}
-
-    protected Member(UserType userType) {
-        this.userType = userType;
+    public Member() {
+        this.userType = UserType.MEMBER;
     }
 
     public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = UserType.PLAYER;
+        this.userType = UserType.MEMBER;
     }
     
+    /**
+     * Used only by subclasses to pass user type
+     * @param userType
+     */
+    protected Member(UserType userType) {
+        this.userType = userType;
+    }
+
+    /**
+     * Used only by subclasses to pass user type
+     * @param name
+     * @param username
+     * @param password
+     * @param userType
+     */
     protected Member(String name, String username, String password,
             UserType userType) {
         this.name = name;

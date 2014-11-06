@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `name` VARCHAR(45) NULL,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
-  `user_type` int(4) NOT NULL,
+  `user_type` int(5) NOT NULL,
   `sex` VARCHAR(1) NULL,
   `height` INT NULL,
   `weight` INT NULL,
@@ -51,7 +51,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Coordinator`
 -- -----------------------------------------------------
-CREATE TABLE `cs309t13`.`Coordinator` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Coordinator` (
   `member_id` INT NOT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `min_players` INT NULL,
   `max_players` INT NULL,
   `teams_per_game` INT NOT NULL DEFAULT 2,
-  `officials_per_game`, INT NOT NULL DEFAULT 1,
+  `officials_per_game` INT NOT NULL DEFAULT 1,
   `is_double_elimination` TINYINT(1) NULL,
   `is_started` TINYINT(1) NULL,
   `tournament_name` VARCHAR(45) NULL,

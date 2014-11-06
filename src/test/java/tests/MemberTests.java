@@ -18,30 +18,37 @@ public class MemberTests {
         memberDao = new MemberDao();
     }
 
-    @Test
-    public void returnAllMembersTest() {
-        List<Member> members = memberDao.getAllMembers();
-        System.out.println("Names:");
-        for (Member member : members) {
-            System.out.println(member.getName());
-        }
-    }
-
-    @Test
-    public void getMemberByIdTest() {
-        Member member = memberDao.getMemberById(1);
-        System.out.println(member.getName());
-    }
+//    @Test
+//    public void returnAllMembersTest() {
+//        List<Member> members = memberDao.getAllMembers();
+//        System.out.println("Names:");
+//        for (Member member : members) {
+//            System.out.println(member.getName());
+//        }
+//    }
+//
+//    @Test
+//    public void getMemberByIdTest() {
+//        Member member = memberDao.getMemberById(1);
+//        System.out.println(member.getName());
+//    }
+//    
+//    @Test
+//    public void saveMemberTest() {
+//        Member member = new Member();
+//        member.setName("Testing add");
+//        member.setPassword("asdf");
+//        member.setUserType(UserType.OFFICIAL);
+//        memberDao.saveMember(member);
+//    }
     
     @Test
-    public void saveMemberTest() {
-        Member member = new Member();
-        member.setName("Testing add");
-        member.setPassword("asdf");
-        member.setUserType(UserType.OFFICIAL);
-        memberDao.saveMember(member);
+    public void promotingTest() {
+        Member member = new Member("member1", "member1", "123");
+        System.out.println(member.getClass().getSimpleName());
+//        memberDao.save(member);
+//        member.setUserType(UserType.PLAYER);
+//        memberDao.save(member);
     }
-    
-    
 
 }
