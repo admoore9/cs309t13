@@ -63,7 +63,6 @@ public class RegisterController {
         else {
             isValid = "{ \"valid\": false }";
         }
-        System.out.println(isValid);
         return isValid;
     }
 
