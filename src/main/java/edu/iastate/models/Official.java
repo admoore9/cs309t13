@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Official")
-public class Official extends Member {
+public class Official extends Player {
 
     public Official() {
         super(UserType.OFFICIAL);
@@ -17,6 +17,15 @@ public class Official extends Member {
     public Official(String name, String username, String password) {
         super(name, username, password,
                 UserType.OFFICIAL);
+    }
+    
+    protected Official(UserType userType) {
+        super(userType);
+    }
+
+    protected Official(String name, String username, String password,
+            UserType userType) {
+        super(name, username, password, userType);
     }
 
     @ManyToMany(mappedBy = "officials")

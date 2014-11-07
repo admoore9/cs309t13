@@ -26,6 +26,15 @@ public class Player extends Member {
                 UserType.PLAYER);
     }
 
+    protected Player(UserType userType) {
+        super(userType);
+    }
+
+    protected Player(String name, String username, String password,
+            UserType userType) {
+        super(name, username, password, userType);
+    }
+
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
