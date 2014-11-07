@@ -183,7 +183,7 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
-
+        
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
         int leftoverTeams = this.teams.size() - (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
@@ -241,7 +241,7 @@ public class Tournament {
         }
 
         return currRoundGames;
-    }
+    }    
 
     public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
         if(currRoundGames.size() == 1) {
