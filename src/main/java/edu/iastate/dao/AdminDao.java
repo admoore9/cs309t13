@@ -1,14 +1,17 @@
 package edu.iastate.dao;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.hibernate.jdbc.Work;
 
 import edu.iastate.models.Admin;
 import edu.iastate.models.Member;
@@ -57,28 +60,28 @@ public class AdminDao extends MemberDao {
         return admin;
     }
 
-    public <T extends Member> void promote(T member) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        Query query = entityManager.createQuery("INSERT INTO Player (:id) SELECT :id from Member");
-//        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
-        query.setParameter("id", member.getId());
-
-        transaction.commit();
-        entityManager.close();
+    public <T extends Member> void promote(final T member) {
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
         
+        org.hibernate.Session sess = (org.hibernate.Session) entityManager.getDelegate();
+        sess.doWork(
+                new Work() {
+                    public void execute(Connection connection) throws SQLException 
+                    { 
+                        String sql = "insert into Player (member_id) values (?)";
+                        PreparedStatement statement = connection.prepareStatement(sql);
+                         
+                        statement.setString(1, member.getId() + "");
+                        
+                        statement.addBatch();
+                        
+                        statement.executeBatch();
+                        statement.close();
+                        connection.close();
+                        entityManager.close();
+                    }
+                }
+            );
         
-//        Connection connection = new getConnection();
-//        Statement statement = connection.createStatement();
-//         
-//        for (Employee employee: employees) {
-//            String query = "insert into employee (name, city) values('"
-//                    + employee.getName() + "','" + employee.getCity + "')";
-//            statement.addBatch(query);
-//        }
-//        statement.executeBatch();
-//        statement.close();
-//        connection.close();
     }
 }
