@@ -275,6 +275,7 @@ public class Tournament {
      */
     private Team matchTeamSkillLevel(boolean[] isTeamAdded, Team opponent, int window) {
         int skillToMatch = opponent.getTeamSkillLevel();
+        int count = 0;
         for(int i=0; i<teams.size(); i++) {
             if(isTeamAdded[i]==false) {
                 int skill = teams.get(i).getTeamSkillLevel();
@@ -282,6 +283,12 @@ public class Tournament {
                     return teams.get(i);
                 }
             }
+            else {
+                count++;
+            }
+        }
+        if(count==teams.size()) {
+            return null;
         }
         return matchTeamSkillLevel(isTeamAdded, opponent, window+10);
     }
