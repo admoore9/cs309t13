@@ -48,7 +48,9 @@ public class Team {
     private Tournament tournament;
 
     @Column(name = "team_skill")
-    private int teamSkillLevel; 
+    private int teamSkillLevel;
+    
+    @OneToOne(mappedBy = "")
 
     public Team() {
 
