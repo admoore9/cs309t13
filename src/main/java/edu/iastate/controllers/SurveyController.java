@@ -41,16 +41,15 @@ public class SurveyController {
             @RequestParam(value = "compYears") Integer compYears,
             @RequestParam(value = "intsPlayed") Integer intsPlayed,
             @RequestParam(value = "compLvl") Integer compLvl,
-            @RequestParam(value = "isClubPlayer") boolean isClubPlayer) {
+            @RequestParam(value = "isClubPlayer") boolean isClubPlayer,
+            HttpSession session) {
 
         // set up database access objects
         PlayerDao playerDao = new PlayerDao();
         SurveyDao surveyDao = new SurveyDao();
         TournamentDao tournamentDao = new TournamentDao();
 
-        // TODO use the player from the session id
-        // get first player from database
-        Player player = playerDao.getAllPlayers().get(0);
+        Player player = (Player) session.getAttribute("member");
         Survey survey = new Survey();
         // TODO use the correct tournament
         // get first tournament from database
