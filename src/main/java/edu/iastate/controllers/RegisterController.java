@@ -31,7 +31,7 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody String registerSubmit(
+    public @ResponseBody void registerSubmit(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password) {
@@ -49,8 +49,6 @@ public class RegisterController {
 
         // Save new member to database
         playerDao.savePlayer(newPlayer);
-
-        return "redirect:login";
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)

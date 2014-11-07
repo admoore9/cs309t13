@@ -31,13 +31,11 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody String registerSubmit(
+    public @ResponseBody void registerSubmit(
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password,
             HttpSession session,
             Model model) {
-
-        String msg;
 
         MemberDao memberDao = new MemberDao();
 
@@ -48,11 +46,6 @@ public class LoginController {
         if (member != null) {
             session.setAttribute("member", member);
             model.addAttribute("member", member);
-            msg = "redirect:profile";
         }
-        else {
-            msg = "redirect:login";
-        }
-        return msg;
     }
 }

@@ -34,7 +34,7 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody String surveySubmit(
+    public @ResponseBody void surveySubmit(
             @RequestParam(value = "sex") String sex,
             @RequestParam(value = "height") Integer height,
             @RequestParam(value = "weight") Integer weight,
@@ -72,8 +72,6 @@ public class SurveyController {
         // Save updated player and survey to database
         playerDao.savePlayer(player);
         surveyDao.saveSurvey(survey);
-
-        return "redirect:profile";
     }
 
     /**
