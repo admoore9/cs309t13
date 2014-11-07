@@ -1,13 +1,17 @@
 package edu.iastate.dao;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Admin;
+import edu.iastate.models.Member;
 
 public class AdminDao extends MemberDao {
 
@@ -53,15 +57,28 @@ public class AdminDao extends MemberDao {
         return admin;
     }
 
-//    public <T extends Member> void promote(T member) {
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//        TypedQuery<Player> query = entityManager.createQuery("INSERT INTO Player (:id) SELECT member_id from Member", Player.class);
+    public <T extends Member> void promote(T member) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Query query = entityManager.createQuery("INSERT INTO Player (:id) SELECT :id from Member");
 //        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
-//        query.setParameter("id", member.getId());
-//
-//        transaction.commit();
-//        entityManager.close();
-//    }
+        query.setParameter("id", member.getId());
+
+        transaction.commit();
+        entityManager.close();
+        
+        
+//        Connection connection = new getConnection();
+//        Statement statement = connection.createStatement();
+//         
+//        for (Employee employee: employees) {
+//            String query = "insert into employee (name, city) values('"
+//                    + employee.getName() + "','" + employee.getCity + "')";
+//            statement.addBatch(query);
+//        }
+//        statement.executeBatch();
+//        statement.close();
+//        connection.close();
+    }
 }
