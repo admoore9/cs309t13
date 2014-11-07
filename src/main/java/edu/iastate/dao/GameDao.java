@@ -11,8 +11,8 @@ import edu.iastate.models.Game;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 /**
- * Data Access Object for the Game class, this should be used for
- * interacting with the Game table in the database.
+ * Data Access Object for the Game class, this should be used for interacting
+ * with the Game table in the database.
  * 
  * @author Andrew
  *
@@ -80,7 +80,7 @@ public class GameDao {
     /**
      * Saves the given game to the database
      * 
-     * @param game the tame to save to the database
+     * @param game the game to save to the database
      */
     public void saveGame(Game game) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -94,13 +94,29 @@ public class GameDao {
     }
 
     /**
+     * Persists a game to the database
+     * 
+     * @param game The game to persist to the database
+     */
+    public void createGame(Game game) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.persist(game);
+
+        transaction.commit();
+        entityManager.close();
+    }
+
+    /**
      * Loads the foreign keys for a game based on the booleans
      * 
      * @param game The game to load the foreign keys for
      * @param getTeams Whether to get the teams for the tournament
      */
     private void loadForeignKeys(Game game, boolean getTeams) {
-        if (getTeams)
+        if(getTeams)
             loadTeams(game);
     }
 
