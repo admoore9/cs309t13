@@ -268,10 +268,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
   `period_id` INT NOT NULL AUTO_INCREMENT,
   `day_id` INT NOT NULL,
-  `start_hour` INT NOT NULL,
-  `start_minute` INT NOT NULL,
-  `end_hour` INT NOT NULL,
-  `end_minute` INT NOT NULL,
+  `slot` int(7) NOT NULL,
   PRIMARY KEY (`period_id`),
   INDEX `fk_Period_DayId_idx` (`day_id` ASC),
   CONSTRAINT `fk_Period_DayId`

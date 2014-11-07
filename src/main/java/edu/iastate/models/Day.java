@@ -42,15 +42,19 @@ public class Day {
         this.name = name;
         availablePeriods = new ArrayList<Period>();
     }
+    
     public List<Period> getAvailablePeriods() {
         return availablePeriods;
     }
+    
     public void setAvailablePeriods(List<Period> availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
+    
     public String getName() {
         return name;
     }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -71,31 +75,12 @@ public class Day {
 
     /**
      * Add given period to available periods. 
-     * If period already exists, does not do anything. 
-     * If period overlaps with other period(s), merges period with overlapping period(s).
+     * If period already exists, return. 
      * @param newPeriod
      */
     public void addToAvailablePeriods(Period newPeriod) {
         if (availablePeriods.contains(newPeriod)) 
             return;
-        for (Period availablePeriod : availablePeriods) {
-            // If start of existing period begins inside new period, change start of existing period to the start of new period
-            if (availablePeriod.getStartHour() >= newPeriod.getStartHour() && availablePeriod.getStartHour() <= newPeriod.getEndHour()) {
-                availablePeriod.setStartHour(newPeriod.getStartHour());
-                // If end of existing period is earlier than new period, change it to the value of the new period
-                if (availablePeriod.getEndHour() < newPeriod.getEndHour())
-                    availablePeriod.setEndHour(newPeriod.getEndHour());
-                return;
-            }
-            // If start of new period begins inside existing period
-            else if (newPeriod.getStartHour() >= availablePeriod.getStartHour() && newPeriod.getStartHour() <= availablePeriod.getEndHour()) {
-                // if end of existing period is earlier than the end of new period, change end of existing period to the end of new period
-                if (availablePeriod.getEndHour() < newPeriod.getEndHour())
-                    availablePeriod.setEndHour(newPeriod.getEndHour());
-                return;
-            }
-        }
-        // No overlap between existing available periods and new period
         availablePeriods.add(newPeriod);
     }
     
@@ -103,8 +88,21 @@ public class Day {
         availablePeriods.remove(period);
     }
     
-    public void modifyAvailablePeriod(Period oldPeriod, Period newPeriod) {
-        availablePeriods.remove(oldPeriod);
-        availablePeriods.add(newPeriod);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Day other = (Day) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
+
 }

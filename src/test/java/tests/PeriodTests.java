@@ -12,6 +12,7 @@ import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Period;
+import edu.iastate.models.Period.Slot;
 import edu.iastate.models.Player;
 
 public class PeriodTests {
@@ -35,7 +36,7 @@ public class PeriodTests {
         
         PeriodDao periodDao = new PeriodDao();
         for (Day day : days) {
-            Period period = new Period(9, 9, 10, 10);
+            Period period = new Period(Slot.NINE);
             period.setDay(day);
             periodDao.savePeriod(period);
         }
