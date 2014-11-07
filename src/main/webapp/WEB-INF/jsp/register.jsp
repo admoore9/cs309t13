@@ -47,6 +47,7 @@
                                 <div class="btn-group">
                                     <input type="submit" name="submitRegister" class="btn btn-primary" value="Submit!"/>
                                 </div>
+                                <a type="button" class="btn btn-default navbar-btn" href="/login">Back</a>
                             </div>
                         </form>
                     </div> <!-- panel body -->
