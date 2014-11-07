@@ -116,6 +116,25 @@ public class MemberDao {
         return member;
     }
 
+    public Member getMemberByUsernamePassword(String username, String password) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.username = :username AND m.password = :password", Member.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        List<Member> members = query.getResultList();
+        Member member = null;
+        if (!members.isEmpty()) {
+            member = members.get(0);
+        }
+
+        transaction.commit();
+        entityManager.close();
+        return member;
+    }
+
     /**
      * Saves the given member to the database
      * 
