@@ -78,11 +78,8 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#surveyForm').serialize(),
 			success: function(data) {
+				window.location.href = "/profile";
 			}
 		});
 	})
 });
-
-function cancelForm() {
-	window.history.back()
-}
