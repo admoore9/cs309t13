@@ -20,6 +20,7 @@ public class PlayerDao extends MemberDao {
     }
 
     /**
+     * Get a list of all players in database
      * @return List of all players
      */
     public List<Player> getAllPlayers() {
@@ -66,6 +67,7 @@ public class PlayerDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
+        entityManager.persist(player);
         entityManager.merge(player);
 
         transaction.commit();

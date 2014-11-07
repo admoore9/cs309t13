@@ -4,7 +4,9 @@ package edu.iastate.models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -38,6 +40,9 @@ public class Player extends Member {
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    private Availability availability;
+
     public List<Team> getTeams() {
         return teams;
     }
@@ -45,5 +50,13 @@ public class Player extends Member {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
+
+    /**
+     * @return the availability
+     */
+    public Availability getAvailability() {
+        return availability;
+    }
+
 }
 

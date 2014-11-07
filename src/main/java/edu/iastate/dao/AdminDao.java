@@ -19,6 +19,10 @@ public class AdminDao extends MemberDao {
         super(entityManagerFactory);
     }
 
+    /**
+     * Get a list of all admins in database
+     * @return List of admins in database
+     */
     public List<Admin> getAllAdmins() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
