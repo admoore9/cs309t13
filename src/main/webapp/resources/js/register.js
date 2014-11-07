@@ -50,6 +50,7 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#registerForm').serialize(),
 			success: function(result) {
+				window.location.href = "/login";
 			}
 		});
 	});

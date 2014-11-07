@@ -27,6 +27,7 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#loginForm').serialize(),
 			success: function(result) {
+				window.location.href = "/profile";
 			}
 		});
 	});
