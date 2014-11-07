@@ -46,17 +46,13 @@ public class LoginController {
         Member member = memberDao.getMemberByUsernamePassword(username, genPassword);
 
         if (member != null) {
-            System.out.println("not null");
             session.setAttribute("member", member);
             model.addAttribute("member", member);
             msg = "redirect:profile";
         }
         else {
-            System.out.println("is null");
             msg = "redirect:login";
         }
-
-        System.out.println(msg);
         return msg;
     }
 }
