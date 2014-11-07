@@ -183,6 +183,8 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
+
+        boolean[] isTeamAdded = new boolean[teams.size()];
         
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
@@ -200,13 +202,13 @@ public class Tournament {
         List<Game> playinGames = new ArrayList<Game>();
         if(numPlayinGames != 0) {
             List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames);
+            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames, isTeamAdded);
             roundNumber++;
         }
 
         // The teams that didn't have a play in game
         int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
+        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames, isTeamAdded);
         currRoundGames.addAll(secondRoundNonPlayinGames);
 
         formRoundsAndLink(currRoundGames, roundNumber, gameDao);
@@ -224,7 +226,7 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
+    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded, boolean[] isTeamAdded) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
 
@@ -234,6 +236,12 @@ public class Tournament {
             game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
+                if(j==0) {
+                    game.addTeam(firstAvailableTeam(isTeamAdded));
+                }
+                else {
+                    game.addTeam(matchTeamSkillLevel(isTeamAdded, game.getTeams().get(j-1), 10));
+                }
                 // game.addTeam(this.teams.get(count));
                 // count++;
             }
@@ -241,7 +249,43 @@ public class Tournament {
         }
 
         return currRoundGames;
-    }    
+    }
+    
+    /**
+     * 
+     * @param isTeamAdded
+     * @return
+     */
+    private Team firstAvailableTeam(boolean[] isTeamAdded) {
+        for(int i=0; i<teams.size(); i++) {
+            if(isTeamAdded[i]==false) {
+                isTeamAdded[i] = true;
+                return teams.get(i);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * @param isTeamAdded
+     * @param opponent
+     * @param window
+     * @return
+     */
+    private Team matchTeamSkillLevel(boolean[] isTeamAdded, Team opponent, int window) {
+        int skillToMatch = opponent.getTeamSkillLevel();
+        for(int i=0; i<teams.size(); i++) {
+            if(isTeamAdded[i]==false) {
+                int skill = teams.get(i).getTeamSkillLevel();
+                if(skill<=skillToMatch+window && skill>=skillToMatch-window) {
+                    return teams.get(i);
+                }
+            }
+        }
+        return matchTeamSkillLevel(isTeamAdded, opponent, window+10);
+    }
+    
 
     public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
         if(currRoundGames.size() == 1) {
