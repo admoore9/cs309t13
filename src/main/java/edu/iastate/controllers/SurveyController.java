@@ -1,5 +1,7 @@
 package edu.iastate.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,12 @@ public class SurveyController {
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String loadSurveyPage(Model m) {
+    public String loadSurveyPage(Model m, HttpSession session) {
+
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+
         return "survey";
     }
 

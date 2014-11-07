@@ -1,5 +1,7 @@
 package edu.iastate.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import edu.iastate.utils.StringUtils;
 
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,12 @@ import edu.iastate.models.Player;
 public class RegisterController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String loadSurveyPage(Model m) {
+    public String loadSurveyPage(Model m, HttpSession session) {
+
+        if (session.getAttribute("member") != null) {
+            return "redirect:denied";
+        }
+
         return "register";
     }
 

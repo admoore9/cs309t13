@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,11 @@ import edu.iastate.models.*;
 public class TeamController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getTeam(Model model) {
+    public String getTeam(Model model, HttpSession session) {
+
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
 
         TeamDao teamdao = new TeamDao();
         Team team = teamdao.getTeamById(2, true, true);
