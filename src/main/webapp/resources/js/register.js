@@ -50,8 +50,6 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#registerForm').serialize(),
 			success: function(result) {
-				$('#registerContainer').fadeOut(500);
-				$('#registerAlert').delay(500).fadeIn(500);
 			}
 		});
 	});
