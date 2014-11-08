@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Official;
 
-public class OfficialDao extends MemberDao {
+public class OfficialDao extends PlayerDao {
 
     public OfficialDao() {
         super();

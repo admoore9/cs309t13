@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Coordinator;
 
-public class CoordinatorDao extends MemberDao {
+public class CoordinatorDao extends OfficialDao {
 
     public CoordinatorDao() {
         super();
