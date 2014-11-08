@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import edu.iastate.dao.AdminDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 
 public class AdminTests {
 
@@ -37,7 +38,9 @@ public class AdminTests {
     
     @Test
     public void promoteTest() {
-        Member member = adminDao.getMemberById(1);
+        Member member = new Member("member3", "member3", "123");
+        adminDao.save(member);
+        member.setUserType(UserType.ADMIN);
         adminDao.promote(member);
     }
 
