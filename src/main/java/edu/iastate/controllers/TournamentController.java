@@ -27,7 +27,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
-        return "tournament";
+        return "admin_view";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
