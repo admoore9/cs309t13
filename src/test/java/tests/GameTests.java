@@ -41,8 +41,8 @@ public class GameTests {
         game.setGameTime(new Date());
         List<Team> teams = new ArrayList<Team>();
         TeamDao teamdao = new TeamDao();
-        teams.add(teamdao.getTeamById(1, false, false));
-        teams.add(teamdao.getTeamById(1, false, false));
+        teams.add(teamdao.getTeamById(1, false, false, false));
+        teams.add(teamdao.getTeamById(1, false, false, false));
         game.setTeams(teams);
         TournamentDao tournamentdao = new TournamentDao();
         game.setTournament(tournamentdao.getTournamentById(1, false, false));
@@ -66,7 +66,7 @@ public class GameTests {
         GameDao gamedao = new GameDao();
         Game game = gamedao.getGameById(9, true);
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(10, false, false);
+        Team team = teamdao.getTeamById(10, false, false, false);
         game.removeTeam(team);
         for (Team t: game.getTeams()) {
           System.out.println(game.getId() + " " + t.getId());
