@@ -101,6 +101,7 @@ public class MemberDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
+        entityManager.persist(member);
         entityManager.merge(member);
         transaction.commit();
         entityManager.close();
