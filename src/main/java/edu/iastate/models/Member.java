@@ -58,7 +58,7 @@ public class Member {
     private UserType userType;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
     private List<Survey> surveys;
 
     public Member() {}

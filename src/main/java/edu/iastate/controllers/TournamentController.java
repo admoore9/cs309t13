@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
@@ -80,10 +82,6 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null || tournament.isBracketFormed()) {
-            return false;
-        }
-
         tournament.setMinPlayers(minPlayers);
         tournamentDao.saveTournament(tournament);
         return true;
@@ -107,10 +105,6 @@ public class TournamentController {
             @RequestParam(value = "maxPlayers") int maxPlayers) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
-
-        if(tournament == null || tournament.isBracketFormed()) {
-            return false;
-        }
 
         tournament.setMaxPlayers(maxPlayers);
         tournamentDao.saveTournament(tournament);
@@ -137,10 +131,6 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null || tournament.isBracketFormed()) {
-            return false;
-        }
-
         tournament.setDoubleElimination(doubleElimination);
         tournamentDao.saveTournament(tournament);
         return true;
@@ -157,16 +147,25 @@ public class TournamentController {
      * @return true if the team was added to the tournament, false otherwise
      */
     @RequestMapping(value = "/{id}/addTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean addTeamToTournament(@PathVariable int id, @RequestParam(value = "teamId") int teamId) {
+    public @ResponseBody boolean addTeamToTournament(
+            @PathVariable int id,
+            @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents,
+            @RequestParam(value = "teamLeaderId") int teamLeaderId) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        if(tournament == null || tournament.isBracketFormed()) {
-            return false;
-        }
+        PlayerDao playerDao = new PlayerDao();
+        Player teamLeader = playerDao.getPlayerById(teamLeaderId);
+
+        Team team = new Team();
+        team.setName(teamName);
+        team.setAcceptFreeAgents(acceptFreeAgents);
+        team.setTournament(tournament);
+        team.setTeamLeader(teamLeader);
 
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(teamId, false, false);
+        teamDao.saveTeam(team);
 
         tournament.addTeam(team);
         tournamentDao.saveTournament(tournament);
@@ -190,15 +189,11 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        if(tournament == null || tournament.isBracketFormed()) {
-            return false;
-        }
-
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(teamId, false, false);
 
         tournament.removeTeam(team);
-        tournamentDao.saveTournament(tournament);
+        teamDao.deleteTeamById(teamId);
         return true;
     }
 }

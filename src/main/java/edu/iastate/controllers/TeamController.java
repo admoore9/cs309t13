@@ -30,38 +30,6 @@ public class TeamController {
     }
 
     /**
-     * Creates a team.
-     * 
-     * POST request data: name, acceptFreeAgents, teamLeaderId
-     * 
-     * @param name The name of the team
-     * @param acceptFreeAgents Whether to accept free agents onto the team
-     * @param teamLeaderId The id of the leader of the team
-     * @return true if the team was successfully created, false otherwise
-     */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody boolean createTeam(
-            @RequestParam(value = "name") String name,
-            @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents,
-            @RequestParam(value = "teamLeaderId") int teamLeaderId) {
-        PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId);
-
-        if(teamLeader == null) {
-            return false;
-        }
-
-        Team team = new Team();
-        team.setName(name);
-        team.setAcceptFreeAgents(acceptFreeAgents);
-        team.setTeamLeader(teamLeader);
-
-        TeamDao teamDao = new TeamDao();
-        teamDao.saveTeam(team);
-        return true;
-    }
-
-    /**
      * Returns the team given by id as JSON.
      *
      * @param id The id of the team.
@@ -101,10 +69,6 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false);
 
-        if(team == null) {
-            return false;
-        }
-
         team.setName(name);
         teamDao.saveTeam(team);
         return true;
@@ -126,10 +90,6 @@ public class TeamController {
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false);
-
-        if(team == null) {
-            return false;
-        }
 
         team.setAcceptFreeAgents(acceptFreeAgents);
         teamDao.saveTeam(team);
@@ -155,10 +115,6 @@ public class TeamController {
         PlayerDao playerDao = new PlayerDao();
         Player teamLeader = playerDao.getPlayerById(teamLeaderId);
 
-        if(team == null || teamLeader == null) {
-            return false;
-        }
-
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
         return true;
@@ -181,10 +137,6 @@ public class TeamController {
             @RequestParam(value = "playerId") int playerId) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true);
-
-        if(team == null) {
-            return false;
-        }
 
         PlayerDao playerDao = new PlayerDao();
         Player player = playerDao.getPlayerById(playerId);
@@ -209,10 +161,6 @@ public class TeamController {
             @RequestParam(value = "playerId") int playerId) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true);
-
-        if(team == null) {
-            return false;
-        }
 
         PlayerDao playerDao = new PlayerDao();
         Player player = playerDao.getPlayerById(playerId);

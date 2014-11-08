@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class Team {
     private boolean acceptFreeAgents;
 
     @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Player> players;
 
     @JsonIgnore
@@ -53,7 +54,7 @@ public class Team {
     private int teamSkillLevel;
 
     public Team() {
-
+        this.players = new ArrayList<Player>();
     }
 
     public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, List<Game> games, Player teamLeader) {

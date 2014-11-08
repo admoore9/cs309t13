@@ -41,7 +41,7 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "next_game_id", referencedColumnName = "game_id")
     private Game nextGame;
 
@@ -51,11 +51,11 @@ public class Game {
     private Tournament tournament;
 
     @JoinTable(name = "teamgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Official> officials;
 
     public int getId() {
