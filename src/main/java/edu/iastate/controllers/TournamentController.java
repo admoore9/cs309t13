@@ -29,6 +29,19 @@ public class TournamentController {
         return "tournament";
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public @ResponseBody void createTournament(
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "minPlayers") int minPlayers,
+            @RequestParam(value = "maxPlayers") int maxPlayers,
+            @RequestParam(value = "teamsPerGame") int teamsPerGame,
+            @RequestParam(value = "officialsPerGame") int officialsPerGame) {
+        Tournament tournament = new Tournament();
+        tournament.setName(name);
+        tournament.setMinPlayers(minPlayers);
+        tournament.setMaxPlayers(maxPlayers);
+    }
+
     /**
      * Returns the tournament given by id as JSON.
      * 
