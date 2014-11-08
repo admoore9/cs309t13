@@ -67,20 +67,11 @@ public class Member {
         this.userType = userType;
     }
 
-    public Member(String name, String username, String password,
-            UserType userType) {
+    public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = userType;
-    }
-
-    public List<Survey> getSurveys() {
-        return surveys;
-    }
-
-    public void setSurveys(List<Survey> surveys) {
-        this.surveys = surveys;
+        this.userType = UserType.PLAYER;
     }
 
     /**
@@ -96,6 +87,14 @@ public class Member {
             }
         }
         return null;
+    }
+
+    protected Member(String name, String username, String password,
+            UserType userType) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
     }
 
     public UserType getUserType() {

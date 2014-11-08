@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
@@ -30,16 +31,20 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody void createTournament(
-            @RequestParam(value = "name") String name,
-            @RequestParam(value = "minPlayers") int minPlayers,
-            @RequestParam(value = "maxPlayers") int maxPlayers,
+    public @ResponseBody void createTournament(@RequestParam(value = "name") String name,
+            @RequestParam(value = "minPlayersPerTeam") int minPlayers,
+            @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
             @RequestParam(value = "officialsPerGame") int officialsPerGame) {
         Tournament tournament = new Tournament();
         tournament.setName(name);
         tournament.setMinPlayers(minPlayers);
         tournament.setMaxPlayers(maxPlayers);
+        tournament.setTeamsPerGame(teamsPerGame);
+        tournament.setOfficialsPerGame(officialsPerGame);
+
+        TournamentDao tournamentDao = new TournamentDao();
+        tournamentDao.saveTournament(tournament);
     }
 
     /**
@@ -169,7 +174,7 @@ public class TournamentController {
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
         PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId);
+        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
 
         Team team = new Team();
         team.setName(teamName);
@@ -203,10 +208,18 @@ public class TournamentController {
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(teamId, false, false);
+        Team team = teamDao.getTeamById(teamId, false, false, false);
 
         tournament.removeTeam(team);
         teamDao.deleteTeamById(teamId);
         return true;
+    }
+
+    @RequestMapping(value = "/{id}/form", method = RequestMethod.POST)
+    public @ResponseBody void formTournamentById(@PathVariable int id) {
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        tournament.formBracket(new GameDao());
+        tournamentDao.saveTournament(tournament);
     }
 }

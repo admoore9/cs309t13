@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class Game {
     @Column(name = "game_id")
     private int id;
 
+    @Column(name = "round_number")
+    private int roundNumber;
+
     @Column(name = "game_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date gameTime;
@@ -55,8 +59,13 @@ public class Game {
     private List<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
+
+    public Game() {
+        teams = new ArrayList<Team>();
+        officials = new ArrayList<Official>();
+    }
 
     public int getId() {
         return id;
@@ -86,12 +95,13 @@ public class Game {
         this.nextGame = nextGame;
     }
 
-    // TODO implememnt
     public int getRoundNumber() {
-        return -1;
+        return roundNumber;
     }
 
-    public void setRoundNumber(int roundNumber) {}
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
 
     @Override
     public int hashCode() {
@@ -146,7 +156,7 @@ public class Game {
         if(team == null || this.teams.contains(team)) {
             return -1;
         }
-        if(this.teams.size() == tournament.TEAMS_PER_GAME) {
+        if(this.teams.size() == tournament.getTeamsPerGame()) {
             return 0;
         }
         this.teams.add(team);
@@ -179,7 +189,7 @@ public class Game {
         if(official == null || this.officials.contains(official)) {
             return -1;
         }
-        if(this.officials.size() == tournament.OFFICIALS_PER_GAME) {
+        if(this.officials.size() == tournament.getOfficialsPerGame()) {
             return 0;
         }
         this.officials.add(official);
@@ -205,7 +215,7 @@ public class Game {
      * @return True if it does have the required games, false other wise
      */
     public boolean hasTeamsPerGame() {
-        return this.teams.size() == tournament.TEAMS_PER_GAME;
+        return this.teams.size() == tournament.getTeamsPerGame();
     }
 
     /**
@@ -214,6 +224,6 @@ public class Game {
      * @return True if it does have the required games, false other wise
      */
     public boolean hasOfficialsPerGame() {
-        return this.officials.size() == tournament.OFFICIALS_PER_GAME;
+        return this.officials.size() == tournament.getOfficialsPerGame();
     }
 }

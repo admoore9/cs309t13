@@ -24,7 +24,7 @@ public class TeamController {
     public String getTeam(Model model) {
 
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true);
+        Team team = teamdao.getTeamById(2, true, true, false);
         model.addAttribute("teams", team.getGames());
         return "team";
     }
@@ -38,7 +38,7 @@ public class TeamController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Team getTeamById(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
-        return teamDao.getTeamById(id, false, true);
+        return teamDao.getTeamById(id, false, true, false);
     }
 
     /**
@@ -50,7 +50,7 @@ public class TeamController {
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
     public @ResponseBody List<Game> getGamesByTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
-        return teamDao.getTeamById(id, true, false).getGames();
+        return teamDao.getTeamById(id, true, false, false).getGames();
     }
 
     /**
@@ -67,7 +67,7 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, false);
+        Team team = teamDao.getTeamById(id, false, false, false);
 
         team.setName(name);
         teamDao.saveTeam(team);
@@ -89,7 +89,7 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, false);
+        Team team = teamDao.getTeamById(id, false, false, false);
 
         team.setAcceptFreeAgents(acceptFreeAgents);
         teamDao.saveTeam(team);
@@ -110,10 +110,10 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "teamLeaderdId") int teamLeaderId) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, true);
+        Team team = teamDao.getTeamById(id, false, true, false);
 
         PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId);
+        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
 
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
@@ -136,10 +136,10 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, true);
+        Team team = teamDao.getTeamById(id, false, true, false);
 
         PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId);
+        Player player = playerDao.getPlayerById(playerId, false);
         team.addPlayer(player);
         teamDao.saveTeam(team);
         return true;
@@ -160,12 +160,24 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, true);
+        Team team = teamDao.getTeamById(id, false, true, false);
 
         PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId);
+        Player player = playerDao.getPlayerById(playerId, false);
         team.removePlayer(player);
         teamDao.saveTeam(team);
         return true;
+    }
+
+    @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
+    public @ResponseBody List<Player> getPlayersForTeam(@PathVariable int id) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+        for(Player player : team.getPlayers()) {
+            // Causing circular references... Should actually fix that
+            player.setSurveys(null);
+            player.setTeams(null);
+        }
+        return team.getPlayers();
     }
 }

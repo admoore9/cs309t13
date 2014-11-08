@@ -84,6 +84,8 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_id` INT NOT NULL AUTO_INCREMENT,
   `min_players` INT NULL,
   `max_players` INT NULL,
+  `teams_per_game` INT NOT NULL DEFAULT 2,
+  `officials_per_game`, INT NOT NULL DEFAULT 1,
   `is_double_elimination` TINYINT(1) NULL,
   `is_started` TINYINT(1) NULL,
   `tournament_name` VARCHAR(45) NULL,
@@ -96,10 +98,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   `game_id` INT NOT NULL AUTO_INCREMENT,
+  `round_number` INT NOT NULL,
   `game_location` VARCHAR(100) NULL,
   `game_time` TIMESTAMP NULL,
   `tournament_id` INT NOT NULL,
-  `next_game_id` INT NOT NULL,
+  `next_game_id` INT,
   PRIMARY KEY (`game_id`),
   INDEX `fk_Game_Tournament_idx` (`tournament_id` ASC),
   INDEX `fk_Game_Game1_idx` (`next_game_id` ASC),
@@ -228,9 +231,30 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`game` (`game_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teaminvitedplayermapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`teaminvitedplayermapper` (
+  `team_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `member_id`),
+  INDEX `fk_Mapper_Player_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Mapper_Team`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Mapper_Player`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+    
+    
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

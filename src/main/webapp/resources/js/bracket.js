@@ -28,11 +28,15 @@ Team.prototype.getHTML = function() {
 Team.prototype.setHandlers = function(game_id) {
     var self = this;
     self.name_html.on('click', function() {
-        console.log(self.name);
         // Get players from server
-        // $.get('/team/' + self.id + '/players', function(response) {
-        //     // Form popover or something?
-        // });
+        $.get('/team/' + self.id + '/players', function(response) {
+            console.log(response);
+            var names = [];
+            response.forEach(function(player, index, array) {
+                names.push(player.name);
+            });
+            alert(names);
+        }, 'json');
     });
 
     if(IS_REFEREE) {
@@ -216,7 +220,7 @@ Bracket.prototype.formBracketTest = function() {
     var self = this;
     var tournament = {
         teams_per_game: 2,
-        is_referee: false,
+        is_referee: true,
         games: [
             {
                 id: 0,
