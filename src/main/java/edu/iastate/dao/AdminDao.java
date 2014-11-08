@@ -87,24 +87,33 @@ public class AdminDao extends CoordinatorDao {
         String adminSql = "insert into Admin (member_id, current_view) values (" + id + "," + UserType.ADMIN.ordinal() + ")";
 
         // add rows to tables
-        if (memberClassName.equals("MEMBER") && targetTable.equals("ADMIN"))
-            addRowsToTables(Arrays.asList(playerSql, officialSql, coordinatorSql, adminSql));
-        else if (memberClassName.equals("PLAYER") && targetTable.equals("ADMIN"))
-            addRowsToTables(Arrays.asList(officialSql, coordinatorSql, adminSql));
-        else if (memberClassName.equals("OFFICIAL") && targetTable.equals("ADMIN"))
-            addRowsToTables(Arrays.asList(coordinatorSql, adminSql));
-        else if (memberClassName.equals("COORDINATOR") && targetTable.equals("ADMIN"))
-            addRowsToTables(Arrays.asList(adminSql));
-        else if (memberClassName.equals("MEMBER") && targetTable.equals("COORDINATOR"))
-            addRowsToTables(Arrays.asList(playerSql, officialSql, coordinatorSql));
+        // Member -> Player | Official | Coordinator | Admin
+        if (memberClassName.equals("MEMBER") && targetTable.equals("PLAYER"))
+            addRowsToTables(Arrays.asList(playerSql));
         else if (memberClassName.equals("MEMBER") && targetTable.equals("OFFICIAL"))
             addRowsToTables(Arrays.asList(playerSql, officialSql));
-        else if (memberClassName.equals("MEMBER") && targetTable.equals("PLAYER"))
-            addRowsToTables(Arrays.asList(playerSql));
+        else if (memberClassName.equals("MEMBER") && targetTable.equals("COORDINATOR"))
+            addRowsToTables(Arrays.asList(playerSql, officialSql, coordinatorSql));
+        else if (memberClassName.equals("MEMBER") && targetTable.equals("ADMIN"))
+            addRowsToTables(Arrays.asList(playerSql, officialSql, coordinatorSql, adminSql));
+        // Player -> Official | Coordinator | Admin
+        else if (memberClassName.equals("PLAYER") && targetTable.equals("OFFICIAL"))
+            addRowsToTables(Arrays.asList(officialSql));
+        else if (memberClassName.equals("PLAYER") && targetTable.equals("COORDINATOR"))
+            addRowsToTables(Arrays.asList(officialSql, coordinatorSql));
+        else if (memberClassName.equals("PLAYER") && targetTable.equals("ADMIN"))
+            addRowsToTables(Arrays.asList(officialSql, coordinatorSql, adminSql));
+        // Official -> Coordinator | Admin
+        else if (memberClassName.equals("OFFICIAL") && targetTable.equals("COORDINATOR"))
+            addRowsToTables(Arrays.asList(coordinatorSql));
+        else if (memberClassName.equals("OFFICIAL") && targetTable.equals("ADMIN"))
+            addRowsToTables(Arrays.asList(coordinatorSql, adminSql));
+        // Coordinator -> Admin
+        else if (memberClassName.equals("COORDINATOR") && targetTable.equals("ADMIN"))
+            addRowsToTables(Arrays.asList(adminSql));
     }
 
     private Member hasRowInTargetTable(String targetTable, int id) {
-        System.out.println(id);
         Member existingMember = null;
         if (targetTable.equals("PLAYER"))
             existingMember = this.getPlayerById(id);
@@ -133,7 +142,7 @@ public class AdminDao extends CoordinatorDao {
                             transaction.commit();
                             statement.close();
                         }
-                        connection.close();
+//                        connection.close();
                     }
                 }
             );
