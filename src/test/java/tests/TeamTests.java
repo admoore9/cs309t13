@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import antlr.collections.List;
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.PlayerDao;
-import edu.iastate.models.*;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Player;
+import edu.iastate.models.Team;
 
 public class TeamTests {
     @Test
@@ -40,9 +40,9 @@ public class TeamTests {
     @Test
     public void addPlayerToTeamTest() {
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(10, true, true);
+        Team team = teamdao.getTeamById(13, true, true, true);
         PlayerDao playerdao = new PlayerDao();
-        Player player = playerdao.getPlayerById(5);
+        Player player = playerdao.getPlayerById(4, true);
         team.addPlayer(player);
         for (Player p: team.getPlayers()) {
             System.out.println(p.getName());
@@ -54,9 +54,9 @@ public class TeamTests {
     @Test
     public void removePlayerFromTeamTest() {
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(10, true, true);
+        Team team = teamdao.getTeamById(10, true, true, false);
         PlayerDao playerdao = new PlayerDao();
-        Player player = playerdao.getPlayerById(5);
+        Player player = playerdao.getPlayerById(5, true);
         team.removePlayer(player);
         for (Player p: team.getPlayers()) {
             System.out.println(p.getId());

@@ -32,10 +32,10 @@ public class MemberDao {
     }
 
     /**
-     * Login with provided 
+     * Login with given username and password 
      * @param username
      * @param password
-     * @return
+     * @return Member matching given username and password
      */
     public Member login(String username, String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -53,18 +53,10 @@ public class MemberDao {
         return member;
     }
 
-    public void setName(int id, String newName) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
-        query.setParameter("name", newName);
-
-        transaction.commit();
-        entityManager.close();
-    }
-
+    /**
+     * Get all members in the database
+     * @return List of members in database
+     */
     public List<Member> getAllMembers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -79,6 +71,11 @@ public class MemberDao {
         return members;
     }
 
+    /**
+     * Get member matching given id
+     * @param id ID of member to search for
+     * @return Member Member matching id
+     */
     public Member getMemberById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

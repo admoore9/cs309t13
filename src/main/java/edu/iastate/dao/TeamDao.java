@@ -63,9 +63,9 @@ public class TeamDao {
      * @param id the team id you wish to fetch
      * @param getGames Whether the games should be fetched
      * @param getTeams Whether the players should be fetched
-     * @return
+     * @return team matching given id
      */
-    public Team getTeamById(int id, boolean getGames, boolean getPlayers) {
+    public Team getTeamById(int id, boolean getGames, boolean getPlayers, boolean getInvitedPlayers) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -74,7 +74,7 @@ public class TeamDao {
                 Team.class);
         query.setParameter("id", id);
         Team team = query.getSingleResult();
-        loadForeignKeys(team, getGames, getPlayers);
+        loadForeignKeys(team, getGames, getPlayers, getInvitedPlayers);
 
         transaction.commit();
         entityManager.close();
@@ -104,12 +104,15 @@ public class TeamDao {
      * @param getGames Whether to get the games for the tournament
      * @param getPlayers Whether to get the players for the tournament
      */
-    private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers) {
+    private void loadForeignKeys(Team team, boolean getGames, boolean getPlayers, boolean getInvitedPlayers) {
         if(getGames) {
             loadGames(team);
         }
         if(getPlayers) {
             loadPlayers(team);
+        }
+        if(getInvitedPlayers) {
+            loadInvitedPlayers(team);
         }
     }
 
@@ -125,9 +128,18 @@ public class TeamDao {
     /**
      * Loads the players on a team
      * 
-     * @param team the team to load teams for
+     * @param team the team to load players for
      */
     private void loadPlayers(Team team) {
         team.getPlayers().size();
+    }
+    
+    /**
+     * Loads the invited players on a team
+     * 
+     * @param team the team to load invited players for
+     */
+    private void loadInvitedPlayers(Team team) {
+        team.getInvitedPlayers().size();
     }
 }
