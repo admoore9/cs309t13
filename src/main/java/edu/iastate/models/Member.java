@@ -54,9 +54,6 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
-    private List<Survey> surveys;
     
     public Member() {
         this.userType = UserType.MEMBER;
@@ -90,31 +87,6 @@ public class Member {
         this.username = username;
         this.password = password;
         this.userType = userType;
-    }
-
-    public List<Survey> getSurveys() {
-        return surveys;
-    }
-
-    public void setSurveys(List<Survey> surveys) {
-        this.surveys = surveys;
-    }
-    
-    /**
-     * Returns the survey pertaining to a particular tournament
-     * 
-     * @param tournament
-     * The tournament whose survey we are interested in
-     * @return
-     * Survey object pertaining to that tournament
-     */
-    public Survey getSurveyByTournament(Tournament tournament) {
-        for(Survey s: surveys) {
-            if(s.getTournament().equals(tournament)) {
-                return s;
-            }
-        }
-        return null;
     }
     
     public UserType getUserType() {

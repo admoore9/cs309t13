@@ -231,9 +231,30 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`game` (`game_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teaminvitedplayermapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`teaminvitedplayermapper` (
+  `team_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `member_id`),
+  INDEX `fk_Mapper_Player_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Mapper_Team`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Mapper_Player`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+    
+    
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -116,7 +116,7 @@ public class AdminDao extends CoordinatorDao {
     private Member hasRowInTargetTable(String targetTable, int id) {
         Member existingMember = null;
         if (targetTable.equals("PLAYER"))
-            existingMember = this.getPlayerById(id);
+            existingMember = this.getPlayerById(id, false);
         else if (targetTable.equals("OFFICIAL"))
             existingMember = this.getOfficialById(id);
         else if (targetTable.equals("COORDINATOR"))

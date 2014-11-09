@@ -42,7 +42,7 @@ public class PlayerDao extends MemberDao {
      * @param id The id of the player you wish to fetch
      * @return player by id
      */
-    public Player getPlayerById(int id) {
+    public Player getPlayerById(int id, boolean getSurveys) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -50,9 +50,31 @@ public class PlayerDao extends MemberDao {
         TypedQuery<Player> query = entityManager.createQuery("from Player p where p.member_id = :id", Player.class);
         query.setParameter("id", id);
         Player player = query.getSingleResult();
+        loadForeignKeys(player, getSurveys);
 
         transaction.commit();
         entityManager.close();
         return player;
+    }
+
+    /**
+     * Loads the foreign keys for a player based on the booleans
+     * 
+     * @param player the player to load the foreign keys for
+     * @param getSurveys Whether to get the survey list for player
+     */
+    private void loadForeignKeys(Player player, boolean getSurveys) {
+        if(getSurveys) {
+            loadSurveys(player);
+        }
+    }
+
+    /**
+     * Loads the Surveys for a player
+     * 
+     * @param player the player to load surveys for
+     */
+    private void loadSurveys(Player player) {
+        player.getSurveys().size();
     }
 }

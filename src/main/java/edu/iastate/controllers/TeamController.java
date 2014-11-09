@@ -21,7 +21,7 @@ public class TeamController {
     public String getTeam(Model model) {
 
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true);
+        Team team = teamdao.getTeamById(2, true, true, false);
         model.addAttribute("teams", team.getGames());
         return "team";
     }
@@ -29,7 +29,7 @@ public class TeamController {
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
     public @ResponseBody List<Player> getPlayersForTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
-        Team team = teamDao.getTeamById(id, false, true);
+        Team team = teamDao.getTeamById(id, false, true, false);
         for(Player player : team.getPlayers()) {
             // Causing circular references... Should actually fix that
             player.setSurveys(null);
