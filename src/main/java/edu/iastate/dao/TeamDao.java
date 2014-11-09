@@ -61,7 +61,7 @@ public class TeamDao {
      * @param id the team id you wish to fetch
      * @param getGames Whether the games should be fetched
      * @param getTeams Whether the players should be fetched
-     * @return
+     * @return team matching given id
      */
     public Team getTeamById(int id, boolean getGames, boolean getPlayers, boolean getInvitedPlayers) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

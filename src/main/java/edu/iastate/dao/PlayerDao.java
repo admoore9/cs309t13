@@ -20,6 +20,7 @@ public class PlayerDao extends MemberDao {
     }
 
     /**
+     * Get a list of all players in database
      * @return List of all players
      */
     public List<Player> getAllPlayers() {

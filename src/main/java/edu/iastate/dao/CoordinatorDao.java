@@ -20,6 +20,7 @@ public class CoordinatorDao extends OfficialDao {
     }
 
     /**
+     * Get a list of all coordinators in database
      * @return List of all coordinators
      */
     public List<Coordinator> getAllCoordinators() {

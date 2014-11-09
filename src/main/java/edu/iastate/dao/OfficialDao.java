@@ -19,6 +19,10 @@ public class OfficialDao extends PlayerDao {
         super(entityManagerFactory);
     }
 
+    /**
+     * Get a list of all officials in database
+     * @return List of all officials
+     */
     public List<Official> getAllOfficials() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

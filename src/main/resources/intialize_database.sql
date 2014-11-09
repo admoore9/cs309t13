@@ -25,6 +25,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Player` (
   `member_id` INT NOT NULL,
+  `availability` INT NULL,
   PRIMARY KEY (`member_id`),
   INDEX `fk_member_id_idx` (`member_id` ASC),
   CONSTRAINT `fk_player_id`
@@ -154,7 +155,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Survey`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Survey` (
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Survey` (
   `survey_id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT NOT NULL,
   `tournament_id` INT NOT NULL,
@@ -230,6 +231,52 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`officialgamemapper` (
   CONSTRAINT `fk_gameid_mapper2`
     FOREIGN KEY (`game_id`)
     REFERENCES `cs309t13`.`game` (`game_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Availability`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Availability` (
+  `availability_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`availability_id`),
+  INDEX `fk_Availability_PlayerId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Availability_PlayerId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Day`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Day` (
+  `day_id` INT NOT NULL AUTO_INCREMENT,
+  `availability_id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`day_id`),
+  INDEX `fk_Day_AvailabilityId_idx` (`availability_id` ASC),
+  CONSTRAINT `fk_Day_AvailabilityId`
+    FOREIGN KEY (`availability_id`)
+    REFERENCES `Availability` (`availability_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Period`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
+  `period_id` INT NOT NULL AUTO_INCREMENT,
+  `day_id` INT NOT NULL,
+  `slot` int(7) NOT NULL,
+  PRIMARY KEY (`period_id`),
+  INDEX `fk_Period_DayId_idx` (`day_id` ASC),
+  CONSTRAINT `fk_Period_DayId`
+    FOREIGN KEY (`day_id`)
+    REFERENCES `Day` (`day_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

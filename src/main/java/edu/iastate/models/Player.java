@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -56,6 +57,9 @@ public class Player extends Member {
         this.invitedTeams = invitedTeams;
     }
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    private Availability availability;
+
     public List<Team> getTeams() {
         return teams;
     }
@@ -63,7 +67,14 @@ public class Player extends Member {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
-    
+
+    /**
+     * @return the availability
+     */
+    public Availability getAvailability() {
+        return availability;
+    }
+
     public List<Survey> getSurveys() {
         return surveys;
     }
