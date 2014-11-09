@@ -97,7 +97,7 @@ public class MemberDao {
      * 
      * @param member The member to save to the database
      */
-    public <T extends Member> void save(T member) {
+    public void save(Member member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
