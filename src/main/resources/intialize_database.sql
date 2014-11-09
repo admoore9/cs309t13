@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `min_players` INT NULL,
   `max_players` INT NULL,
   `teams_per_game` INT NOT NULL DEFAULT 2,
-  `officials_per_game`, INT NOT NULL DEFAULT 1,
+  `officials_per_game` INT NOT NULL DEFAULT 1,
   `is_double_elimination` TINYINT(1) NULL,
   `is_started` TINYINT(1) NULL,
   `tournament_name` VARCHAR(45) NULL,

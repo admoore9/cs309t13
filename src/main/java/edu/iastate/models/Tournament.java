@@ -183,8 +183,6 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
-
-        boolean[] isTeamAdded = new boolean[teams.size()];
         
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
@@ -202,13 +200,13 @@ public class Tournament {
         List<Game> playinGames = new ArrayList<Game>();
         if(numPlayinGames != 0) {
             List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames, isTeamAdded);
+            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames);
             roundNumber++;
         }
 
         // The teams that didn't have a play in game
         int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames, isTeamAdded);
+        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
         currRoundGames.addAll(secondRoundNonPlayinGames);
 
         formRoundsAndLink(currRoundGames, roundNumber, gameDao);
@@ -226,10 +224,10 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded, boolean[] isTeamAdded) {
+    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
-
+        boolean[] isTeamAdded = new boolean[currRoundTeams.size()];
         // int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
@@ -237,10 +235,10 @@ public class Tournament {
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 if(j==0) {
-                    game.addTeam(firstAvailableTeam(isTeamAdded));
+                    game.addTeam(firstAvailableTeam(currRoundTeams, isTeamAdded));
                 }
                 else {
-                    game.addTeam(matchTeamSkillLevel(isTeamAdded, game.getTeams().get(j-1), 10));
+                    game.addTeam(matchTeamSkillLevel(currRoundTeams, isTeamAdded, game.getTeams().get(j-1), 10));
                 }
                 // game.addTeam(this.teams.get(count));
                 // count++;
@@ -256,7 +254,7 @@ public class Tournament {
      * @param isTeamAdded
      * @return
      */
-    private Team firstAvailableTeam(boolean[] isTeamAdded) {
+    private Team firstAvailableTeam(List<Team> currRoundTeams, boolean[] isTeamAdded) {
         for(int i=0; i<teams.size(); i++) {
             if(isTeamAdded[i]==false) {
                 isTeamAdded[i] = true;
@@ -273,24 +271,36 @@ public class Tournament {
      * @param window
      * @return
      */
-    private Team matchTeamSkillLevel(boolean[] isTeamAdded, Team opponent, int window) {
+    private Team matchTeamSkillLevel(List<Team> currRoundTeams, boolean[] isTeamAdded, Team opponent, int window) {
         int skillToMatch = opponent.getTeamSkillLevel();
         int count = 0;
+        int skillDifference = skillToMatch;
+        int index = -1;
         for(int i=0; i<teams.size(); i++) {
             if(isTeamAdded[i]==false) {
                 int skill = teams.get(i).getTeamSkillLevel();
                 if(skill<=skillToMatch+window && skill>=skillToMatch-window) {
-                    return teams.get(i);
+                    if(skillDifference>(Math.abs(skillToMatch-skill))) {
+                        index = i;
+                        skillDifference = Math.abs(skillToMatch-skill);
+                    }
                 }
             }
             else {
                 count++;
             }
         }
+        //All teams have already been added to a a game
         if(count==teams.size()) {
             return null;
         }
-        return matchTeamSkillLevel(isTeamAdded, opponent, window+10);
+        //At least one team matched the conditions
+        if(index!=-1) {
+            return currRoundTeams.get(index);
+        }
+        //Increases size of window if no team matches condition
+        //does so recursively until 
+        return matchTeamSkillLevel(currRoundTeams, isTeamAdded, opponent, window+10);
     }
     
 
