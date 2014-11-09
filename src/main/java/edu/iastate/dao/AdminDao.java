@@ -142,7 +142,6 @@ public class AdminDao extends CoordinatorDao {
                             transaction.commit();
                             statement.close();
                         }
-//                        connection.close();
                     }
                 }
             );
