@@ -23,3 +23,9 @@ run-application:
 run: build run-application
 
 run-with-tests: build-with-tests run-application
+
+deploy:
+	mvn tomcat7:deploy;
+
+undeploy:
+	mvn tomcat7:undeploy;

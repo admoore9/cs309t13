@@ -6,14 +6,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Admin")
-public class Admin extends Member {
+public class Admin extends Coordinator {
 
     public Admin() {
         super(UserType.ADMIN);
+        currentView = UserType.ADMIN;
     }
 
     public Admin(String name, String username, String password) {
         super(name, username, password, UserType.ADMIN);
+        currentView = UserType.ADMIN;
     }
 
     @Column(name = "current_view")
