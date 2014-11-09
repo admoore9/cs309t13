@@ -64,10 +64,6 @@ public class Game {
         officials = new ArrayList<Official>();
     }
 
-    public Game() {
-        this.teams = new ArrayList<Team>();
-    }
-
     public int getId() {
         return id;
     }
