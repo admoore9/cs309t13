@@ -4,21 +4,15 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
     </head>
     <body>
-        <h2>Tournament</h2>
-        <h4>Recent Tournaments</h4>
-        <table id="recent-tournaments">
-            <c:forEach items="${tournaments}" var="tournament">
-                <tr>
-                    <td>Tournament ID: <c:out value="${tournament.id}"/></td>
-                    <td>Tournament Name: <c:out value="${tournament.name}"/></td>
-                </tr>
-            </c:forEach>
-        </table>
-        <h4>Get tournament by id</h4>
-        <input type="number" id="tournament-by-id-input"/>
-        <div id="tournament-by-id-data"></div>
+        <div id="bracket"/>
     </body>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/tournament.js" />"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    	    var bracket = new Bracket();
+            bracket.appendBracket($('#bracket'));
+    	});
+    </script>
 </html>

@@ -1,9 +1,6 @@
 package edu.iastate.controllers;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,14 +18,6 @@ import edu.iastate.models.Tournament;
 @Controller
 @RequestMapping("/tournament")
 public class TournamentController {
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String getTournament(Model model) {
-        TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
-        return "admin_view";
-    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTournament(@RequestParam(value = "name") String name,
@@ -57,6 +46,38 @@ public class TournamentController {
     public @ResponseBody Tournament getTournamentById(@PathVariable int id) {
         TournamentDao tournamentDao = new TournamentDao();
         return tournamentDao.getTournamentById(id, true, true);
+    }
+
+    /**
+     * Updates the tournament given by id with the given parameters.
+     * 
+     * @param id The id of the tournament.
+     * @param name The new name for the tournament.
+     * @param minPlayers The new minimum players per team.
+     * @param maxPlayers The new maximum players per team.
+     * @param teamsPerGame The new number of teams per game.
+     * @param officialsPerGame The new number of officials per game.
+     * @return true if the tournament was successfully updated, false otherwise.
+     */
+    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
+    public @ResponseBody boolean updateTournament(
+            @PathVariable int id,
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "minPlayersPerTeam") int minPlayers,
+            @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
+            @RequestParam(value = "teamsPerGame") int teamsPerGame,
+            @RequestParam(value = "officialsPerGame") int officialsPerGame) {
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(id, false, false);
+
+        tournament.setName(name);
+        tournament.setMinPlayers(minPlayers);
+        tournament.setMaxPlayers(maxPlayers);
+        tournament.setTeamsPerGame(teamsPerGame);
+        tournament.setOfficialsPerGame(officialsPerGame);
+
+        tournamentDao.saveTournament(tournament);
+        return true;
     }
 
     /**

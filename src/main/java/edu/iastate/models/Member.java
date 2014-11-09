@@ -59,7 +59,7 @@ public class Member {
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
-    private List<Survey> surveys;
+    protected List<Survey> surveys;
 
     public Member() {}
 

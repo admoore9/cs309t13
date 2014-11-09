@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -23,7 +21,7 @@ public class Player extends Member {
 
     public Player() {
         super(UserType.PLAYER);
-        surveys = new ArrayList<Survey>();
+        this.surveys = new ArrayList<Survey>();
     }
 
     public Player(String name, String username, String password) {
@@ -44,11 +42,9 @@ public class Player extends Member {
     @ManyToMany(mappedBy = "players")
     private List<Team> teams;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "invitedPlayers")
     private List<Team> invitedTeams;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
-    private List<Survey> surveys;
 
     public List<Team> getInvitedTeams() {
         return invitedTeams;

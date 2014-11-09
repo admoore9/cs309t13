@@ -39,14 +39,14 @@ public class Team {
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Player> invitedPlayers;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "teams")
     private List<Game> games;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Player teamLeader;
 
