@@ -48,11 +48,11 @@ Team.prototype.setHandlers = function(game_id) {
     }
 };
 
-var Game = function(id, next_game_id, round_number, time, location, teams_per_game, teams) {
+var Game = function(id, nextGame_id, roundNumber, time, location, teams_per_game, teams) {
     var self = this;
     self.id = id;
-    self.next_game_id = next_game_id;
-    self.round_number = round_number;
+    self.nextGame_id = nextGame_id;
+    self.roundNumber = roundNumber;
     self.time = time;
     self.location = location;
     self.teams_per_game = teams_per_game;
@@ -93,11 +93,11 @@ var Round = function(num, games) {
 };
 Round.prototype.orderGames = function() {
     var self = this;
-    // Sort by next_game_id then game_id
+    // Sort by nextGame_id then game_id
     self.games.sort(function(game1, game2) {
-        var next_game_diff = game1.next_game_id - game2.next_game_id;
-        if(next_game_diff !== 0) {
-            return next_game_diff;
+        var nextGame_diff = game1.nextGame_id - game2.nextGame_id;
+        if(nextGame_diff !== 0) {
+            return nextGame_diff;
         }
         return game1.id - game2.id;
     });
@@ -107,21 +107,21 @@ Round.prototype.orderGames = function() {
         game.orderTeams();
     });
 };
-Round.prototype.getVerticalGap = function(round_number) {
+Round.prototype.getVerticalGap = function(roundNumber) {
     var self = this;
 
-    if(round_number == 1) {
+    if(roundNumber == 1) {
         return 40;
     }
-    return 2 * self.getVerticalGap(round_number - 1) + self.game_height;
+    return 2 * self.getVerticalGap(roundNumber - 1) + self.game_height;
 };
-Round.prototype.getVerticalOffset = function(round_number) {
+Round.prototype.getVerticalOffset = function(roundNumber) {
     var self = this;
 
-    if(round_number == 1) {
+    if(roundNumber == 1) {
         return 0;
     }
-    return self.getVerticalOffset(round_number - 1) + 0.5 * (self.game_height + self.getVerticalGap(round_number - 1));
+    return self.getVerticalOffset(roundNumber - 1) + 0.5 * (self.game_height + self.getVerticalGap(roundNumber - 1));
 };
 Round.prototype.setHeights = function() {
     var self = this;
@@ -174,23 +174,38 @@ Round.prototype.setHandlers = function() {
 var Bracket = function(id) {
     var self = this;
     self.id = id;
+    self.name = "";
+    self.min_players = 0;
+    self.max_players = 0;
+    self.teams_per_game = 0;
+    self.officials_per_game = 0;
     self.rounds = [];
     self.html = $('<bracket></bracket>');
+};
+Bracket.prototype.getName = function() {
+    return this.name;
 };
 Bracket.prototype.processTournament = function(tournament) {
     var self = this;
     IS_REFEREE = tournament.is_referee;
+    self.name = tournament.name;
+    console.log(self.name);
+    self.min_players = tournament.minPlayers;
+    self.max_players = tournament.maxPlayers;
+    self.teams_per_game = tournament.teamsPerGame;
+    self.officials_per_game = tournament.officialsPerGame;
     rounds_dict = {};
     tournament.games.forEach(function(elem, index, array) {
-        var game = new Game(elem.id, elem.next_game.id, elem.round_number, elem.time, elem.location, tournament.teams_per_game, []);
+        var nextGameId = elem.nextGame !== null ? elem.nextGame.id : elem.nextGame;
+        var game = new Game(elem.id, nextGameId, elem.roundNumber, elem.gameTime, elem.gameLocation, tournament.teamsPerGame, []);
         elem.teams.forEach(function(team, index, array) {
             game.teams.push(new Team(team.id, team.name));
         });
 
-        if(rounds_dict[game.round_number] !== undefined) {
-            rounds_dict[game.round_number].push(game);
+        if(rounds_dict[game.roundNumber] !== undefined) {
+            rounds_dict[game.roundNumber].push(game);
         } else {
-            rounds_dict[game.round_number] = [game];
+            rounds_dict[game.roundNumber] = [game];
         }
     });
 
@@ -208,123 +223,6 @@ Bracket.prototype.orderRounds = function() {
         round.orderGames();
     });
 };
-
-Bracket.prototype.formBracket = function() {
-    var self = this;
-    $.get('/tournament/' + self.id, function(tournament) {
-        self.processTournament(tournament);
-        self.orderRounds();
-    }, 'json');
-};
-Bracket.prototype.formBracketTest = function() {
-    var self = this;
-    var tournament = {
-        teams_per_game: 2,
-        is_referee: true,
-        games: [
-            {
-                id: 0,
-                next_game: {id: 2},
-                round_number: 1,
-                time: 't0',
-                location: 'l0',
-                teams: [
-                    {id: 0, name: 'name0'},
-                    {id: 1, name: 'name1'}
-                ]
-            },
-            {
-                id: -1,
-                next_game: {id: 2},
-                round_number: 1,
-                time: 't0',
-                location: 'l0',
-                teams: [
-                    {id: -1, name: 'name-1'},
-                    {id: 2, name: 'name2'}
-                ]
-            },
-            {
-                id: 1,
-                next_game: {id: 5},
-                round_number: 2,
-                time: 't1',
-                location: 'l1',
-                teams: [
-                    {id: 1, name: 'name1'},
-                    {id: 2, name: 'name2'}
-                ]
-            },
-            {
-                id: 2,
-                next_game: {id: 5},
-                round_number: 2,
-                time: 't2',
-                location: 'l2',
-                teams: [
-                    {id: 3, name: 'name3'},
-                    {id: 4, name: 'name4'}
-                ]
-            },
-            {
-                id: 3,
-                next_game: {id: 6},
-                round_number: 2,
-                time: 't3',
-                location: 'l3',
-                teams: [
-                    {id: 5, name: 'name5'},
-                    {id: 6, name: 'name6'}
-                ]
-            },
-            {
-                id: 4,
-                next_game: {id: 6},
-                round_number: 2,
-                time: 't4',
-                location: 'l4',
-                teams: [
-                    {id: 7, name: 'name7'}
-                ]
-            },
-            {
-                id: 5,
-                next_game: {id: 7},
-                round_number: 3,
-                time: 't5',
-                location: 'l5',
-                teams: [
-                    {id: 1, name: 'name1'},
-                    {id: 4, name: 'name4'}
-                ]
-            },
-            {
-                id: 6,
-                next_game: {id: 7},
-                round_number: 3,
-                time: 't6',
-                location: 'l6',
-                teams: [
-                    {id: 6, name: 'name6'},
-                    {id: 8, name: 'name8'}
-                ]
-            },
-            {
-                id: 7,
-                next_game: {id: 0},
-                round_number: 4,
-                time: 't7',
-                location: 'l7',
-                teams: [
-                    {id: 4, name: 'name4'},
-                    {id: 6, name: 'name6'}
-                ]
-            }
-        ]
-    };
-    self.processTournament(tournament);
-    self.orderRounds();
-};
 Bracket.prototype.setHandlers = function() {
     var self = this;
     self.rounds.forEach(function(round, index, array) {
@@ -337,11 +235,18 @@ Bracket.prototype.formHTML = function() {
     self.rounds.forEach(function(round, index, array) {
         self.html.append(round.getHTML());
     });
+    if(self.html.children().length === 0) {
+        self.html.text("The bracket for this tournament isn't formed yet.");
+    }
 };
-Bracket.prototype.appendBracket = function(parent) {
+Bracket.prototype.formAndAppendBracket = function(parent, tournamentNameElement) {
     var self = this;
-    self.formBracketTest();
-    self.formHTML();
-    parent.append(self.html);
-    self.setHandlers();
+    $.get('/tournament/' + self.id, function(tournament) {
+        self.processTournament(tournament);
+        self.orderRounds();
+        self.formHTML();
+        parent.append(self.html);
+        self.setHandlers();
+        tournamentNameElement.text(self.name);
+    }, 'json');
 };

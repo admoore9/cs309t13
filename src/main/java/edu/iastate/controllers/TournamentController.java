@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,12 @@ import edu.iastate.models.Tournament;
 @Controller
 @RequestMapping("/tournament")
 public class TournamentController {
+
+    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
+    public String viewTournament(Model model, @PathVariable int id) {
+        model.addAttribute("tournamentId", id);
+        return "tournament";
+    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTournament(@RequestParam(value = "name") String name,
