@@ -19,6 +19,6 @@ public class AdminController {
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
-        return "admin_view";
+        return "admin";
     }
 }
