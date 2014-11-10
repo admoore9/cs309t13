@@ -55,6 +55,11 @@ public class TournamentDao {
         return tournaments;
     }
 
+    /**
+     * Get the last X tournaments from database
+     * @param number Number of tournaments
+     * @return List of last X tournaments
+     */
     public List<Tournament> getLastXTournaments(int number) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -55,12 +56,22 @@ public class Player extends Member {
         this.invitedTeams = invitedTeams;
     }
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    private Availability availability;
+
     public List<Team> getTeams() {
         return teams;
     }
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    /**
+     * @return the availability
+     */
+    public Availability getAvailability() {
+        return availability;
     }
 
     public List<Survey> getSurveys() {
@@ -77,7 +88,6 @@ public class Player extends Member {
      * @param tournament The tournament whose survey we are interested in
      * @return Survey object pertaining to that tournament
      */
-    @Override
     public Survey getSurveyByTournament(Tournament tournament) {
         for(Survey s : surveys) {
 

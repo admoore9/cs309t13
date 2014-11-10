@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -27,8 +28,8 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 public class Member {
 
     @Id
-    @GeneratedValue
-    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_id", unique = true, nullable = false)
     private int member_id;
 
     @Column(name = "name")
@@ -50,7 +51,7 @@ public class Member {
     private Integer weight;
 
     public enum UserType {
-        PLAYER, OFFICIAL, COORDINATOR, ADMIN
+        MEMBER, PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
 
     @Enumerated(EnumType.ORDINAL)
@@ -71,7 +72,7 @@ public class Member {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = UserType.PLAYER;
+        this.userType = UserType.MEMBER;
     }
 
     protected Member(String name, String username, String password,
@@ -82,22 +83,47 @@ public class Member {
         this.userType = userType;
     }
 
+    /**
+     * Get user type
+     * 
+     * @return userType
+     */
     public UserType getUserType() {
         return userType;
     }
 
+    /**
+     * Set user type
+     * 
+     * @param userType
+     */
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
+    /**
+     * Get id
+     * 
+     * @return
+     */
     public int getId() {
         return member_id;
     }
 
+    /**
+     * Set id
+     * 
+     * @param id
+     */
     public void setId(int id) {
         this.member_id = id;
     }
 
+    /**
+     * Get name
+     * 
+     * @return
+     */
     public String getName() {
         return name;
     }
