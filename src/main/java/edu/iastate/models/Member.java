@@ -74,21 +74,6 @@ public class Member {
         this.userType = UserType.PLAYER;
     }
 
-    /**
-     * Returns the survey pertaining to a particular tournament
-     * 
-     * @param tournament The tournament whose survey we are interested in
-     * @return Survey object pertaining to that tournament
-     */
-    public Survey getSurveyByTournament(Tournament tournament) {
-        for(Survey s : surveys) {
-            if(s.getTournament().equals(tournament)) {
-                return s;
-            }
-        }
-        return null;
-    }
-
     protected Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
