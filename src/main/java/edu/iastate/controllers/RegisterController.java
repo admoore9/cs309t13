@@ -45,8 +45,6 @@ public class RegisterController {
         // Create new member
         Player newPlayer = new Player(name, username, genPassword);
 
-        System.out.println(newPlayer.toString());
-
         // Save new member to database
         playerDao.savePlayer(newPlayer);
     }
