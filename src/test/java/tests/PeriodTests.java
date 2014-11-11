@@ -21,7 +21,7 @@ public class PeriodTests {
         
         PlayerDao playerDao = new PlayerDao();
         Player player = new Player("test1", "test1", "123");
-        playerDao.savePlayer(player);
+        playerDao.save(player);
         
         AvailabilityDao availabilityDao = new AvailabilityDao();
         Availability availability = new Availability();
