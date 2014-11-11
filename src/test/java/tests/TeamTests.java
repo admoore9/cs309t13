@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import edu.iastate.dao.GameDao;
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Game;
 import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 
@@ -20,7 +22,7 @@ public class TeamTests {
         TournamentDao tournamentdao = new TournamentDao();
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
-        team.setName("TestInvitedPlayer");
+        team.setName("Test1");
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(playerdao.getPlayerById(1, true));
         players.add(playerdao.getPlayerById(2, true));
@@ -42,7 +44,7 @@ public class TeamTests {
     @Test
     public void addPlayerToTeamTest() {
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(13, true, true, true);
+        Team team = teamdao.getTeamById(1, true, true, true);
         PlayerDao playerdao = new PlayerDao();
         Player player = playerdao.getPlayerById(4, true);
         team.addPlayer(player);
@@ -65,5 +67,14 @@ public class TeamTests {
         }
 
         teamdao.saveTeam(team);
+    }
+    @Test
+    public void returnAllTeamsTest() {
+        TeamDao teamdao = new TeamDao();
+        List<Team> teams = teamdao.getAllTeams();
+        System.out.println("Team Name:");
+        for (Team team:teams) {
+            System.out.println(team.getName());
+        }
     }
 }
