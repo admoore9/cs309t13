@@ -49,8 +49,6 @@ public class Team {
 
     @Column(name = "team_skill")
     private int teamSkillLevel;
-    
-    @OneToOne(mappedBy = "")
 
     public Team() {
 
