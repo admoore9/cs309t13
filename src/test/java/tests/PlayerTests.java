@@ -65,11 +65,11 @@ public class PlayerTests {
     public void getPlayerByIdTest() {
         // Given
         when(entityManager.createQuery(selectByIdQuery, Player.class)).thenReturn(query);
-        Player expectedPlayer = new Player("Nawaf", "nawaf", "123");
+        Player expectedPlayer = new Player("test1", "test1", "asdf");
         // When
         when(query.getSingleResult()).thenReturn(expectedPlayer);
         
-        Player actualPlayer = playerDao.getPlayerById(0);
+        Player actualPlayer = playerDao.getPlayerById(1, false);
         // Then
         assertNotNull(actualPlayer);
         assertSame(expectedPlayer, actualPlayer);

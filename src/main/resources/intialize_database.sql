@@ -271,10 +271,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
   `period_id` INT NOT NULL AUTO_INCREMENT,
   `day_id` INT NOT NULL,
-  `start_hour` INT NOT NULL,
-  `start_minute` INT NOT NULL,
-  `end_hour` INT NOT NULL,
-  `end_minute` INT NOT NULL,
+  `slot` int(7) NOT NULL,
   PRIMARY KEY (`period_id`),
   INDEX `fk_Period_DayId_idx` (`day_id` ASC),
   CONSTRAINT `fk_Period_DayId`
@@ -284,7 +281,27 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
+-- -----------------------------------------------------
+-- Table `cs309t13`.`teaminvitedplayermapper`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`teaminvitedplayermapper` (
+  `team_id` INT NOT NULL,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`team_id`, `member_id`),
+  INDEX `fk_Mapper_Player_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Mapper_Team`
+    FOREIGN KEY (`team_id`)
+    REFERENCES `cs309t13`.`team` (`team_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Mapper_Player`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `cs309t13`.`player` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+    
+    
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
