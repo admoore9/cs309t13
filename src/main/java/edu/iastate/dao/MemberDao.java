@@ -99,8 +99,9 @@ public class MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(member);
-        entityManager.merge(member);
+//        Member rM = entityManager.merge(member);
         transaction.commit();
         entityManager.close();
+//        return rM;
     }
 }
