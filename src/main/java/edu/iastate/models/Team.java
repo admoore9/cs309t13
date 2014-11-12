@@ -2,8 +2,8 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,6 +55,9 @@ public class Team {
 
     @Column(name = "team_skill")
     private int teamSkillLevel; 
+
+    @OneToMany(mappedBy = "team")
+    private Set<Score> scores;
 
     public Team() {
         players = new ArrayList<Player>();

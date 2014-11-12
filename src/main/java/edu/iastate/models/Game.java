@@ -3,6 +3,7 @@ package edu.iastate.models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,6 +61,9 @@ public class Game {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
     
+    @OneToMany(mappedBy = "game")
+    private Set<Score> scores;
+
     public Game() {
         teams = new ArrayList<Team>();
         officials = new ArrayList<Official>();
