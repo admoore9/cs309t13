@@ -1,6 +1,6 @@
 package edu.iastate.models;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,7 +60,7 @@ public class Member {
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
-    protected List<Survey> surveys;
+    protected Set<Survey> surveys;
 
     public Member() {}
 

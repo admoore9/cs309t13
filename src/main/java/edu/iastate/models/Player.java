@@ -1,7 +1,8 @@
 package edu.iastate.models;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,7 @@ public class Player extends Member {
 
     public Player() {
         super(UserType.PLAYER);
-        this.surveys = new ArrayList<Survey>();
+        this.surveys = new HashSet<Survey>();
     }
 
     public Player(String name, String username, String password) {
@@ -74,11 +75,11 @@ public class Player extends Member {
         return availability;
     }
 
-    public List<Survey> getSurveys() {
+    public Set<Survey> getSurveys() {
         return surveys;
     }
 
-    public void setSurveys(List<Survey> surveys) {
+    public void setSurveys(Set<Survey> surveys) {
         this.surveys = surveys;
     }
 
