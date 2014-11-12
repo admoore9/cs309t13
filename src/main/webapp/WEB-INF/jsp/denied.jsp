@@ -7,8 +7,11 @@ pageEncoding="UTF-8"%>
 <title>Insert title here</title>
 </head>
     <body>
-        <h1>Access Denied!</h1>
-        <p>You do not have access to this page</p>
-        <a href="/">Go back home</a><br/><br/>
+        <div class="container"><jsp:include page="header.jsp" flush="true"/></div>
+        <div class="container">
+            <h1>Access Denied!</h1>
+            <p>You do not have access to this page</p>
+            <a href="/">Go back home</a><br/><br/>
+        </div>
     </body>
 </html>

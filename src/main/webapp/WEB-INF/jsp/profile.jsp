@@ -21,6 +21,9 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
     </head>
     <body>
-        <p>Welome, ${sessionScope.member.name}</p>
+        <div class="container"><jsp:include page="header.jsp" flush="true"/></div>
+        <div class="container">
+            <p>Welome, ${sessionScope.member.name}</p>
+        </div>
     </body>
 </html>

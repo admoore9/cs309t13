@@ -20,6 +20,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
     </head>
     <body>
+        <div class="container"><jsp:include page="header.jsp" flush="true"/></div>
         <div id="surveyAlert" style="display: none;" style="width: 300px;">
             <div class="alert alert-success">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>

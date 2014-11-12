@@ -20,6 +20,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
     </head>
     <body>
+        <div class="container"><jsp:include page="header.jsp" flush="true"/></div>
         <div class="container" id = "registerContainer">
             <div id="register" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
                 <div class="panel panel-primary">
@@ -47,7 +48,6 @@
                                 <div class="btn-group">
                                     <input type="submit" name="submitRegister" class="btn btn-primary" value="Submit!"/>
                                 </div>
-                                <a type="button" class="btn btn-default navbar-btn" href="/login">Back</a>
                             </div>
                         </form>
                     </div> <!-- panel body -->
