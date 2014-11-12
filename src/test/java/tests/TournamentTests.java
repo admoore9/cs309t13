@@ -31,9 +31,9 @@ public class TournamentTests {
         }
         Tournament tournament = new Tournament();
         //tournament.sortTeamsBasedOnSkill(teams);
-//        for (Team team: teams) {
-//            System.out.println(team.getName());
-//        }
+        for (Team team: teams) {
+            System.out.println(team.getName());
+        }
     }
     
 //    @Test
