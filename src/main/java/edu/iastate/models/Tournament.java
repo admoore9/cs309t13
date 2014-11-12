@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MathUtils;
+import edu.iastate.utils.TeamComparer;
 
 /**
  * Tournament class
@@ -227,19 +229,21 @@ public class Tournament {
     public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
-        boolean[] isTeamAdded = new boolean[currRoundTeams.size()];
-        // int count = 0;
+        //boolean[] isTeamAdded = new boolean[currRoundTeams.size()];
+        sortTeamsBasedOnSkill(currRoundTeams);
+        int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
             game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
-                if(j==0) {
-                    game.addTeam(firstAvailableTeam(currRoundTeams, isTeamAdded));
-                }
-                else {
-                    game.addTeam(matchTeamSkillLevel(currRoundTeams, isTeamAdded, game.getTeams().get(j-1), 10));
-                }
+                game.addTeam(currRoundTeams.get(count++));
+//                if(j==0) {
+//                    game.addTeam(firstAvailableTeam(currRoundTeams, isTeamAdded));
+//                }
+//                else {
+//                    game.addTeam(matchTeamSkillLevel(currRoundTeams, isTeamAdded, game.getTeams().get(j-1), 10));
+//                }
                 // game.addTeam(this.teams.get(count));
                 // count++;
             }
@@ -247,6 +251,11 @@ public class Tournament {
         }
 
         return currRoundGames;
+    }
+    
+    private void sortTeamsBasedOnSkill(List<Team> currRoundTeams) {
+        TeamComparer teamComparer = new TeamComparer();
+        Collections.sort(currRoundTeams, teamComparer);
     }
     
     /**
