@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
@@ -30,8 +31,16 @@ public class TournamentTests {
         }
         Tournament tournament = new Tournament();
         //tournament.sortTeamsBasedOnSkill(teams);
-        for (Team team: teams) {
-            System.out.println(team.getName());
-        }
+//        for (Team team: teams) {
+//            System.out.println(team.getName());
+//        }
+    }
+    
+    @Test
+    public void testFormBracket() {
+        TournamentDao td = new TournamentDao();
+        Tournament t = td.getTournamentById(1, true, true);
+        GameDao gameDao = new GameDao();
+        t.formBracket(gameDao);
     }
 }

@@ -229,7 +229,6 @@ public class Tournament {
     public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
         List<Game> currRoundGames = new ArrayList<Game>();
-        //boolean[] isTeamAdded = new boolean[currRoundTeams.size()];
         sortTeamsBasedOnSkill(currRoundTeams);
         int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
@@ -238,14 +237,6 @@ public class Tournament {
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
                 game.addTeam(currRoundTeams.get(count++));
-//                if(j==0) {
-//                    game.addTeam(firstAvailableTeam(currRoundTeams, isTeamAdded));
-//                }
-//                else {
-//                    game.addTeam(matchTeamSkillLevel(currRoundTeams, isTeamAdded, game.getTeams().get(j-1), 10));
-//                }
-                // game.addTeam(this.teams.get(count));
-                // count++;
             }
             currRoundGames.add(game);
         }
