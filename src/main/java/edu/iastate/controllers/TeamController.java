@@ -93,7 +93,7 @@ public class TeamController {
 
         team.setAcceptFreeAgents(acceptFreeAgents);
         teamDao.saveTeam(team);
-        return false;
+        return true;
     }
 
     /**
@@ -146,7 +146,7 @@ public class TeamController {
     }
 
     /**
-     * Removes the player given by playerId form the team given by id.
+     * Removes the player given by playerId from the team given by id.
      * 
      * POST request data: playerId
      * 

@@ -164,12 +164,8 @@ public class Team {
      * Adds player to this team. Does nothing if player is null or player
      * already exists in current team
      * 
-     * <<<<<<< HEAD
-     * 
-     * @param player The player to be added =======
      * @param player The player to be added
      * @return -1 if null or player already exists 0 if maximum has reached 1 if
-     *         successful >>>>>>> master
      */
     public int addPlayer(Player player) {
 
@@ -202,10 +198,8 @@ public class Team {
     }
 
     /**
-     * <<<<<<< HEAD Returns true if this team has minimum number of required
-     * players ======= Adds player to this team's invited player list. Does
-     * nothing if player is null or player already exists in current invited
-     * list
+     * Adds player to this team's invited player list. Does nothing if player is
+     * null or player already exists in current invited list
      * 
      * @param player The player to be added
      * @return -1 if null or player already exists 0 if player is already in
