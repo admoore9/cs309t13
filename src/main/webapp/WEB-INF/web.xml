@@ -16,7 +16,4 @@
         <servlet-name>cs309t13</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-    <!-- The root url gives the index.jsp file -->
-
 </web-app>
