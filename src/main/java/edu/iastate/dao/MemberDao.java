@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Member;
-import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
@@ -84,6 +83,49 @@ public class MemberDao {
         TypedQuery<Member> query = entityManager.createQuery("from Member m where m.member_id = :id", Member.class);
         query.setParameter("id", id);
         Member member = query.getSingleResult();
+
+        transaction.commit();
+        entityManager.close();
+        return member;
+    }
+
+    /**
+     * Gets a member given a username
+     * 
+     * @param username
+     * @return a member with 
+     */
+    public Member getMemberByUsername(String username) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("SELECT m from Member m WHERE m.username = :username", Member.class);
+        query.setParameter("username", username);
+        List<Member> members = query.getResultList();
+        Member member = null;
+        if (!members.isEmpty()) {
+            member = members.get(0);
+        }
+
+        transaction.commit();
+        entityManager.close();
+        return member;
+    }
+
+    public Member getMemberByUsernamePassword(String username, String password) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.username = :username AND m.password = :password", Member.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        List<Member> members = query.getResultList();
+        Member member = null;
+        if (!members.isEmpty()) {
+            member = members.get(0);
+        }
 
         transaction.commit();
         entityManager.close();
