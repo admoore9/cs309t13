@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-
 /**
  * Game class
  *
@@ -45,23 +43,22 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "next_game_id", referencedColumnName = "game_id")
     private Game nextGame;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @JoinTable(name = "teamgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
-
+    
     public Game() {
         teams = new ArrayList<Team>();
         officials = new ArrayList<Official>();

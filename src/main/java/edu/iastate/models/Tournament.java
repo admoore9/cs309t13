@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MathUtils;
 
@@ -27,6 +25,7 @@ import edu.iastate.utils.MathUtils;
 @Entity
 @Table(name = "Tournament")
 public class Tournament {
+
     @Id
     @GeneratedValue
     @Column(name = "tournament_id")
@@ -54,11 +53,9 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
-    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<Team> teams;
 
-    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<Game> games;
 
@@ -145,7 +142,6 @@ public class Tournament {
             return;
         }
         this.teams.add(team);
-        team.setTournament(this);
     }
 
     /**
@@ -158,7 +154,6 @@ public class Tournament {
             return;
         }
         this.teams.remove(team);
-        team.setTournament(null);
     }
 
     public List<Game> getGames() {
