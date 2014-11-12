@@ -26,6 +26,7 @@ public class TournamentController {
         return "tournament";
     }
 
+    // TODO check users permission
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTournament(@RequestParam(value = "name") String name,
             @RequestParam(value = "minPlayersPerTeam") int minPlayers,
@@ -49,6 +50,7 @@ public class TournamentController {
      * @param id The id of the tournament.
      * @return JSON representation of the tournament given by id.
      */
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Tournament getTournamentById(@PathVariable int id) {
         TournamentDao tournamentDao = new TournamentDao();
@@ -66,6 +68,8 @@ public class TournamentController {
      * @param officialsPerGame The new number of officials per game.
      * @return true if the tournament was successfully updated, false otherwise.
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateTournament(
             @PathVariable int id,
@@ -96,6 +100,8 @@ public class TournamentController {
      * @param name The name you wish to set the tournament to.
      * @return true if the name was successfully set, false otherwise.
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
     public @ResponseBody boolean setTournamentName(@PathVariable int id, @RequestParam(value = "name") String name) {
         TournamentDao tournamentDao = new TournamentDao();
@@ -121,6 +127,8 @@ public class TournamentController {
      *            tournament.
      * @return true if the minimum number of players was set, false otherwise
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/minPlayersPerTeam", method = RequestMethod.POST)
     public @ResponseBody boolean setMinPlayersPerTeam(
             @PathVariable int id,
@@ -145,6 +153,8 @@ public class TournamentController {
      *            tournament.
      * @return true if the maximum number of players was set, false otherwise
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/maxPlayersPerTeam", method = RequestMethod.POST)
     public @ResponseBody boolean setMaxPlayersPerTeam(
             @PathVariable int id,
@@ -170,6 +180,8 @@ public class TournamentController {
      * @return true if the tournament was set by doubleElimination, false
      *         otherwise
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/doubleElimination", method = RequestMethod.POST)
     public @ResponseBody boolean setDoubleElimination(
             @PathVariable int id,
@@ -192,6 +204,8 @@ public class TournamentController {
      * @param teamId The id of the team to add
      * @return true if the team was added to the tournament, false otherwise
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/addTeam", method = RequestMethod.POST)
     public @ResponseBody boolean addTeamToTournament(
             @PathVariable int id,
@@ -228,6 +242,8 @@ public class TournamentController {
      * @param teamId The id of the team to remove
      * @return true if the team was removed from the tournament, false otherwise
      */
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/removeTeam", method = RequestMethod.POST)
     public @ResponseBody boolean removeTeamFromTournament(
             @PathVariable int id,
@@ -243,6 +259,8 @@ public class TournamentController {
         return true;
     }
 
+    // TODO check users permissions
+    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/form", method = RequestMethod.POST)
     public @ResponseBody void formTournamentById(@PathVariable int id) {
         TournamentDao tournamentDao = new TournamentDao();

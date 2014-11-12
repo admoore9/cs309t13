@@ -35,6 +35,7 @@ public class TeamController {
      * @param id The id of the team.
      * @return JSON representation of the team given by id.
      */
+    // TODO check if valid team
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Team getTeamById(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
@@ -47,6 +48,7 @@ public class TeamController {
      * @param id The id of the team
      * @return JSON representation of the games team has been in.
      */
+    // TODO check if valid team
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
     public @ResponseBody List<Game> getGamesByTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
@@ -62,6 +64,8 @@ public class TeamController {
      * @param name The new name for the team
      * @return true if the name was successfully changed, false otherwise.
      */
+    // TODO check if valid team
+    // TODO check if users permissions are right
     @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
     public @ResponseBody boolean setTeamName(
             @PathVariable int id,
@@ -84,6 +88,8 @@ public class TeamController {
      * @return true if acceptFreeAgents was successfully updated, false
      *         otherwise.
      */
+    // TODO check if valid team
+    // TODO check if users permissions are right
     @RequestMapping(value = "/{id}/acceptFreeAgents", method = RequestMethod.GET)
     public @ResponseBody boolean setAcceptFreeAgents(
             @PathVariable int id,
@@ -105,6 +111,8 @@ public class TeamController {
      * @param teamLeaderId The id for the new team leader.
      * @return true if the leader was changed successfully, false otherwise.
      */
+    // TODO check if valid team
+    // TODO check if users permissions are right
     @RequestMapping(value = "/{id}/teamLeader", method = RequestMethod.POST)
     public @ResponseBody boolean changeTeamLeader(
             @PathVariable int id,

@@ -232,8 +232,7 @@ public class Team {
     }
 
     /**
-     * Returns true if this team has minimum number of required players >>>>>>>
-     * master
+     * Returns true if this team has minimum number of required players master
      * 
      * @return true of condition is met
      */
