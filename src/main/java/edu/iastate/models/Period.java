@@ -54,6 +54,20 @@ public class Period {
         this.day = day;
     }
 
+    /**
+     * @return the slot
+     */
+    public Slot getSlot() {
+        return slot;
+    }
+
+    /**
+     * @param slot the slot to set
+     */
+    public void setSlot(Slot slot) {
+        this.slot = slot;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
