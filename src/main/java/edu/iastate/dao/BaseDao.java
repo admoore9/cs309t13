@@ -21,7 +21,7 @@ import edu.iastate.utils.EntityManagerFactorySingleton;
  */
 public abstract class BaseDao<E> {
 
-    private final EntityManagerFactory entityManagerFactory;
+    protected final EntityManagerFactory entityManagerFactory;
     private final String tableName;
     private final Class<E> clazz;
 

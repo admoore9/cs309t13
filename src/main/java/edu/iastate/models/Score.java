@@ -2,8 +2,8 @@ package edu.iastate.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,23 +16,21 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author brianshannan
  */
 @Entity
+@IdClass(ScoreId.class)
 @Table(name = "Score")
 public class Score {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "score_id")
-    private int id;
 
     @Column(name = "score")
     private int score = 0;
 
     @JsonIgnore
+    @Id
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
     @JsonIgnore
+    @Id
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
@@ -73,7 +71,8 @@ public class Score {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + ((game == null) ? 0 : game.hashCode());
+        result = prime * result + ((team == null) ? 0 : team.hashCode());
         return result;
     }
 
@@ -86,7 +85,15 @@ public class Score {
         if(getClass() != obj.getClass())
             return false;
         Score other = (Score) obj;
-        if(id != other.id)
+        if(game == null) {
+            if(other.game != null)
+                return false;
+        } else if(!game.equals(other.game))
+            return false;
+        if(team == null) {
+            if(other.team != null)
+                return false;
+        } else if(!team.equals(other.team))
             return false;
         return true;
     }
