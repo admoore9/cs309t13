@@ -48,7 +48,7 @@ public class TournamentTests {
 //        Player player = new Player();
 //        TournamentDao tournamentdao = new TournamentDao();
 //        
-//        for(int i=101; i<129; i++) {
+//        for(int i=131; i<132; i++) {
 //            player.setName("Sam" + i);
 //            player.setUsername("sam" + i);
 //            player.setUserType(UserType.PLAYER);
@@ -83,4 +83,16 @@ public class TournamentTests {
         GameDao gameDao = new GameDao();
         t.formBracket(gameDao);
     }
+    
+//    @Test
+//    public void removeGameFromTournament() {
+//        GameDao gamedao = new GameDao();
+//        List<Game> games = gamedao.getAllGames();
+//        TournamentDao tournamentdao = new TournamentDao();
+//        for(Game game: games) {
+//            //game.setTournament(tournamentdao.getTournamentById(2, true, true));
+//            game.setNextGame(null);
+//            gamedao.saveGame(game);
+//        }
+//    }
 }
