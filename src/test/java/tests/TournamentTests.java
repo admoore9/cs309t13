@@ -16,7 +16,7 @@ import edu.iastate.models.Tournament;
 import edu.iastate.models.Member.UserType;
 
 public class TournamentTests {
-//    @Test
+    @Test
 //    public void returnAllPlayerTest() {
 //        TournamentDao tournamentdao = new TournamentDao();
 //        List<Game> games = tournamentdao.getTournamentById(1, true, true).getGames();
@@ -83,6 +83,7 @@ public class TournamentTests {
 //        GameDao gameDao = new GameDao();
 //        t.formBracket(gameDao);
 //    }
+
     
     @Test
     public void removeGameFromTournament() {
@@ -95,4 +96,5 @@ public class TournamentTests {
             gamedao.saveGame(game);
         }
     }
+
 }
