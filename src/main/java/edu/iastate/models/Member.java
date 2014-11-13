@@ -1,21 +1,15 @@
 package edu.iastate.models;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * 
@@ -57,10 +51,6 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
-    protected Set<Survey> surveys;
 
     public Member() {}
 

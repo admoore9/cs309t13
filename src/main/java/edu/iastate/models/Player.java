@@ -7,10 +7,12 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * 
@@ -48,6 +50,10 @@ public class Player extends Member {
     @JsonIgnore
     @ManyToMany(mappedBy = "invitedPlayers")
     private List<Team> invitedTeams;
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
+    protected Set<Survey> surveys;
 
     public List<Team> getInvitedTeams() {
         return invitedTeams;
