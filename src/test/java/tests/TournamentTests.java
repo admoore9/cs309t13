@@ -76,23 +76,23 @@ public class TournamentTests {
         return randomNum;
     }
     
-    @Test
-    public void testFormBracket() {
-        TournamentDao td = new TournamentDao();
-        Tournament t = td.getTournamentById(1, true, true);
-        GameDao gameDao = new GameDao();
-        t.formBracket(gameDao);
-    }
-    
 //    @Test
-//    public void removeGameFromTournament() {
-//        GameDao gamedao = new GameDao();
-//        List<Game> games = gamedao.getAllGames();
-//        TournamentDao tournamentdao = new TournamentDao();
-//        for(Game game: games) {
-//            //game.setTournament(tournamentdao.getTournamentById(2, true, true));
-//            game.setNextGame(null);
-//            gamedao.saveGame(game);
-//        }
+//    public void testFormBracket() {
+//        TournamentDao td = new TournamentDao();
+//        Tournament t = td.getTournamentById(1, true, true);
+//        GameDao gameDao = new GameDao();
+//        t.formBracket(gameDao);
 //    }
+    
+    @Test
+    public void removeGameFromTournament() {
+        GameDao gamedao = new GameDao();
+        List<Game> games = gamedao.getAllGames();
+        TournamentDao tournamentdao = new TournamentDao();
+        for(Game game: games) {
+            //game.setTournament(tournamentdao.getTournamentById(2, true, true));
+            game.setNextGame(null);
+            gamedao.saveGame(game);
+        }
+    }
 }
