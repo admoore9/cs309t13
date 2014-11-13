@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
 <html>
     <head>
         <meta charset="utf-8">
@@ -36,29 +38,35 @@
                     <div class="panel-body">
                         <form role="form" id="surveyForm">
                             <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="sex">Sex:</label>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="sex" value="m" /> Male
-                                        </label>
+                                <% if (member.getSex() == null) { %>
+                                    <div class="form-group">
+                                        <label for="sex">Sex:</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="m" /> Male
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="f" /> Female
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="sex" value="f" /> Female
-                                        </label>
+                                <% } %>
+                                
+                                <% if (member.getHeight() == 0) { %>
+                                    <div class="form-group">
+                                        <label for="height">Height:</label>
+                                        <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
                                     </div>
-                                </div>
+                                <% } %>
                                 
-                                <div class="form-group">
-                                    <label for="height">Height:</label>
-                                    <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="weight">Weight:</label>
-                                    <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">
-                                </div>
+                                <% if (member.getWeight() == 0) { %>
+                                    <div class="form-group">
+                                        <label for="weight">Weight:</label>
+                                        <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">
+                                    </div>
+                                <% } %>
                                 
                                 <div class="form-group">
                                     <label for="compYears">Competitive years played in this sport:</label>
