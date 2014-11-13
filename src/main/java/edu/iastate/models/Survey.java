@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * 
  * @author Andrew
@@ -23,10 +26,13 @@ public class Survey {
     @Column(name = "survey_id")
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Player player;
 
+    // TODO - make this accessible in tournament
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
