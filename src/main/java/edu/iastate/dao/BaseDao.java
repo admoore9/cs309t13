@@ -29,11 +29,11 @@ public abstract class BaseDao<E> {
         this(EntityManagerFactorySingleton.getFactory());
     }
 
+    @SuppressWarnings("unchecked")
     public BaseDao(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
         this.clazz = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        this.tableName = this.clazz.getName();
-        System.out.println(this.tableName);
+        this.tableName = this.clazz.getSimpleName();
     }
 
     /**

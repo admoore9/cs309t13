@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name = "Official")
 public class Official extends Player {
@@ -28,6 +30,7 @@ public class Official extends Player {
         super(name, username, password, userType);
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "officials")
     private List<Game> games;
 
@@ -39,4 +42,3 @@ public class Official extends Player {
         this.games = games;
     }
 }
-
