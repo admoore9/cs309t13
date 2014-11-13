@@ -94,14 +94,13 @@ public class MemberDao {
      * 
      * @param member The member to save to the database
      */
-    public void save(Member member) {
+    public Member save(Member member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        entityManager.persist(member);
-//        Member rM = entityManager.merge(member);
+        Member memberToReturn = entityManager.merge(member);
         transaction.commit();
         entityManager.close();
-//        return rM;
+        return memberToReturn;
     }
 }
