@@ -12,6 +12,13 @@ import edu.iastate.models.Team;
 
 public class ScoreDao extends BaseDao<Score> {
 
+    /**
+     * Gets the score associated with a given game and score.
+     * 
+     * @param game The game associated with the score.
+     * @param team The team associated with the score.
+     * @return The score associated with team and game.
+     */
     public Score getScoreByGameAndTeam(Game game, Team team) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
