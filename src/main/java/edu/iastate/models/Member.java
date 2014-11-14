@@ -78,6 +78,7 @@ public class Member {
      * @param password
      * @param userType
      */
+
     protected Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
@@ -85,9 +86,10 @@ public class Member {
         this.password = password;
         this.userType = userType;
     }
-    
+
     /**
      * Get user type
+     * 
      * @return userType
      */
     public UserType getUserType() {
@@ -96,6 +98,7 @@ public class Member {
 
     /**
      * Set user type
+     * 
      * @param userType
      */
     public void setUserType(UserType userType) {
@@ -104,6 +107,7 @@ public class Member {
 
     /**
      * Get id
+     * 
      * @return
      */
     public int getId() {
@@ -112,6 +116,7 @@ public class Member {
 
     /**
      * Set id
+     * 
      * @param id
      */
     public void setId(int id) {
@@ -120,6 +125,7 @@ public class Member {
 
     /**
      * Get name
+     * 
      * @return
      */
     public String getName() {
@@ -156,17 +162,17 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if(this == obj)
             return true;
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if (member_id != other.member_id)
+        if(member_id != other.member_id)
             return false;
         return true;
-    }    
+    }
 
     public String getSex() {
         return sex;
