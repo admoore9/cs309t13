@@ -202,6 +202,7 @@ public class Tournament {
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
         int roundNumber = 1;
 
+        // If there are playin games, the first full round is round 2
         List<Game> playinGames = new ArrayList<Game>();
         if(numPlayinGames != 0) {
             List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
@@ -225,9 +226,12 @@ public class Tournament {
         secondRoundGames.addAll(secondRoundPlayinGames);
         secondRoundGames.addAll(secondRoundNonPlayinGames);
 
+        // Form and link the games
         formRoundsAndLink(secondRoundGames, roundNumber, gameDao);
 
+        // If there's playin games
         if(numPlayinGames != 0) {
+            // Playin games to second round games
             List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size(), 0);
 
             int count = 0;
@@ -240,6 +244,9 @@ public class Tournament {
                     count++;
                 }
             }
+
+            // Account for the game where there's teams that haven't played a
+            // game and teams advancing from playin games
             if(count != numPlayinGames) {
                 Game nextGame = secondRoundNonPlayinGames.get(0);
                 for(int i = 0; i < numPlayinGames - count; i++) {
@@ -256,6 +263,10 @@ public class Tournament {
      * Forms games for the given teams.
      *
      * @param currRoundTeams The teams to form games for.
+     * @param roundNumber The round number for the games you are forming.
+     * @param gamesNeeded The number of games you need for these teams.
+     * @param playinToFirst How many slots to save in the first game for playin
+     *            game winners.
      * @return A list of games formed based on the given teams.
      */
     public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded, int playinToFirst) {
@@ -277,6 +288,14 @@ public class Tournament {
         return currRoundGames;
     }
 
+    /**
+     * Takes the games in the current round and forms the rest of the brackets
+     * for the tournament, recursively.
+     * 
+     * @param currRoundGames The games in the current round.
+     * @param roundNumber The round number.
+     * @param gameDao A GameDao object that will allow the saving of games.
+     */
     public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
         if(currRoundGames.size() == 1) {
             Game game = currRoundGames.get(0);
@@ -320,6 +339,8 @@ public class Tournament {
      *
      * @param currRoundCount The number of games in the current round.
      * @param nextRoundCount The number of games in the next round.
+     * @param playinToFirst The number of slots to save in the first game for
+     *            playin game winners
      * @return A list with the game number as the index and the number of teams
      *         that should be in it as the value at that index.
      */
@@ -331,10 +352,12 @@ public class Tournament {
 
         for(int i = 0; i < currRoundCount; i++) {
             int ind = i % nextRoundCount;
+            // Save slots for playin game winners
             if(ind == 0 && playinToFirst > 0) {
                 playinToFirst--;
                 continue;
             }
+            // Don't allow more teams per game than the tournament settting
             if(arr[ind] >= this.teamsPerGame) {
                 continue;
             }
