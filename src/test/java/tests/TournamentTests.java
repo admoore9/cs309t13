@@ -16,7 +16,7 @@ import edu.iastate.models.Tournament;
 import edu.iastate.models.Member.UserType;
 
 public class TournamentTests {
-    @Test
+//    @Test
 //    public void returnAllPlayerTest() {
 //        TournamentDao tournamentdao = new TournamentDao();
 //        List<Game> games = tournamentdao.getTournamentById(1, true, true).getGames();
@@ -48,7 +48,7 @@ public class TournamentTests {
 //        Player player = new Player();
 //        TournamentDao tournamentdao = new TournamentDao();
 //        
-//        for(int i=131; i<132; i++) {
+//        for(int i=350; i<351; i++) {
 //            player.setName("Sam" + i);
 //            player.setUsername("sam" + i);
 //            player.setUserType(UserType.PLAYER);
@@ -76,25 +76,25 @@ public class TournamentTests {
         return randomNum;
     }
     
-//    @Test
-//    public void testFormBracket() {
-//        TournamentDao td = new TournamentDao();
-//        Tournament t = td.getTournamentById(1, true, true);
-//        GameDao gameDao = new GameDao();
-//        t.formBracket(gameDao);
-//    }
+    @Test
+    public void testFormBracket() {
+        TournamentDao td = new TournamentDao();
+        Tournament t = td.getTournamentById(1, true, true);
+        GameDao gameDao = new GameDao();
+        t.formBracket(gameDao);
+    }
 
     
-    @Test
-    public void removeGameFromTournament() {
-        GameDao gamedao = new GameDao();
-        List<Game> games = gamedao.getAllGames();
-        TournamentDao tournamentdao = new TournamentDao();
-        for(Game game: games) {
-            //game.setTournament(tournamentdao.getTournamentById(2, true, true));
-            game.setNextGame(null);
-            gamedao.saveGame(game);
-        }
-    }
+//    @Test
+//    public void removeGameFromTournament() {
+//        GameDao gamedao = new GameDao();
+//        List<Game> games = gamedao.getAllGames();
+//        TournamentDao tournamentdao = new TournamentDao();
+//        for(Game game: games) {
+//            game.setTournament(tournamentdao.getTournamentById(2, true, true));
+//            game.setNextGame(null);
+//            gamedao.saveGame(game);
+//        }
+//    }
 
 }
