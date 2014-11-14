@@ -18,7 +18,5 @@
     </servlet-mapping>
 
     <!-- The root url gives the index.jsp file -->
-    <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
-    </welcome-file-list>
+
 </web-app>
