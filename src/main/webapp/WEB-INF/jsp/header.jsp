@@ -30,22 +30,22 @@
                         <a href="/register">Sign up!</a>
                     </form>
                 <% } else {
-                    String userType = member.getUserType().toString(); %>
+                    Member.UserType userType = member.getUserType();%>
                     <div class="navbar-right">
                         <ul class="nav navbar-nav navbar-right">
 
-                            <% if (!userType.equals("PLAYER")) { %>
+                            <% if (userType != Member.UserType.PLAYER) { %>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Context <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
     
-                                        <% if (userType.equals("ADMIN")) { %>
+                                        <% if (userType == Member.UserType.ADMIN) { %>
                                           <li>
                                               <a href="#">Administrator</a>
                                           </li>
                                         <% } %>
     
-                                        <% if (userType.equals("COORDINATOR") || userType.equals("ADMIN")) { %>
+                                        <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
                                           <li>
                                               <a href="#">Coordinator</a>
                                           </li>
