@@ -13,7 +13,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Intramurals</a>
+                <a class="navbar-brand" href="/">Iowa State Intramurals</a>
             </div>
             <div class="navbar-collapse collapse">
                 <% if (member == null) { %>
@@ -27,7 +27,7 @@
                         <div class="btn-group">
                             <input type="submit" name="submitLogin" class="btn btn-success" value="Login"/>
                         </div>
-                        <a href="/register">Get signed up!</a>
+                        <a href="/register">Sign up!</a>
                     </form>
                 <% } else {
                     String userType = member.getUserType().toString(); %>

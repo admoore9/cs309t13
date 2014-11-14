@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title></title>
+    <title>Survey</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../../resources/js/bootstrap/css/bootstrap.min.css">
