@@ -32,15 +32,18 @@ public class Player extends Member {
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);
+        this.surveys = new HashSet<Survey>();
     }
 
     protected Player(UserType userType) {
         super(userType);
+        this.surveys = new HashSet<Survey>();
     }
 
     protected Player(String name, String username, String password,
             UserType userType) {
         super(name, username, password, userType);
+        this.surveys = new HashSet<Survey>();
     }
 
     @JsonIgnore
@@ -48,7 +51,7 @@ public class Player extends Member {
     private List<Team> teams;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "invitedPlayers")
+    @ManyToMany(mappedBy = "invitedPlayers", fetch = FetchType.EAGER)
     private List<Team> invitedTeams;
 
     @JsonManagedReference

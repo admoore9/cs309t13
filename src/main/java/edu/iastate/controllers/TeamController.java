@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
+import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Player;
 import edu.iastate.models.Team;
+import edu.iastate.models.Tournament;
 
 @Controller
 @RequestMapping("/team")
@@ -26,7 +28,27 @@ public class TeamController {
         TeamDao teamdao = new TeamDao();
         Team team = teamdao.getTeamById(2, true, true, false);
         model.addAttribute("teams", team.getGames());
-        return "team";
+        return "createTeam";
+    }
+    
+    // TODO check users permission
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
+            @RequestParam(value = "tournamentId") int tournamentId,
+            @RequestParam(value = "invitedPlayerId") int invitedPlayerId) {
+        Team team = new Team(); 
+        PlayerDao playerDao = new PlayerDao();
+        TournamentDao tournamentDao = new TournamentDao();
+        System.out.println("*************** 1");
+        team.setName(name);
+        team.setTeamLeader(playerDao.getPlayerById(1, true));
+        System.out.println("*************** 2");
+        team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
+        System.out.println("*************** 3");
+        team.setTournament(tournamentDao.getTournamentById(tournamentId, true, true));
+        
+        TeamDao teamDao = new TeamDao();
+        teamDao.saveTeam(team);
     }
 
     /**

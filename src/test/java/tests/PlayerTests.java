@@ -69,7 +69,7 @@ public class PlayerTests {
         // When
         when(query.getSingleResult()).thenReturn(expectedPlayer);
         
-        Player actualPlayer = playerDao.getPlayerById(1, false);
+        Player actualPlayer = playerDao.getPlayerById(1, true);
         // Then
         assertNotNull(actualPlayer);
         assertSame(expectedPlayer, actualPlayer);
