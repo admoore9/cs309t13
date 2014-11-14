@@ -25,18 +25,18 @@ public class AvailabilityDao {
      * 
      * @param member The member to save to the database
      */
-    public void saveAvailability(Availability availability) {
+    public Availability saveAvailability(Availability availability) {
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.persist(availability);
-
-        entityManager.merge(availability);
+        Availability savedAvailability = entityManager.merge(availability);
         
         transaction.commit();
         entityManager.close();
+
+        return savedAvailability;
     }
 
     public Availability getAvailabilityById(int id) {
