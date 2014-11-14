@@ -205,13 +205,14 @@ public class Tournament {
         List<Game> playinGames = new ArrayList<Game>();
         if(numPlayinGames != 0) {
             List<Team> teamsPlayinGames = this.teams.subList(0, numPlayinTeams);
-            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames);
+            playinGames = groupTeamsIntoGames(teamsPlayinGames, roundNumber, numPlayinGames, 0);
             roundNumber++;
         }
 
         // The teams that didn't have a play in game
         int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
-        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
+        int playinToFirst = (int) Math.ceil(1.0 * numPlayinGames / this.teamsPerGame);
+        List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames, playinToFirst);
         List<Game> secondRoundPlayinGames = new ArrayList<Game>();
         for(int i = 0; i < numNonPlayinGames; i++) {
             Game game = new Game();
@@ -223,19 +224,25 @@ public class Tournament {
         List<Game> secondRoundGames = new ArrayList<Game>();
         secondRoundGames.addAll(secondRoundPlayinGames);
         secondRoundGames.addAll(secondRoundNonPlayinGames);
-        System.out.println(secondRoundPlayinGames.size());
-        System.out.println(secondRoundNonPlayinGames.size());
-        System.out.println(secondRoundGames.size());
 
         formRoundsAndLink(secondRoundGames, roundNumber, gameDao);
 
         if(numPlayinGames != 0) {
-            List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size());
+            List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size(), 0);
 
             int count = 0;
             for(int i = 0; i < playinGamesToGames.size(); i++) {
                 Game nextGame = secondRoundPlayinGames.get(i);
                 for(int j = 0; j < playinGamesToGames.get(i); j++) {
+                    Game game = playinGames.get(count);
+                    game.setNextGame(nextGame);
+                    gameDao.createGame(game);
+                    count++;
+                }
+            }
+            if(count != numPlayinGames) {
+                Game nextGame = secondRoundNonPlayinGames.get(0);
+                for(int i = 0; i < numPlayinGames - count; i++) {
                     Game game = playinGames.get(count);
                     game.setNextGame(nextGame);
                     gameDao.createGame(game);
@@ -251,8 +258,8 @@ public class Tournament {
      * @param currRoundTeams The teams to form games for.
      * @return A list of games formed based on the given teams.
      */
-    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded) {
-        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded);
+    public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded, int playinToFirst) {
+        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded, playinToFirst);
         List<Game> currRoundGames = new ArrayList<Game>();
 
         // int count = 0;
@@ -281,7 +288,7 @@ public class Tournament {
 
         // Form next round
         int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
-        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen);
+        List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen, 0);
         List<Game> nextRoundGames = new ArrayList<Game>();
 
         for(int i = 0; i < nextRoundLen; i++) {
@@ -316,14 +323,22 @@ public class Tournament {
      * @return A list with the game number as the index and the number of teams
      *         that should be in it as the value at that index.
      */
-    public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount) {
+    public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount, int playinToFirst) {
         Integer[] arr = new Integer[nextRoundCount];
         for(int i = 0; i < arr.length; i++) {
             arr[i] = 0;
         }
 
         for(int i = 0; i < currRoundCount; i++) {
-            arr[i % nextRoundCount]++;
+            int ind = i % nextRoundCount;
+            if(ind == 0 && playinToFirst > 0) {
+                playinToFirst--;
+                continue;
+            }
+            if(arr[ind] >= this.teamsPerGame) {
+                continue;
+            }
+            arr[ind]++;
         }
 
         return Arrays.asList(arr);
