@@ -26,16 +26,18 @@ public class PeriodDao {
      * 
      * @param member The member to save to the database
      */
-    public void savePeriod(Period period) {
+    public Period savePeriod(Period period) {
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.merge(period);
+        Period savedPeriod = entityManager.merge(period);
         
         transaction.commit();
         entityManager.close();
+        
+        return savedPeriod;
     }
     
     public void savePeriods(List<Period> periods) {

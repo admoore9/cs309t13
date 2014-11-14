@@ -1,5 +1,6 @@
 package edu.iastate.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -40,19 +41,19 @@ public class DayDao {
         entityManager.close();
     }
 
-    public void saveDays(List<Day> days) {
+    public List<Day> saveDays(List<Day> days) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        for (Day day : days) {
-            entityManager.persist(day);
-            entityManager.merge(day);
-        }
-
+        List<Day> savedDays = new ArrayList<Day>();
+        for (Day day : days)
+            savedDays.add(entityManager.merge(day));
+            
         transaction.commit();
         entityManager.close();
 
+        return savedDays;
     }
 
 }
