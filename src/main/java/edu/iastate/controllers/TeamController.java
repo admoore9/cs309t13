@@ -26,10 +26,6 @@ public class TeamController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getTeam(Model model) {
-
-//        TeamDao teamdao = new TeamDao();
-//        Team team = teamdao.getTeamById(2, true, true, false);
-//        model.addAttribute("teams", team.getGames());
         return "createTeam";
     }
     
