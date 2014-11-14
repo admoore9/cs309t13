@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -31,7 +32,9 @@ public class Availability {
     @OneToMany(mappedBy = "availability")
     private Set<Day> days;
     
-    public Availability() {}
+    public Availability() {
+        days = new HashSet<Day>();
+    }
 
     /**
      * @return the availability_id
