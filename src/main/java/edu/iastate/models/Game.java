@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * Game class
@@ -65,6 +66,7 @@ public class Game {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
     
+    @JsonManagedReference
     @OneToMany(mappedBy = "game")
     private Set<Score> scores;
 

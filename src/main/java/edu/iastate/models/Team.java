@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name = "Team")
@@ -60,6 +61,7 @@ public class Team {
     @Column(name = "team_skill")
     private int teamSkillLevel;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "team")
     private Set<Score> scores;
 

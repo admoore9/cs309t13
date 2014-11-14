@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 /**
  * Score class. Stores the score for a certain team in a certain game.
@@ -23,13 +23,13 @@ public class Score {
     @Column(name = "score")
     private int score = 0;
 
-    @JsonIgnore
+    @JsonBackReference
     @Id
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @JsonIgnore
+    @JsonBackReference
     @Id
     @ManyToOne
     @JoinColumn(name = "team_id")
