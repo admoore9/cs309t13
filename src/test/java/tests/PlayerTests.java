@@ -65,7 +65,7 @@ public class PlayerTests {
     public void getPlayerByIdTest() {
         // Given
         when(entityManager.createQuery(selectByIdQuery, Player.class)).thenReturn(query);
-        Player expectedPlayer = new Player("test1", "test1", "asdf");
+        Player expectedPlayer = new Player("Sam", "sam", "123");
         // When
         when(query.getSingleResult()).thenReturn(expectedPlayer);
         

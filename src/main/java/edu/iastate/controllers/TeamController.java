@@ -39,12 +39,10 @@ public class TeamController {
         Team team = new Team(); 
         PlayerDao playerDao = new PlayerDao();
         TournamentDao tournamentDao = new TournamentDao();
-        System.out.println("*************** 1");
         team.setName(name);
-        team.setTeamLeader(playerDao.getPlayerById(1, true));
-        System.out.println("*************** 2");
+        Player player = playerDao.getPlayerById(1, true);
+        team.setTeamLeader(player);
         team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
-        System.out.println("*************** 3");
         team.setTournament(tournamentDao.getTournamentById(tournamentId, true, true));
         
         TeamDao teamDao = new TeamDao();
