@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Coordinator;
 
-public class CoordinatorDao extends MemberDao {
+public class CoordinatorDao extends OfficialDao {
 
     public CoordinatorDao() {
         super();
@@ -55,21 +55,5 @@ public class CoordinatorDao extends MemberDao {
         transaction.commit();
         entityManager.close();
         return coordinator;
-    }
-
-    /**
-     * Saves the given coordinator to the database
-     * 
-     * @param coordinator The coordinator to save to the database
-     */
-    public void saveCoordinator(Coordinator coordinator) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(coordinator);
-
-        transaction.commit();
-        entityManager.close();
     }
 }

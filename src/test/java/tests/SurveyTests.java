@@ -13,7 +13,7 @@ public class SurveyTests {
     public void constructorTest() {
         PlayerDao playerDao = new PlayerDao();
         Player p = new Player("Ames", "ames", "123");
-        playerDao.savePlayer(p);
+        playerDao.save(p);
         
         AvailabilityDao aD = new AvailabilityDao();
         Availability a = new Availability();
