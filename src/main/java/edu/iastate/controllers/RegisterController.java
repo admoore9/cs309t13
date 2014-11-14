@@ -46,7 +46,7 @@ public class RegisterController {
         Player newPlayer = new Player(name, username, genPassword);
 
         // Save new member to database
-        playerDao.savePlayer(newPlayer);
+        playerDao.save(newPlayer);
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
