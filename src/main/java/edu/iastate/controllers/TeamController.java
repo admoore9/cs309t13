@@ -35,18 +35,18 @@ public class TeamController {
             @RequestParam(value = "tournamentId") int tournamentId,
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
             HttpSession session) {
-        Team team = new Team(); 
-        
-        PlayerDao playerDao = new PlayerDao();
+        Team team = new Team();
         Player player = (Player) session.getAttribute("member");
         
         TournamentDao tournamentDao = new TournamentDao();
+        TeamDao teamDao = new TeamDao();        
+        PlayerDao playerDao = new PlayerDao();
+        
         team.setName(name);
         team.setTeamLeader(player);
         team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
         team.setTournament(tournamentDao.getTournamentById(tournamentId, false, false));
-        
-        TeamDao teamDao = new TeamDao();
+
         teamDao.saveTeam(team);
     }
 
