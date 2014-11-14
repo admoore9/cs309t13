@@ -24,10 +24,6 @@
                                     <input type="text" class="form-control" id="create-team-name-input">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tournamentId">Tournament ID:</label>
-                                    <input type="text" class="form-control" id="create-team-tournamentId-input">
-                                </div> 
-                                <div class="form-group">
                                     <label for="invitedPlayerId">Invited Player ID:</label>
                                     <input type="text" class="form-control" id="create-team-invitedPlayerId-input">
                                 </div>

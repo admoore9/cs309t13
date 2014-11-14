@@ -32,7 +32,6 @@ public class TeamController {
     // TODO check users permission
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
-            @RequestParam(value = "tournamentId") int tournamentId,
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
             HttpSession session) {
         Team team = new Team();
@@ -45,7 +44,7 @@ public class TeamController {
         team.setName(name);
         team.setTeamLeader(player);
         team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
-        team.setTournament(tournamentDao.getTournamentById(tournamentId, false, false));
+        team.setTournament(tournamentDao.getTournamentById(1, false, false));
 
         teamDao.saveTeam(team);
     }
