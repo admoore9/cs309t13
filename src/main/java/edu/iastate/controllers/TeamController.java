@@ -2,6 +2,8 @@ package edu.iastate.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +27,9 @@ public class TeamController {
     @RequestMapping(method = RequestMethod.GET)
     public String getTeam(Model model) {
 
-        TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true, false);
-        model.addAttribute("teams", team.getGames());
+//        TeamDao teamdao = new TeamDao();
+//        Team team = teamdao.getTeamById(2, true, true, false);
+//        model.addAttribute("teams", team.getGames());
         return "createTeam";
     }
     
@@ -35,15 +37,19 @@ public class TeamController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
             @RequestParam(value = "tournamentId") int tournamentId,
-            @RequestParam(value = "invitedPlayerId") int invitedPlayerId) {
+            @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
+            HttpSession session) {
         Team team = new Team(); 
+        System.out.println("Here");
+        
         PlayerDao playerDao = new PlayerDao();
+        Player player = (Player) session.getAttribute("member");
+        
         TournamentDao tournamentDao = new TournamentDao();
         team.setName(name);
-        Player player = playerDao.getPlayerById(1, true);
         team.setTeamLeader(player);
         team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
-        team.setTournament(tournamentDao.getTournamentById(tournamentId, true, true));
+        team.setTournament(tournamentDao.getTournamentById(tournamentId, false, false));
         
         TeamDao teamDao = new TeamDao();
         teamDao.saveTeam(team);
