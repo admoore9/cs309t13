@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,20 +28,31 @@ public class Player extends Member {
     public Player() {
         super(UserType.PLAYER);
         this.surveys = new HashSet<Survey>();
+        this.invitedTeams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     public Player(String name, String username, String password) {
         super(name, username, password,
                 UserType.PLAYER);
+        this.surveys = new HashSet<Survey>();
+        this.invitedTeams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     protected Player(UserType userType) {
         super(userType);
+        this.surveys = new HashSet<Survey>();
+        this.invitedTeams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     protected Player(String name, String username, String password,
             UserType userType) {
         super(name, username, password, userType);
+        this.surveys = new HashSet<Survey>();
+        this.invitedTeams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     @JsonIgnore
