@@ -28,6 +28,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
  *
  */
 
+// TODO game winner and associated methods
 @Entity
 @Table(name = "Game")
 public class Game {

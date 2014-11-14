@@ -12,6 +12,7 @@ import edu.iastate.dao.GameDao;
 import edu.iastate.dao.ScoreDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.models.Game;
+import edu.iastate.models.Member;
 import edu.iastate.models.Score;
 import edu.iastate.models.Team;
 
@@ -29,8 +30,13 @@ public class ScoreController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody Score getScore(
+            HttpSession session,
             @RequestParam(value = "gameId") int gameId,
             @RequestParam(value = "teamId") int teamId) {
+        if(session.getAttribute("member") == null) {
+            return null;
+        }
+
         Game game = (new GameDao()).getGameById(gameId, false);
         Team team = (new TeamDao()).getTeamById(teamId, false, false, false);
         ScoreDao scoreDao = new ScoreDao();
@@ -51,6 +57,12 @@ public class ScoreController {
             @RequestParam(value = "score") int teamScore,
             @RequestParam(value = "gameId") int gameId,
             @RequestParam(value = "teamId") int teamId) {
+        Member me = (Member) session.getAttribute("member");
+        // Don't allow players to update scores, everyone else should be able to
+        if(me.getUserType() == Member.UserType.PLAYER) {
+            return false;
+        }
+
         Game game = (new GameDao()).getGameById(gameId, false);
         Team team = (new TeamDao()).getTeamById(teamId, false, false, false);
         ScoreDao scoreDao = new ScoreDao();
