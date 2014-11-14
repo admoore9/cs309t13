@@ -36,7 +36,6 @@ public class TeamController {
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
             HttpSession session) {
         Team team = new Team(); 
-        System.out.println("Here");
         
         PlayerDao playerDao = new PlayerDao();
         Player player = (Player) session.getAttribute("member");
