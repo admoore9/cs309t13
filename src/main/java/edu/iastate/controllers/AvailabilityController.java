@@ -44,8 +44,19 @@ public class AvailabilityController {
             @RequestParam(value = "Saturday") String saturday,
             @RequestParam(value = "Sunday") String sunday) {
 
-        Set<Day> days = availability.getDays();
+        Set<Day> days;
+        availabilityDao.
         
+        if (monday != null) {
+            Day mon = new Day();
+            mon.setAvailability(availability);
+            String[] slots = monday.split(",");
+            for (String slot : slots) {
+                Period
+            }
+        }
+        for (Day day : days) {
+        }
         System.out.println(monday);
         // MemberDao memberDao = new MemberDao();
         //

@@ -52,5 +52,4 @@ public class AvailabilityDao {
         entityManager.close();
         return availability;
     }
-
 }
