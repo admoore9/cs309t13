@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Player;
-import edu.iastate.models.Team;
 
 public class PlayerDao extends MemberDao {
 
@@ -59,23 +58,6 @@ public class PlayerDao extends MemberDao {
         return player;
     }
 
-    /**
-     * Saves the given player to the database
-     * 
-     * @param player The player to save to the database
-     */
-    public void savePlayer(Player player) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.persist(player);
-        entityManager.merge(player);
-
-        transaction.commit();
-        entityManager.close();
-    }
-    
     /**
      * Loads the foreign keys for a player based on the booleans
      * 

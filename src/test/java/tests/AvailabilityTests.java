@@ -12,7 +12,7 @@ public class AvailabilityTests {
     public void constructorTest() {
         PlayerDao pA = new PlayerDao();
         Player p = new Player("Ames", "ames", "123");
-        pA.savePlayer(p);
+        pA.save(p);
         
         AvailabilityDao aD = new AvailabilityDao();
         Availability availability = new Availability();
