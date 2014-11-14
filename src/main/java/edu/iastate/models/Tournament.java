@@ -191,14 +191,14 @@ public class Tournament {
 
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
-        int leftoverTeams = this.teams.size() - (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
+        int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
+        int leftoverTeams = this.teams.size() - numGamesFirstFullRound;
         int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
 
-        List<Game> currRoundGames = new ArrayList<Game>();
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
         int roundNumber = 1;
 
@@ -212,14 +212,36 @@ public class Tournament {
         // The teams that didn't have a play in game
         int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
         List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames);
-        currRoundGames.addAll(secondRoundNonPlayinGames);
+        List<Game> secondRoundPlayinGames = new ArrayList<Game>();
+        for(int i = 0; i < numNonPlayinGames; i++) {
+            Game game = new Game();
+            game.setTournament(this);
+            game.setRoundNumber(2);
+            secondRoundPlayinGames.add(game);
+        }
 
-        formRoundsAndLink(currRoundGames, roundNumber, gameDao);
+        List<Game> secondRoundGames = new ArrayList<Game>();
+        secondRoundGames.addAll(secondRoundPlayinGames);
+        secondRoundGames.addAll(secondRoundNonPlayinGames);
+        System.out.println(secondRoundPlayinGames.size());
+        System.out.println(secondRoundNonPlayinGames.size());
+        System.out.println(secondRoundGames.size());
 
-        for(int i = currRoundGames.size() - numPlayinGames; i < currRoundGames.size(); i++) {
-            Game game = playinGames.get(currRoundGames.size() - i - 1);
-            game.setNextGame(currRoundGames.get(i));
-            gameDao.createGame(game);
+        formRoundsAndLink(secondRoundGames, roundNumber, gameDao);
+
+        if(numPlayinGames != 0) {
+            List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size());
+
+            int count = 0;
+            for(int i = 0; i < playinGamesToGames.size(); i++) {
+                Game nextGame = secondRoundPlayinGames.get(i);
+                for(int j = 0; j < playinGamesToGames.get(i); j++) {
+                    Game game = playinGames.get(count);
+                    game.setNextGame(nextGame);
+                    gameDao.createGame(game);
+                    count++;
+                }
+            }
         }
     }
 
