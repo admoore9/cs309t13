@@ -48,14 +48,14 @@
                                 </div>
                             <% } %>
 
-                            <% if (member.getHeight() == 0) { %>
+                            <% if (member.getHeight() == -1) { %>
                                 <div class="form-group">
                                     <label for="height">Height:</label>
                                     <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
                                 </div>
                             <% } %>
 
-                            <% if (member.getWeight() == 0) { %>
+                            <% if (member.getWeight() == -1) { %>
                                 <div class="form-group">
                                     <label for="weight">Weight:</label>
                                     <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">

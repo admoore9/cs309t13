@@ -71,6 +71,8 @@ public class Member {
         this.username = username;
         this.password = password;
         this.userType = userType;
+        this.height = -1;
+        this.weight = -1;
     }
 
     /**
@@ -148,14 +150,14 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj)
             return true;
-        if(obj == null)
+        if (obj == null)
             return false;
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if(member_id != other.member_id)
+        if (member_id != other.member_id)
             return false;
         return true;
     }
