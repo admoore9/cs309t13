@@ -1,5 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page session="true" %>
+<%@ page import="javax.persistence.EnumType" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +19,15 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+                <!-- Page specific html -->
+
+            </div>
+            <jsp:include page="sideBar.jsp"/>
+        </div>
     </div>
 </body>
 <footer>

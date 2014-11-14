@@ -1,4 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="true" %>
+<%@ page import="javax.persistence.EnumType" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
 <html>
@@ -18,9 +22,16 @@
 </head>
 <body data-tournament-id="<c:out value='${tournamentId}'/>">
     <jsp:include page="header.jsp"/>
-    <h2>Bracket</h2>
-    <h3>Tournament Name: <span id="tournament-name"></span></h3>
-    <div id="bracket"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                <h2>Bracket</h2>
+                <h3>Tournament Name: <span id="tournament-name"></span></h3>
+                <div id="bracket"></div>
+            </div>
+            <jsp:include page="sideBar.jsp"/>
+        </div>
+    </div>
 </body>
 <footer>
     <!-- jQuery library -->
