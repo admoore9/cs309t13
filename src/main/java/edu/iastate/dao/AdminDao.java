@@ -14,7 +14,6 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
-
 import edu.iastate.models.Admin;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
@@ -31,7 +30,6 @@ public class AdminDao extends CoordinatorDao {
 
     /**
      * Get a list of all admins in database
-     * 
      * @return List of admins in database
      */
     public List<Admin> getAllAdmins() {
@@ -40,8 +38,7 @@ public class AdminDao extends CoordinatorDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Admin> query = entityManager.createQuery("from Admin",
-                Admin.class);
+        TypedQuery<Admin> query = entityManager.createQuery("from Admin", Admin.class);
         List<Admin> admins = query.getResultList();
 
         transaction.commit();
@@ -52,23 +49,18 @@ public class AdminDao extends CoordinatorDao {
 
     /**
      * Gets an admin matching the given id
-     * 
-     * @param id
-     *            The id of the admin you wish to fetch
+     * @param id The id of the admin you wish to fetch
      * @return admin by id
      */
     public Admin getAdminById(int id) throws NoResultException {
-        EntityManager entityManager = entityManagerFactory
-                .createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Admin> query = entityManager.createQuery(
-                "from Admin a where a.member_id = :id", Admin.class);
+        TypedQuery<Admin> query = entityManager.createQuery("from Admin a where a.member_id = :id", Admin.class);
         query.setParameter("id", id);
         try {
             Admin admin = query.getSingleResult();
-
             transaction.commit();
             entityManager.close();
             return admin;
@@ -78,8 +70,7 @@ public class AdminDao extends CoordinatorDao {
     }
 
     public <T extends Member> void promote(final T member) {
-        String memberClassName = member.getClass().getSimpleName()
-                .toUpperCase();
+        String memberClassName = member.getClass().getSimpleName().toUpperCase();
         String targetTable = member.getUserType().name();
         int id = member.getId();
 
