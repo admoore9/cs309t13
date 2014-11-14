@@ -78,13 +78,8 @@ $( document ).ready(function() {
 			url: url,
 			data: $('#surveyForm').serialize(),
 			success: function(data) {
-				$('#surveyContainer').fadeOut(500);
-				$('#surveyAlert').delay(500).fadeIn(500);
+				window.location.href = "/profile";
 			}
 		});
 	})
 });
-
-function cancelForm() {
-	window.history.back()
-}

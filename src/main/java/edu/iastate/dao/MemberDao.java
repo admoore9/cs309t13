@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Member;
-import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
@@ -32,10 +31,10 @@ public class MemberDao {
     }
 
     /**
-     * Login with provided 
+     * Login with given username and password 
      * @param username
      * @param password
-     * @return
+     * @return Member matching given username and password
      */
     public Member login(String username, String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -53,18 +52,10 @@ public class MemberDao {
         return member;
     }
 
-    public void setName(int id, String newName) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        TypedQuery<Member> query = entityManager.createQuery("UPDATE Member SET member_name=:name WHERE member_id=:id", Member.class);
-        query.setParameter("name", newName);
-
-        transaction.commit();
-        entityManager.close();
-    }
-
+    /**
+     * Get all members in the database
+     * @return List of members in database
+     */
     public List<Member> getAllMembers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -79,6 +70,11 @@ public class MemberDao {
         return members;
     }
 
+    /**
+     * Get member matching given id
+     * @param id ID of member to search for
+     * @return Member Member matching id
+     */
     public Member getMemberById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -87,6 +83,49 @@ public class MemberDao {
         TypedQuery<Member> query = entityManager.createQuery("from Member m where m.member_id = :id", Member.class);
         query.setParameter("id", id);
         Member member = query.getSingleResult();
+
+        transaction.commit();
+        entityManager.close();
+        return member;
+    }
+
+    /**
+     * Gets a member given a username
+     * 
+     * @param username
+     * @return a member with 
+     */
+    public Member getMemberByUsername(String username) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("SELECT m from Member m WHERE m.username = :username", Member.class);
+        query.setParameter("username", username);
+        List<Member> members = query.getResultList();
+        Member member = null;
+        if (!members.isEmpty()) {
+            member = members.get(0);
+        }
+
+        transaction.commit();
+        entityManager.close();
+        return member;
+    }
+
+    public Member getMemberByUsernamePassword(String username, String password) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.username = :username AND m.password = :password", Member.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        List<Member> members = query.getResultList();
+        Member member = null;
+        if (!members.isEmpty()) {
+            member = members.get(0);
+        }
 
         transaction.commit();
         entityManager.close();

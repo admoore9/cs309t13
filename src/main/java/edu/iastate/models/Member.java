@@ -1,17 +1,14 @@
 package edu.iastate.models;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,8 +22,8 @@ import javax.persistence.Table;
 public class Member {
 
     @Id
-    @GeneratedValue
-    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_id", unique = true, nullable = false)
     private int member_id;
 
     @Column(name = "name")
@@ -48,16 +45,13 @@ public class Member {
     private Integer weight;
 
     public enum UserType {
-        PLAYER, OFFICIAL, COORDINATOR, ADMIN
+        MEMBER, PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
-    private List<Survey> surveys;
-    
     public Member() {}
 
     protected Member(UserType userType) {
@@ -68,9 +62,9 @@ public class Member {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = UserType.PLAYER;
+        this.userType = UserType.MEMBER;
     }
-    
+
     protected Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
@@ -79,47 +73,47 @@ public class Member {
         this.userType = userType;
     }
 
-    public List<Survey> getSurveys() {
-        return surveys;
-    }
-
-    public void setSurveys(List<Survey> surveys) {
-        this.surveys = surveys;
-    }
-    
     /**
-     * Returns the survey pertaining to a particular tournament
+     * Get user type
      * 
-     * @param tournament
-     * The tournament whose survey we are interested in
-     * @return
-     * Survey object pertaining to that tournament
+     * @return userType
      */
-    public Survey getSurveyByTournament(Tournament tournament) {
-        for(Survey s: surveys) {
-            if(s.getTournament().equals(tournament)) {
-                return s;
-            }
-        }
-        return null;
-    }
-    
     public UserType getUserType() {
         return userType;
     }
 
+    /**
+     * Set user type
+     * 
+     * @param userType
+     */
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
+    /**
+     * Get id
+     * 
+     * @return
+     */
     public int getId() {
         return member_id;
     }
 
+    /**
+     * Set id
+     * 
+     * @param id
+     */
     public void setId(int id) {
         this.member_id = id;
     }
 
+    /**
+     * Get name
+     * 
+     * @return
+     */
     public String getName() {
         return name;
     }
@@ -154,17 +148,17 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if(this == obj)
             return true;
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if (member_id != other.member_id)
+        if(member_id != other.member_id)
             return false;
         return true;
-    }    
+    }
 
     public String getSex() {
         return sex;
