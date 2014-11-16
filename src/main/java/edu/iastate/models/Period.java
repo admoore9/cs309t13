@@ -68,6 +68,20 @@ public class Period {
         this.slot = slot;
     }
 
+    /**
+     * @return the period_id
+     */
+    public int getPeriod_id() {
+        return period_id;
+    }
+
+    /**
+     * @param period_id the period_id to set
+     */
+    public void setPeriod_id(int period_id) {
+        this.period_id = period_id;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

@@ -74,6 +74,20 @@ public class Member {
     }
     
     /**
+     * @return the member_id
+     */
+    public int getMember_id() {
+        return member_id;
+    }
+
+    /**
+     * @param member_id the member_id to set
+     */
+    public void setMember_id(int member_id) {
+        this.member_id = member_id;
+    }
+
+    /**
      * Get user type
      * @return userType
      */
