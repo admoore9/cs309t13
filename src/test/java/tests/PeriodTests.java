@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
 import edu.iastate.dao.DayDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.PeriodDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Member;
@@ -19,7 +19,7 @@ public class PeriodTests {
     @Test
     public void constructorTest() {
         
-        PlayerDao playerDao = new PlayerDao();
+        MemberDao playerDao = new MemberDao();
         Member player = new Member("test1", "test1", "123");
         Member returnedPlayer = (Member) playerDao.save(player);
         

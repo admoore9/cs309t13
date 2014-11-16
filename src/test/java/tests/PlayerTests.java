@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.iastate.dao.MemberDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
 
@@ -40,7 +39,7 @@ public class PlayerTests {
         query = mock(TypedQuery.class);
         
         // Given
-        playerDao = new PlayerDao(entityManagerFactory);
+        playerDao = new MemberDao(entityManagerFactory);
         when(entityManagerFactory.createEntityManager()).thenReturn(entityManager);
         when(entityManager.getTransaction()).thenReturn(transaction);
     }
