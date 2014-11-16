@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.models.Game;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 
 @Controller
@@ -120,8 +120,8 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
+        MemberDao memberDao = new MemberDao();
+        Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
@@ -146,8 +146,8 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.addPlayer(player);
         teamDao.saveTeam(team);
         return true;
@@ -170,18 +170,18 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.removePlayer(player);
         teamDao.saveTeam(team);
         return true;
     }
 
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Player> getPlayersForTeam(@PathVariable int id) {
+    public @ResponseBody List<Member> getPlayersForTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
-        for(Player player : team.getPlayers()) {
+        for (Member player : team.getPlayers()) {
             // Causing circular references... Should actually fix that
             player.setSurveys(null);
             player.setTeams(null);
