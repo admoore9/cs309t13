@@ -8,6 +8,7 @@ import edu.iastate.dao.GameDao;
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Member;
 import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 
@@ -21,7 +22,7 @@ public class TeamTests {
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
         team.setName("TestInvitedPlayer");
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Member> players = new ArrayList<Member>();
         players.add(playerdao.getPlayerById(1, true));
         players.add(playerdao.getPlayerById(2, true));
         team.setTournament(tournamentdao.getTournamentById(1, false, false));
