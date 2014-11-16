@@ -61,38 +61,31 @@ th {
 
 					<c:forEach items="${day.getAvailablePeriods()}" var="period">
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="SIX"></c:out>"
+							name=<c:out value='${day.getName() + "6pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "SIX" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="SEVEN"></c:out>"
+							name="<c:out value='${day.getName() + "7pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "SEVEN" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="EIGHT"></c:out>"
+							name="<c:out value='${day.getName() + "8pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "EIGHT" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="NINE"></c:out>"
+							name="<c:out value='${day.getName() + "9pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "NINE" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="TEN"></c:out>"
+							name="<c:out value='${day.getName() + "10pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "TEN" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="ELEVEN"></c:out>"
+							name="<c:out value='${day.getName() + "11pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "ELEVEN" }'>checked</c:if>>
 						</td>
 						<td><input type="checkbox"
-							name="<c:out value="${day.getName()}"></c:out>"
-							value="<c:out value="TWELVE"></c:out>"
+							name="<c:out value='${day.getName() + "12pm"}'></c:out>"
 							<c:if test='${period.getSlot() == "TWELVE" }'>checked</c:if>>
 						</td>
 					</c:forEach>
