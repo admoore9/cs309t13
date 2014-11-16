@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Member;
-import edu.iastate.models.Player;
 
 @Controller
 @RequestMapping("/register")
@@ -37,16 +35,16 @@ public class RegisterController {
             @RequestParam(value = "password") String password) {
 
         // set up database access object
-        PlayerDao playerDao = new PlayerDao();
+        MemberDao memberDao = new MemberDao();
 
         // Generate secure password
         String genPassword = StringUtils.secureString(password);
 
         // Create new member
-        Player newPlayer = new Player(name, username, genPassword);
+        Member newMember = new Member(name, username, genPassword);
 
         // Save new member to database
-        playerDao.save(newPlayer);
+        memberDao.save(newMember);
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
