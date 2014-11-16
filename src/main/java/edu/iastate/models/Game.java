@@ -3,6 +3,7 @@ package edu.iastate.models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * Game class
@@ -26,6 +29,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
  *
  */
 
+// TODO game winner and associated methods
 @Entity
 @Table(name = "Game")
 public class Game {
@@ -61,6 +65,10 @@ public class Game {
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Official> officials;
+    
+    @JsonManagedReference
+    @OneToMany(mappedBy = "game")
+    private Set<Score> scores;
 
     public Game() {
         teams = new ArrayList<Team>();
