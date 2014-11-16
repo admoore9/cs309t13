@@ -21,16 +21,15 @@ public class TeamTests {
         team.setAcceptFreeAgents(false);
         team.setGames(gamedao.getAllGames());
         team.setName("TestAddGame");
-//        ArrayList<Player> players = new ArrayList<Player>();
-//        players.add(playerdao.getPlayerById(1));
-//        players.add(playerdao.getPlayerById(2));
-//        team.setPlayers(players);
-//        team.setTournament(tournamentdao.getTournamentById(1, false, false));
-//        team.setTeamLeader(playerdao.getPlayerById(2));
-//        TeamDao teamdao = new TeamDao();
-//        teamdao.saveTeam(team);
+        ArrayList<Player> players = new ArrayList<Player>();
+        players.add(playerdao.getPlayerById(1, true));
+        players.add(playerdao.getPlayerById(2, true));
+        team.setPlayers(players);
+        team.setTournament(tournamentdao.getTournamentById(1, false, false));
+        team.setTeamLeader(playerdao.getPlayerById(2, true));
+        TeamDao teamdao = new TeamDao();
+        teamdao.saveTeam(team);
 
-        //System.out.println(teamdao.getTeamById(11, false, true).getTeamLeader().getName());
         /*System.out.println("Names:");
         for (Player player : players) {
             System.out.println(player.getName());
@@ -62,6 +61,6 @@ public class TeamTests {
             System.out.println(p.getId());
         }
 
-        //teamdao.saveTeam(team);
+        teamdao.saveTeam(team);
     }
 }
