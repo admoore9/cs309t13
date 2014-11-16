@@ -1,6 +1,6 @@
 package edu.iastate.models;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -33,7 +33,7 @@ public class Availability {
     private Set<Day> days;
     
     public Availability() {
-        days = new HashSet<Day>();
+        days = new LinkedHashSet<Day>();
     }
 
     /**
