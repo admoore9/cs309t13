@@ -381,10 +381,10 @@ public class TournamentController {
     public @ResponseBody boolean formTournamentById(
             HttpSession session,
             @PathVariable int id) {
-        Member me = (Member) session.getAttribute("session");
-        if(!MemberUtils.atLeastCoordinator(me)) {
-            return false;
-        }
+        // Member me = (Member) session.getAttribute("session");
+        // if(!MemberUtils.atLeastCoordinator(me)) {
+        // return false;
+        // }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);

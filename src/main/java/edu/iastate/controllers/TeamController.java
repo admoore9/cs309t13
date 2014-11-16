@@ -2,6 +2,8 @@ package edu.iastate.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.models.Game;
+import edu.iastate.models.Member;
 import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 
@@ -31,13 +34,20 @@ public class TeamController {
 
     /**
      * Returns the team given by id as JSON.
-     *
+     * 
+     * @param session The http session
      * @param id The id of the team.
      * @return JSON representation of the team given by id.
      */
-    // TODO check if valid team
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Team getTeamById(@PathVariable int id) {
+    public @ResponseBody Team getTeamById(
+            HttpSession session,
+            @PathVariable int id) {
+        Member me = (Member) session.getAttribute("session");
+        if(me == null) {
+            return null;
+        }
+
         TeamDao teamDao = new TeamDao();
         return teamDao.getTeamById(id, false, true, false);
     }
@@ -45,14 +55,22 @@ public class TeamController {
     /**
      * Returns the games that the team given by id has taken part in as JSON.
      *
+     * @param session The http session
      * @param id The id of the team
      * @return JSON representation of the games team has been in.
      */
-    // TODO check if valid team
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
-    public @ResponseBody List<Game> getGamesByTeam(@PathVariable int id) {
+    public @ResponseBody List<Game> getGamesByTeam(
+            HttpSession session,
+            @PathVariable int id) {
+        Member me = (Member) session.getAttribute("session");
+        if(me == null) {
+            return null;
+        }
+
         TeamDao teamDao = new TeamDao();
-        return teamDao.getTeamById(id, true, false, false).getGames();
+        Team team = teamDao.getTeamById(id, true, false, false);
+        return team == null ? null : team.getGames();
     }
 
     /**
@@ -60,18 +78,27 @@ public class TeamController {
      * 
      * POST request data: name
      * 
+     * @param session The http session
      * @param id The id of the team
      * @param name The new name for the team
      * @return true if the name was successfully changed, false otherwise.
      */
-    // TODO check if valid team
-    // TODO check if users permissions are right
     @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
     public @ResponseBody boolean setTeamName(
+            HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
+        Member me = (Member) session.getAttribute("session");
+        if(me == null) {
+            return false;
+        }
+
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false, false);
+
+        if(team == null || !me.equals(team.getTeamLeader())) {
+            return false;
+        }
 
         team.setName(name);
         teamDao.saveTeam(team);
