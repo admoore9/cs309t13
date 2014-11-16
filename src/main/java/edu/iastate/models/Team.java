@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name = "Team")
@@ -57,6 +60,10 @@ public class Team {
 
     @Column(name = "team_skill")
     private int teamSkillLevel;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "team")
+    private Set<Score> scores;
 
     public Team() {
         players = new ArrayList<Player>();
