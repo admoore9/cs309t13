@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Player;
-import edu.iastate.models.Team;
 
 public class PlayerDao extends MemberDao {
 
@@ -69,13 +68,12 @@ public class PlayerDao extends MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        entityManager.persist(player);
         entityManager.merge(player);
 
         transaction.commit();
         entityManager.close();
     }
-    
+
     /**
      * Loads the foreign keys for a player based on the booleans
      * 
@@ -83,7 +81,7 @@ public class PlayerDao extends MemberDao {
      * @param getSurveys Whether to get the survey list for player
      */
     private void loadForeignKeys(Player player, boolean getSurveys) {
-        if(getSurveys) {
+        if (getSurveys) {
             loadSurveys(player);
         }
     }

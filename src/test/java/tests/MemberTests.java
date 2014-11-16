@@ -39,9 +39,16 @@ public class MemberTests {
         member.setName("Testing add");
         member.setPassword("asdf");
         member.setUserType(UserType.OFFICIAL);
-        memberDao.saveMember(member);
+        memberDao.save(member);
     }
     
-    
+    @Test
+    public void promotingTest() {
+        Member member = new Member("member1", "member1", "123");
+        System.out.println(member.getClass().getSimpleName());
+        memberDao.save(member);
+        member.setUserType(UserType.PLAYER);
+        memberDao.save(member);
+    }
 
 }

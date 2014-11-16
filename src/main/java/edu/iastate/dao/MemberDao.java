@@ -137,14 +137,13 @@ public class MemberDao {
      * 
      * @param member The member to save to the database
      */
-    public void saveMember(Member member) {
+    public Member save(Member member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-
-        entityManager.merge(member);
-
+        Member memberToReturn = entityManager.merge(member);
         transaction.commit();
         entityManager.close();
+        return memberToReturn;
     }
 }

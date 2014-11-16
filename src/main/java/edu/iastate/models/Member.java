@@ -51,11 +51,9 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-
-    public Member() {}
-
-    protected Member(UserType userType) {
-        this.userType = userType;
+    
+    public Member() {
+        this.userType = UserType.MEMBER;
     }
 
     public Member(String name, String username, String password) {
@@ -64,6 +62,22 @@ public class Member {
         this.password = password;
         this.userType = UserType.MEMBER;
     }
+    
+    /**
+     * Used only by subclasses to pass user type
+     * @param userType
+     */
+    protected Member(UserType userType) {
+        this.userType = userType;
+    }
+
+    /**
+     * Used only by subclasses to pass user type
+     * @param name
+     * @param username
+     * @param password
+     * @param userType
+     */
 
     protected Member(String name, String username, String password,
             UserType userType) {
@@ -71,6 +85,8 @@ public class Member {
         this.username = username;
         this.password = password;
         this.userType = userType;
+        this.height = -1;
+        this.weight = -1;
     }
 
     /**
@@ -148,14 +164,14 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj)
             return true;
-        if(obj == null)
+        if (obj == null)
             return false;
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if(member_id != other.member_id)
+        if (member_id != other.member_id)
             return false;
         return true;
     }

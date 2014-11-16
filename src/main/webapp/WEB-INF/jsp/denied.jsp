@@ -1,14 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Denied</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../resources/js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
 </head>
-    <body>
+<body>
+    <jsp:include page="header.jsp"/>
+    <div class="container">
         <h1>Access Denied!</h1>
         <p>You do not have access to this page</p>
         <a href="/">Go back home</a><br/><br/>
-    </body>
+    </div>
+</body>
+<footer>
+    <!-- jQuery library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Bootstrap JavaScript plug-ins -->
+    <script src="../../resources/js/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap validator -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+    <!-- Page specific JS -->
+    <script src="../../resources/js/login.js"></script>
+</footer>
 </html>
