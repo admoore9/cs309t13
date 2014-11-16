@@ -7,33 +7,45 @@
         <title>Create Team</title>
     </head>
     <body>
-        <div class="container" style="margin-left: 10px;">
-            <h2>Create Team</h2>
-
-            <div id="panels" class="panel-group">
-
-                <div id="create-team-panel" class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#create-team-content">
-                        <h3 class="panel-title">Create Team</h3>
-                    </div>
-                    <div class="panel panel-collapse collapse" id="create-team-content">
-                        <div class="panel-body">
-                            <form role="form" id="create-team-form">
-                                <div class="form-group">
-                                    <label for="name">Team name:</label>
-                                    <input type="text" class="form-control" id="create-team-name-input">
+        <jsp:include page="header.jsp"/>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+    
+                    <!-- Page specific html -->
+                    <div class="container" style="margin-left: 10px;">
+                        <h2>Create Team</h2>
+            
+                        <div id="panels" class="panel-group">
+            
+                            <div id="create-team-panel" class="panel panel-default">
+                                <div class="panel-heading" data-toggle="collapse" data-target="#create-team-content">
+                                    <h3 class="panel-title">Create Team</h3>
                                 </div>
-                                <div class="form-group">
-                                    <label for="invitedPlayerId">Invited Player ID:</label>
-                                    <input type="text" class="form-control" id="create-team-invitedPlayerId-input">
+                                <div class="panel panel-collapse collapse" id="create-team-content">
+                                    <div class="panel-body">
+                                        <form role="form" id="create-team-form">
+                                            <div class="form-group">
+                                                <label for="name">Team name:</label>
+                                                <input type="text" class="form-control" id="create-team-name-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="invitedPlayerId">Invited Player ID:</label>
+                                                <input type="text" class="form-control" id="create-team-invitedPlayerId-input">
+                                            </div>
+                                            <button id="create-team-submit" type="submit" class="btn btn-default">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <button id="create-team-submit" type="submit" class="btn btn-default">Submit</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
+    
                 </div>
+                <jsp:include page="sideBar.jsp"/>
             </div>
         </div>
+    
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="../../resources/js/bootstrap/js/bootstrap.min.js"></script>

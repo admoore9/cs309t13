@@ -1,6 +1,14 @@
 $(document).ready(function() {
     var bracket = new Bracket($('body').data('tournament-id'));
     bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+    
+    $("#createTeam").click( function() {
+    	window.location.href = "/survey";
+    });
+    
+    $("#joinTeam").click( function() {
+    	window.location.href = "/team";
+    });
 });
 
 var IS_REFEREE;

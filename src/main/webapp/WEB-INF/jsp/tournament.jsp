@@ -28,6 +28,9 @@
                 <h2>Bracket</h2>
                 <h3>Tournament Name: <span id="tournament-name"></span></h3>
                 <div id="bracket"></div>
+                <br>
+                <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Create Team</a>
+                <a href="#" class="btn btn-primary btn-primary" id="createTeam">Join Team</a>
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>

@@ -24,7 +24,21 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
 
                 <!-- Page specific html -->
-
+                <h2>Upcoming Tournaments</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tournament</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${tournaments}" var="tournament">
+                            <tr>
+                                <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
