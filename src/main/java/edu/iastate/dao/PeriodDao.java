@@ -5,7 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 
+import org.hibernate.Transaction;
+
+import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
@@ -51,6 +55,19 @@ public class PeriodDao {
         
         transaction.commit();
         entityManager.close();
+    }
+
+    public void delete(Period period) {
+        EntityManager entityManager = entityManagerFactory
+                .createEntityManager();
+        org.hibernate.Session session = (org.hibernate.Session) entityManager
+                .getDelegate();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Period periodToRemove = entityManager.find(Period.class, period.getPeriod_id());
+        entityManager.remove(periodToRemove);
+        transaction.commit();
+        session.close();
     }
 
 }
