@@ -6,10 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import edu.iastate.models.Member;
-import edu.iastate.models.Period;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class MemberDao {
@@ -147,36 +145,5 @@ public class MemberDao {
         transaction.commit();
         entityManager.close();
         return memberToReturn;
-    }
-    
-    public void delete(Member member) {
-        EntityManager entityManager = entityManagerFactory
-                .createEntityManager();
-        org.hibernate.Session session = (org.hibernate.Session) entityManager
-                .getDelegate();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        Period memberToRemove = entityManager.find(Period.class, member.getMember_id());
-        entityManager.remove(memberToRemove);
-        transaction.commit();
-        session.close();
-//        EntityManager entityManager = entityManagerFactory
-//                .createEntityManager();
-//        Member mag3 = entityManager.find (Member.class, member.getId());
-//        entityManager.remove(member);
-//        org.hibernate.Session session = (org.hibernate.Session) entityManager
-//                .getDelegate();
-
-//        Transaction transaction = session.beginTransaction();
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
-//        Configuration configuration = new Configuration();
-//        configuration.setProperty("hibernate.jdbc.batch_size", "50");
-
-//        Period country = (Period) session.get(Period.class, id);
-//        session.delete(member);
-//
-//        transaction.commit();
-//        session.close();
     }
 }
