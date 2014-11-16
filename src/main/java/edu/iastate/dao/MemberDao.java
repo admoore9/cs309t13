@@ -174,6 +174,7 @@ public class MemberDao {
      * @param player the player to load the foreign keys for
      * @param getSurveys Whether to get the survey list for player
      */
+    @SuppressWarnings("unused")
     private void loadForeignKeys(Member member, boolean getSurveys) {
         if (getSurveys) {
             loadSurveys(member);
