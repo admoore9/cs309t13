@@ -173,9 +173,9 @@ public class Team {
 
             return -1;
         }
-//        if(this.players.size() == tournament.getMaxPlayers()) {
-//            return 0;
-//        }
+        if(this.players.size() == tournament.getMaxPlayers()) {
+            return 0;
+        }
         this.players.add(player);
         removeInvitedPlayer(player);
         calculateSkillLevel(); // Updates the skill level

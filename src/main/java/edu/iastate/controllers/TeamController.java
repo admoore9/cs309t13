@@ -29,7 +29,7 @@ public class TeamController {
         return "createTeam";
     }
     
-    // TODO check users permission
+    // TODO tournament info
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
@@ -40,12 +40,10 @@ public class TeamController {
         TournamentDao tournamentDao = new TournamentDao();
         TeamDao teamDao = new TeamDao();        
         PlayerDao playerDao = new PlayerDao();
-        
+        //Change when tournament info implemented
+        team.setTournament(tournamentDao.getTournamentById(1, false, false));
         team.setName(name);
         team.setTeamLeader(player);
-        team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
-        team.setTournament(tournamentDao.getTournamentById(1, false, false));
-
         teamDao.saveTeam(team);
     }
 
