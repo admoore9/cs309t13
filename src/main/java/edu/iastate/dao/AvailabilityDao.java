@@ -1,11 +1,14 @@
 package edu.iastate.dao;
 
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Availability;
+import edu.iastate.models.Day;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class AvailabilityDao {
@@ -51,5 +54,11 @@ public class AvailabilityDao {
         transaction.commit();
         entityManager.close();
         return availability;
+    }
+
+    public void updateAvailability(Set<Day> newDays, int memberId) {
+        
+        // TODO Auto-generated method stub
+        
     }
 }

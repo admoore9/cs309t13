@@ -50,8 +50,9 @@ public class Period {
     /**
      * @param day the day to set
      */
-    public void setDay(Day day) {
+    public Period setDay(Day day) {
         this.day = day;
+        return this;
     }
 
     /**

@@ -69,8 +69,9 @@ public class Day {
     /**
      * @param availability the availability to set
      */
-    public void setAvailability(Availability availability) {
+    public Day setAvailability(Availability availability) {
         this.availability = availability;
+        return this;
     }
 
     /**
