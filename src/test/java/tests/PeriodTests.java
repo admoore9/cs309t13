@@ -2,8 +2,9 @@ package tests;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
@@ -17,36 +18,57 @@ import edu.iastate.models.Period.Slot;
 import edu.iastate.models.Player;
 
 public class PeriodTests {
-    @Test
-    public void constructorTest() {
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = new Player("test1", "test1", "123");
-        playerDao.savePlayer(player);
+    PeriodDao periodDao;
+    AvailabilityDao availabilityDao;
+    PlayerDao playerDao;
+    Player player;
+    Availability availability;
+    List<Day> savedDays;
+    DayDao dayDao;
 
-        AvailabilityDao availabilityDao = new AvailabilityDao();
-        Availability availability = new Availability();
+    @Before
+    public void setup() {
+        playerDao = new PlayerDao();
+        availabilityDao = new AvailabilityDao();
+        periodDao = new PeriodDao();
+        player = new Player("test1", "test1", "123");
+        availability = new Availability();
+        dayDao = new DayDao();
+
         availability.setPlayer(player);
         Availability savedAvailability = availabilityDao
                 .saveAvailability(availability);
 
-        DayDao dayDao = new DayDao();
         List<Day> days = Arrays.asList(new Day("Monday"), new Day("Tuesday"),
                 new Day("Wednesday"), new Day("Thursday"), new Day("Friday"),
                 new Day("Saturday"), new Day("Sunday"));
         for (Day day : days)
             day.setAvailability(savedAvailability);
-        List<Day> savedDays = dayDao.saveDays(days);
+        savedDays = dayDao.saveDays(days);
+    }
 
-        PeriodDao periodDao = new PeriodDao();
+    @Test
+    public void constructorTest() {
         for (Day day : savedDays) {
             Period period = new Period(Slot.NINE);
             period.setDay(day);
             periodDao.savePeriod(period);
-
             System.out.println(period.getSlot());
             System.out.println(Period.Slot.SIX);
             System.out.println(period.getSlot() == Period.Slot.NINE);
         }
+    }
+
+    @Test public void deleteTest() {
+        Period period = new Period(Slot.TWELVE);
+        period.setDay(savedDays.get(0));
+        Period savedPeriod = periodDao.savePeriod(period);
+        periodDao.delete(savedPeriod);
+    }
+
+    @After
+    public void teardown() {
+        playerDao.delete(player);
     }
 }
