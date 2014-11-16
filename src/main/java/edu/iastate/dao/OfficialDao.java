@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Official;
 
-public class OfficialDao extends MemberDao {
+public class OfficialDao extends PlayerDao {
 
     public OfficialDao() {
         super();
@@ -55,21 +55,5 @@ public class OfficialDao extends MemberDao {
         transaction.commit();
         entityManager.close();
         return official;
-    }
-
-    /**
-     * Saves the given official to the database
-     * 
-     * @param official The official to save to the database
-     */
-    public void saveOfficial(Official official) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(official);
-
-        transaction.commit();
-        entityManager.close();
     }
 }

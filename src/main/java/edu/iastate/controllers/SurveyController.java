@@ -35,9 +35,9 @@ public class SurveyController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public @ResponseBody void surveySubmit(
-            @RequestParam(value = "sex") String sex,
-            @RequestParam(value = "height") Integer height,
-            @RequestParam(value = "weight") Integer weight,
+            @RequestParam(value = "sex", required = false) String sex,
+            @RequestParam(value = "height", required = false) Integer height,
+            @RequestParam(value = "weight", required = false) Integer weight,
             @RequestParam(value = "compYears") Integer compYears,
             @RequestParam(value = "intsPlayed") Integer intsPlayed,
             @RequestParam(value = "compLvl") Integer compLvl,
@@ -62,7 +62,7 @@ public class SurveyController {
         if (weight != null)
             player.setWeight(weight);
 
-        int surveyScore = calcSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubPlayer);
+        int surveyScore = calcSurveyScore(player.getSex(), player.getHeight(), player.getWeight(), compYears, intsPlayed, compLvl, isClubPlayer);
 
         // set the surveys parameters
         survey.setTournament(tournament);
@@ -70,7 +70,7 @@ public class SurveyController {
         survey.setSurveyScore(surveyScore);
 
         // Save updated player and survey to database
-        playerDao.savePlayer(player);
+        playerDao.save(player);
         surveyDao.saveSurvey(survey);
     }
 

@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page session="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Profile</title>
+    <title>Home</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../../resources/js/bootstrap/css/bootstrap.min.css">
@@ -16,7 +15,15 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <div class="container">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Iowa State Intramurals</h1>
+            <p>
+                Recreation Services invites you to participate in one of the largest and best intramural sports programs
+                in the nation. With an overboard philosophy of "something for everyone," the Intramural Program offers over
+                40 sports to meet the diverse interests of the student, faculty and staff population.
+            </p>
+        </div>
     </div>
 </body>
 <footer>

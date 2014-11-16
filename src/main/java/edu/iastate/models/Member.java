@@ -52,10 +52,8 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
     
-    public Member() {}
-
-    protected Member(UserType userType) {
-        this.userType = userType;
+    public Member() {
+        this.userType = UserType.MEMBER;
     }
 
     public Member(String name, String username, String password) {
@@ -65,14 +63,32 @@ public class Member {
         this.userType = UserType.MEMBER;
     }
     
+    /**
+     * Used only by subclasses to pass user type
+     * @param userType
+     */
+    protected Member(UserType userType) {
+        this.userType = userType;
+    }
+
+    /**
+     * Used only by subclasses to pass user type
+     * @param name
+     * @param username
+     * @param password
+     * @param userType
+     */
+
     protected Member(String name, String username, String password,
             UserType userType) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.userType = userType;
+        this.height = -1;
+        this.weight = -1;
     }
-    
+
     /**
      * @return the member_id
      */
@@ -89,6 +105,7 @@ public class Member {
 
     /**
      * Get user type
+     * 
      * @return userType
      */
     public UserType getUserType() {
@@ -97,6 +114,7 @@ public class Member {
 
     /**
      * Set user type
+     * 
      * @param userType
      */
     public void setUserType(UserType userType) {
@@ -105,6 +123,7 @@ public class Member {
 
     /**
      * Get id
+     * 
      * @return
      */
     public int getId() {
@@ -113,6 +132,7 @@ public class Member {
 
     /**
      * Set id
+     * 
      * @param id
      */
     public void setId(int id) {
@@ -121,6 +141,7 @@ public class Member {
 
     /**
      * Get name
+     * 
      * @return
      */
     public String getName() {
@@ -167,7 +188,7 @@ public class Member {
         if (member_id != other.member_id)
             return false;
         return true;
-    }    
+    }
 
     public String getSex() {
         return sex;
