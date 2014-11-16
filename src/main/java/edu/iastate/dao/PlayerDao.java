@@ -59,22 +59,6 @@ public class PlayerDao extends MemberDao {
     }
 
     /**
-     * Saves the given player to the database
-     * 
-     * @param player The player to save to the database
-     */
-    public void savePlayer(Player player) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        entityManager.merge(player);
-
-        transaction.commit();
-        entityManager.close();
-    }
-
-    /**
      * Loads the foreign keys for a player based on the booleans
      * 
      * @param player the player to load the foreign keys for
