@@ -3,7 +3,6 @@ package tests;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class PeriodTests {
         playerDao = new PlayerDao();
         availabilityDao = new AvailabilityDao();
         periodDao = new PeriodDao();
-        player = new Player("test1", "test1", "123");
+        player = (Player) playerDao.save(new Player("test1", "test1", "123"));
         availability = new Availability();
         dayDao = new DayDao();
 
@@ -65,10 +64,5 @@ public class PeriodTests {
         period.setDay(savedDays.get(0));
         Period savedPeriod = periodDao.savePeriod(period);
         periodDao.delete(savedPeriod);
-    }
-
-    @After
-    public void teardown() {
-        playerDao.delete(player);
     }
 }
