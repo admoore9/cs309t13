@@ -53,7 +53,7 @@ public class TournamentTests {
             player.setUsername("sam" + i);
             player.setUserType(UserType.PLAYER);
             player.setPassword("123");
-            playerdao.saveMember(player);
+            playerdao.save(player);
             team.setName("test" + i);
             team.setTournament(tournamentdao.getTournamentById(1, true, true));
             team.setTeamLeader(playerdao.getPlayerById(i, true));
