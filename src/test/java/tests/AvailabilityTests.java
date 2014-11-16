@@ -3,15 +3,15 @@ package tests;
 import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Availability;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 
 public class AvailabilityTests {
     @Test
     public void constructorTest() {
-        PlayerDao pA = new PlayerDao();
-        Player p = new Player("Ames", "ames", "123");
+        MemberDao pA = new MemberDao();
+        Member p = new Member("Ames", "ames", "123");
         pA.save(p);
         
         AvailabilityDao aD = new AvailabilityDao();

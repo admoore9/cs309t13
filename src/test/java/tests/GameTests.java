@@ -8,12 +8,10 @@ import org.junit.Test;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
-import edu.iastate.dao.OfficialDao;
+import edu.iastate.models.*;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
-import edu.iastate.models.Official;
-import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 
 public class GameTests {
@@ -75,12 +73,12 @@ public class GameTests {
     }
     
     @Test
-    public void addOfficialToGameTest() {
+    public void addMemberToGameTest() {
         GameDao gamedao = new GameDao();
         Game game = gamedao.getGameById(7, true);
         MemberDao memberdao = new MemberDao();
-        OfficialDao officialdao = new OfficialDao();
-        Official official = (Official) memberdao.getMemberById(10);
+        MemberDao Memberdao = new MemberDao();
+        Member official = memberdao.getMemberById(10);
         game.addOfficial(official);
         gamedao.saveGame(game);
     }
