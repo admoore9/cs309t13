@@ -55,46 +55,26 @@ public class Member {
     private Integer weight;
 
     public enum UserType {
-        MEMBER, PLAYER, OFFICIAL, COORDINATOR, ADMIN
+        PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
+
+    @Column(name = "context")
+    private UserType context;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-    
+
     public Member() {
-        this.userType = UserType.MEMBER;
+        this.userType = UserType.PLAYER;
     }
 
     public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = UserType.MEMBER;
-    }
-    
-    /**
-     * Used only by subclasses to pass user type
-     * @param userType
-     */
-    protected Member(UserType userType) {
-        this.userType = userType;
-    }
-
-    /**
-     * Used only by subclasses to pass user type
-     * @param name
-     * @param username
-     * @param password
-     * @param userType
-     */
-
-    protected Member(String name, String username, String password,
-            UserType userType) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = userType;
+        this.userType = UserType.PLAYER;
+        this.context = UserType.PLAYER;
         this.height = -1;
         this.weight = -1;
     }
@@ -115,6 +95,24 @@ public class Member {
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    /**
+     * Get context
+     * 
+     * @return context
+     */
+    public UserType getContext() {
+        return context;
+    }
+
+    /**
+     * Set context
+     * 
+     * @param context
+     */
+    public void setContext(UserType view) {
+        this.context = view;
     }
 
     /**
@@ -209,9 +207,9 @@ public class Member {
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
-    
-    //=========Player================
-    
+
+    // =========Player================
+
     @JsonIgnore
     @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
     private List<Team> teams;
@@ -265,9 +263,9 @@ public class Member {
      * @return Survey object pertaining to that tournament
      */
     public Survey getSurveyByTournament(Tournament tournament) {
-        for(Survey s : surveys) {
+        for (Survey s : surveys) {
 
-            if(s.getTournament().equals(tournament)) {
+            if (s.getTournament().equals(tournament)) {
                 return s;
             }
         }
@@ -280,7 +278,7 @@ public class Member {
      * @param survey the survey to be added top player
      */
     public void addSurvey(Survey survey) {
-        if(survey == null || surveys.contains(survey)) {
+        if (survey == null || surveys.contains(survey)) {
             return;
         }
         surveys.add(survey);
@@ -292,14 +290,15 @@ public class Member {
      * @param survey the survey to be removed from player
      */
     public void removeSurvey(Survey survey) {
-        if(survey == null || !surveys.contains(survey)) {
+        if (survey == null || !surveys.contains(survey)) {
             return;
         }
         surveys.remove(survey);
     }
-    //-------------End Player-------------------------
-    
-    //============Official=============
+
+    // -------------End Player-------------------------
+
+    // ============Official=============
     @JsonIgnore
     @ManyToMany(mappedBy = "officials")
     private List<Game> games;
@@ -311,18 +310,9 @@ public class Member {
     public void setGames(List<Game> games) {
         this.games = games;
     }
-    //----------ENd Official------------
-    
-    //=========Admin===============
-    @Column(name = "current_view")
-    private UserType currentView;
+    // ----------ENd Official------------
 
-    public UserType getCurrentView() {
-        return currentView;
-    }
+    // =========Admin===============
 
-    public void setCurrentView(UserType view) {
-        this.currentView = view;
-    }
-    //-----------End Admin---------
+    // -----------End Admin---------
 }

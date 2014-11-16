@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `height` INT NULL,
   `weight` INT NULL,
   `availability` INT NULL,
-  `current_view` int(4) NOT NULL,
+  `context` int(4) NOT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 

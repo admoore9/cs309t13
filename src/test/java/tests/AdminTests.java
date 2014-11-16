@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Member;
-import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
 
 public class AdminTests {
@@ -24,9 +23,9 @@ public class AdminTests {
     @Test
     public void changeCurrentView() {
         Member Member = MemberDao.getMemberById(1);
-        System.out.println("Name: " + Member.getName() + " View: " + Member.getCurrentView());
-        Member.setCurrentView(UserType.PLAYER);
-        System.out.println("Name: " + Member.getName() + " View: " + Member.getCurrentView());
+        System.out.println("Name: " + Member.getName() + " View: " + Member.getContext());
+        Member.setContext(UserType.PLAYER);
+        System.out.println("Name: " + Member.getName() + " View: " + Member.getContext());
         MemberDao.save(Member);
     }
 
