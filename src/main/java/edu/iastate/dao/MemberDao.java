@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Member;
-import edu.iastate.models.Player;
 import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 

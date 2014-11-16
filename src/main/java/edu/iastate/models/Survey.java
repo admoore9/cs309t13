@@ -52,7 +52,7 @@ public class Survey {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Member player) {
         this.player = player;
     }
 
