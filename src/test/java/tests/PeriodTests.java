@@ -8,30 +8,30 @@ import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
 import edu.iastate.dao.DayDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.PeriodDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
+import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.models.Period.Slot;
-import edu.iastate.models.Player;
 
 public class PeriodTests {
 
     PeriodDao periodDao;
     AvailabilityDao availabilityDao;
-    PlayerDao playerDao;
-    Player player;
+    MemberDao playerDao;
+    Member player;
     Availability availability;
     List<Day> savedDays;
     DayDao dayDao;
 
     @Before
     public void setup() {
-        playerDao = new PlayerDao();
+        playerDao = new MemberDao();
         availabilityDao = new AvailabilityDao();
         periodDao = new PeriodDao();
-        player = (Player) playerDao.save(new Player("test1", "test1", "123"));
+        player = playerDao.save(new Member("test1", "test1", "123"));
         availability = new Availability();
         dayDao = new DayDao();
 

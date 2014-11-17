@@ -26,7 +26,7 @@ public class Availability {
     
     @OneToOne
     @JoinColumn(name = "member_id")
-    private Player player;
+    private Member player;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "availability")
@@ -60,14 +60,14 @@ public class Availability {
     /**
      * @return the player
      */
-    public Player getPlayer() {
+    public Member getPlayer() {
         return player;
     }
 
     /**
      * @param player the player to set
      */
-    public void setPlayer(Player player) {
+    public void setPlayer(Member player) {
         this.player = player;
     }
     
