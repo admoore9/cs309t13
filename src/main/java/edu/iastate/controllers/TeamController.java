@@ -46,7 +46,7 @@ public class TeamController {
 
         team.setTournament(tournament);
         team.setName(teamName);
-        team.setTeamLeader(teamLeader);
+//        team.setTeamLeader(teamLeader);
 
         teamDao.saveTeam(team);
     }
@@ -199,15 +199,15 @@ public class TeamController {
         return true;
     }
 
-//    @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-//    public @ResponseBody List<Member> getPlayersForTeam(@PathVariable int id) {
-//        TeamDao teamDao = new TeamDao();
-//        Team team = teamDao.getTeamById(id, false, true, false);
-//        for (Member player : team.getPlayers()) {
-//            // Causing circular references... Should actually fix that
-//            player.setSurveys(null);
-//            player.setTeams(null);
-//        }
-//        return team.getPlayers();
-//    }
+    @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
+    public @ResponseBody List<Member> getPlayersForTeam(@PathVariable int id) {
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+        for (Member player : team.getPlayers()) {
+            // Causing circular references... Should actually fix that
+            player.setSurveys(null);
+            player.setTeams(null);
+        }
+        return team.getPlayers();
+    }
 }
