@@ -39,29 +39,29 @@ public class TeamTests {
         }*/
     }
 
-    @Test
-    public void addPlayerToTeamTest() {
-        TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(13, true, true, true);
-        Member player = playerdao.getMemberById(2);
-        team.addPlayer(player);
-        for (Member p: team.getPlayers()) {
-            System.out.println(p.getName());
-        }
-
-        teamdao.saveTeam(team);
-    }
-
-    @Test
-    public void removePlayerFromTeamTest() {
-        TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(10, true, true, false);
-        Member player = playerdao.getMemberById(2);
-        team.removePlayer(player);
-        for (Member p: team.getPlayers()) {
-            System.out.println(p.getId());
-        }
-
-        teamdao.saveTeam(team);
-    }
+//    @Test
+//    public void addPlayerToTeamTest() {
+//        TeamDao teamdao = new TeamDao();
+//        Team team = teamdao.getTeamById(13, true, true, true);
+//        Member player = playerdao.getMemberById(2);
+//        team.addPlayer(player);
+//        for (Member p: team.getPlayers()) {
+//            System.out.println(p.getName());
+//        }
+//
+//        teamdao.saveTeam(team);
+//    }
+//
+//    @Test
+//    public void removePlayerFromTeamTest() {
+//        TeamDao teamdao = new TeamDao();
+//        Team team = teamdao.getTeamById(10, true, true, false);
+//        Member player = playerdao.getMemberById(2);
+//        team.removePlayer(player);
+//        for (Member p: team.getPlayers()) {
+//            System.out.println(p.getId());
+//        }
+//
+//        teamdao.saveTeam(team);
+//    }
 }

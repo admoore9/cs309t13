@@ -27,8 +27,8 @@ public class ProfileController {
 
         Member member = (Member) session.getAttribute("member");
 
-        List<Team> teams = member.getTeams();
-        model.addAttribute("teams", teams);
+//        List<Team> teams = member.getTeams();
+//        model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
