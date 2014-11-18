@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   INDEX `fk_Team_Player1_idx` (`member_id` ASC),
   CONSTRAINT `fk_Team_Player1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`member` (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Team_Tournament1`
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`teaminvitedplayermapper` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Mapper_Player`
     FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`member` (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
