@@ -135,22 +135,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cs309t13`.`teamplayermapper`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
-  `team_id` INT NOT NULL,
-  `member_id` INT NOT NULL,
-  PRIMARY KEY (`team_id`, `member_id`),
-  INDEX `fk_member_id1_idx` (`member_id` ASC),
-  CONSTRAINT `fk_team_id2`
-    FOREIGN KEY (`team_id`)
-    REFERENCES `cs309t13`.`team` (`team_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_member_id1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+--CREATE TABLE IF NOT EXISTS `cs309t13`.`teamplayermapper` (
+--  `team_id` INT NOT NULL,
+--  `member_id` INT NOT NULL,
+--  PRIMARY KEY (`team_id`, `member_id`),
+--  INDEX `fk_member_id1_idx` (`member_id` ASC),
+--  CONSTRAINT `fk_team_id2`
+--    FOREIGN KEY (`team_id`)
+--    REFERENCES `cs309t13`.`team` (`team_id`)
+--    ON DELETE NO ACTION
+--    ON UPDATE NO ACTION,
+--  CONSTRAINT `fk_member_id1`
+--    FOREIGN KEY (`member_id`)
+--    REFERENCES `cs309t13`.`member` (`member_id`)
+--    ON DELETE NO ACTION
+--    ON UPDATE NO ACTION)
+--ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `cs309t13`.`officialgamemapper`

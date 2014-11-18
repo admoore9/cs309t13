@@ -210,9 +210,9 @@ public class Member {
 
     // =========Player================
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
-    private List<Team> teams;
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
+//    private List<Team> teams;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "invitedPlayers")
@@ -233,13 +233,13 @@ public class Member {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
     private Availability availability;
 
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
+//    public List<Team> getTeams() {
+//        return teams;
+//    }
+//
+//    public void setTeams(List<Team> teams) {
+//        this.teams = teams;
+//    }
 
     /**
      * @return the availability

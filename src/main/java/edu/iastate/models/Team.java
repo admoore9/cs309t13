@@ -36,9 +36,9 @@ public class Team {
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
 
-    @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Member> players;
+//    @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private List<Member> players;
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
@@ -66,7 +66,7 @@ public class Team {
     private Set<Score> scores;
 
     public Team() {
-        players = new ArrayList<Member>();
+//        players = new ArrayList<Member>();
         games = new ArrayList<Game>();
         invitedPlayers = new ArrayList<Member>();
     }
@@ -75,7 +75,7 @@ public class Team {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
-        this.players = players;
+//        this.players = players;
         this.games = games;
         this.teamLeader = teamLeader;
     }
@@ -113,12 +113,12 @@ public class Team {
         this.acceptFreeAgents = acceptFreeAgents;
     }
 
-    public List<Member> getPlayers() {
-        return players;
-    }
+//    public List<Member> getPlayers() {
+//        return players;
+//    }
 
     public void setPlayers(List<Member> players) {
-        this.players = players;
+//        this.players = players;
         calculateSkillLevel();
     }
 
@@ -155,16 +155,16 @@ public class Team {
      * team
      */
     private void calculateSkillLevel() {
-        int skillLevel = 0;
-        for(Member player : players) {
-            Survey s = player.getSurveyByTournament(tournament);
-            if(s == null) {
-                skillLevel += 0;
-                continue;
-            }
-            skillLevel += s.getSurveyScore();
-        }
-        teamSkillLevel = skillLevel / players.size();
+//        int skillLevel = 0;
+//        for(Member player : players) {
+//            Survey s = player.getSurveyByTournament(tournament);
+//            if(s == null) {
+//                skillLevel += 0;
+//                continue;
+//            }
+//            skillLevel += s.getSurveyScore();
+//        }
+//        teamSkillLevel = skillLevel / players.size();
     }
 
     /**
@@ -176,16 +176,16 @@ public class Team {
      */
     public int addPlayer(Member player) {
 
-        if(player == null || this.players.contains(player)) {
-
-            return -1;
-        }
-        if(this.players.size() == tournament.getMaxPlayers()) {
-            return 0;
-        }
-        this.players.add(player);
-        removeInvitedPlayer(player);
-        calculateSkillLevel(); // Updates the skill level
+//        if(player == null || this.players.contains(player)) {
+//
+//            return -1;
+//        }
+//        if(this.players.size() == tournament.getMaxPlayers()) {
+//            return 0;
+//        }
+//        this.players.add(player);
+//        removeInvitedPlayer(player);
+//        calculateSkillLevel(); // Updates the skill level
         return 1;
     }
 
@@ -196,12 +196,12 @@ public class Team {
      * @param player The player to be removed
      */
     public void removePlayer(Member player) {
-        if(player == null || !this.players.contains(player)) {
-            return;
-        }
-        player.removeSurvey(player.getSurveyByTournament(this.tournament));
-        this.players.remove(player);
-        calculateSkillLevel(); // Updates the skill level
+//        if(player == null || !this.players.contains(player)) {
+//            return;
+//        }
+//        player.removeSurvey(player.getSurveyByTournament(this.tournament));
+//        this.players.remove(player);
+//        calculateSkillLevel(); // Updates the skill level
     }
 
     /**
@@ -217,9 +217,9 @@ public class Team {
         if(player == null || this.invitedPlayers.contains(player)) {
             return -1;
         }
-        if(this.players.contains(player)) {
-            return 0;
-        }
+//        if(this.players.contains(player)) {
+//            return 0;
+//        }
 
         this.invitedPlayers.add(player);
         return 1;
@@ -243,9 +243,9 @@ public class Team {
      * 
      * @return true of condition is met
      */
-    public boolean hasMinPlayers() {
-        return this.players.size() >= tournament.getMinPlayers();
-    }
+//    public boolean hasMinPlayers() {
+//        return this.players.size() >= tournament.getMinPlayers();
+//    }
 
     public void setTeamSkillLevel(int teamSkillLevel) {
         this.teamSkillLevel = teamSkillLevel;

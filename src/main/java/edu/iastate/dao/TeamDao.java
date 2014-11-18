@@ -119,9 +119,9 @@ public class TeamDao {
         if(getGames) {
             loadGames(team);
         }
-        if(getPlayers) {
-            loadPlayers(team);
-        }
+//        if(getPlayers) {
+//            loadPlayers(team);
+//        }
         if(getInvitedPlayers) {
             loadInvitedPlayers(team);
         }
@@ -141,9 +141,9 @@ public class TeamDao {
      * 
      * @param team the team to load players for
      */
-    private void loadPlayers(Team team) {
-        team.getPlayers().size();
-    }
+//    private void loadPlayers(Team team) {
+//        team.getPlayers().size();
+//    }
     
     /**
      * Loads the invited players on a team
