@@ -34,7 +34,7 @@ public class TeamController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody void createTeam(
             @RequestParam(value = "teamName") String teamName,
-            @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
+            @RequestParam(value = "invitedPlayerId") String invitedPlayerUsername,
             HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();

@@ -35,7 +35,7 @@
                     <tbody>
                         <c:forEach items="${teams}" var="team">
                             <tr>
-                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                <td><c:out value = "${team.name}"/></td>
                                 <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
                             </tr>
                         </c:forEach>
