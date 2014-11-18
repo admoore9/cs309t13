@@ -24,6 +24,25 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
 
                 <!-- Page specific html -->
+                <h2>My teams</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Tournament</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${teams}" var="team">
+                            <tr>
+                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                
+                
                 <h2>Upcoming Tournaments</h2>
                 <table class="table table-bordered">
                     <thead>

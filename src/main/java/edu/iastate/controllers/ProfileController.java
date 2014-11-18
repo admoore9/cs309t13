@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Member;
+import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
 @Controller
@@ -22,6 +24,11 @@ public class ProfileController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
+
+        Member member = (Member) session.getAttribute("member");
+
+        List<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
