@@ -3,11 +3,11 @@ $(document).ready(function() {
     bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
     
     $("#createTeam").click( function() {
-    	window.location.href = "/survey";
+    	window.location.href = "/team";
     });
     
     $("#joinTeam").click( function() {
-    	window.location.href = "/team";
+    	window.location.href = "/survey";
     });
 });
 
