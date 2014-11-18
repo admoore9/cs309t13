@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
 
     <!-- Page specific CSS -->
+    
 </head>
 <body>
     <jsp:include page="header.jsp"/>
@@ -27,7 +28,7 @@
 
                 <!-- Page specific html -->
                 <div class="container-fluid" id = "createTeamContainer">
-                    <div id="createTeam" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
+                    <div id="createTeamBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Create Team</h3>
@@ -55,7 +56,6 @@
                         </div> <!-- panel -->
                     </div> <!-- register box -->
                 </div> <!-- container -->
-
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
@@ -72,6 +72,6 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
-    <script src="../../resources/js/login.js"></script>
+    <script src="../../resources/js/createTeam.js"></script>
 </footer>
 </html>
