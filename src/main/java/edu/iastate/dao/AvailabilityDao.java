@@ -56,9 +56,8 @@ public class AvailabilityDao {
         return availability;
     }
 
-    public void updateAvailability(Set<Day> newDays, int memberId) {
-        
-        // TODO Auto-generated method stub
-        
+    public Availability updateAvailability(Set<Day> newDays, int memberId) {
+        System.out.println(newDays);
+        return new Availability();
     }
 }
