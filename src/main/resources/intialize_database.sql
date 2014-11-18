@@ -20,63 +20,6 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `cs309t13`.`Player`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Player` (
-  `member_id` INT NOT NULL,
-  `availability` INT NULL,
-  PRIMARY KEY (`member_id`),
-  INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_player_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `cs309t13`.`Official`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Official` (
-  `member_id` INT NOT NULL,
-  PRIMARY KEY (`member_id`),
-  INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_official_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `cs309t13`.`Coordinator`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Coordinator` (
-  `member_id` INT NOT NULL,
-  PRIMARY KEY (`member_id`),
-  INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_coordinator_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `cs309t13`.`Admin`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Admin` (
-  `member_id` INT NOT NULL,
-  `current_view` int(4) NOT NULL,
-  PRIMARY KEY (`member_id`),
-  INDEX `fk_member_id_idx` (`member_id` ASC),
-  CONSTRAINT `fk_admin_id`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`Member` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Tournament`
@@ -135,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Team` (
   INDEX `fk_Team_Player1_idx` (`member_id` ASC),
   CONSTRAINT `fk_Team_Player1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`player` (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Team_Tournament1`
@@ -158,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Survey` (
   INDEX `fk_Survey_PlayerId_idx` (`member_id` ASC),
   CONSTRAINT `fk_Survey_PlayerId`
     FOREIGN KEY (`member_id`)
-    REFERENCES `Player` (`member_id`)
+    REFERENCES `Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tournament_id` FOREIGN
@@ -234,10 +177,10 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Availability` (
   `availability_id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT NOT NULL,
   PRIMARY KEY (`availability_id`),
-  INDEX `fk_Availability_PlayerId_idx` (`member_id` ASC),
-  CONSTRAINT `fk_Availability_PlayerId`
+  INDEX `fk_Availability_MemberId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Availability_MemberId`
     FOREIGN KEY (`member_id`)
-    REFERENCES `Player` (`member_id`)
+    REFERENCES `Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -289,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`teaminvitedplayermapper` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Mapper_Player`
     FOREIGN KEY (`member_id`)
-    REFERENCES `cs309t13`.`player` (`member_id`)
+    REFERENCES `cs309t13`.`Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

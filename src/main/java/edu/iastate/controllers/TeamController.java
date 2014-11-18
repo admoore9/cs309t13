@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
@@ -28,23 +28,25 @@ public class TeamController {
     public String getTeam(Model model) {
         return "createTeam";
     }
-    
-    // TODO check users permission
+
+    // TODO Use correct tournament
+    // TODO Add players to team
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
+    public @ResponseBody void createTeam(
+            @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
             HttpSession session) {
-        Team team = new Team();
-        Player player = (Player) session.getAttribute("member");
-        
+
         TournamentDao tournamentDao = new TournamentDao();
-        TeamDao teamDao = new TeamDao();        
-        PlayerDao playerDao = new PlayerDao();
-        
-        team.setName(name);
-        team.setTeamLeader(player);
-        team.addInvitedPlayer(playerDao.getPlayerById(invitedPlayerId, true));
-        team.setTournament(tournamentDao.getTournamentById(1, false, false));
+        TeamDao teamDao = new TeamDao();
+
+        Tournament tournament = tournamentDao.getTournamentById(1, false, false);
+        Team team = new Team();
+        Member teamLeader = (Member) session.getAttribute("member");
+
+        team.setTournament(tournament);
+        team.setName(teamName);
+        team.setTeamLeader(teamLeader);
 
         teamDao.saveTeam(team);
     }
@@ -140,8 +142,8 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
+        MemberDao memberDao = new MemberDao();
+        Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
@@ -166,8 +168,8 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.addPlayer(player);
         teamDao.saveTeam(team);
         return true;
@@ -190,18 +192,18 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.removePlayer(player);
         teamDao.saveTeam(team);
         return true;
     }
 
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Player> getPlayersForTeam(@PathVariable int id) {
+    public @ResponseBody List<Member> getPlayersForTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
-        for(Player player : team.getPlayers()) {
+        for (Member player : team.getPlayers()) {
             // Causing circular references... Should actually fix that
             player.setSurveys(null);
             player.setTeams(null);
