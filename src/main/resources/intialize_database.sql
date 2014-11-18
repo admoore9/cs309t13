@@ -17,9 +17,10 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `sex` VARCHAR(1) NULL,
   `height` INT NOT NULL,
   `weight` INT NOT NULL,
+  `availability` INT NULL,
+  `context` int(4) NOT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `cs309t13`.`Tournament`
