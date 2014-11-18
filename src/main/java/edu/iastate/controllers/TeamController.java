@@ -24,15 +24,9 @@ import edu.iastate.models.Tournament;
 @RequestMapping("/team")
 public class TeamController {
 
-    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
-    public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
-        model.addAttribute("teamId", id);
-
-        if (session.getAttribute("member") == null) {
-            return "redirect:denied";
-        }
-
-        return "team";
+    @RequestMapping(method = RequestMethod.GET)
+    public String getTeam(Model model) {
+        return "createTeam";
     }
 
     // TODO Use correct tournament

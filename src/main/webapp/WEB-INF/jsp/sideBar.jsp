@@ -70,4 +70,20 @@
             </tr>
         </tbody>
     </table>
+    
+    <h2>Upcoming Tournaments</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tournament</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${tournaments}" var="tournament">
+                <tr>
+                    <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
 </div>
