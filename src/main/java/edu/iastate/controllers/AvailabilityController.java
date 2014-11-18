@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,15 @@ public class AvailabilityController {
     int memberId;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getAvailability(Model model,
-            @RequestParam(value = "id") String id) {
+    public String showAvailabilityHomepage(Model model) {
         availabilityDao = new AvailabilityDao();
-        memberId = Integer.parseInt(id);
+        return "availability";
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String getAvailability(Model model,
+            @PathVariable int id) {
+        memberId = id;
         availability = availabilityDao.getAvailabilityById(memberId);
 
         Set<Day> days = availability.getDays();
@@ -47,7 +53,7 @@ public class AvailabilityController {
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody void availabilitySubmit(
+    public @ResponseBody void submitAvailability(
             @RequestParam(value = "Monday", required = false) String mondayPeriods,
             @RequestParam(value = "Tuesday", required = false) String tuesdayPeriods,
             @RequestParam(value = "Wednesday", required = false) String wednesdayPeriods,
@@ -92,9 +98,7 @@ public class AvailabilityController {
             addPeriodsToDay(sunday, sundayPeriods);
             newDays.add(sunday);
         }
-        
         availabilityDao.updateAvailability(newDays, memberId);
-
     }
 
 }
