@@ -22,43 +22,35 @@
 <!-- Page specific CSS -->
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-				<div class="container" style="margin-left: 10px;">
-					<h2>Create Team</h2>
-					<div id="panels" class="panel-group">
-						<div id="create-team-panel" class="panel panel-default">
-							<div class="panel-heading" data-toggle="collapse"
-								data-target="#create-team-content">
-								<h3 class="panel-title">Create Team</h3>
-							</div>
-							<div class="panel panel-collapse collapse"
-								id="create-team-content">
-								<div class="panel-body">
-									<form role="form" id="create-team-form">
-										<div class="form-group">
-											<label for="name">Team name:</label> <input type="text"
-												class="form-control" id="create-team-name-input">
-										</div>
-										<div class="form-group">
-											<label for="invitedPlayerId">Invited Player ID:</label> <input
-												type="text" class="form-control"
-												id="create-team-invitedPlayerId-input">
-										</div>
-										<button id="create-team-submit" type="submit"
-											class="btn btn-default">Submit</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<jsp:include page="sideBar.jsp" />
-		</div>
-	</div>
+    <div class="container-fluid" id = "createTeamContainer">
+        <div id="createTeam" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create Team</h3>
+                </div> <!-- panel heading -->
+                <div class="panel-body">
+                    <form role="form" id="createTeamForm">
+                        <div class="panel-body">
+                        
+                            <div class="form-group">
+                                <label for="teamName">Team name:</label>
+                                <input id="teamName" name="teamName" type="text" class="form-control input-md">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="invitedPlayerId">Invited Player Id:</label>
+                                <input id="invitedPlayerId" name="invitedPlayerId" type="text" class="form-control input-md">
+                            </div>
+
+                            <div class="btn-group">
+                                <input type="submit" name="submitCreateTeam" class="btn btn-primary" value="Submit!"/>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- panel body -->
+            </div> <!-- panel -->
+        </div> <!-- register box -->
+    </div> <!-- container -->
 </body>
 <footer>
 	<!-- jQuery library -->

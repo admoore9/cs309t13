@@ -28,22 +28,26 @@ public class TeamController {
     public String getTeam(Model model) {
         return "createTeam";
     }
-    
-    // TODO tournament info
+
+    // TODO Use correct tournament
+    // TODO Add players to team
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody void createTeam(@RequestParam(value = "name") String name,
+    public @ResponseBody void createTeam(
+            @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "invitedPlayerId") int invitedPlayerId,
             HttpSession session) {
-        Team team = new Team();
-        Player player = (Player) session.getAttribute("member");
-        
+
         TournamentDao tournamentDao = new TournamentDao();
-        TeamDao teamDao = new TeamDao();        
-        PlayerDao playerDao = new PlayerDao();
-        //Change when tournament info implemented
-        team.setTournament(tournamentDao.getTournamentById(1, false, false));
-        team.setName(name);
-        team.setTeamLeader(player);
+        TeamDao teamDao = new TeamDao();
+
+        Tournament tournament = tournamentDao.getTournamentById(1, false, false);
+        Team team = new Team();
+        Member teamLeader = (Member) session.getAttribute("member");
+
+        team.setTournament(tournament);
+        team.setName(teamName);
+        team.setTeamLeader(teamLeader);
+
         teamDao.saveTeam(team);
     }
 
