@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `password` VARCHAR(128) NULL,
   `user_type` int(4) NOT NULL,
   `sex` VARCHAR(1) NULL,
-  `height` INT NULL,
-  `weight` INT NULL,
+  `height` INT NOT NULL,
+  `weight` INT NOT NULL,
   `availability` INT NULL,
   `context` int(4) NOT NULL,
   PRIMARY KEY (`member_id`))

@@ -1,5 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page session="true" %>
+<%@ page import="javax.persistence.EnumType" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +19,48 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+                <!-- Page specific html -->
+                <h2>My teams</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Tournament</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${teams}" var="team">
+                            <tr>
+                                <td><c:out value = "${team.name}"/></td>
+                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                
+                
+                <h2>Upcoming Tournaments</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tournament</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${tournaments}" var="tournament">
+                            <tr>
+                                <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <jsp:include page="sideBar.jsp"/>
+        </div>
     </div>
 </body>
 <footer>
