@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.SurveyDao;
 import edu.iastate.dao.TournamentDao;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 import edu.iastate.models.Survey;
 import edu.iastate.models.Tournament;
 
@@ -45,11 +45,11 @@ public class SurveyController {
             HttpSession session) {
 
         // set up database access objects
-        PlayerDao playerDao = new PlayerDao();
+        MemberDao memberDao = new MemberDao();
         SurveyDao surveyDao = new SurveyDao();
         TournamentDao tournamentDao = new TournamentDao();
 
-        Player player = (Player) session.getAttribute("member");
+        Member player = (Member) session.getAttribute("member");
         Survey survey = new Survey();
         // TODO use the correct tournament
         // get first tournament from database
@@ -70,7 +70,7 @@ public class SurveyController {
         survey.setSurveyScore(surveyScore);
 
         // Save updated player and survey to database
-        playerDao.save(player);
+        memberDao.save(player);
         surveyDao.saveSurvey(survey);
     }
 
