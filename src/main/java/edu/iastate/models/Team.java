@@ -37,7 +37,7 @@ public class Team {
     private boolean acceptFreeAgents;
 
     @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Member> players;
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
