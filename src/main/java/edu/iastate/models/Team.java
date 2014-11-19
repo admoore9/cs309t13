@@ -66,7 +66,7 @@ public class Team {
     private Set<Score> scores;
 
     public Team() {
-        players = new ArrayList<Member>();
+//        players = new ArrayList<Member>();
         games = new ArrayList<Game>();
         invitedPlayers = new ArrayList<Member>();
     }
@@ -75,7 +75,7 @@ public class Team {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
-        this.players = players;
+//        this.players = players;
         this.games = games;
         this.teamLeader = teamLeader;
     }
@@ -86,7 +86,7 @@ public class Team {
 
     public void setTeamLeader(Member teamLeader) {
         this.teamLeader = teamLeader;
-        addPlayer(teamLeader);
+//        addPlayer(teamLeader);
     }
 
     public int getId() {
