@@ -46,7 +46,7 @@ public class TeamController {
 
         team.setTournament(tournament);
         team.setName(teamName);
-//        team.setTeamLeader(teamLeader);
+        team.setTeamLeader(teamLeader);
 
         teamDao.saveTeam(team);
     }

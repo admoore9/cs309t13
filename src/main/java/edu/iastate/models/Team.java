@@ -37,7 +37,7 @@ public class Team {
     private boolean acceptFreeAgents;
 
     @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Member> players;
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
@@ -66,7 +66,7 @@ public class Team {
     private Set<Score> scores;
 
     public Team() {
-//        players = new ArrayList<Member>();
+        players = new ArrayList<Member>();
         games = new ArrayList<Game>();
         invitedPlayers = new ArrayList<Member>();
     }
@@ -75,7 +75,7 @@ public class Team {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
-//        this.players = players;
+        this.players = players;
         this.games = games;
         this.teamLeader = teamLeader;
     }
@@ -86,7 +86,7 @@ public class Team {
 
     public void setTeamLeader(Member teamLeader) {
         this.teamLeader = teamLeader;
-//        addPlayer(teamLeader);
+        addPlayer(teamLeader);
     }
 
     public int getId() {
