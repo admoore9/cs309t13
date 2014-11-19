@@ -25,7 +25,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Team</th>
+                <th>Team Name</th>
                 <th>Tournament</th>
                 <th>Date</th>
             </tr>
