@@ -7,7 +7,7 @@ $(document).ready(function() {
     });
     
     $("#joinTeam").click( function() {
-    	window.location.href = "/survey";
+    	window.location.href = "/survey/" + $('body').data('tournament-id') + "/view";
     });
 });
 
