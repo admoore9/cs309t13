@@ -10,7 +10,7 @@ $( document ).ready(function() {
     $('#update').click( function(e) {
         var table = $('#availabilityTable').DataTable();
 		e.preventDefault();
-		var url = "/availability/submit";
+		var url = "/availability/update";
 		$.ajax({
 			type: "POST",
 			url: url,
