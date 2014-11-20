@@ -6,11 +6,11 @@ import java.util.Random;
 import org.junit.Test;
 
 import edu.iastate.dao.GameDao;
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.models.Member.UserType;
@@ -44,8 +44,8 @@ public class TournamentTests {
     public void addTeamsToTournament() {
         Team team = new Team();
         TeamDao teamdao = new TeamDao();
-        PlayerDao playerdao = new PlayerDao();
-        Player player = new Player();
+        MemberDao playerdao = new MemberDao();
+        Member player = new Member();
         TournamentDao tournamentdao = new TournamentDao();
         
         for(int i=350; i<351; i++) {
@@ -56,7 +56,7 @@ public class TournamentTests {
             playerdao.save(player);
             team.setName("test" + i);
             team.setTournament(tournamentdao.getTournamentById(1, true, true));
-            team.setTeamLeader(playerdao.getPlayerById(i, true));
+            team.setTeamLeader(playerdao.getMemberById(i));
             team.setTeamSkillLevel(100-randInt(10, 60));
             teamdao.saveTeam(team);
         }
