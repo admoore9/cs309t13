@@ -244,7 +244,7 @@ public class Member {
         this.invitedTeams = invitedTeams;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "player")
     private Availability availability;
 
     public List<Team> getTeams() {
@@ -260,6 +260,10 @@ public class Member {
      */
     public Availability getAvailability() {
         return availability;
+    }
+
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
     }
 
     public Set<Survey> getSurveys() {
