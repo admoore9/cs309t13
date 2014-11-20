@@ -5,30 +5,25 @@ $( document ).ready(function() {
             teamName: {
                 validators: {
                     notEmpty: {
-                        message: 'Your Team Name is required'
+                        message: 'Your team name is required'
+                    },
+                    stringLength: {
+                        max: 45,
+                        message: 'Your team name must be less than 46 characters long'
                     }
                 }
             },
-            invitedPlayerId: {
+            invitedPlayerUsername: {
                 validators: {
                     notEmpty: {
-                        message: 'An invited player id is required'
+                        message: 'An invited player username is required'
+                    },
+                    stringLength: {
+                        max: 45,
+                        message: 'Invited usernames must be less than 46 characters long'
                     }
                 }
             }
         }
-    })
-    .on('success.form.bv', function(event) {
-        // Stop form from submitting normally
-        event.preventDefault();
-        var url = '/team/create';
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: $('#createTeamForm').serialize(),
-            success: function(data) {
-                window.location.href = "/profile";
-            }
-        });
     })
 });

@@ -34,7 +34,7 @@
                                 <h3 class="panel-title">Create Team</h3>
                             </div> <!-- panel heading -->
                             <div class="panel-body">
-                                <form role="form" id="createTeamForm">
+                                <form role="form" id="createTeamForm" action="/team/create" method="POST">
                                     <div class="panel-body">
                                     
                                         <div class="form-group">
