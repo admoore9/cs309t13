@@ -31,7 +31,7 @@
                                 <h3 class="panel-title">Player Survey</h3>
                             </div> <!-- panel heading -->
                             <div class="panel-body">
-                                <form role="form" id="surveyForm">
+                                <form role="form" id="surveyForm" action="<c:out value="/survey/${tournamentId}/submit"/>" method="POST">
                                     <div class="panel-body">
                                         <% if (member.getSex() == null) { %>
                                             <div class="form-group">
