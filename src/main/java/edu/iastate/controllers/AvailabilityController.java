@@ -1,11 +1,13 @@
 package edu.iastate.controllers;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.iastate.dao.AvailabilityDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
+import edu.iastate.models.Day.WeekDay;
+import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.models.Period.Slot;
 
@@ -24,81 +28,63 @@ public class AvailabilityController {
     AvailabilityDao availabilityDao;
     Availability availability;
     int memberId;
+    Set<Day> days;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showAvailabilityHomepage(Model model) {
-        availabilityDao = new AvailabilityDao();
-        return "availability";
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getAvailability(Model model,
-            @PathVariable int id) {
-        memberId = id;
-        availability = availabilityDao.getAvailabilityById(memberId);
-
-        Set<Day> days = availability.getDays();
-        model.addAttribute("days", days);
-        return "availability";
-    }
-
-    private void addPeriodsToDay(Day day, String dayPeriods) {
-        String periodsNames[] = dayPeriods.split(",");
-        for (String periodName : periodsNames) {
-            for (Slot slot : Period.Slot.values()) {
-                if (slot.name().equals(periodName))
-                    day.addToAvailablePeriods(new Period(slot).setDay(day));
-            }
+    public String getAvailability(Model model, HttpSession session) {
+        if(session.getAttribute("member") == null) {
+            return "redirect:denied";
         }
+        Member member = (Member) session.getAttribute("member");
+        availabilityDao = new AvailabilityDao();
+        availability = member.getAvailability();
+        days = availability.getDays();
+        model.addAttribute("days", days);
+        model.addAttribute("slots", Slot.values());
+        return "availability";
     }
 
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody void submitAvailability(
-            @RequestParam(value = "Monday", required = false) String mondayPeriods,
-            @RequestParam(value = "Tuesday", required = false) String tuesdayPeriods,
-            @RequestParam(value = "Wednesday", required = false) String wednesdayPeriods,
-            @RequestParam(value = "Thursday", required = false) String thursdayPeriods,
-            @RequestParam(value = "Friday", required = false) String fridayPeriods,
-            @RequestParam(value = "Saturday", required = false) String saturdayPeriods,
-            @RequestParam(value = "Sunday", required = false) String sundayPeriods) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody boolean updateAvailability(
+            @RequestParam(value = "MONDAY", required = false) String monday,
+            @RequestParam(value = "TUESDAY", required = false) String tuesday,
+            @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
+            @RequestParam(value = "THURSDAY", required = false) String thursday,
+            @RequestParam(value = "FRIDAY", required = false) String friday,
+            @RequestParam(value = "SATURDAY", required = false) String saturday,
+            @RequestParam(value = "SUNDAY", required = false) String sunday) {
+
+        Day newMonday = new Day(WeekDay.MONDAY);
+        Day newTuesday = new Day(WeekDay.TUESDAY);
+        Day newWednesday = new Day(WeekDay.WEDNESDAY);
+        Day newThursday = new Day(WeekDay.THURSDAY);
+        Day newFriday = new Day(WeekDay.FRIDAY);
+        Day newSaturday = new Day(WeekDay.SATURDAY);
+        Day newSunday = new Day(WeekDay.SUNDAY);
+        if (monday != null)
+            addPeriodsToDay(newMonday, monday);
+        if (tuesday != null)
+            addPeriodsToDay(newTuesday, tuesday);
+        if (wednesday != null)
+            addPeriodsToDay(newWednesday, wednesday);
+        if (thursday != null)
+            addPeriodsToDay(newThursday, thursday);
+        if (friday != null)
+            addPeriodsToDay(newFriday, friday);
+        if (saturday != null)
+            addPeriodsToDay(newSaturday, saturday);
+        if (sunday != null)
+            addPeriodsToDay(newSunday, sunday);
 
         Set<Day> newDays = new LinkedHashSet<Day>();
-        if (mondayPeriods != null) {
-            Day monday = new Day("Monday").setAvailability(availability);
-            addPeriodsToDay(monday, mondayPeriods);
-            newDays.add(monday);
-        }
-        if (tuesdayPeriods != null) {
-            Day tuesday = new Day("Tuesday").setAvailability(availability);
-            addPeriodsToDay(tuesday, tuesdayPeriods);
-            newDays.add(tuesday);
-        }
-        if (wednesdayPeriods != null) {
-            Day wednesday = new Day("Wednesday").setAvailability(availability);
-            addPeriodsToDay(wednesday, wednesdayPeriods);
-            newDays.add(wednesday);
-        }
-        if (thursdayPeriods != null) {
-            Day thursday = new Day("Thursday").setAvailability(availability);
-            addPeriodsToDay(thursday, thursdayPeriods);
-            newDays.add(thursday);
-        }
-        if (fridayPeriods != null) {
-            Day friday = new Day("Friday").setAvailability(availability);
-            addPeriodsToDay(friday, fridayPeriods);
-            newDays.add(friday);
-        }
-        if (saturdayPeriods != null) {
-            Day saturday = new Day("Saturday").setAvailability(availability);
-            addPeriodsToDay(saturday, saturdayPeriods);
-            newDays.add(saturday);
-        }
-        if (sundayPeriods != null) {
-            Day sunday = new Day("Sunday").setAvailability(availability);
-            addPeriodsToDay(sunday, sundayPeriods);
-            newDays.add(sunday);
-        }
-        availabilityDao.updateAvailability(newDays, memberId);
+        newDays.addAll(Arrays.asList(newMonday, newTuesday, newWednesday, newThursday, newFriday, newSaturday, newSunday));
+        availabilityDao.update(availability, newDays);
+        return true;
     }
 
+    private void addPeriodsToDay(Day newMonday, String monday) {
+        String periodsNames[] = monday.split(",");
+        for (String periodName : periodsNames)
+            newMonday.addPeriod(new Period(periodName).setAvailable(true));
+    }
 }
