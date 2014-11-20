@@ -1,5 +1,6 @@
 package edu.iastate.dao;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,8 @@ import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
+import edu.iastate.models.Day.WeekDay;
+import edu.iastate.models.Period;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class AvailabilityDao {
@@ -39,6 +42,15 @@ public class AvailabilityDao {
         transaction.commit();
         entityManager.close();
 
+        if (savedAvailability.getDays().size() == 0) {
+            LinkedHashSet<Day> days = new LinkedHashSet<Day>();
+            DayDao dayDao = new DayDao();
+            for (WeekDay weekday : WeekDay.values()) {
+                System.out.println(weekday.name());
+                days.add(dayDao.saveDay(new Day(weekday).setAvailability(savedAvailability)));
+            }
+            savedAvailability.setDays(days);
+        }
         return savedAvailability;
     }
 
@@ -56,8 +68,20 @@ public class AvailabilityDao {
         return availability;
     }
 
-    public Availability updateAvailability(Set<Day> newDays, int memberId) {
-        System.out.println(newDays);
-        return new Availability();
+    public void update(Availability availability, Set<Day> newDays) {
+        PeriodDao periodDao = new PeriodDao();
+        for (Day newDay : newDays) {
+            Day day = availability.getDayByName(newDay.getName());
+            for (Period period : day.getPeriods()) {
+                if (newDay.hasPeriod(period)) {
+                    period.setAvailable(true).setDay(day);
+                    periodDao.update(period);
+                }
+                else {
+                    period.setAvailable(false).setDay(day);
+                    periodDao.update(period);
+                }
+            }
+        }
     }
 }
