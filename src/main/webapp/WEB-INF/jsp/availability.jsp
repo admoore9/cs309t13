@@ -5,104 +5,66 @@
 <html>
 
 <head>
-<title>Game Page</title>
 
-<style type="text/css">
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-th, td {
-	padding: 5px;
-}
+    <title>Availability</title>
 
-th {
-	text-align: left;
-}
-</style>
-
-<!-- jQuery library -->
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-<script type="text/javascript"
-	src="<c:url value='/resources/js/availability.js' />"></script>
-
-<!-- DataTable -->
-<style type="text/css"
-	style="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css"></style>
-<script type="text/javascript"
-	src="<c:url value='http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js' />"></script>
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style type="text/css" style="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css"></style>
+	<link rel="stylesheet" href="<c:url value='/resources/css/availability.css' />"></link>
 
 </head>
 
 <body>
-
-	<table id="myTable">
-		<thead>
-			<tr>
-				<th>Day</th>
-				<th>6PM</th>
-				<th>7PM</th>
-				<th>8PM</th>
-				<th>9PM</th>
-				<th>10PM</th>
-				<th>11PM</th>
-				<th>12PM</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			<c:forEach items="${days}" var="day">
+	<jsp:include page="header.jsp" />
+	<div class="container">
+		<table id="availabilityTable" class="table table-striped table-bordered" >
+			<thead>
 				<tr>
-					<td><c:out value="${day.getName()}"></c:out></td>
-
-					<c:forEach items="${day.getAvailablePeriods()}" var="period">
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="SIX"
-							<c:if test='${period.getSlot() == "SIX" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="SEVEN"
-							<c:if test='${period.getSlot() == "SEVEN" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="EIGHT"
-							<c:if test='${period.getSlot() == "EIGHT" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="NINE"
-							<c:if test='${period.getSlot() == "NINE" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="TEN"
-							<c:if test='${period.getSlot() == "TEN" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="ELEVEN"
-							<c:if test='${period.getSlot() == "ELEVEN" }'>checked</c:if>>
-						</td>
-						<td><input type="checkbox"
-							name="<c:out value='${day.getName()}'></c:out>"
-							value="TWELVE"
-							<c:if test='${period.getSlot() == "TWELVE" }'>checked</c:if>>
-						</td>
+					<th>Day</th>
+					<c:forEach items="${slots}" var="slot">
+						<th><c:out value="${slot.hour() }"></c:out> <c:out value="${slot.period() }"></c:out></th>
 					</c:forEach>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+			</thead>
 
-	<button id="submit" type="submit">Save</button>
+			<tbody>
+				<c:forEach items="${days}" var="day">
+					<tr>
+						<td><c:out value="${day.getName()}"></c:out></td>
 
+						<c:forEach items="${day.getPeriods()}" var="period">
+							<td><input type="checkbox" class="checkbox"
+								name="<c:out value='${day.getName()}'></c:out>"
+								value="<c:out value='${period.getSlot()}'></c:out>"
+								<c:if test='${period.isAvailable() }'>checked</c:if>></td>
+						</c:forEach>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<label class="float-right"><input type="checkbox" id="selectall">Select all</label>
+		<br><br>
+		<button id="update" type="submit" class="btn btn-default float-right">Update</button>
+	</div>
 </body>
+
+<footer>
+    <!-- jQuery library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Bootstrap JavaScript plug-ins -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+	<!-- DataTable -->
+	<script type="text/javascript" src="<c:url value='http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js' />"></script>
+
+    <!-- Page specific JS -->
+    <script type="text/javascript" src="<c:url value='/resources/js/availability.js' />"></script>
+</footer>
 
 </html>
