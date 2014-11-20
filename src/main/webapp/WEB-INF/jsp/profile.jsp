@@ -24,40 +24,100 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
 
                 <!-- Page specific html -->
-                <h2>My teams</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Team Name</th>
-                            <th>Tournament</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${teams}" var="team">
-                            <tr>
-                                <td><c:out value = "${team.name}"/></td>
-                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-                
-                
-                <h2>Upcoming Tournaments</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Tournament</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${tournaments}" var="tournament">
-                            <tr>
-                                <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                <h2>Profile</h2>
+                <div id="accordion" class="panel-group">
+
+                    <div id="join-tournament-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#join-tournament-content" href="#join-tournament-content">
+                                    Join a Tournament
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="join-tournament-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Sport</th>
+                                            <th>Registration Open</th>
+                                            <th>Registration Close</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${tournaments}" var="tournament">
+                                            <tr>
+                                                <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                                                <td>TO DO</td>
+                                                <td>TO DO</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="my-teams-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#my-teams-content" href="#my-teams-content">
+                                    My Teams
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="my-teams-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Name</th>
+                                            <th>Tournament</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${teams}" var="team">
+                                            <tr>
+                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="game-history-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#game-history-content" href="#game-history-content">
+                                    Game History
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="game-history-content">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-profile-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#edit-profile-content" href="#edit-profile-content">
+                                    Edit Profile
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="edit-profile-content">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
