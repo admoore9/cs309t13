@@ -5,11 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.transaction.Transactional;
 
-import org.hibernate.Transaction;
-
-import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
@@ -31,7 +27,6 @@ public class PeriodDao {
      * @param member The member to save to the database
      */
     public Period savePeriod(Period period) {
-        
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -58,8 +53,7 @@ public class PeriodDao {
     }
 
     public void delete(Period period) {
-        EntityManager entityManager = entityManagerFactory
-                .createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         org.hibernate.Session session = (org.hibernate.Session) entityManager
                 .getDelegate();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -68,6 +62,16 @@ public class PeriodDao {
         entityManager.remove(periodToRemove);
         transaction.commit();
         session.close();
+    }
+
+    public void update(Period period) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Period periodToUpdate = entityManager.merge(period);
+        periodToUpdate.setAvailable(period.isAvailable());
+        transaction.commit();
+        entityManager.close();
     }
 
 }
