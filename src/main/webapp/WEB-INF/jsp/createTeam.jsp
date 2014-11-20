@@ -43,8 +43,8 @@
                                         </div>
             
                                         <div class="form-group">
-                                            <label for="invitedPlayerId">Invited Player Id:</label>
-                                            <input id="invitedPlayerId" name="invitedPlayerId" type="text" class="form-control input-md">
+                                            <label for="invitedPlayerUsername">Invited Player Username:</label>
+                                            <input id="invitedPlayerUsername" name="invitedPlayerUsername" type="text" class="form-control input-md">
                                         </div>
             
                                         <div class="btn-group">
