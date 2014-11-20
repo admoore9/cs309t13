@@ -39,30 +39,13 @@ public class PeriodTests {
         Availability savedAvailability = availabilityDao
                 .saveAvailability(availability);
 
-        List<Day> days = Arrays.asList(new Day("Monday"), new Day("Tuesday"),
-                new Day("Wednesday"), new Day("Thursday"), new Day("Friday"),
-                new Day("Saturday"), new Day("Sunday"));
-        for (Day day : days)
-            day.setAvailability(savedAvailability);
-        savedDays = dayDao.saveDays(days);
     }
 
     @Test
-    public void constructorTest() {
+    public void changePeriodAvailabilityTest() {
         for (Day day : savedDays) {
-            Period period = new Period(Slot.NINE);
-            period.setDay(day);
-            periodDao.savePeriod(period);
-            System.out.println(period.getSlot());
-            System.out.println(Period.Slot.SIX);
-            System.out.println(period.getSlot() == Period.Slot.NINE);
+            System.out.println(day.getPeriods().size());
+            periodDao.savePeriod(day.getPeriods().iterator().next().setAvailable(true));
         }
-    }
-
-    @Test public void deleteTest() {
-        Period period = new Period(Slot.TWELVE);
-        period.setDay(savedDays.get(0));
-        Period savedPeriod = periodDao.savePeriod(period);
-        periodDao.delete(savedPeriod);
     }
 }
