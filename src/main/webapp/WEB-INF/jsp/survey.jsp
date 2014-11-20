@@ -116,7 +116,6 @@
             
                                         <div class="btn-group">
                                             <input type="submit" name="submitSurvey" class="btn btn-primary" value="Submit!"/>
-                                            <button class="btn btn-default" type="button" onClick="cancelForm()">Cancel</button>
                                         </div>
                                     </div>
                                 </form>
