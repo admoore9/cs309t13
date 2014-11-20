@@ -38,13 +38,14 @@ public class TeamController {
     // TODO Use correct tournament
     // TODO Add players to team
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody void createTeam(
+    public String createTeam(
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername,
             HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();
         TeamDao teamDao = new TeamDao();
+        MemberDao memberDao = new MemberDao();
 
         Tournament tournament = tournamentDao.getTournamentById(1, false, false);
         Team team = new Team();
@@ -55,6 +56,11 @@ public class TeamController {
         team.setTeamLeader(teamLeader);
 
         teamDao.saveTeam(team);
+
+        teamLeader = memberDao.getMemberById(teamLeader.getId());
+        session.setAttribute("member", teamLeader);
+
+        return "redirect:../profile";
     }
 
     /**
