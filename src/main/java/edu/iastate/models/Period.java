@@ -24,13 +24,24 @@ public class Period {
     private Day day;
     
     public enum Slot {
-        SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE
+        SIXPM(6, "PM"), SEVENPM(7, "PM"), EIGHTPM(8, "PM"), NINEPM(9, "PM"), TENPM(10, "PM"), ELEVENPM(11, "PM"), TWELVEPM(12, "PM");
+        int hour;
+        String period;
+        Slot(int hour, String period) {
+            this.hour = hour;
+            this.period = period;
+        }
+        public int hour()   { return hour; }
+        public String period() { return period; }
     };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "slot")
     private Slot slot;
-    
+
+    @Column(name = "available")
+    private boolean available;
+
     public Period() {}
     
     /**
@@ -38,6 +49,13 @@ public class Period {
      */
     public Period(Slot slot) {
         this.slot = slot;
+    }
+
+    public Period(String slotName) {
+        for (Slot slot : Slot.values()) {
+            if (slot.name().equals(slotName))
+                this.slot = slot;
+        }
     }
 
     /**
@@ -81,6 +99,22 @@ public class Period {
      */
     public void setPeriod_id(int period_id) {
         this.period_id = period_id;
+    }
+
+    /**
+     * @return the available
+     */
+    public boolean isAvailable() {
+        return available;
+    }
+
+    /**
+     * @param available the available to set
+     * @return
+     */
+    public Period setAvailable(boolean available) {
+        this.available = available;
+        return this;
     }
 
     @Override
