@@ -23,18 +23,21 @@ public class SurveyController {
     private static final double LBS_TO_KG_FACTOR = 0.453592;
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String loadSurveyPage(Model m, HttpSession session) {
+    @RequestMapping(value = "/{tournamentId}/view", method = RequestMethod.GET)
+    public String loadSurveyPage(@PathVariable int tournamentId, Model m, HttpSession session) {
 
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
 
+        m.addAttribute("tournamentId", tournamentId);
+
         return "survey";
     }
 
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody void surveySubmit(
+    @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
+    public String surveySubmit(
+            @PathVariable int tournamentId,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "height", required = false) Integer height,
             @RequestParam(value = "weight", required = false) Integer weight,
@@ -49,11 +52,9 @@ public class SurveyController {
         SurveyDao surveyDao = new SurveyDao();
         TournamentDao tournamentDao = new TournamentDao();
 
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         Member player = (Member) session.getAttribute("member");
         Survey survey = new Survey();
-        // TODO use the correct tournament
-        // get first tournament from database
-        Tournament tournament = tournamentDao.getAllTournaments().get(0);
 
         if (sex != null)
             player.setSex(sex);
@@ -72,6 +73,8 @@ public class SurveyController {
         // Save updated player and survey to database
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
+
+        return "redirect:../../profile";
     }
 
     /**
