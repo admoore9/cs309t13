@@ -35,10 +35,22 @@ public class TeamController {
         return "team";
     }
 
-    // TODO Use correct tournament
+    @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
+    public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
+
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+
+        model.addAttribute("tournamentId", tournamentId);
+
+        return "createTeam";
+    }
+
     // TODO Add players to team
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createTeam(
+    @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
+    public String createTeamSubmit(
+            @PathVariable int tournamentId,
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername,
             HttpSession session) {
@@ -47,7 +59,7 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         MemberDao memberDao = new MemberDao();
 
-        Tournament tournament = tournamentDao.getTournamentById(1, false, false);
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         Team team = new Team();
         Member teamLeader = (Member) session.getAttribute("member");
 
@@ -60,7 +72,7 @@ public class TeamController {
         teamLeader = memberDao.getMemberById(teamLeader.getId());
         session.setAttribute("member", teamLeader);
 
-        return "redirect:../profile";
+        return "redirect:../../../profile";
     }
 
     /**

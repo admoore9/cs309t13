@@ -3,7 +3,7 @@ $(document).ready(function() {
     bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
     
     $("#createTeam").click( function() {
-    	window.location.href = "/team";
+    	window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
     });
     
     $("#joinTeam").click( function() {
