@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -299,6 +300,25 @@ public class Member {
         surveys.remove(survey);
     }
 
+    /**
+     * @return the notifications
+     */
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    /**
+     * @return the notifications
+     */
+    public Set<Notification> getUnviewedNotifications() {
+        Set<Notification> unviewedNotification = new LinkedHashSet<Notification>();
+        for (Notification notification : notifications) {
+            if (!notification.isViewed())
+                unviewedNotification.add(notification);
+        }
+        return unviewedNotification;
+    }
+
     // -------------End Player-------------------------
 
     // ============Official=============
@@ -314,13 +334,6 @@ public class Member {
         this.games = games;
     }
     // ----------ENd Official------------
-
-    /**
-     * @return the notifications
-     */
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
 
     // =========Admin===============
 
