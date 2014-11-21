@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OrderBy;
+
 import edu.iastate.models.Day.WeekDay;
 
 @Entity
@@ -29,6 +31,7 @@ public class Availability {
     private Member player;
 
     @OneToMany(mappedBy = "availability", fetch = FetchType.EAGER)
+    @OrderBy(clause = "day_id")
     private Set<Day> days;
     
     public Availability() {
