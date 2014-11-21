@@ -27,6 +27,7 @@ public class Notification {
 	private String text;
 	private String url;
 	private Timestamp time;
+	private boolean viewed;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -95,5 +96,13 @@ public class Notification {
     public Notification setMember(Member member) {
         this.member = member;
         return this;
+    }
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 }

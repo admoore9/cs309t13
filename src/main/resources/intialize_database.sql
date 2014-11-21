@@ -268,6 +268,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Notification` (
   `member_id` INT NOT NULL,
   `text` VARCHAR(45) NOT NULL,
   `url` VARCHAR(45) NULL,
+  `viewed` BOOLEAN DEFAULT FALSE NOT NULL,
   `time` TIMESTAMP,
   PRIMARY KEY (`notification_id`),
   INDEX `fk_Notification_MemberId_idx` (`member_id` ASC),

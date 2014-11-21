@@ -41,7 +41,9 @@
 									<ul class="dropdown-menu">
 										<% for (Notification notification : member.getNotifications()) { %>
 											<li>
-												<% out.print(notification.getText() + " " + notification.getTime().getTime()); %>
+												<% if (!notification.isViewed()) {
+													out.print(notification.getText() + " " + notification.getTime().getHours()); 
+												}%>
 											</li>
 										<% } %>
 									</ul>
