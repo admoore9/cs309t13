@@ -259,7 +259,24 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Score` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-    
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Notification`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Notification` (
+  `notification_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  `text` VARCHAR(45) NOT NULL,
+  `url` VARCHAR(45) NULL,
+  `time` TIMESTAMP,
+  PRIMARY KEY (`notification_id`),
+  INDEX `fk_Notification_MemberId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Notification_MemberId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
     
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
