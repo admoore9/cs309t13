@@ -45,10 +45,8 @@ public class AvailabilityDao {
         if (savedAvailability.getDays().size() == 0) {
             LinkedHashSet<Day> days = new LinkedHashSet<Day>();
             DayDao dayDao = new DayDao();
-            for (WeekDay weekday : WeekDay.values()) {
-                System.out.println(weekday.name());
+            for (WeekDay weekday : WeekDay.values())
                 days.add(dayDao.saveDay(new Day(weekday).setAvailability(savedAvailability)));
-            }
             savedAvailability.setDays(days);
         }
         return savedAvailability;
