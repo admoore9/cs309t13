@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
+<%@ page import="edu.iastate.models.Notification" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 
 <div class="container">
@@ -35,6 +36,16 @@
                         <ul class="nav navbar-nav navbar-right">
 
                             <% if (userType != Member.UserType.PLAYER) { %>
+                            	<li class="dropdown">
+                                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Message <span class="badge"><% out.print(member.getNotifications().size()); %></span></a>
+									<ul class="dropdown-menu">
+										<% for (Notification notification : member.getNotifications()) { %>
+											<li>
+												<% out.print(notification.getText() + " " + notification.getTime().getTime()); %>
+											</li>
+										<% } %>
+									</ul>
+                            	</li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Context <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
