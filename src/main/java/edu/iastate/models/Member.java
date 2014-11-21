@@ -65,6 +65,9 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    private Set<Notification> notifications;
+
     public Member() {
         this.userType = UserType.PLAYER;
     }
@@ -311,6 +314,13 @@ public class Member {
         this.games = games;
     }
     // ----------ENd Official------------
+
+    /**
+     * @return the notifications
+     */
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
 
     // =========Admin===============
 
