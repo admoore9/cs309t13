@@ -32,36 +32,35 @@ public class TeamTests {
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
 
-        System.out.println(teamdao.getTeamById(11, false, true, false).getTeamLeader().getName());
         /*System.out.println("Names:");
         for (Player player : players) {
             System.out.println(player.getName());
         }*/
     }
 
-//    @Test
-//    public void addPlayerToTeamTest() {
-//        TeamDao teamdao = new TeamDao();
-//        Team team = teamdao.getTeamById(13, true, true, true);
-//        Member player = playerdao.getMemberById(2);
-//        team.addPlayer(player);
-//        for (Member p: team.getPlayers()) {
-//            System.out.println(p.getName());
-//        }
-//
-//        teamdao.saveTeam(team);
-//    }
-//
-//    @Test
-//    public void removePlayerFromTeamTest() {
-//        TeamDao teamdao = new TeamDao();
-//        Team team = teamdao.getTeamById(10, true, true, false);
-//        Member player = playerdao.getMemberById(2);
-//        team.removePlayer(player);
-//        for (Member p: team.getPlayers()) {
-//            System.out.println(p.getId());
-//        }
-//
-//        teamdao.saveTeam(team);
-//    }
+    @Test
+    public void addPlayerToTeamTest() {
+        TeamDao teamdao = new TeamDao();
+        Team team = teamdao.getTeamById(13, true, true, true);
+        Member player = playerdao.getMemberById(2);
+        team.addPlayer(player);
+        for (Member p: team.getPlayers()) {
+            System.out.println(p.getName());
+        }
+
+        //teamdao.saveTeam(team);
+    }
+
+    @Test
+    public void removePlayerFromTeamTest() {
+        TeamDao teamdao = new TeamDao();
+        Team team = teamdao.getTeamById(10, true, true, false);
+        Member player = playerdao.getMemberById(2);
+        team.removePlayer(player);
+        for (Member p: team.getPlayers()) {
+            System.out.println(p.getId());
+        }
+
+        teamdao.saveTeam(team);
+    }
 }
