@@ -28,7 +28,7 @@
 
                 <!-- Page specific html -->
                 <div class="container-fluid" id = "createTeamContainer">
-                    <div id="createTeamBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-msm-offset-2 col-xs-8 col-xs-offset-2">
+                    <div id="createTeamBox" class="mainbox col-md-8 col-md-offset-2 col-sm-10 col-msm-offset-1 col-xs-10 col-xs-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Create Team</h3>
