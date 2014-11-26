@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+.message.false {
+	font-weight: bold;
+}
+
+table#messages {
+	width: 100%;
+}
+
+tr.message {
+	border-top: solid 1px;
+	border-bottom: solid 1px;
+}
+
+.message-time {
+	float: right;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.message-sender {
+	margin-right: 100px;
+}
+
+.mainbox {
+	float: right;
+}
+
+.new-message-body {
+	margin-top: 15px;
+	min-height: 300px;
+	min-width: 550px;
+}
+
+.modal-body {
+	min-height: 420px;
+}
+
+input.form-control {
+	margin-top: 15px;
+}

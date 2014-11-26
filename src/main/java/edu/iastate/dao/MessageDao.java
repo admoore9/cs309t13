@@ -4,17 +4,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import edu.iastate.models.Notification;
+import edu.iastate.models.Message;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
-public class NotificationDao {
+public class MessageDao {
 
     protected final EntityManagerFactory entityManagerFactory;
 
     /**
      * Standard constructor
      */
-    public NotificationDao() {
+    public MessageDao() {
         this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
     }
 
@@ -23,17 +23,17 @@ public class NotificationDao {
      * 
      * @param entityManagerFactory The factory to use to get sessions
      */
-    public NotificationDao(EntityManagerFactory entityManagerFactory) {
+    public MessageDao(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    public Notification save(Notification Notification) {
+    public Message save(Message Message) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        Notification savedNotification = entityManager.merge(Notification);
+        Message savedMessage = entityManager.merge(Message);
         transaction.commit();
         entityManager.close();
-        return savedNotification;
+        return savedMessage;
     }
 }

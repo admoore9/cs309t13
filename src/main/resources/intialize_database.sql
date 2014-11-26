@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `weight` INT NULL,
   `availability` INT NULL,
   `context` int(4) NOT NULL,
+  `mail_id`	INT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
@@ -261,19 +262,44 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Score` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `cs309t13`.`Notification`
+-- Table `cs309t13`.`Mail`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs309t13`.`Notification` (
-  `notification_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Mail` (
+  `mail_id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT NOT NULL,
-  `text` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`mail_id`),
+  INDEX `fk_Mail_MemberId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Mail_MemberId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Message`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Message` (
+  `message_id` INT NOT NULL AUTO_INCREMENT,
+  `recipient_id` INT NOT NULL,
+  `sender_id` INT NOT NULL,
+  `title` VARCHAR(45) NOT NULL,
+  `body` VARCHAR(1000) NOT NULL,
   `url` VARCHAR(45) NULL,
   `viewed` BOOLEAN DEFAULT FALSE NOT NULL,
-  `time` TIMESTAMP,
-  PRIMARY KEY (`notification_id`),
-  INDEX `fk_Notification_MemberId_idx` (`member_id` ASC),
-  CONSTRAINT `fk_Notification_MemberId`
-    FOREIGN KEY (`member_id`)
+  `sent` BOOLEAN DEFAULT FALSE NOT NULL,
+  `deleted` BOOLEAN DEFAULT FALSE NOT NULL,
+  `datetime` TIMESTAMP,
+  PRIMARY KEY (`message_id`),
+  INDEX `fk_Message_RecipientId_idx` (`recipient_id` ASC),
+  CONSTRAINT `fk_Message_RecipientId`
+    FOREIGN KEY (`recipient_id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  INDEX `fk_Message_SenderId_idx` (`sender_id` ASC),
+  CONSTRAINT `fk_Message_SenderId`
+    FOREIGN KEY (`sender_Id`)
     REFERENCES `Member` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

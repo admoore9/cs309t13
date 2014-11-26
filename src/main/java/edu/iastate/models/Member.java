@@ -1,6 +1,5 @@
 package edu.iastate.models;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -66,9 +66,11 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private Set<Notification> notifications;
-
+    @OneToOne
+    @JoinColumn(name = "mail_id")
+    private Mail mail;
+    
+    
     public Member() {
         this.userType = UserType.PLAYER;
     }
@@ -214,6 +216,13 @@ public class Member {
 
     // =========Player================
 
+    /**
+     * @return the mail
+     */
+    public Mail getMail() {
+        return mail;
+    }
+
     @JsonIgnore
     @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
     private List<Team> teams;
@@ -252,6 +261,10 @@ public class Member {
         return availability;
     }
 
+    public void setMail(Mail mail) {
+        this.mail = mail;
+    }
+    
     public Set<Survey> getSurveys() {
         return surveys;
     }
@@ -298,25 +311,6 @@ public class Member {
             return;
         }
         surveys.remove(survey);
-    }
-
-    /**
-     * @return the notifications
-     */
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    /**
-     * @return the notifications
-     */
-    public Set<Notification> getUnviewedNotifications() {
-        Set<Notification> unviewedNotification = new LinkedHashSet<Notification>();
-        for (Notification notification : notifications) {
-            if (!notification.isViewed())
-                unviewedNotification.add(notification);
-        }
-        return unviewedNotification;
     }
 
     // -------------End Player-------------------------
