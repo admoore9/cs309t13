@@ -29,7 +29,7 @@ public class Survey {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Player player;
+    private Member player;
 
     // TODO - make this accessible in tournament
     @JsonIgnore
@@ -48,11 +48,11 @@ public class Survey {
         this.id = id;
     }
 
-    public Player getPlayer() {
+    public Member getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Member player) {
         this.player = player;
     }
 

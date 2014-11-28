@@ -7,20 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tournament</title>
+    <title>Home</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
-
-    <!-- Page specific CSS -->
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournamentId}'/>">
+<body>
     <jsp:include page="header.jsp"/>
-    <h2>Bracket</h2>
-    <h3>Tournament Name: <span id="tournament-name"></span></h3>
-    <div id="bracket"></div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Iowa State Intramurals</h1>
+            <p>
+                Recreation Services invites you to participate in one of the largest and best intramural sports programs
+                in the nation. With an overboard philosophy of "something for everyone," the Intramural Program offers over
+                40 sports to meet the diverse interests of the student, faculty and staff population.
+            </p>
+        </div>
+    </div>
 </body>
 <footer>
     <!-- jQuery library -->
@@ -34,6 +38,5 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/login.js"></script>
-    <script src="../../resources/js/tournament.js"></script>
 </footer>
 </html>

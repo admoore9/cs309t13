@@ -7,25 +7,25 @@ import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
 import edu.iastate.dao.DayDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.PeriodDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
+import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.models.Period.Slot;
-import edu.iastate.models.Player;
 
 public class PeriodTests {
     @Test
     public void constructorTest() {
         
-        PlayerDao playerDao = new PlayerDao();
-        Player player = new Player("test1", "test1", "123");
-        playerDao.savePlayer(player);
+        MemberDao playerDao = new MemberDao();
+        Member player = new Member("test1", "test1", "123");
+        Member returnedPlayer = (Member) playerDao.save(player);
         
         AvailabilityDao availabilityDao = new AvailabilityDao();
         Availability availability = new Availability();
-        availability.setPlayer(player);
+        availability.setPlayer(returnedPlayer);
         availabilityDao.saveAvailability(availability);
         
         DayDao dayDao = new DayDao();

@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name = "Team")
@@ -35,12 +38,12 @@ public class Team {
 
     @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Player> players;
+    private List<Member> players;
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Player> invitedPlayers;
+    private List<Member> invitedPlayers;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "teams")
@@ -48,7 +51,7 @@ public class Team {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
-    private Player teamLeader;
+    private Member teamLeader;
 
     @JsonBackReference
     @ManyToOne
@@ -58,13 +61,17 @@ public class Team {
     @Column(name = "team_skill")
     private int teamSkillLevel;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "team")
+    private Set<Score> scores;
+
     public Team() {
-        players = new ArrayList<Player>();
+        players = new ArrayList<Member>();
         games = new ArrayList<Game>();
-        invitedPlayers = new ArrayList<Player>();
+        invitedPlayers = new ArrayList<Member>();
     }
 
-    public Team(int id, String name, boolean acceptFreeAgents, List<Player> players, List<Game> games, Player teamLeader) {
+    public Team(int id, String name, boolean acceptFreeAgents, List<Member> players, List<Game> games, Member teamLeader) {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
@@ -73,11 +80,11 @@ public class Team {
         this.teamLeader = teamLeader;
     }
 
-    public Player getTeamLeader() {
+    public Member getTeamLeader() {
         return teamLeader;
     }
 
-    public void setTeamLeader(Player teamLeader) {
+    public void setTeamLeader(Member teamLeader) {
         this.teamLeader = teamLeader;
         addPlayer(teamLeader);
     }
@@ -106,20 +113,20 @@ public class Team {
         this.acceptFreeAgents = acceptFreeAgents;
     }
 
-    public List<Player> getPlayers() {
+    public List<Member> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(List<Member> players) {
         this.players = players;
         calculateSkillLevel();
     }
 
-    public List<Player> getInvitedPlayers() {
+    public List<Member> getInvitedPlayers() {
         return invitedPlayers;
     }
 
-    public void setInvitedPlayers(List<Player> invitedPlayers) {
+    public void setInvitedPlayers(List<Member> invitedPlayers) {
         this.invitedPlayers = invitedPlayers;
     }
 
@@ -149,7 +156,7 @@ public class Team {
      */
     private void calculateSkillLevel() {
         int skillLevel = 0;
-        for(Player player : players) {
+        for(Member player : players) {
             Survey s = player.getSurveyByTournament(tournament);
             if(s == null) {
                 skillLevel += 0;
@@ -167,7 +174,7 @@ public class Team {
      * @param player The player to be added
      * @return -1 if null or player already exists 0 if maximum has reached 1 if
      */
-    public int addPlayer(Player player) {
+    public int addPlayer(Member player) {
 
         if(player == null || this.players.contains(player)) {
 
@@ -188,7 +195,7 @@ public class Team {
      * 
      * @param player The player to be removed
      */
-    public void removePlayer(Player player) {
+    public void removePlayer(Member player) {
         if(player == null || !this.players.contains(player)) {
             return;
         }
@@ -206,7 +213,7 @@ public class Team {
      *         team 1 if successful
      * 
      */
-    public int addInvitedPlayer(Player player) {
+    public int addInvitedPlayer(Member player) {
         if(player == null || this.invitedPlayers.contains(player)) {
             return -1;
         }
@@ -224,7 +231,7 @@ public class Team {
      * 
      * @param player The player to be removed
      */
-    public void removeInvitedPlayer(Player player) {
+    public void removeInvitedPlayer(Member player) {
         if(player == null || !this.invitedPlayers.contains(player)) {
             return;
         }

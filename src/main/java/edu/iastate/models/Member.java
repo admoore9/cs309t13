@@ -1,15 +1,25 @@
 package edu.iastate.models;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * 
@@ -45,32 +55,28 @@ public class Member {
     private Integer weight;
 
     public enum UserType {
-        MEMBER, PLAYER, OFFICIAL, COORDINATOR, ADMIN
+        PLAYER, OFFICIAL, COORDINATOR, ADMIN
     };
+
+    @Column(name = "context")
+    private UserType context;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
 
-    public Member() {}
-
-    protected Member(UserType userType) {
-        this.userType = userType;
+    public Member() {
+        this.userType = UserType.PLAYER;
     }
 
     public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.userType = UserType.MEMBER;
-    }
-
-    protected Member(String name, String username, String password,
-            UserType userType) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.userType = userType;
+        this.userType = UserType.PLAYER;
+        this.context = UserType.PLAYER;
+        this.height = -1;
+        this.weight = -1;
     }
 
     /**
@@ -89,6 +95,24 @@ public class Member {
      */
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    /**
+     * Get context
+     * 
+     * @return context
+     */
+    public UserType getContext() {
+        return context;
+    }
+
+    /**
+     * Set context
+     * 
+     * @param context
+     */
+    public void setContext(UserType view) {
+        this.context = view;
     }
 
     /**
@@ -148,14 +172,14 @@ public class Member {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj)
             return true;
-        if(obj == null)
+        if (obj == null)
             return false;
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if(member_id != other.member_id)
+        if (member_id != other.member_id)
             return false;
         return true;
     }
@@ -183,4 +207,112 @@ public class Member {
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
+
+    // =========Player================
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
+    private List<Team> teams;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "invitedPlayers")
+    private List<Team> invitedTeams;
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
+    protected Set<Survey> surveys;
+
+    public List<Team> getInvitedTeams() {
+        return invitedTeams;
+    }
+
+    public void setInvitedTeams(List<Team> invitedTeams) {
+        this.invitedTeams = invitedTeams;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    private Availability availability;
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    /**
+     * @return the availability
+     */
+    public Availability getAvailability() {
+        return availability;
+    }
+
+    public Set<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(Set<Survey> surveys) {
+        this.surveys = surveys;
+    }
+
+    /**
+     * Returns the survey pertaining to a particular tournament
+     * 
+     * @param tournament The tournament whose survey we are interested in
+     * @return Survey object pertaining to that tournament
+     */
+    public Survey getSurveyByTournament(Tournament tournament) {
+        for (Survey s : surveys) {
+
+            if (s.getTournament().equals(tournament)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Adds survey to the list of surveys for player
+     * 
+     * @param survey the survey to be added top player
+     */
+    public void addSurvey(Survey survey) {
+        if (survey == null || surveys.contains(survey)) {
+            return;
+        }
+        surveys.add(survey);
+    }
+
+    /**
+     * Removes survey from list of surveys for player
+     * 
+     * @param survey the survey to be removed from player
+     */
+    public void removeSurvey(Survey survey) {
+        if (survey == null || !surveys.contains(survey)) {
+            return;
+        }
+        surveys.remove(survey);
+    }
+
+    // -------------End Player-------------------------
+
+    // ============Official=============
+    @JsonIgnore
+    @ManyToMany(mappedBy = "officials")
+    private List<Game> games;
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
+    // ----------ENd Official------------
+
+    // =========Admin===============
+
+    // -----------End Admin---------
 }
