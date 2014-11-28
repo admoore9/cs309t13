@@ -25,6 +25,7 @@
 
                 <!-- Page specific html -->
                 <h2>Profile</h2>
+
                 <div id="accordion" class="panel-group">
 
                     <div id="join-tournament-panel" class="panel panel-default">
@@ -113,6 +114,38 @@
                         </div>
                         <div class="panel panel-collapse collapse" id="edit-profile-content">
                             <div class="panel-body">
+                                <form role="form" id="edit-profile-form" action="/profile/edit" method="POST">
+                                    <div class="form-group">
+                                        <label for="name">Name:</label>
+                                        <input type="text" class="form-control" id="name" name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input id="password" name="password" type="password" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sex">Sex:</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="m" /> Male
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="f" /> Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="height">Height:</label>
+                                        <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weight">Weight:</label>
+                                        <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">
+                                    </div>
+                                    <button id="create-tournament-submit" type="submit" class="btn btn-default">Submit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
