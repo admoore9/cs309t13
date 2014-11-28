@@ -39,10 +39,9 @@
     <!-- Bootstrap JavaScript plug-ins -->
     <script src="../../resources/js/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap validator -->
+    <!-- Bootstrap validator (if needed) -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
-    <script src="../../resources/js/login.js"></script>
 </footer>
 </html>

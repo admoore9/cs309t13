@@ -140,7 +140,6 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
-    <script src="../../resources/js/login.js"></script>
     <script src="../../resources/js/survey.js"></script>
 </footer>
 </html>
