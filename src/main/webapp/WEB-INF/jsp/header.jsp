@@ -3,9 +3,9 @@
 <%@ page import="edu.iastate.models.Member" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 
-<div class="container">
+<div class="container-fluid">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -50,7 +50,7 @@
                                               <a href="#">Coordinator</a>
                                           </li>
                                         <% } %>
-    
+
                                         <li>
                                             <a href="#">Official</a>
                                         </li>
@@ -73,3 +73,9 @@
 <br>
 <br>
 <br>
+<c:if test="${!empty errorMessage}">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Warning!</strong> ${errorMessage}
+    </div>
+</c:if>

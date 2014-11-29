@@ -2,6 +2,8 @@ package edu.iastate.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,21 +14,65 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
+import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
+import edu.iastate.models.Tournament;
 
 @Controller
 @RequestMapping("/team")
 public class TeamController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getTeam(Model model) {
+    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
+    public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
+        model.addAttribute("teamId", id);
 
-        TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true, false);
-        model.addAttribute("teams", team.getGames());
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+
         return "team";
+    }
+
+    @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
+    public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
+
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+
+        model.addAttribute("tournamentId", tournamentId);
+
+        return "createTeam";
+    }
+
+    // TODO Add players to team
+    @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
+    public String createTeamSubmit(
+            @PathVariable int tournamentId,
+            @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername,
+            HttpSession session) {
+
+        TournamentDao tournamentDao = new TournamentDao();
+        TeamDao teamDao = new TeamDao();
+        MemberDao memberDao = new MemberDao();
+
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
+        Team team = new Team();
+        Member teamLeader = (Member) session.getAttribute("member");
+
+        team.setTournament(tournament);
+        team.setName(teamName);
+        team.setTeamLeader(teamLeader);
+
+        teamDao.saveTeam(team);
+
+        teamLeader = memberDao.getMemberById(teamLeader.getId());
+        session.setAttribute("member", teamLeader);
+
+        return "redirect:../../../profile";
     }
 
     /**

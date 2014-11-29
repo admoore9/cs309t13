@@ -25,6 +25,37 @@
             </p>
         </div>
     </div>
+    <div>
+        <div class="container-fluid" id="surveyContainer">
+            <div id="surveyBox" class="mainbox col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Upcoming Tournaments</h3>
+                    </div> <!-- panel heading -->
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sport</th>
+                                    <th>Registration Open</th>
+                                    <th>Registration Close</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${tournaments}" var="tournament">
+                                    <tr>
+                                        <td><c:out value="${tournament.name}"/></td>
+                                        <td>TO DO</td>
+                                        <td>TO DO</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <footer>
     <!-- jQuery library -->
