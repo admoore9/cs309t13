@@ -49,9 +49,5 @@
     <!-- Page specific JS -->
     <script src="../../resources/js/login.js"></script>
     <script src="../../resources/js/tournament.js"></script>
-    <script type="text/javascript">
-
-
-    </script>
 </footer>
 </html>
