@@ -1,3 +1,16 @@
+$(document).ready(function() {
+    if($('body').data('tournament-formed')) {
+        var bracket = new Bracket($('body').data('tournament-id'));
+        bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+    } else {
+        $('#form-bracket').on('click', function(event) {
+            event.preventDefault();
+            var tournamentId = $('body').data('tournament-id');
+            $.post('/tournament/' + tournamentId + '/form');
+        });
+    }
+});
+
 var IS_REFEREE;
 
 var Team = function(id, name) {

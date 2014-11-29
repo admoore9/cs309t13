@@ -1,4 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member me = (Member) session.getAttribute("member");
+   Member.UserType userType = me.getUserType();
+   boolean canFormTournament = userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN;
+%>
 
 <!DOCTYPE html>
 <html>
@@ -25,11 +30,10 @@
         <c:when test="${tournament.isBracketFormed()}">
             <div id="bracket"></div>
         </c:when>
-
-        <c:otherwise>
+        <c:when test="${canFormTournament}">
             <br/>
             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
-        </c:otherwise>
+        </c:when>
     </c:choose>
 </body>
 <footer>
@@ -46,16 +50,8 @@
     <script src="../../resources/js/login.js"></script>
     <script src="../../resources/js/tournament.js"></script>
     <script type="text/javascript">
-        if($('body').data('tournament-formed')) {
-            var bracket = new Bracket($('body').data('tournament-id'));
-            bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
-        } else {
-            $('#form-bracket').on('click', function(event) {
-                event.preventDefault();
-                var tournamentId = $('body').data('tournament-id');
-                $.post('/tournament/' + tournamentId + '/form');
-            });
-        }
+
+
     </script>
 </footer>
 </html>

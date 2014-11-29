@@ -1,7 +1,5 @@
 package edu.iastate.controllers;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -25,15 +23,13 @@ public class TournamentController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
-        model.addAttribute("tournamentId", id);
-
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
 
         TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
+        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        model.addAttribute("tournament", tournament);
         return "tournament";
     }
 
