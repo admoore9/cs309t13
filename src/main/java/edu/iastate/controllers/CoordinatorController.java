@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Game;
+import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Member;
@@ -38,8 +40,12 @@ public class CoordinatorController {
         }
 
         TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        List<Tournament> tournaments = tournamentDao.getTournamentByCoordinator(member);
+        List<Team> teams = tournaments.get(0).getTeams();
+        List<Game> games = tournaments.get(0).getGames();
         model.addAttribute("tournaments", tournaments);
+        model.addAttribute("teams", teams);
+        model.addAttribute("games", games);
         return "coordinator";
     }
 }

@@ -17,16 +17,16 @@ import edu.iastate.models.Game;
 @RequestMapping("/game")
 public class GameController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getGame(Model model, HttpSession session) {
-
+    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
+    public String getGame(Model model, HttpSession session, @PathVariable int id) {
+        model.addAttribute("gameId", id);
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
 
         GameDao gameDao = new GameDao();
-        List<Game> games = gameDao.getAllGames();
-        model.addAttribute("games", games);
+        Game game = gameDao.getGameById(id, true);
+        model.addAttribute("game", game);
         return "game";
     }
 

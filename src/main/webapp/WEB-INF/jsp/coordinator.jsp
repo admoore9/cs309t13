@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin</title>
+    <title>Coordinator</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -26,61 +26,58 @@
 
                 <div id="accordion" class="panel-group">
 
-                    <div id="create-tournament-panel" class="panel panel-default">
+                    <div id="my-teams-panel" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-target="#create-tournament-content" href="#create-tournament-content">
-                                    Create Tournament:
+                                <a data-toggle="collapse" data-target="#my-teams-content" href="#my-teams-content">
+                                    Manage My Teams
                                 </a>
                             </h3>
                         </div>
-                        <div class="panel panel-collapse collapse" id="create-tournament-content">
+                        <div class="panel panel-collapse collapse" id="my-teams-content">
                             <div class="panel-body">
-                                <form role="form" id="create-tournament-form">
-                                    <div class="form-group">
-                                        <label for="name">Tournament name:</label>
-                                        <input type="text" class="form-control" id="create-tournament-name-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="minPlayersPerTeam">Minimum players per team:</label>
-                                        <input type="text" class="form-control" id="create-tournament-min-players-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="maxPlayersPerTeam">Maximum players per team:</label>
-                                        <input type="text" class="form-control" id="create-tournament-max-players-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="teamsPerGame">Teams Per Game:</label>
-                                        <input type="text" class="form-control" id="create-teams-per-game-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="officialsPerGame">Officials Per Game:</label>
-                                        <input type="text" class="form-control" id="create-officials-per-game-input">
-                                    </div>
-                                    <button id="create-tournament-submit" type="submit" class="btn btn-default">Submit</button>
-                                </form>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Teams</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${teams}" var="team">
+                                            <tr>
+                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
-                    <div id="recent-tournament-panel" class="panel panel-default">
+                    <div id="my-games-panel" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-target="#recent-tournament-content" href="#recent-tournament-content">
-                                    Recent Tournaments:
+                                <a data-toggle="collapse" data-target="#my-games-content" href="#my-games-content">
+                                    Manage My Games
                                 </a>
                             </h3>
                         </div>
-                        <div class="panel panel-collapse collapse" id="recent-tournament-content">
+                        <div class="panel panel-collapse collapse" id="my-games-content">
                             <div class="panel-body">
-                                <table id="recent-tournaments">
-                                    <c:forEach items="${tournaments}" var="tournament">
+                                <table class="table table-bordered">
+                                    <thead>
                                         <tr>
-                                            <td>Tournament ID: <c:out value="${tournament.id}"/></td>
-                                            <td>Tournament Name: <c:out value="${tournament.name}"/></td>
-                                       </tr>
-                                    </c:forEach>
-                                 </table>
+                                            <th>Games</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${games}" var="game">
+                                            <tr>
+                                                <td><a href="<c:out value="/game/${game.id}/view"/>"><c:out value="${game.id}"/></a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -92,40 +89,6 @@
                                     Update Tournament:
                                 </a>
                             </h3>
-                        </div>
-                        <div class="panel panel-collapse collapse" id="update-tournament-content">
-                            <div class="panel-body">
-                                <form class="form-inline" role="form" id="goto-tournament-form">
-                                    <div class="form-group">
-                                        <label for="tournamentId">Tournament Id:</label>
-                                        <input type="text" class="form-control" id="update-tournament-id-input">
-                                    </div>
-                                    <button id="goto-tournament-submit" type="submit" class="btn btn-default">Go To Tournament</button>
-                                </form>
-                                <form role="form" id="update-tournament-form">
-                                    <div class="form-group">
-                                        <label for="name">Tournament name:</label>
-                                        <input type="text" class="form-control" id="update-tournament-name-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="minPlayersPerTeam">Minimum players per team:</label>
-                                        <input type="text" class="form-control" id="update-tournament-min-players-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="maxPlayersPerTeam">Maximum players per team:</label>
-                                        <input type="text" class="form-control" id="update-tournament-max-players-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="teamsPerGame">Teams Per Game:</label>
-                                        <input type="text" class="form-control" id="update-teams-per-game-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="officialsPerGame">Officials Per Game:</label>
-                                        <input type="text" class="form-control" id="update-officials-per-game-input">
-                                    </div>
-                                    <button id="update-tournament-submit" type="submit" class="btn btn-default">Update Tournament</button>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
