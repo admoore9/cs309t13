@@ -24,9 +24,33 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                <h2>Game ${gameId}</h2>
 
-                <!-- Page specific html -->
+                <div id="accordion" class="panel-group">
 
+                    <div id="my-teams-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#my-teams-content" href="#my-teams-content">
+                                    Teams
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="my-teams-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <c:forEach items="${teams}" var="team">
+                                            <tr>
+                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>

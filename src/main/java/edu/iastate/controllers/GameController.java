@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.models.Game;
+import edu.iastate.models.Team;
 
 @Controller
 @RequestMapping("/game")
@@ -26,7 +27,9 @@ public class GameController {
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
+        List<Team> teams = game.getTeams();
         model.addAttribute("game", game);
+        model.addAttribute("teams", teams);
         return "game";
     }
 
