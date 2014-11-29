@@ -64,7 +64,7 @@ public class Game {
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Official> officials;
+    private List<Member> officials;
     
     @JsonManagedReference
     @OneToMany(mappedBy = "game")
@@ -72,7 +72,7 @@ public class Game {
 
     public Game() {
         teams = new ArrayList<Team>();
-        officials = new ArrayList<Official>();
+        officials = new ArrayList<Member>();
     }
 
     public int getId() {
@@ -193,7 +193,7 @@ public class Game {
      *         -1 if official is null or official already exists
      * 
      */
-    public int addOfficial(Official official) {
+    public int addOfficial(Member official) {
         if(official == null || this.officials.contains(official)) {
             return -1;
         }
@@ -210,7 +210,7 @@ public class Game {
      * 
      * @param official The official to be removed
      */
-    public void removeOfficial(Official official) {
+    public void removeOfficial(Member official) {
         if(official == null || this.officials.contains(official)) {
             return;
         }

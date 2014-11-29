@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
-import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 
 @Controller
@@ -159,12 +158,13 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
+
         if(team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
 
-        PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
+        MemberDao memberDao = new MemberDao();
+        Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
         teamDao.saveTeam(team);
@@ -199,8 +199,8 @@ public class TeamController {
             return false;
         }
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.addPlayer(player);
         teamDao.saveTeam(team);
         return true;
@@ -233,8 +233,8 @@ public class TeamController {
             return false;
         }
 
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(playerId, false);
+        MemberDao memberDao = new MemberDao();
+        Member player = memberDao.getMemberById(playerId);
         team.removePlayer(player);
         teamDao.saveTeam(team);
         return true;
@@ -248,7 +248,7 @@ public class TeamController {
      * @return The players on the team identified by id
      */
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Player> getPlayersForTeam(
+    public @ResponseBody List<Member> getPlayersForTeam(
             HttpSession session,
             @PathVariable int id) {
         if(session.getAttribute("member") == null) {
@@ -257,6 +257,7 @@ public class TeamController {
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
+
         return team.getPlayers();
     }
 }

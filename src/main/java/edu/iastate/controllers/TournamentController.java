@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
-import edu.iastate.dao.PlayerDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
-import edu.iastate.models.Player;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.MemberUtils;
@@ -315,8 +313,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        PlayerDao playerDao = new PlayerDao();
-        Player teamLeader = playerDao.getPlayerById(teamLeaderId, false);
+        Member teamLeader = (Member) session.getAttribute("member");
 
         Team team = new Team();
         team.setName(teamName);
