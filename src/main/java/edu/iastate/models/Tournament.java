@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -56,6 +58,10 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="member_id")
+    private Member gameCoordinator;
+
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<Team> teams;
@@ -78,6 +84,14 @@ public class Tournament {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Member getGameCoordinator() {
+        return gameCoordinator;
+    }
+
+    public void setGameCoordinator(Member gameCoordinator) {
+        this.gameCoordinator = gameCoordinator;
     }
 
     public int getMinPlayers() {

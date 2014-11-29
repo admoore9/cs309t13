@@ -17,6 +17,19 @@ import edu.iastate.models.Member.UserType;
 
 public class TournamentTests {
     @Test
+    public void addTournamentTest() {
+        TournamentDao tournamentdao = new TournamentDao();
+        Tournament tournament = new Tournament();
+        tournament.setDoubleElimination(false);
+        tournament.setMaxPlayers(8);
+        tournament.setMinPlayers(2);
+        tournament.setName("Tennis");
+        tournament.setOfficialsPerGame(1);
+        tournament.setStarted(false);
+        tournament.setTeamsPerGame(2);
+        tournamentdao.saveTournament(tournament);
+    }
+    @Test
     public void returnAllPlayerTest() {
         TournamentDao tournamentdao = new TournamentDao();
         List<Game> games = tournamentdao.getTournamentById(1, true, true).getGames();
@@ -97,4 +110,13 @@ public class TournamentTests {
         }
     }
 
+    @Test
+    public void gameCoordinatorTest() {
+        TournamentDao tournamentdao = new TournamentDao();
+        MemberDao memberdao = new MemberDao();
+        Tournament tournament = tournamentdao.getTournamentById(1, true, true);
+        tournament.setGameCoordinator(memberdao.getMemberById(1));
+        tournamentdao.saveTournament(tournament);
+        System.out.println(tournamentdao.getTournamentById(1, true, true).getGameCoordinator().getName());
+    }
 }
