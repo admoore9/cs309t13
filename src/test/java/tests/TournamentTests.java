@@ -114,9 +114,19 @@ public class TournamentTests {
     public void gameCoordinatorTest() {
         TournamentDao tournamentdao = new TournamentDao();
         MemberDao memberdao = new MemberDao();
-        Tournament tournament = tournamentdao.getTournamentById(1, true, true);
+        Tournament tournament = tournamentdao.getTournamentById(2, true, true);
         tournament.setGameCoordinator(memberdao.getMemberById(1));
         tournamentdao.saveTournament(tournament);
         System.out.println(tournamentdao.getTournamentById(1, true, true).getGameCoordinator().getName());
+    }
+    
+    @Test
+    public void tournamentGetTournamentByCoordIdTest() {
+        TournamentDao tournamentdao = new TournamentDao();
+        MemberDao memberDao = new MemberDao();
+        List<Tournament> tournaments = tournamentdao.getTournamentByCoordinator(memberDao.getMemberById(1));
+        for(Tournament tournament : tournaments) {
+            System.out.println(tournament.getGameCoordinator().getName() + " " + tournament.getName());
+        }
     }
 }

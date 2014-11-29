@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import edu.iastate.models.Member;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
@@ -155,13 +156,14 @@ public class TournamentDao {
      * @param member_id the ID of the game coordinator
      * @return A list of tournaments that the coordinator is responsible for
      */
-    public List<Tournament> getTournamentByCoordinatorId(int member_id) {
+    public List<Tournament> getTournamentByCoordinator(Member member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Tournament> query = entityManager.createQuery("select t from Tournament t where t.member_id = :member_id",
+        TypedQuery<Tournament> query = entityManager.createQuery("select t from Tournament t where t.gameCoordinator = :member",
                 Tournament.class);
+        query.setParameter("member", member);
         List<Tournament> tournaments = query.getResultList();
 
         transaction.commit();
