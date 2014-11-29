@@ -33,7 +33,7 @@ public class CoordinatorController {
 
         Member member = (Member) session.getAttribute("member");
 
-        if (member.getUserType() != Member.UserType.ADMIN) {
+        if (member.getUserType() != Member.UserType.COORDINATOR) {
             return "redirect:denied";
         }
 
