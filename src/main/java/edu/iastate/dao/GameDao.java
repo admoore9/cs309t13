@@ -70,7 +70,7 @@ public class GameDao {
         TypedQuery<Game> query = entityManager.createQuery("select g from Game g where g.id = :id", Game.class);
         query.setParameter("id", id);
         Game game = query.getSingleResult();
-        loadForeignKeys(game, getTeams);
+        //loadForeignKeys(game, getTeams);
 
         transaction.commit();
         entityManager.close();

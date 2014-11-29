@@ -62,10 +62,11 @@ public class GameTests {
     @Test
     public void addTeamToGameTest() {
         GameDao gamedao = new GameDao();
-        Game game = gamedao.getGameById(1, true);
+        Game game = gamedao.getGameById(2, true);
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(2, true, true, true);
-        game.addTeam(team);
+        Team team = teamdao.getTeamById(2, false, false, false);
+        //game.addTeam(team);
+        //game.removeTeam(team);
         for (Team t : game.getTeams()) {
             System.out.println(game.getId() + " " + t.getId());
         }
