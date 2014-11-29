@@ -1,8 +1,3 @@
-$(document).ready(function() {
-    var bracket = new Bracket($('body').data('tournament-id'));
-    bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
-});
-
 var IS_REFEREE;
 
 var Team = function(id, name) {

@@ -16,11 +16,21 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournamentId}'/>">
+<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>">
     <jsp:include page="header.jsp"/>
     <h2>Bracket</h2>
     <h3>Tournament Name: <span id="tournament-name"></span></h3>
-    <div id="bracket"></div>
+
+    <c:choose>
+        <c:when test="${tournament.isBracketFormed()}">
+            <div id="bracket"></div>
+        </c:when>
+
+        <c:otherwise>
+            <br/>
+            <div class="btn btn-primary" id="form-bracket">Form bracket</div>
+        </c:otherwise>
+    </c:choose>
 </body>
 <footer>
     <!-- jQuery library -->
@@ -35,5 +45,17 @@
     <!-- Page specific JS -->
     <script src="../../resources/js/login.js"></script>
     <script src="../../resources/js/tournament.js"></script>
+    <script type="text/javascript">
+        if($('body').data('tournament-formed')) {
+            var bracket = new Bracket($('body').data('tournament-id'));
+            bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+        } else {
+            $('#form-bracket').on('click', function(event) {
+                event.preventDefault();
+                var tournamentId = $('body').data('tournament-id');
+                $.post('/tournament/' + tournamentId + '/form');
+            });
+        }
+    </script>
 </footer>
 </html>
