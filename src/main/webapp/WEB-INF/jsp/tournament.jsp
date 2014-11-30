@@ -1,12 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< HEAD
-<%@ page import="edu.iastate.models.Member" %>
-=======
 <%@ page session="true" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
 <% Member member = (Member) session.getAttribute("member"); %>
->>>>>>> master
 
 <!DOCTYPE html>
 <html>
@@ -26,9 +22,6 @@
 </head>
 <body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>" data-is-ref="<c:out value='${!(userType == \'PLAYER\')}'/>">
     <jsp:include page="header.jsp"/>
-
-    <h2>Bracket</h2>
-    <h3>Tournament Name: <span id="tournament-name"></span></h3>
 
     <div class="container-fluid">
         <div class="row">

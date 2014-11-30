@@ -57,11 +57,11 @@ public class Tournament {
     private boolean isStarted;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
     private List<Team> teams;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tournament")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
     private List<Game> games;
 
     public int getId() {
