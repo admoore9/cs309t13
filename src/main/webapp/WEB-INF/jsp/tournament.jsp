@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.iastate.models.Member" %>
 
 <!DOCTYPE html>
 <html>
@@ -16,11 +17,20 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournamentId}'/>">
+<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>">
     <jsp:include page="header.jsp"/>
     <h2>Bracket</h2>
     <h3>Tournament Name: <span id="tournament-name"></span></h3>
-    <div id="bracket"></div>
+
+    <c:choose>
+        <c:when test="${tournament.isBracketFormed()}">
+            <div id="bracket"></div>
+        </c:when>
+        <c:when test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
+            <br/>
+            <div class="btn btn-primary" id="form-bracket">Form bracket</div>
+        </c:when>
+    </c:choose>
 </body>
 <footer>
     <!-- jQuery library -->
