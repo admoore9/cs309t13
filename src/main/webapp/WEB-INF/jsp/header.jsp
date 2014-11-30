@@ -3,9 +3,9 @@
 <%@ page import="edu.iastate.models.Member" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 
-<div class="container">
+<div class="container-fluid">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -17,7 +17,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <% if (member == null) { %>
-                    <form class="navbar-form navbar-right" id="loginForm">
+                    <form class="navbar-form navbar-right" id="loginForm" action="/login" method="POST">
                         <div class="form-group">
                             <input id="username" name="username" type="text" placeholder="Username" class="form-control input-sm">
                         </div>
@@ -50,7 +50,7 @@
                                               <a href="#">Coordinator</a>
                                           </li>
                                         <% } %>
-    
+
                                         <li>
                                             <a href="#">Official</a>
                                         </li>
@@ -73,3 +73,15 @@
 <br>
 <br>
 <br>
+<c:if test="${!empty message}">
+    <div id="success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Success!</strong> ${message}
+    </div>
+</c:if>
+<c:if test="${!empty errorMessage}">
+    <div id="danger" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Warning!</strong> ${errorMessage}
+    </div>
+</c:if>

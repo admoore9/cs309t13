@@ -69,17 +69,4 @@ $( document ).ready(function() {
 			}
 		}
 	})
-	.on('success.form.bv', function(e) {
-		// Stop form from submitting normally
-		e.preventDefault();
-		var url = "/survey/submit";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: $('#surveyForm').serialize(),
-			success: function(data) {
-				window.location.href = "/profile";
-			}
-		});
-	})
 });
