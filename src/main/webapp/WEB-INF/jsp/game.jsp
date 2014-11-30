@@ -5,6 +5,7 @@
 <% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
+<c:out value="${game.id}"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -47,45 +48,22 @@
                        </div>
                    </div>
                </div>
-               <div id="goto-tournament-panel" class="panel panel-default">
+               <div id="goto-game-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a data-toggle="collapse" data-target="#update-game-content" href="#update-game-content">
-                                Update game:
+                                Update Game:
                             </a>
                         </h3>
                     </div>
                     <div class="panel panel-collapse collapse" id="update-game-content">
-                        <div class="panel-body">
-                            <form class="form-inline" role="form" id="goto-game-form">
+                        <div class="panel-body">                            
+                            <form role="form" id="update-game-form">
                                 <div class="form-group">
-                                    <label for="tournamentId">Tournament Id:</label>
-                                    <input type="text" class="form-control" id="update-tournament-id-input">
-                                </div>
-                                <button id="goto-tournament-submit" type="submit" class="btn btn-default">Go To Tournament</button>
-                            </form>
-                            <form role="form" id="update-tournament-form">
-                                <div class="form-group">
-                                    <label for="name">Tournament name:</label>
-                                    <input type="text" class="form-control" id="update-tournament-name-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="minPlayersPerTeam">Minimum players per team:</label>
-                                    <input type="text" class="form-control" id="update-tournament-min-players-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="maxPlayersPerTeam">Maximum players per team:</label>
-                                    <input type="text" class="form-control" id="update-tournament-max-players-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="teamsPerGame">Teams Per Game:</label>
-                                    <input type="text" class="form-control" id="update-teams-per-game-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="officialsPerGame">Officials Per Game:</label>
-                                    <input type="text" class="form-control" id="update-officials-per-game-input">
-                                </div>
-                                <button id="update-tournament-submit" type="submit" class="btn btn-default">Update Tournament</button>
+                                    <label for="name">New Game Location:</label>
+                                    <input type="text" class="form-control" id="update-game-location-input">
+                                </div>                               
+                                <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -107,5 +85,8 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/game.js"></script>
+    <script type="text/javascript">
+    var gameId = '<c:out value="${game.id}"/>';
+    </script> 
 </footer>
 </html>
