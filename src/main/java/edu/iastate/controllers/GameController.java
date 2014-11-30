@@ -47,6 +47,14 @@ public class GameController {
         return gameDao.getGameById(id, true);
     }
 
+    /**
+     * Sets the winner of a game.
+     * 
+     * @param session The http session for the user.
+     * @param id The id of the game to set the winner of.
+     * @param winnerId The id of the team that should be set as the winner.
+     * @return true if the game winner was set successfully, false otherwise.
+     */
     @RequestMapping(value = "/{id}/winner", method = RequestMethod.POST)
     public @ResponseBody boolean setGameWinner(
             HttpSession session,
