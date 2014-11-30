@@ -17,22 +17,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OrderBy;
+
 @Entity
 @Table(name = "Day")
 public class Day {
-    
+
     @Id
     @GeneratedValue
     @Column(name = "day_id")
     private int day_id;
-    
+
     @OneToMany(mappedBy = "day", fetch = FetchType.EAGER)
+    @OrderBy(clause = "period_id")
     private Set<Period> periods;
-    
+
     @ManyToOne
     @JoinColumn(name = "availability_id")
     private Availability availability;
-    
+
     public enum WeekDay {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     };
@@ -44,12 +47,12 @@ public class Day {
     public Day() {
         periods = new LinkedHashSet<Period>();
     }
-    
+
     public Day(WeekDay name) {
         this.name = name;
         periods = new LinkedHashSet<Period>();
     }
-    
+
     /**
      * @return the name
      */
@@ -58,7 +61,8 @@ public class Day {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(WeekDay name) {
         this.name = name;
@@ -67,15 +71,15 @@ public class Day {
     public Set<Period> getPeriods() {
         return periods;
     }
-    
+
     public void setPeriods(Set<Period> updatedPeriods) {
         this.periods = updatedPeriods;
     }
-    
+
     public void addPeriod(Period period) {
         periods.add(period);
     }
-    
+
     public List<Period> getAvailablePeriods() {
         List<Period> availablePeriods = new ArrayList<Period>();
         for (Period period : periods) {
@@ -93,7 +97,8 @@ public class Day {
     }
 
     /**
-     * @param availability the availability to set
+     * @param availability
+     *            the availability to set
      */
     public Day setAvailability(Availability availability) {
         this.availability = availability;
