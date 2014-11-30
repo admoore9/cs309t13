@@ -48,6 +48,31 @@
                        </div>
                    </div>
                </div>
+               <div id="game-info-panel" class="panel panel-default">
+                   <div class="panel-heading">
+                       <h3 class="panel-title">
+                           <a data-toggle="collapse" data-target="#my-${game.id}-info" href="#my-${game.id}-info">
+                               Game Information
+                           </a>
+                       </h3>
+                   </div>
+                   <div class="panel panel-collapse collapse" id="my-${game.id}-info">
+                       <div class="panel-body">
+                           <table class="table table-bordered">                                                    
+                               <tbody>
+                                   <tr>
+                                        <td>Game Location</td>
+                                        <td>${game.gameLocation}</td>
+                                   </tr>
+                                   <tr>
+                                        <td>Game Time</td>
+                                        <td>${game.gameTime}</td>
+                                   </tr>
+                               </tbody>
+                           </table>                                              
+                       </div>
+                   </div>
+               </div>
                <div id="goto-game-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
