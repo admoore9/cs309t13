@@ -66,7 +66,7 @@ public class Team {
     private Set<Score> scores;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "winner")
     private Set<Game> wonGames;
 
     public Team() {

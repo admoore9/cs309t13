@@ -70,8 +70,8 @@ public class Game {
     @OneToMany(mappedBy = "game")
     private Set<Score> scores;
 
-    @ManyToOne
-    @JoinColumn(name = "winner")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "winner", referencedColumnName = "team_id")
     private Team winner;
 
     public Game() {
