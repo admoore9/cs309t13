@@ -29,16 +29,21 @@ tr.message {
 	float: right;
 }
 
-.new-message-body {
-	margin-top: 15px;
-	min-height: 300px;
-	min-width: 550px;
-}
-
 .modal-body {
 	min-height: 420px;
 }
 
-input.form-control {
-	margin-top: 15px;
+.navbar-form .form-group {
+    display: block;
+    margin-top: 15px;
+}
+
+#new-message-body {
+    min-height: 275px;
+    min-width: 540px;
+    resize: none;
+}
+
+.help-block {
+    display: inline;
 }

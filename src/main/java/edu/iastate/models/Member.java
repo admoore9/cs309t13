@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -66,11 +65,9 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
 
-    @OneToOne
-    @JoinColumn(name = "mail_id")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "member")
     private Mail mail;
-    
-    
+
     public Member() {
         this.userType = UserType.PLAYER;
     }
@@ -264,7 +261,7 @@ public class Member {
     public void setMail(Mail mail) {
         this.mail = mail;
     }
-    
+
     public Set<Survey> getSurveys() {
         return surveys;
     }
@@ -276,7 +273,8 @@ public class Member {
     /**
      * Returns the survey pertaining to a particular tournament
      * 
-     * @param tournament The tournament whose survey we are interested in
+     * @param tournament
+     *            The tournament whose survey we are interested in
      * @return Survey object pertaining to that tournament
      */
     public Survey getSurveyByTournament(Tournament tournament) {
@@ -292,7 +290,8 @@ public class Member {
     /**
      * Adds survey to the list of surveys for player
      * 
-     * @param survey the survey to be added top player
+     * @param survey
+     *            the survey to be added top player
      */
     public void addSurvey(Survey survey) {
         if (survey == null || surveys.contains(survey)) {
@@ -304,7 +303,8 @@ public class Member {
     /**
      * Removes survey from list of surveys for player
      * 
-     * @param survey the survey to be removed from player
+     * @param survey
+     *            the survey to be removed from player
      */
     public void removeSurvey(Survey survey) {
         if (survey == null || !surveys.contains(survey)) {

@@ -46,7 +46,7 @@
                 %>
                     <div class="navbar-right">
 					<ul class="nav navbar-nav navbar-right">
-						<li id="notifications" class="dropdown"><a href="#"
+						<li id="messages" class="dropdown"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown">Message <span
 								id="messageBadge" class="badge">
 									<%
@@ -57,11 +57,11 @@
 								<%
 								    for (Message message : member.getMail().getUnviewedMessages()) {
 																            out.print("<li class='message'>"
-																                    + message.getTitle() + " "
+																                    + message.getSubject() + " "
 																                    + message.getTime() + "</li>");
 																        }
 								%>
-								<li class="inbox"><a href="/messages">Inbox</a></li>
+								<li class="inbox"><a href="/mail">Inbox</a></li>
 							</ul></li>
 						<%
 						    if (userType != Member.UserType.PLAYER) {

@@ -25,40 +25,33 @@ public class Message {
     @Column(name = "message_id")
     private int messageId;
 
-    private String title;
+    private String subject;
     private String body;
-	private String url;
-	private Date datetime;
-	private boolean viewed;
-	private boolean sent;
-	private boolean deleted;
-	
-	@ManyToOne
-	@JoinColumn(name = "sender_id")
-	private Member sender;
+    private Date datetime;
+    private boolean viewed;
+    private boolean sent;
+    private boolean deleted;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Member sender;
 
     @ManyToOne
     @JoinColumn(name = "recipient_id")
     private Member recipient;
 
-	public Message() {
-	    datetime = new Date();
-	}
-
-	public Message(String title, String body, String url) {
-	    datetime = new Date();
-	    this.title = title;
-	    this.body = body;
-	    this.url = url;
-	}
-
-    public Message(String title, String body) {
+    public Message() {
         datetime = new Date();
-        this.title = title;
-        this.body = body;
     }
 
-    
+    public Message(String subject, String body, Member sender, Member recipient) {
+        datetime = new Date();
+        this.setSubject(subject);
+        this.body = body;
+        this.sender = sender;
+        this.recipient = recipient;
+    }
+
     /**
      * @return the message_id
      */
@@ -66,18 +59,12 @@ public class Message {
         return messageId;
     }
 
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
+    public String getSubject() {
+        return subject;
     }
 
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     /**
@@ -88,7 +75,8 @@ public class Message {
     }
 
     /**
-     * @param body the body to set
+     * @param body
+     *            the body to set
      */
     public void setBody(String body) {
         this.body = body;
@@ -102,34 +90,23 @@ public class Message {
     }
 
     /**
-     * @return the url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * @param url the url to set
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    /**
      * @return the time
      */
     public String getTime() {
         // today's date
-        Calendar now = Calendar.getInstance();  
-        
-        Calendar messageDatetime = Calendar.getInstance(); 
+        Calendar now = Calendar.getInstance();
+
+        Calendar messageDatetime = Calendar.getInstance();
         messageDatetime.setTime(datetime);
-        
+
         if (messageDatetime.get(Calendar.YEAR) < now.get(Calendar.YEAR)) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+                    "MM/dd/yyyy");
             return simpleDateFormat.format(datetime);
-        }
-        else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now.get(Calendar.DAY_OF_MONTH) || messageDatetime.get(Calendar.MONTH) < now.get(Calendar.MONTH)) {
+        } else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now
+                .get(Calendar.DAY_OF_MONTH)
+                || messageDatetime.get(Calendar.MONTH) < now
+                        .get(Calendar.MONTH)) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
             return simpleDateFormat.format(datetime);
         }
@@ -152,7 +129,8 @@ public class Message {
     }
 
     /**
-     * @param member the member to set
+     * @param member
+     *            the member to set
      */
     public Message setRecipient(Member recipient) {
         this.recipient = recipient;
@@ -175,7 +153,8 @@ public class Message {
     }
 
     /**
-     * @param sent the sent to set
+     * @param sent
+     *            the sent to set
      */
     public void setSent(boolean sent) {
         this.sent = sent;
