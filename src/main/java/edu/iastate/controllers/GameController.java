@@ -60,7 +60,7 @@ public class GameController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "winner") int winnerId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null || me.getUserType() == Member.UserType.PLAYER) {
             return false;
         }

@@ -13,11 +13,12 @@ $(document).ready(function() {
 
 var is_ref = $('body').data('is-ref');
 
-var Team = function(id, name, score) {
+var Team = function(id, name, score, players) {
     var self = this;
     self.id = id;
     self.name = name;
     self.score = score;
+    self.players = players;
     self.html = $('<team></team>');
     self.input_box = null;
     self.name_html = null;
@@ -39,17 +40,58 @@ Team.prototype.getHTML = function() {
 };
 Team.prototype.setHandlers = function(game_id) {
     var self = this;
-    self.name_html.on('click', function() {
-        // Get players from server
-        $.get('/team/' + self.id + '/players', function(response) {
-            console.log(response);
-            var names = [];
-            response.forEach(function(player, index, array) {
-                names.push(player.name);
+
+    function getPlayerNamesHtml() {
+        var html_str = "<h5>Players</h5>";
+        html_str += "<ul>";
+        self.players.forEach(function(player, index, array) {
+            html_str += '<li>' +
+                            '<a href="/player/' + player.id + '/view">' + player.name + '</a>' +
+                        '</li>';
+        });
+
+        html_str += "</ul>";
+        // html_str += "<ul><li>one</li><li>two</li></ul>";
+        return html_str;
+    }
+
+    self.html.popover({
+        html: true,
+        title: function() {
+            return "Team " + self.id;
+        },
+        content: function() {
+            var html_str = getPlayerNamesHtml();
+            if(is_ref) {
+                html_str += '<br/><div class="btn btn-primary" id="team-' + self.id + '-mark-winner">Mark As Winner</div>';
+            }
+
+            $(document).on('click', '#team-' + self.id + '-mark-winner', function() {
+                $.post('/game/' + game_id + '/winner', {winner: self.id});
             });
-            alert(names);
-        }, 'json');
+
+            return html_str;
+        }
     });
+
+    // $('#team-' + self.id + '-mark-winner').on('click', function(event) {
+    //     event.preventDefault();
+    //     console.log('in click handler');
+    // });
+
+
+
+    // self.name_html.on('click', function() {
+    //     // Get players from server
+    //     $.get('/team/' + self.id + '/players', function(response) {
+    //         console.log(response);
+    //         var names = [];
+    //         response.forEach(function(player, index, array) {
+    //             names.push(player.name);
+    //         });
+    //         alert(names);
+    //     }, 'json');
+    // });
 
     if(is_ref) {
         self.input_box.on('input', function() {
@@ -218,7 +260,7 @@ Bracket.prototype.processTournament = function(tournament) {
                 }
                 return 0;
             }
-            game.teams.push(new Team(team.id, team.name, getScoreForTeam(elem.scores)));
+            game.teams.push(new Team(team.id, team.name, getScoreForTeam(elem.scores), team.players));
         });
 
         if(rounds_dict[game.roundNumber] !== undefined) {
