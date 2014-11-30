@@ -12,9 +12,9 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/header.css">
 </head>
 
-<div class="container">
+<div class="container-fluid">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,10 +25,8 @@
                 <a class="navbar-brand" href="/">Iowa State Intramurals</a>
             </div>
             <div class="navbar-collapse collapse">
-                <%
-                    if (member == null) {
-                %>
-                    <form class="navbar-form navbar-right" id="loginForm">
+                <% if (member == null) { %>
+                    <form class="navbar-form navbar-right" id="loginForm" action="/login" method="POST">
                         <div class="form-group">
                             <input id="username" name="username" type="text" placeholder="Username" class="form-control input-sm">
                         </div>
@@ -74,9 +72,32 @@
 								<li><a href="#">Administrator</a></li>
 								<% } %>
 
-								<% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
-								<li><a href="#">Coordinator</a></li>
-								<% } %>
+                            <% if (userType != Member.UserType.PLAYER) { %>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Context <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+    
+                                        <% if (userType == Member.UserType.ADMIN) { %>
+                                          <li>
+                                              <a href="#">Administrator</a>
+                                          </li>
+                                        <% } %>
+    
+                                        <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
+                                          <li>
+                                              <a href="#">Coordinator</a>
+                                          </li>
+                                        <% } %>
+
+                                        <li>
+                                            <a href="#">Official</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Player</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            <% } %>
 
 								<li><a href="#">Official</a></li>
 								<li><a href="#">Player</a></li>
@@ -96,8 +117,21 @@
 <br>
 <br>
 <br>
+<c:if test="${!empty message}">
+    <div id="success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Success!</strong> ${message}
+    </div>
+</c:if>
+<c:if test="${!empty errorMessage}">
+    <div id="danger" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong>Warning!</strong> ${errorMessage}
+    </div>
+</c:if>
+
 <footer>
-	<!-- jQuery library -->
+    <!-- jQuery library -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Page specific JS -->
     <script src="../../resources/js/header.js"></script>

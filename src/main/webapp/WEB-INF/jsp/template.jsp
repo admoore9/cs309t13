@@ -11,26 +11,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tournament</title>
+    <title>Admin</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/js/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
 
     <!-- Page specific CSS -->
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournamentId}'/>">
+<body>
     <jsp:include page="header.jsp"/>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-                <h2>Bracket</h2>
-                <h3>Tournament Name: <span id="tournament-name"></span></h3>
-                <div id="bracket"></div>
-                <br>
-                <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
-                <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
+
+                <!-- Page specific html -->
+
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
@@ -41,9 +37,11 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <!-- Bootstrap JavaScript plug-ins -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap validator (if needed) -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
-    <script src="../../resources/js/tournament.js"></script>
 </footer>
 </html>

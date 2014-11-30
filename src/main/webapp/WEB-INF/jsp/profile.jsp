@@ -1,5 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page session="true" %>
+<%@ page import="javax.persistence.EnumType" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +19,141 @@
 </head>
 <body>
     <jsp:include page="header.jsp"/>
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+                <!-- Page specific html -->
+                <h2>Profile</h2>
+
+                <div id="accordion" class="panel-group">
+
+                    <div id="join-tournament-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#join-tournament-content" href="#join-tournament-content">
+                                    Join a Tournament
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="join-tournament-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Sport</th>
+                                            <th>Registration Open</th>
+                                            <th>Registration Close</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${tournaments}" var="tournament">
+                                            <tr>
+                                                <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                                                <td>TO DO</td>
+                                                <td>TO DO</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="my-teams-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#my-teams-content" href="#my-teams-content">
+                                    My Teams
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="my-teams-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Name</th>
+                                            <th>Tournament</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${teams}" var="team">
+                                            <tr>
+                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="game-history-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#game-history-content" href="#game-history-content">
+                                    Game History
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="game-history-content">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-profile-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#edit-profile-content" href="#edit-profile-content">
+                                    Edit Profile
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="edit-profile-content">
+                            <div class="panel-body">
+                                <form role="form" id="edit-profile-form" action="/profile/edit" method="POST">
+                                    <div class="form-group">
+                                        <label for="name">Name:</label>
+                                        <input type="text" class="form-control" id="name" name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input id="password" name="password" type="password" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sex">Sex:</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="m" /> Male
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="sex" value="f" /> Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="height">Height:</label>
+                                        <input id="height" name="height" type="text" placeholder="height in inches" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weight">Weight:</label>
+                                        <input id="weight" name="weight" type="text" placeholder="weight in pounds" class="form-control input-md">
+                                    </div>
+                                    <button id="create-tournament-submit" type="submit" class="btn btn-default">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <jsp:include page="sideBar.jsp"/>
+        </div>
     </div>
 </body>
 <footer>
@@ -30,6 +167,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
-    <script src="../../resources/js/login.js"></script>
+    <script src="../../resources/js/profile.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

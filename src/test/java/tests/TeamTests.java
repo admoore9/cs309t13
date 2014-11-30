@@ -32,7 +32,6 @@ public class TeamTests {
         TeamDao teamdao = new TeamDao();
         teamdao.saveTeam(team);
 
-        System.out.println(teamdao.getTeamById(11, false, true, false).getTeamLeader().getName());
         /*System.out.println("Names:");
         for (Player player : players) {
             System.out.println(player.getName());
@@ -49,7 +48,7 @@ public class TeamTests {
             System.out.println(p.getName());
         }
 
-        teamdao.saveTeam(team);
+        //teamdao.saveTeam(team);
     }
 
     @Test
