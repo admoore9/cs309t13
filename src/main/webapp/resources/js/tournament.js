@@ -46,9 +46,7 @@ Team.prototype.setHandlers = function(game_id) {
 
     if(IS_REFEREE) {
         self.input_box.on('input', function() {
-            console.log(self.input_box.val());
-            // Post new score to server
-            // $.post('/game/' + game_id + '/update_score', {team_id: self.id, score: self.input_box.val()}, function() {}, 'json');
+            $.post('/score/update', {teamId: self.id, gameId: game_id, score: self.input_box.val()});
         });
     }
 };
