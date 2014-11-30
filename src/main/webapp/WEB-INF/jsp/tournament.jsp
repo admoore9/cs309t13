@@ -1,5 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<<<<<<< HEAD
 <%@ page import="edu.iastate.models.Member" %>
+=======
+<%@ page session="true" %>
+<%@ page import="javax.persistence.EnumType" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member"); %>
+>>>>>>> master
 
 <!DOCTYPE html>
 <html>
@@ -19,18 +26,33 @@
 </head>
 <body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>" data-is-ref="<c:out value='${!(userType == \'PLAYER\')}'/>">
     <jsp:include page="header.jsp"/>
+
     <h2>Bracket</h2>
     <h3>Tournament Name: <span id="tournament-name"></span></h3>
 
-    <c:choose>
-        <c:when test="${tournament.isBracketFormed()}">
-            <div id="bracket"></div>
-        </c:when>
-        <c:when test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
-            <br/>
-            <div class="btn btn-primary" id="form-bracket">Form bracket</div>
-        </c:when>
-    </c:choose>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                <h2>Bracket</h2>
+                <h3>Tournament Name: <span id="tournament-name"></span></h3>
+                <div id="bracket"></div>
+                <br>
+                <c:choose>
+                    <c:when test="${tournament.isBracketFormed()}">
+                        <div id="bracket"></div>
+                    </c:when>
+                    <c:when test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
+                        <br/>
+                        <div class="btn btn-primary" id="form-bracket">Form bracket</div>
+                        <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
+                        <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
+                    </c:when>
+                </c:choose>
+
+            </div>
+            <jsp:include page="sideBar.jsp"/>
+        </div>
+    </div>
 </body>
 <footer>
     <!-- jQuery library -->
@@ -39,11 +61,7 @@
     <!-- Bootstrap JavaScript plug-ins -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap validator -->
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
-
     <!-- Page specific JS -->
-    <script src="../../resources/js/login.js"></script>
     <script src="../../resources/js/tournament.js"></script>
 </footer>
 </html>

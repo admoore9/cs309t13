@@ -18,17 +18,4 @@ $( document ).ready(function() {
 			}
 		}
 	})
-	.on('success.form.bv', function(e) {
-		// Stop form from submitting normally
-		e.preventDefault();
-		var url = "/login/submit";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: $('#loginForm').serialize(),
-			success: function(result) {
-				window.location.href = "/profile";
-			}
-		});
-	});
 });

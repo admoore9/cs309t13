@@ -67,10 +67,11 @@ public class PlayerTests {
         // Given
         when(entityManager.createQuery(selectByIdQuery, Member.class)).thenReturn(query);
         Member expectedPlayer = new Member("test1", "test1", "asdf");
+        
         // When
         when(query.getSingleResult()).thenReturn(expectedPlayer);
-        
         Member actualPlayer = playerDao.getMemberById(1);
+        
         // Then
         assertNotNull(actualPlayer);
         assertSame(expectedPlayer, actualPlayer);

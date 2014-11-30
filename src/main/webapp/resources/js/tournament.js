@@ -3,6 +3,14 @@ $(document).ready(function() {
         var bracket = new Bracket($('body').data('tournament-id'));
         bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
     } else {
+        $("#createTeam").click( function() {
+            window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
+        });
+
+        $("#joinTeam").click( function() {
+            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view";
+        });
+
         $('#form-bracket').on('click', function(event) {
             event.preventDefault();
             var tournamentId = $('body').data('tournament-id');
