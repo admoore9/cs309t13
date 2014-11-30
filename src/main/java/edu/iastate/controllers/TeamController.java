@@ -33,7 +33,7 @@ public class TeamController {
         }
         
         Member member = (Member) session.getAttribute("member");
-        
+
         List<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
@@ -44,9 +44,11 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
         
+        if (!member.getTeams().contains(team)) {
+            return "redirect:denied";
+        }
+        
         model.addAttribute("team", team);
-        model.addAttribute("players", team.getPlayers());
-        model.addAttribute("games", team.getGames());
         return "team";
     }
 

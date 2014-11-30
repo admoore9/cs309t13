@@ -60,7 +60,6 @@ public class GameController {
             @RequestParam(value = "location") String location) {
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
-        System.out.println("Updating ... ");
         game.setGameLocation(location);
         
         gameDao.saveGame(game);

@@ -41,7 +41,7 @@
                             <div class="panel-body">
                                 <table class="table table-bordered">
                                     <tbody>
-                                        <c:forEach items="${players}" var="player">
+                                        <c:forEach items="${team.players}" var="player">
                                             <tr>
                                                 <td><c:out value="${player.name}"/></td>
                                             </tr>
@@ -66,7 +66,7 @@
                             <div class="panel-body">
                                 <table class="table table-bordered">
                                     <tbody>
-                                        <c:forEach items="${games}" var="game">
+                                        <c:forEach items="${team.games}" var="game">
                                             <tr>
                                                 <td><a href="<c:out value="/game/${game.id}/view"/>"><c:out value="Game ${game.id}"/></a></td>
                                             </tr>
