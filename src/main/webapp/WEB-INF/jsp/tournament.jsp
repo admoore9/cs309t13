@@ -1,9 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.iastate.models.Member" %>
-<% Member me = (Member) session.getAttribute("member");
-   Member.UserType userType = me.getUserType();
-   boolean canFormTournament = userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN;
-%>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +26,7 @@
         <c:when test="${tournament.isBracketFormed()}">
             <div id="bracket"></div>
         </c:when>
-        <c:when test="${canFormTournament}">
+        <c:when test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
             <br/>
             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
         </c:when>

@@ -23,13 +23,15 @@ public class TournamentController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
-        if (session.getAttribute("member") == null) {
+        Member me = (Member) session.getAttribute("member");
+        if(me == null) {
             return "redirect:denied";
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
         model.addAttribute("tournament", tournament);
+        model.addAttribute("userType", me.getUserType());
         return "tournament";
     }
 
