@@ -42,7 +42,7 @@ public class GameController {
      * @return JSON representation of the game.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Game getGame(@PathVariable int id) {
+    public @ResponseBody Game getGame(@PathVariable int id) {
         GameDao gameDao = new GameDao();
         return gameDao.getGameById(id, true);
     }

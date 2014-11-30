@@ -3,13 +3,13 @@ $(document).ready(function() {
     bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
 });
 
-var IS_REFEREE;
+var IS_REFEREE = true;
 
-var Team = function(id, name) {
+var Team = function(id, name, score) {
     var self = this;
     self.id = id;
     self.name = name;
-    self.score = 0;
+    self.score = score;
     self.html = $('<team></team>');
     self.input_box = null;
     self.name_html = null;
@@ -20,7 +20,7 @@ Team.prototype.getHTML = function() {
     self.name_html = $('<span></span>').text(self.name);
     self.html.append(self.name_html);
 
-    if(!IS_REFEREE) {
+    if(!true) {
         self.html.append($('<score></score>').text(self.score));
     } else {
         self.input_box = $('<input>').width(20).val(self.score);
@@ -44,7 +44,7 @@ Team.prototype.setHandlers = function(game_id) {
         }, 'json');
     });
 
-    if(IS_REFEREE) {
+    if(true) {
         self.input_box.on('input', function() {
             $.post('/score/update', {teamId: self.id, gameId: game_id, score: self.input_box.val()});
         });
@@ -192,7 +192,6 @@ Bracket.prototype.processTournament = function(tournament) {
     var self = this;
     IS_REFEREE = tournament.is_referee;
     self.name = tournament.name;
-    console.log(self.name);
     self.min_players = tournament.minPlayers;
     self.max_players = tournament.maxPlayers;
     self.teams_per_game = tournament.teamsPerGame;
@@ -202,7 +201,17 @@ Bracket.prototype.processTournament = function(tournament) {
         var nextGameId = elem.nextGame !== null ? elem.nextGame.id : elem.nextGame;
         var game = new Game(elem.id, nextGameId, elem.roundNumber, elem.gameTime, elem.gameLocation, tournament.teamsPerGame, []);
         elem.teams.forEach(function(team, index, array) {
-            game.teams.push(new Team(team.id, team.name));
+            // Get score for Team
+            function getScoreForTeam(scores) {
+                for(var i = 0; i < scores.length; i++) {
+                    var score = scores[i];
+                    if(score.team.id === team.id) {
+                        return score.score;
+                    }
+                }
+                return 0;
+            }
+            game.teams.push(new Team(team.id, team.name, getScoreForTeam(elem.scores)));
         });
 
         if(rounds_dict[game.roundNumber] !== undefined) {
