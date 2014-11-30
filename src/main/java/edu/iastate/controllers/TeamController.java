@@ -44,12 +44,17 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
         
-        if (!member.getTeams().contains(team)) {
+        if (member.getTeams().contains(team)==false) {
             return "redirect:denied";
         }
         
         model.addAttribute("team", team);
         return "team";
+    }
+    
+    @RequestMapping(value = "/{id}/denied", method = RequestMethod.GET)
+    public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
+        return "denied";
     }
 
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)

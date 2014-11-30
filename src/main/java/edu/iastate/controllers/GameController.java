@@ -16,6 +16,7 @@ import edu.iastate.dao.GameDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
@@ -29,7 +30,7 @@ public class GameController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
-        
+         
         Member member = (Member) session.getAttribute("member");
 
         List<Team> teams = member.getTeams();
@@ -41,6 +42,12 @@ public class GameController {
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
+        
+        int isCoordinator = 0;
+        if(member.getUserType() == UserType.COORDINATOR) {
+            isCoordinator = 1;
+        }
+        model.addAttribute("isCoordinator", isCoordinator);
         model.addAttribute("game", game);
         return "game";
     }

@@ -73,6 +73,7 @@
                        </div>
                    </div>
                </div>
+               <% if (member.getUserType() == Member.UserType.COORDINATOR) { %>
                <div id="goto-game-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
@@ -92,7 +93,8 @@
                             </form>
                         </div>
                     </div>
-                </div>                  
+                </div>
+                <% } %>                  
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
