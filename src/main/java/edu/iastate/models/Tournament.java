@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MathUtils;
+import edu.iastate.utils.TeamComparer;
 
 /**
  * Tournament class
@@ -188,7 +190,6 @@ public class Tournament {
         if(this.isBracketFormed()) {
             return;
         }
-
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
         int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
@@ -272,21 +273,32 @@ public class Tournament {
     public List<Game> groupTeamsIntoGames(List<Team> currRoundTeams, int roundNumber, int gamesNeeded, int playinToFirst) {
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundTeams.size(), gamesNeeded, playinToFirst);
         List<Game> currRoundGames = new ArrayList<Game>();
-
-        // int count = 0;
+        sortTeamsBasedOnSkill(currRoundTeams);
+        int count = 0;
         for(int i = 0; i < gamesNeeded; i++) {
             Game game = new Game();
             game.setTournament(this);
             game.setRoundNumber(roundNumber);
             for(int j = 0; j < teamsPerGame.get(i); j++) {
-                // game.addTeam(this.teams.get(count));
-                // count++;
+                game.addTeam(currRoundTeams.get(count++));
             }
             currRoundGames.add(game);
         }
 
         return currRoundGames;
     }
+    
+    /**
+     * Sorts the teams based on skill level from least skilled to
+     * most skilled teams
+     * 
+     * @param currRoundTeams the teams to be sorted
+     */
+    private void sortTeamsBasedOnSkill(List<Team> currRoundTeams) {
+        TeamComparer teamComparer = new TeamComparer();
+        Collections.sort(currRoundTeams, teamComparer);
+    }
+    
 
     /**
      * Takes the games in the current round and forms the rest of the brackets
