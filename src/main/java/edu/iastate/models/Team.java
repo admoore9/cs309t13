@@ -65,6 +65,10 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private Set<Score> scores;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "team")
+    private Set<Game> wonGames;
+
     public Team() {
         players = new ArrayList<Member>();
         games = new ArrayList<Game>();

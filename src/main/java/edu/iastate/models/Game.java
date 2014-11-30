@@ -70,6 +70,10 @@ public class Game {
     @OneToMany(mappedBy = "game")
     private Set<Score> scores;
 
+    @ManyToOne
+    @JoinColumn(name = "winner")
+    private Team winner;
+
     public Game() {
         teams = new ArrayList<Team>();
         officials = new ArrayList<Member>();
@@ -151,6 +155,14 @@ public class Game {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
     }
 
     /**
