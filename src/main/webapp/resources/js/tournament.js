@@ -59,7 +59,6 @@ Team.prototype.setHandlers = function(game_id) {
         });
 
         html_str += "</ul>";
-        // html_str += "<ul><li>one</li><li>two</li></ul>";
         return html_str;
     }
 
@@ -81,25 +80,6 @@ Team.prototype.setHandlers = function(game_id) {
             return html_str;
         }
     });
-
-    // $('#team-' + self.id + '-mark-winner').on('click', function(event) {
-    //     event.preventDefault();
-    //     console.log('in click handler');
-    // });
-
-
-
-    // self.name_html.on('click', function() {
-    //     // Get players from server
-    //     $.get('/team/' + self.id + '/players', function(response) {
-    //         console.log(response);
-    //         var names = [];
-    //         response.forEach(function(player, index, array) {
-    //             names.push(player.name);
-    //         });
-    //         alert(names);
-    //     }, 'json');
-    // });
 
     if(is_ref) {
         self.input_box.on('input', function() {
