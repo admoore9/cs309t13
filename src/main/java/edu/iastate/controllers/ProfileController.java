@@ -66,12 +66,13 @@ public class ProfileController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
+        String errorMessage = "";
+
         if (name != null && name.length() != 0) {
             if (name.length() <= 45) {
                 member.setName(name);
             } else {
-                model.addAttribute("errorMessage", NAME_ERROR_MESSAGE);
-                return "profile";
+                errorMessage = errorMessage + " " + NAME_ERROR_MESSAGE;
             }
         }
 
@@ -80,17 +81,15 @@ public class ProfileController {
                 String genPassword = StringUtils.secureString(password);
                 member.setPassword(genPassword);
             } else {
-                model.addAttribute("errorMessage", PASSWORD_ERROR_MESSAGE);
-                return "profile";
+                errorMessage = errorMessage + " " + PASSWORD_ERROR_MESSAGE;
             }
         }
 
         if (sex != null) {
-            if (sex.length() == 1) {
+            if (sex.equals("m") || sex.equals("f")) {
                 member.setSex(sex);
             } else {
-                model.addAttribute("errorMessage", SEX_ERROR_MESSAGE);
-                return "profile";
+                errorMessage = errorMessage + " " + SEX_ERROR_MESSAGE;
             }
         }
 
@@ -98,8 +97,7 @@ public class ProfileController {
             if (height >= 0 && height <= 100) {
                 member.setHeight(height);
             } else {
-                model.addAttribute("errorMessage", HEIGHT_ERROR_MESSAGE);
-                return "profile";
+                errorMessage = errorMessage + " " + HEIGHT_ERROR_MESSAGE;
             }
         }
 
@@ -107,12 +105,17 @@ public class ProfileController {
             if (weight >= 0 && weight <= 1000) {
                 member.setWeight(weight);
             } else {
-                model.addAttribute("errorMessage", WEIGHT_ERROR_MESSAGE);
-                return "profile";
+                errorMessage = errorMessage + " " + WEIGHT_ERROR_MESSAGE;
             }
         }
 
         memberDao.save(member);
+        if (!errorMessage.equals("")) {
+            System.out.println(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+        } else {
+            model.addAttribute("message", "Profile updated.");
+        }
         session.setAttribute("member", member);
 
         return "profile";

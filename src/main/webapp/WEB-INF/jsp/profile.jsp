@@ -168,5 +168,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/profile.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>
