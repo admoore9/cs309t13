@@ -46,7 +46,50 @@
                            </table>                                              
                        </div>
                    </div>
-               </div>                  
+               </div>
+               <div id="goto-tournament-panel" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" data-target="#update-game-content" href="#update-game-content">
+                                Update game:
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel panel-collapse collapse" id="update-game-content">
+                        <div class="panel-body">
+                            <form class="form-inline" role="form" id="goto-game-form">
+                                <div class="form-group">
+                                    <label for="tournamentId">Tournament Id:</label>
+                                    <input type="text" class="form-control" id="update-tournament-id-input">
+                                </div>
+                                <button id="goto-tournament-submit" type="submit" class="btn btn-default">Go To Tournament</button>
+                            </form>
+                            <form role="form" id="update-tournament-form">
+                                <div class="form-group">
+                                    <label for="name">Tournament name:</label>
+                                    <input type="text" class="form-control" id="update-tournament-name-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="minPlayersPerTeam">Minimum players per team:</label>
+                                    <input type="text" class="form-control" id="update-tournament-min-players-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxPlayersPerTeam">Maximum players per team:</label>
+                                    <input type="text" class="form-control" id="update-tournament-max-players-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="teamsPerGame">Teams Per Game:</label>
+                                    <input type="text" class="form-control" id="update-teams-per-game-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="officialsPerGame">Officials Per Game:</label>
+                                    <input type="text" class="form-control" id="update-officials-per-game-input">
+                                </div>
+                                <button id="update-tournament-submit" type="submit" class="btn btn-default">Update Tournament</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>                  
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
@@ -63,5 +106,6 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
+    <script src="../../resources/js/game.js"></script>
 </footer>
 </html>
