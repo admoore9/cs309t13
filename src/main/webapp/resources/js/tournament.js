@@ -11,7 +11,7 @@ $(document).ready(function() {
     }
 });
 
-var IS_REFEREE = true;
+var is_ref = $('body').data('is-ref');
 
 var Team = function(id, name, score) {
     var self = this;
@@ -27,8 +27,7 @@ Team.prototype.getHTML = function() {
     self.html.children().remove();
     self.name_html = $('<span></span>').text(self.name);
     self.html.append(self.name_html);
-
-    if(!true) {
+    if(!is_ref) {
         self.html.append($('<score></score>').text(self.score));
     } else {
         self.input_box = $('<input>').width(20).val(self.score);
@@ -52,7 +51,7 @@ Team.prototype.setHandlers = function(game_id) {
         }, 'json');
     });
 
-    if(true) {
+    if(is_ref) {
         self.input_box.on('input', function() {
             $.post('/score/update', {teamId: self.id, gameId: game_id, score: self.input_box.val()});
         });

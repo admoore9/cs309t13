@@ -17,7 +17,7 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>">
+<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>" data-is-ref="<c:out value='${!(userType == \'PLAYER\')}'/>">
     <jsp:include page="header.jsp"/>
     <h2>Bracket</h2>
     <h3>Tournament Name: <span id="tournament-name"></span></h3>
