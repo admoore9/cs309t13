@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -60,10 +61,10 @@ public class Game {
 
     @JoinTable(name = "teamgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Team> teams;
+    private Set<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Member> officials;
     
     @JsonManagedReference
@@ -71,7 +72,7 @@ public class Game {
     private Set<Score> scores;
 
     public Game() {
-        teams = new ArrayList<Team>();
+        teams = new HashSet<Team>();
         officials = new ArrayList<Member>();
     }
 
@@ -137,11 +138,11 @@ public class Game {
         this.gameLocation = gameLocation;
     }
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
 

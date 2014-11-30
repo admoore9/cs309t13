@@ -62,7 +62,7 @@ public class GameTests {
     @Test
     public void addTeamToGameTest() {
         GameDao gamedao = new GameDao();
-        Game game = gamedao.getGameById(2, true);
+        Game game = gamedao.getGameById(1, true);
         TeamDao teamdao = new TeamDao();
         Team team = teamdao.getTeamById(1, false, false, false);
         //game.addTeam(team);
@@ -70,7 +70,7 @@ public class GameTests {
         for (Team t : game.getTeams()) {
             System.out.println(t.getId());
         }
-        gamedao.saveGame(game);
+        //gamedao.saveGame(game);
     }
 
 //    @Test

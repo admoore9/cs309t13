@@ -89,18 +89,41 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <a data-toggle="collapse" data-target="#update-tournament-content" href="#update-tournament-content">
-                                    Update Game
+                                    Update Tournament:
                                 </a>
                             </h3>
                         </div>
                         <div class="panel panel-collapse collapse" id="update-tournament-content">
-                            <div class="panel-body">                                
-                                <form role="form" id="update-game-form">
+                            <div class="panel-body">
+                                <form class="form-inline" role="form" id="goto-tournament-form">
                                     <div class="form-group">
-                                        <label for="name">New Game Location:</label>
-                                        <input type="text" class="form-control" id="update-game-location-input">
-                                    </div>                                   
-                                    <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
+                                        <label for="tournamentId">Tournament Id:</label>
+                                        <input type="text" class="form-control" id="update-tournament-id-input">
+                                    </div>
+                                    <button id="goto-tournament-submit" type="submit" class="btn btn-default">Go To Tournament</button>
+                                </form>
+                                <form role="form" id="update-tournament-form">
+                                    <div class="form-group">
+                                        <label for="name">Tournament name:</label>
+                                        <input type="text" class="form-control" id="update-tournament-name-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="minPlayersPerTeam">Minimum players per team:</label>
+                                        <input type="text" class="form-control" id="update-tournament-min-players-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="maxPlayersPerTeam">Maximum players per team:</label>
+                                        <input type="text" class="form-control" id="update-tournament-max-players-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teamsPerGame">Teams Per Game:</label>
+                                        <input type="text" class="form-control" id="update-teams-per-game-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="officialsPerGame">Officials Per Game:</label>
+                                        <input type="text" class="form-control" id="update-officials-per-game-input">
+                                    </div>
+                                    <button id="update-tournament-submit" type="submit" class="btn btn-default">Update Tournament</button>
                                 </form>
                             </div>
                         </div>
