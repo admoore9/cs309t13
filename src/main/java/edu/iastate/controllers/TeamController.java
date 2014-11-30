@@ -25,7 +25,7 @@ import edu.iastate.models.Tournament;
 public class TeamController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
-    public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
+    public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
         model.addAttribute("teamId", id);
 
         if (session.getAttribute("member") == null) {
