@@ -31,8 +31,19 @@ public class TeamController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
+        
+        Member member = (Member) session.getAttribute("member");
+        
+        List<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+        
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
+        
         model.addAttribute("team", team);
         model.addAttribute("players", team.getPlayers());
         model.addAttribute("games", team.getGames());

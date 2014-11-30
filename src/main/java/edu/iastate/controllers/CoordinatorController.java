@@ -44,8 +44,8 @@ public class CoordinatorController {
         List<Team> teams = tournaments.get(0).getTeams();
         List<Game> games = tournaments.get(0).getGames();
         model.addAttribute("tournaments", tournaments);
-        model.addAttribute("teams", teams);
-        model.addAttribute("games", games);
+        //model.addAttribute("teams", teams);
+        //model.addAttribute("games", games);
         return "coordinator";
     }
 }
