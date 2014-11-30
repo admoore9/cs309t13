@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.AvailabilityDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Day.WeekDay;
@@ -27,12 +28,11 @@ public class AvailabilityController {
 
     AvailabilityDao availabilityDao;
     Availability availability;
-    int memberId;
     Set<Day> days;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAvailability(Model model, HttpSession session) {
-        if(session.getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
         Member member = (Member) session.getAttribute("member");
@@ -45,7 +45,7 @@ public class AvailabilityController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateAvailability(
+    public @ResponseBody boolean updateAvailability(HttpSession session,
             @RequestParam(value = "MONDAY", required = false) String monday,
             @RequestParam(value = "TUESDAY", required = false) String tuesday,
             @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
@@ -53,6 +53,10 @@ public class AvailabilityController {
             @RequestParam(value = "FRIDAY", required = false) String friday,
             @RequestParam(value = "SATURDAY", required = false) String saturday,
             @RequestParam(value = "SUNDAY", required = false) String sunday) {
+
+        if (session.getAttribute("member") == null)
+            return false;
+        Member member = (Member) session.getAttribute("member");
 
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
@@ -77,8 +81,12 @@ public class AvailabilityController {
             addPeriodsToDay(newSunday, sunday);
 
         Set<Day> newDays = new LinkedHashSet<Day>();
-        newDays.addAll(Arrays.asList(newMonday, newTuesday, newWednesday, newThursday, newFriday, newSaturday, newSunday));
+        newDays.addAll(Arrays.asList(newMonday, newTuesday, newWednesday, newThursday, newFriday, newSaturday,
+                newSunday));
         availabilityDao.update(availability, newDays);
+
+        // update session
+        session.setAttribute("member", new MemberDao().getMemberById(member.getId()));
         return true;
     }
 
