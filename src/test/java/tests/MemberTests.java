@@ -38,7 +38,8 @@ public class MemberTests {
         Member member = new Member();
         member.setName("Testing add");
         member.setPassword("asdf");
-        member.setUserType(UserType.OFFICIAL);
+        member.setUserType(UserType.COORDINATOR);
+        member.setContext(UserType.COORDINATOR);
         memberDao.save(member);
     }
     
