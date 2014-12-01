@@ -65,15 +65,15 @@ public class Game {
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Member> officials;
-    
+    private Set<Member> officials;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "game")
     private Set<Score> scores;
 
     public Game() {
         teams = new HashSet<Team>();
-        officials = new ArrayList<Member>();
+        officials = new HashSet<Member>();
     }
 
     public int getId() {
@@ -153,6 +153,14 @@ public class Game {
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
     }
+    
+    public Set<Member> getOfficials() {
+        return officials;
+    }
+
+    public void setOfficials(Set<Member> officials) {
+        this.officials = officials;
+    }
 
     /**
      * Adds team to game. Does nothing if team is null or Game already has this
@@ -195,7 +203,7 @@ public class Game {
      * 
      */
     public int addOfficial(Member official) {
-        if(official == null || this.officials.contains(official)) {
+        if(official == null || this.officials.contains(official)  || official.getUserType()!=Member.UserType.OFFICIAL) {
             return -1;
         }
         if(this.officials.size() == tournament.getOfficialsPerGame()) {

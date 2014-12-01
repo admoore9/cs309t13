@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,13 +34,6 @@ public class TeamController {
         }
         
         Member member = (Member) session.getAttribute("member");
-
-        List<Team> teams = member.getTeams();
-        model.addAttribute("teams", teams);
-
-        TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
         
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
@@ -47,6 +41,13 @@ public class TeamController {
         if (member.getTeams().contains(team)==false) {
             return "redirect:denied";
         }
+        
+        List<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
         
         model.addAttribute("team", team);
         return "team";
@@ -118,7 +119,7 @@ public class TeamController {
      */
     // TODO check if valid team
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
-    public @ResponseBody List<Game> getGamesByTeam(@PathVariable int id) {
+    public @ResponseBody Set<Game> getGamesByTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
         return teamDao.getTeamById(id, true, false, false).getGames();
     }
@@ -246,7 +247,7 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Member> getPlayersForTeam(@PathVariable int id) {
+    public @ResponseBody Set<Member> getPlayersForTeam(@PathVariable int id) {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
         for (Member player : team.getPlayers()) {

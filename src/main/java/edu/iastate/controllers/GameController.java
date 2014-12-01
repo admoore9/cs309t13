@@ -48,8 +48,22 @@ public class GameController {
             isCoordinator = 1;
         }
         model.addAttribute("isCoordinator", isCoordinator);
+        model.addAttribute("officials");
         model.addAttribute("game", game);
         return "game";
+    }
+    
+    /**
+     * Handles denied pages for game
+     * 
+     * @param model
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}/denied", method = RequestMethod.GET)
+    public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
+        return "denied";
     }
     
     /**

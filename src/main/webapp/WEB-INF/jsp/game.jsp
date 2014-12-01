@@ -68,6 +68,14 @@
                                         <td>Game Time</td>
                                         <td>${game.gameTime}</td>
                                    </tr>
+                                   <tr>
+                                        <td>Game Officials</td>
+                                        <td>
+                                        <c:forEach items="${game.officials}" var="official">
+	                                           ${official.name},
+	                                    </c:forEach>
+	                                   </td>
+	                              </tr>
                                </tbody>
                            </table>                                              
                        </div>
