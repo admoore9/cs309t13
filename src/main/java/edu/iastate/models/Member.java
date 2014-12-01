@@ -65,6 +65,7 @@ public class Member {
     @Column(name = "user_type")
     private UserType userType;
     
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "gameCoordinator")
     Set<Tournament> managingTournament;
 
