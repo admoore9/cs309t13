@@ -19,6 +19,8 @@ import edu.iastate.models.Tournament;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Member;
 /**
+ * All information need to be seen and used by the game coordinator
+ * 
  * @author Shubang
  *
  */
@@ -41,11 +43,7 @@ public class CoordinatorController {
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getTournamentByCoordinator(member);
-        List<Team> teams = tournaments.get(0).getTeams();
-        List<Game> games = tournaments.get(0).getGames();
         model.addAttribute("tournaments", tournaments);
-        //model.addAttribute("teams", teams);
-        //model.addAttribute("games", games);
         return "coordinator";
     }
 }

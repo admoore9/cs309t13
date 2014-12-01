@@ -31,7 +31,7 @@ public class GameController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
-         
+
         Member member = (Member) session.getAttribute("member");
 
         List<Team> teams = member.getTeams();
@@ -43,11 +43,11 @@ public class GameController {
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
-        
+
         model.addAttribute("game", game);
         return "game";
     }
-    
+
     /**
      * Handles denied pages for game
      * 
@@ -60,9 +60,11 @@ public class GameController {
     public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
         return "denied";
     }
-    
+
     /**
-     * Updates the game given the location 
+     * Updates the game given the location, official to add or remove
+     * Does nothing for the fields that are left blank and sumbit is pressed
+     * 
      * 
      * @param id the game ID
      * @param location the new location of the game
@@ -84,7 +86,7 @@ public class GameController {
         }
         game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
         game.addOfficial(memberDao.getMemberByUsername(addOfficial));
-        
+
         gameDao.saveGame(game);
         return true;
     }
