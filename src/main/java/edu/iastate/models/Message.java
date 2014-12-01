@@ -31,6 +31,7 @@ public class Message {
     private boolean viewed;
     private boolean sent;
     private boolean deleted;
+    private boolean draft;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -90,6 +91,22 @@ public class Message {
     }
 
     /**
+     * @param deleted
+     *            the deleted to set
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
+    }
+
+    /**
      * @return the time
      */
     public String getTime() {
@@ -100,13 +117,10 @@ public class Message {
         messageDatetime.setTime(datetime);
 
         if (messageDatetime.get(Calendar.YEAR) < now.get(Calendar.YEAR)) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-                    "MM/dd/yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
             return simpleDateFormat.format(datetime);
-        } else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now
-                .get(Calendar.DAY_OF_MONTH)
-                || messageDatetime.get(Calendar.MONTH) < now
-                        .get(Calendar.MONTH)) {
+        } else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now.get(Calendar.DAY_OF_MONTH)
+                || messageDatetime.get(Calendar.MONTH) < now.get(Calendar.MONTH)) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
             return simpleDateFormat.format(datetime);
         }

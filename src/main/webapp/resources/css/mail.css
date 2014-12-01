@@ -17,7 +17,7 @@ tr.message {
 	float: right;
 }
 
-.bold {
+.unviewed {
 	font-weight: bold;
 }
 
@@ -26,7 +26,7 @@ tr.message {
 }
 
 .mainbox {
-	float: right;
+	/*float: right;*/
 }
 
 .modal-body {
@@ -46,4 +46,39 @@ tr.message {
 
 .help-block {
     display: inline;
+}
+
+.panel-heading {
+    cursor: pointer;
+}
+
+#mail-sidebar {
+    /*position: fixed;*/
+}
+
+#mail-sidebar>a {
+    display: block;
+}
+
+#accordion {
+    overflow-y: scroll;
+}
+
+.panel-title {
+    display: inline;
+    margin-right: 20px;
+}
+
+.selection-icon {
+    margin-right: 10px;
+    display: none;
+    cursor: pointer;
+}
+
+.inbox-heading {
+    cursor: default;
+}
+
+#draft-alert {
+    display: none;
 }

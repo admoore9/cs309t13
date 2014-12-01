@@ -23,19 +23,19 @@ public class Mail {
     @GeneratedValue
     @Column(name = "mail_id")
     private int mailId;
-    
+
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    
+
     @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
     @OrderBy(clause = "message_id")
     private Set<Message> messages;
-    
+
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
     @OrderBy(clause = "message_id")
     private Set<Message> sentmail;
-    
+
     public Mail() {
         messages = new LinkedHashSet<Message>();
         sentmail = new LinkedHashSet<Message>();
@@ -59,19 +59,23 @@ public class Mail {
         }
         return unviewedNotification;
     }
-    
+
     public Set<Message> getSentMail() {
         Set<Message> sentMail = new LinkedHashSet<Message>();
         for (Message message : messages) {
-            if (!message.isSent())
+            if (message.isSent())
                 sentMail.add(message);
         }
         return sentMail;
     }
 
     public Set<Message> getDrafts() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<Message> drafts = new LinkedHashSet<Message>();
+        for (Message message : messages) {
+            if (message.isDraft())
+                drafts.add(message);
+        }
+        return drafts;
     }
 
     public Set<Message> getDeleted() {
@@ -82,5 +86,13 @@ public class Mail {
     public Mail setMember(Member member) {
         this.member = member;
         return this;
+    }
+
+    public Message getMessageById(int id) {
+        for (Message message : messages) {
+            if (message.getMessageId() == id)
+                return message;
+        }
+        return null;
     }
 }

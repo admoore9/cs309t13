@@ -288,6 +288,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Message` (
   `viewed` BOOLEAN DEFAULT FALSE NOT NULL,
   `sent` BOOLEAN DEFAULT FALSE NOT NULL,
   `deleted` BOOLEAN DEFAULT FALSE NOT NULL,
+  `draft` BOOLEAN DEFAULT FALSE NOT NULL,
   `datetime` TIMESTAMP,
   PRIMARY KEY (`message_id`),
   INDEX `fk_Message_RecipientId_idx` (`recipient_id` ASC),

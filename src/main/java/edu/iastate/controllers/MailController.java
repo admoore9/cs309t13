@@ -1,5 +1,8 @@
 package edu.iastate.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -42,8 +45,23 @@ public class MailController {
             messages = member.getMail().getDeleted();
         else
             messages = member.getMail().getMessages();
-        model.addAttribute("messages", messages);
+        List<Message> reversedMessages = new ArrayList<>(messages);
+        Collections.reverse(reversedMessages);
+        model.addAttribute("messages", reversedMessages);
         return "mail";
+    }
+
+    @RequestMapping(value = "/setMessageAsViewed", method = RequestMethod.POST)
+    public @ResponseBody void setMessageAsViewed(HttpSession session, @RequestParam(value = "messageId") int messageId) {
+        if (session.getAttribute("member") == null)
+            return;
+        MessageDao messageDao = new MessageDao();
+        Message message = messageDao.getMessageById(messageId);
+        message.setViewed(true);
+        messageDao.save(message);
+        MemberDao memberDao = new MemberDao();
+        Member member = (Member) session.getAttribute("member");
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
     @RequestMapping(value = "/setMessagesAsViewed", method = RequestMethod.POST)
@@ -89,7 +107,63 @@ public class MailController {
         Member sender = (Member) session.getAttribute("member");
         Member recipient = memberDao.getMemberByUsername(recipientUsername);
         Message newMessage = new Message(subject, body, sender, recipient);
+        newMessage.setSent(true);
         new MessageDao().save(newMessage);
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody void delete(HttpSession session, @RequestParam(value = "messages") String messages) {
+        if (session.getAttribute("member") == null)
+            return;
+        Member member = (Member) session.getAttribute("member");
+        String messagesIds[] = messages.split(",");
+        MessageDao messageDao = new MessageDao();
+        for (String messageId : messagesIds) {
+            Message message = member.getMail().getMessageById(Integer.parseInt(messageId));
+            if (message != null) {
+                message.setDeleted(true);
+                messageDao.save(message);
+            }
+        }
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
+    }
+
+    @RequestMapping(value = "/mark_unread", method = RequestMethod.POST)
+    public @ResponseBody void markUnread(HttpSession session, @RequestParam(value = "messages") String messages) {
+        if (session.getAttribute("member") == null)
+            return;
+        Member member = (Member) session.getAttribute("member");
+        String messagesIds[] = messages.split(",");
+        MessageDao messageDao = new MessageDao();
+        for (String messageId : messagesIds) {
+            Message message = member.getMail().getMessageById(Integer.parseInt(messageId));
+            if (message != null) {
+                message.setViewed(false);
+                messageDao.save(message);
+            }
+        }
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
+    }
+
+    @RequestMapping(value = "/save_draft", method = RequestMethod.POST)
+    public @ResponseBody void saveDraft(HttpSession session, @RequestParam(value = "recipient") String recipientUsername,
+            @RequestParam(value = "subject") String subject, @RequestParam(value = "body") String body) {
+        if (session.getAttribute("member") == null)
+            return;
+        Member member = (Member) session.getAttribute("member");
+        String messagesIds[] = messages.split(",");
+        MessageDao messageDao = new MessageDao();
+        for (String messageId : messagesIds) {
+            Message message = member.getMail().getMessageById(Integer.parseInt(messageId));
+            if (message != null) {
+                message.setViewed(false);
+                messageDao.save(message);
+            }
+        }
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 }

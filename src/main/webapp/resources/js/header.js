@@ -7,7 +7,10 @@ $( document ).ready(function() {
         var url = "/mail/setMessagesAsViewed";
         $.ajax({
             type: "POST",
-            url: url
+            url: url,
+            success : function(result) {
+                document.getElementById("messageBadge").innerHTML = 0;
+            }
         });
     });
 });

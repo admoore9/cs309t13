@@ -56,10 +56,11 @@
 								    for (Message message : member.getMail().getUnviewedMessages()) {
 																            out.print("<li class='message'>"
 																                    + message.getSubject() + " "
-																                    + message.getTime() + "</li>");
+																                    + "<span class='message-time'>" + message.getTime() + "</span>"
+                                                                                    + "</li>");
 																        }
 								%>
-								<li class="inbox"><a href="/mail">Inbox</a></li>
+								<li class="inbox"><hr><a href="/mail">Inbox</a></li>
 							</ul></li>
 						<%
 						    if (userType != Member.UserType.PLAYER) {

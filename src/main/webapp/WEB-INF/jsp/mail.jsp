@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="edu.iastate.models.Member"%>
+<%
+    Member member = (Member) session.getAttribute("member");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -17,75 +21,89 @@
 <body>
     <jsp:include page="header.jsp" />
     <div class="container">
-        <div id="mail-sidebar" class="col-lg-1 col-md-1 col-sm-1">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#composeModal">Compose</button>
-            <a id="inbox" href="/mail/?inbox">Inbox</a>
-            <a id="sentmail" href="/mail/?sentmail">Sent Mail</a>
-            <a id="drafts" href="/mail/?drafts">Drafts</a>
-            <a id="deleted" href="/mail/?deleted">Deleted</a>
-        </div>
-        <div id="mailBox" class="mainbox col-lg-11 col-md-11 col-sm-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Mail</h3>
-                </div>
+        <div class="row">
+            <div id="mail-sidebar" class="col-lg-1 col-md-1 col-sm-1">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#composeModal">Compose</button>
+                <a id="inbox" href="/mail/?inbox">
+                    Inbox (<%
+                    out.print(member.getMail().getUnviewedMessages().size());
+                %>)
+                </a>
+                <a id="sentmail" href="/mail/?sentmail">Sent Mail</a>
+                <a id="drafts" href="/mail/?drafts">Drafts</a>
+            </div>
+            <div id="mailBox" class="mainbox col-lg-10 col-md-10 col-sm-10">
+                <div class="panel panel-primary">
+                    <div class="panel-heading inbox-heading">
+                        <h3 class="panel-title">Mail</h3>
+                        <span id="delete-message" class="glyphicon glyphicon-trash selection-icon"></span>
+                        <span id="mark-unread" class="glyphicon glyphicon-envelope selection-icon"></span>
+                    </div>
 
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <c:forEach items="${messages}" var="message">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="heading-${message.getMessageId()}">
-                                <h4 ${!message.isViewed() ? 'class="panel-title bold"' : 'class="panel-title"'}>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <c:forEach items="${messages}" var="message">
+                            <c:if test="${!message.isDeleted() && !message.isDraft()}">
+                            <div class="panel panel-default">
+                                <div ${!message.isViewed() ? 'class="panel-heading unviewed"' : 'class="panel-heading"'} role="tab" id="heading-${message.getMessageId()}"
+                                    data-toggle="collapse" data-parent="#accordion" data-target="#collapse-${message.getMessageId()}" aria-expanded="true"
+                                    aria-controls="collapse-${message.getMessageId()}" data-message-id="${message.getMessageId() }">
+                                    <input type="checkbox" id="message-${message.getMessageId()}-checkbox" class="selection-checkbox" value="${message.getMessageId()}">
                                     <span class=message-sender>${message.getSender().getName() }</span>
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-${message.getMessageId()}" aria-expanded="true"
-                                        aria-controls="collapse-${message.getMessageId()}"> ${message.getSubject()} </a>
+                                    <span> ${message.getSubject()} </span>
                                     <span class="message-time">${message.getTime()}</span>
-                                </h4>
+                                </div>
+                                <div id="collapse-${message.getMessageId()}" class="panel-collapse collapse" role="tabpanel"
+                                    aria-labelledby="heading-${message.getMessageId()}">
+                                    <div class="panel-body">${message.getBody()}</div>
+                                </div>
                             </div>
-                            <div id="collapse-${message.getMessageId()}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-${message.getMessageId()}">
-                                <div class="panel-body">${message.getBody()}</div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-                <!-- accordion panel group -->
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                    <!-- accordion panel group -->
 
 
-                <!-- New Message Modal -->
-                <div class="modal fade" id="composeModal" tabindex="-1" role="dialog" aria-labelledby="composeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                                </button>
-                                <h4 class="modal-title" id="composeModalLabel">New Message</h4>
+                    <!-- New Message Modal -->
+                    <div class="modal fade" id="composeModal" tabindex="-1" role="dialog" aria-labelledby="composeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title" id="composeModalLabel">New Message</h4>
+                                </div>
+                                <form role="form" id="message-form">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input id="new-message-recipient" type="text" class="message-input form-control input-md" placeholder="To" name="recipient">
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="new-message-subject" type="text" class="form-control input-md message-input" placeholder="Subject" name="subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea id="new-message-body" class="form-control message-input" name="body"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <span id="draft-alert" class="alert alert-success" role="alert">Draft saved successfully!</span>
+                                        <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
+                                        <button id="send-message" type="submit" class="btn btn-primary">Send</button>
+                                    </div>
+                                </form>
                             </div>
-                            <form role="form" id="message-form">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <input id="new-message-recipient" type="text" class="message-input form-control input-md" placeholder="To" name="recipient">
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="new-message-subject" type="text" class="form-control input-md message-input" placeholder="Subject" name="subject">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea id="new-message-body" class="form-control message-input" name="body"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
-                                    <button id="send-message" type="submit" class="btn btn-primary">Send</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
-                </div>
 
+                </div>
+                <!-- panel -->
             </div>
-            <!-- panel -->
+            <div id="selection-sidebar" class="col-lg-1 col-md-1 col-sm-1">
+                
+            </div>
         </div>
-        <!-- survey box -->
     </div>
 </body>
 <footer>

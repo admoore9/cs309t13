@@ -1,7 +1,18 @@
 @CHARSET "UTF-8";
 
-.notification {
-	width: 20em;
-	margin: 5px 15px 5px 24px;
-	list-style-type: circle;
+.message {
+    margin: 5px 15px 5px 24px;
+    list-style-type: circle;
 }
+/*
+li:nth-child(even).message {
+    background: #CCC
+}*/
+
+.message-time {
+    float: right;
+}
+/*
+.message :last-of-type {
+    color:green;
+}*/
