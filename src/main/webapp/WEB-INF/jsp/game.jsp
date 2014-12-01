@@ -96,7 +96,15 @@
                                 <div class="form-group">
                                     <label for="name">New Game Location:</label>
                                     <input type="text" class="form-control" id="update-game-location-input">
-                                </div>                               
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Username Official to Add:</label>
+                                    <input type="text" class="form-control" id="update-official-add-input">
+                                </div>  
+                                <div class="form-group">
+                                    <label for="name">Username Official to Remove:</label>
+                                    <input type="text" class="form-control" id="update-official-remove-input">
+                                </div>                                 
                                 <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
                             </form>
                         </div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
@@ -43,12 +44,6 @@ public class GameController {
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
         
-        int isCoordinator = 0;
-        if(member.getUserType() == UserType.COORDINATOR) {
-            isCoordinator = 1;
-        }
-        model.addAttribute("isCoordinator", isCoordinator);
-        model.addAttribute("officials");
         model.addAttribute("game", game);
         return "game";
     }
@@ -78,10 +73,18 @@ public class GameController {
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateGame(
             @PathVariable int id,
-            @RequestParam(value = "location") String location) {
+            @RequestParam(value = "location") String location,
+            @RequestParam(value = "addOfficial") String addOfficial,
+            @RequestParam(value = "removeOfficial") String removeOfficial) {
         GameDao gameDao = new GameDao();
+        MemberDao memberDao = new MemberDao();
         Game game = gameDao.getGameById(id, true);
-        game.setGameLocation(location);
+        if(location!="") {
+            game.setGameLocation(location);
+        }
+        game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
+        System.out.println(game.addOfficial(memberDao.getMemberByUsername(addOfficial)));
+
         
         gameDao.saveGame(game);
         return true;

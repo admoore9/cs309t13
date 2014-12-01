@@ -220,7 +220,7 @@ public class Game {
      * @param official The official to be removed
      */
     public void removeOfficial(Member official) {
-        if(official == null || this.officials.contains(official)) {
+        if(official == null || !this.officials.contains(official)) {
             return;
         }
         this.officials.remove(official);
