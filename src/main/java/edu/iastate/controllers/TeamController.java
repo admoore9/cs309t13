@@ -78,7 +78,6 @@ public class TeamController {
      * @return true if successful
      */
     // TODO check users permissions
-    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateGame(
             @PathVariable int id,
@@ -91,9 +90,8 @@ public class TeamController {
         if(teamName!="") {
             team.setName(teamName);
         }
-        System.out.println("Updating...");
         team.removePlayer(memberDao.getMemberByUsername(removePlayer));
-        team.addPlayer(memberDao.getMemberByUsername(addPlayer));
+        team.addInvitedPlayer(memberDao.getMemberByUsername(addPlayer));
         
         teamDao.saveTeam(team);
         return true;

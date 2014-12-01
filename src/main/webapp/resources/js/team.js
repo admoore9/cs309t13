@@ -1,11 +1,10 @@
 $(document).ready(function() {
     $('#update-team-form').on('submit', function(event) {
         event.preventDefault();
-        console.log(teamId);
         $.post('/team/' + teamId + '/update', {
-            location: $('#update-team-name-input').val(),
-            addOfficial: $('#update-player-add-input').val(),
-            removeOfficial: $('#update-player-remove-input').val(),
+            teamName: $('#update-team-name-input').val(),
+            addPlayer: $('#update-player-add-input').val(),
+            removePlayer: $('#update-player-remove-input').val(),
         });
     });
 
