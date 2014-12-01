@@ -64,6 +64,9 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "gameCoordinator")
+    Set<Tournament> managingTournament;
 
     public Member() {
         this.userType = UserType.PLAYER;
@@ -140,6 +143,14 @@ public class Member {
      */
     public String getName() {
         return name;
+    }
+    
+    public Set<Tournament> getManagingTournament() {
+        return managingTournament;
+    }
+
+    public void setManagingTournament(Set<Tournament> managingTournament) {
+        this.managingTournament = managingTournament;
     }
 
     public void setName(String name) {

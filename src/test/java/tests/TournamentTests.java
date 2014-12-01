@@ -114,9 +114,10 @@ public class TournamentTests {
     public void gameCoordinatorTest() {
         TournamentDao tournamentdao = new TournamentDao();
         MemberDao memberdao = new MemberDao();
-        Tournament tournament = tournamentdao.getTournamentById(1, true, true);
+        Tournament tournament = tournamentdao.getTournamentById(2, true, true);
         tournament.setGameCoordinator(memberdao.getMemberById(1));
         tournamentdao.saveTournament(tournament);
         System.out.println(tournamentdao.getTournamentById(1, true, true).getGameCoordinator().getName());
+        System.out.println(memberdao.getMemberById(1).getManagingTournament());
     }
 }
