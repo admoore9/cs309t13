@@ -118,6 +118,7 @@ public class TournamentTests {
         tournament.setGameCoordinator(memberdao.getMemberById(1));
         tournamentdao.saveTournament(tournament);
         System.out.println(tournamentdao.getTournamentById(1, true, true).getGameCoordinator().getName());
+        System.out.println(memberdao.getMemberById(1).getManagingTournament());
     }
     
     @Test

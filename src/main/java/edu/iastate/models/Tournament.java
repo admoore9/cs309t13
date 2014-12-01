@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -58,8 +59,8 @@ public class Tournament {
     @Column(name = "is_started")
     private boolean isStarted;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="member_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="coordinator_id")
     private Member gameCoordinator;
 
     @JsonManagedReference
