@@ -82,3 +82,7 @@ tr.message {
 #draft-alert {
     display: none;
 }
+
+#edit-draft {
+    margin: 0 11px;
+}

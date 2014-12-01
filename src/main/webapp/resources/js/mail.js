@@ -40,13 +40,16 @@ $(document).ready(function() {
         });
     });
     $('body').on('click', '#save-draft', function(e) {
+        var draftId = $('#message-form').attr("data-draft-id");
         var url = "/mail/save_draft";
+        console.log($('#message-form').serialize() + "&draft_id=" + draftId);
         $.ajax({
             type : "POST",
             url : url,
-            data : $('#message-form').serialize(),
+            data : $('#message-form').serialize() + "&draft_id=" + draftId,
             success : function(result) {
                 $('#draft-alert').show();
+                $('#message-form').attr("data-draft-id", result);
             }
         });
     });
@@ -97,6 +100,17 @@ $(document).ready(function() {
                 location.reload();
             }
         });
+    });
+    $('body').on('click', '#edit-draft', function(e) {
+        var id = this.getAttribute("data-draft-id");
+        var recipient = this.getAttribute("data-draft-recipient");
+        var subject = this.getAttribute("data-draft-subject");
+        var body = this.getAttribute("data-draft-body");
+        $('#message-form').attr("data-draft-id", id);
+        $('#new-message-recipient').val(recipient);
+        $('#new-message-subject').val(subject);
+        $('#new-message-body').val(body);
+        $('#composeModal').modal('show');
     });
     
     function getSelectedMessages() {

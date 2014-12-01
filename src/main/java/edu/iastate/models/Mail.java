@@ -45,7 +45,12 @@ public class Mail {
      * @return the messages
      */
     public Set<Message> getMessages() {
-        return messages;
+        Set<Message> inbox = new LinkedHashSet<Message>();
+        for (Message message : messages) {
+            if (!message.isDraft() && !message.isDeleted() && message.isSent())
+                inbox.add(message);
+        }
+        return inbox;
     }
 
     /**
@@ -54,7 +59,7 @@ public class Mail {
     public Set<Message> getUnviewedMessages() {
         Set<Message> unviewedNotification = new LinkedHashSet<Message>();
         for (Message message : messages) {
-            if (!message.isViewed())
+            if (!message.isViewed() && !message.isDraft() && !message.isDeleted() && message.isSent())
                 unviewedNotification.add(message);
         }
         return unviewedNotification;
@@ -72,7 +77,7 @@ public class Mail {
     public Set<Message> getDrafts() {
         Set<Message> drafts = new LinkedHashSet<Message>();
         for (Message message : messages) {
-            if (message.isDraft())
+            if (message.isDraft() && !message.isDeleted() && !message.isSent())
                 drafts.add(message);
         }
         return drafts;

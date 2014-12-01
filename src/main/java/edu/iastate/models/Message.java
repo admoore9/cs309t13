@@ -102,8 +102,9 @@ public class Message {
         return draft;
     }
 
-    public void setDraft(boolean draft) {
+    public Message setDraft(boolean draft) {
         this.draft = draft;
+        return this;
     }
 
     /**
