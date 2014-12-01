@@ -54,6 +54,31 @@
                 </div>
                 <div id="accordion" class="panel-group">
 
+                    <div id="my-invited-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#my-invited-content" href="#my-invited-content">
+                                    Invited Players
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="my-invited-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <c:forEach items="${team.invitedPlayers}" var="player">
+                                            <tr>
+                                                <td><c:out value="${player.name}"/></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="accordion" class="panel-group">
+
                     <div id="my-games-panel" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
@@ -77,6 +102,34 @@
                         </div>
                     </div>
                 </div>
+               <div id="goto-team-panel" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" data-target="#update-team-content" href="#update-team-content">
+                                Update Team
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel panel-collapse collapse" id="update-team-content">
+                        <div class="panel-body">                            
+                            <form role="form" id="update-team-form">
+                                <div class="form-group">
+                                    <label for="name">New Team Name:</label>
+                                    <input type="text" class="form-control" id="update-team-name-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Username Player to invite:</label>
+                                    <input type="text" class="form-control" id="update-player-add-input">
+                                </div>  
+                                <div class="form-group">
+                                    <label for="name">Username Player to Remove:</label>
+                                    <input type="text" class="form-control" id="update-player-remove-input">
+                                </div>                                 
+                                <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>        
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
@@ -90,5 +143,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <!-- Page specific JS -->
+    <script src="../../resources/js/team.js"></script>
+    <script type="text/javascript">
+    var teamId = '<c:out value="${team.id}"/>';
+    </script> 
 </footer>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
@@ -50,12 +51,52 @@ public class TeamController {
         model.addAttribute("tournaments", tournaments);
         
         model.addAttribute("team", team);
+        model.addAttribute("m", member);
         return "team";
     }
     
+    /**
+     * Handles denied page for team
+     * 
+     * @param model
+     * @param session
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/{id}/denied", method = RequestMethod.GET)
     public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
         return "denied";
+    }
+    
+    /**
+     * Updates the team with various parameters 
+     * 
+     * @param id the game ID
+     * @param The new name of team
+     * @param addPlayer the username of player to add
+     * @param removePlayer the username of player to remove
+     * @return true if successful
+     */
+    // TODO check users permissions
+    // TODO check if valid tournament
+    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
+    public @ResponseBody boolean updateGame(
+            @PathVariable int id,
+            @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "addPlayer") String addPlayer,
+            @RequestParam(value = "removePlayer") String removePlayer) {
+        TeamDao teamDao = new TeamDao();
+        MemberDao memberDao = new MemberDao();
+        Team team = teamDao.getTeamById(id, true, true, true);
+        if(teamName!="") {
+            team.setName(teamName);
+        }
+        System.out.println("Updating...");
+        team.removePlayer(memberDao.getMemberByUsername(removePlayer));
+        team.addPlayer(memberDao.getMemberByUsername(addPlayer));
+        
+        teamDao.saveTeam(team);
+        return true;
     }
 
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)

@@ -83,8 +83,7 @@ public class GameController {
             game.setGameLocation(location);
         }
         game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
-        System.out.println(game.addOfficial(memberDao.getMemberByUsername(addOfficial)));
-
+        game.addOfficial(memberDao.getMemberByUsername(addOfficial));
         
         gameDao.saveGame(game);
         return true;
