@@ -1,11 +1,11 @@
 $(document).ready(function() {
     var bracket = new Bracket($('body').data('tournament-id'));
     bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
-    
+
     $("#createTeam").click( function() {
     	window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
     });
-    
+
     $("#joinTeam").click( function() {
     	window.location.href = "/survey/" + $('body').data('tournament-id') + "/view";
     });
@@ -81,6 +81,10 @@ Game.prototype.orderTeams = function() {
 Game.prototype.getHTML = function() {
     var self = this;
     self.html.children().remove();
+
+    // Provide link to game details page
+    self.html.append('<a href="/game/' + self.id + '/view">Game Details</a>');
+
     self.teams.forEach(function(team, index, aray) {
         self.html.append(team.getHTML());
     });
