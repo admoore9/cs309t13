@@ -3,3 +3,7 @@
 .float-right {
 	float: right;
 }
+
+#selectall {
+    margin-right: 5px;
+}
