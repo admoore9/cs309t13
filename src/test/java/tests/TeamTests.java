@@ -1,6 +1,8 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -8,6 +10,7 @@ import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 
@@ -19,9 +22,9 @@ public class TeamTests {
         GameDao gamedao = new GameDao();
         TournamentDao tournamentdao = new TournamentDao();
         team.setAcceptFreeAgents(false);
-        team.setGames(gamedao.getAllGames());
+        team.setGames((Set<Game>)gamedao.getAllGames());
         team.setName("TestInvitedPlayer");
-        ArrayList<Member> players = new ArrayList<Member>();
+        Set<Member> players = new HashSet<Member>();
         players.add(playerdao.getMemberById(1));
         players.add(playerdao.getMemberById(2));
         team.setTournament(tournamentdao.getTournamentById(1, false, false));

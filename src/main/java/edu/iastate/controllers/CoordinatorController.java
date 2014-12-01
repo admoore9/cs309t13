@@ -4,6 +4,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,8 +42,7 @@ public class CoordinatorController {
             return "redirect:denied";
         }
 
-        TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getTournamentByCoordinator(member);
+        Set<Tournament> tournaments = member.getManagingTournament();
         model.addAttribute("tournaments", tournaments);
         return "coordinator";
     }
