@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `is_double_elimination` TINYINT(1) NULL,
   `is_started` TINYINT(1) NULL,
   `tournament_name` VARCHAR(45) NULL,
-  PRIMARY KEY (`tournament_id`))
+  `coordinator_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`tournament_id`),
+  INDEX `fk_tournament_member_idx` (`member_id` ASC),
+  CONSTRAINT `fk_tournament_member`
+  FOREIGN KEY (`member_id`)
+  REFERENCES `cs309t13`.`member` (`member_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

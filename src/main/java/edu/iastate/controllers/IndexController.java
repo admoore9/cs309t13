@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
@@ -40,7 +39,11 @@ public class IndexController {
             HttpSession session,
             Model model) {
 
+        TournamentDao tournamentDao = new TournamentDao();
         MemberDao memberDao = new MemberDao();
+
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
 
         String genPassword = StringUtils.secureString(password);
 
