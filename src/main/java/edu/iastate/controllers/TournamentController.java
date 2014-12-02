@@ -126,7 +126,7 @@ public class TournamentController {
             @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
             @RequestParam(value = "officialsPerGame") int officialsPerGame) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
@@ -164,7 +164,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
@@ -199,7 +199,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "minPlayers") int minPlayers) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
@@ -234,7 +234,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "maxPlayers") int maxPlayers) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
@@ -270,7 +270,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "doubleElimination") boolean doubleElimination) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
@@ -305,7 +305,7 @@ public class TournamentController {
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents,
             @RequestParam(value = "teamLeaderId") int teamLeaderId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
@@ -313,13 +313,11 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
-        Member teamLeader = (Member) session.getAttribute("member");
-
         Team team = new Team();
         team.setName(teamName);
         team.setAcceptFreeAgents(acceptFreeAgents);
         team.setTournament(tournament);
-        team.setTeamLeader(teamLeader);
+        team.setTeamLeader(me);
 
         TeamDao teamDao = new TeamDao();
         teamDao.saveTeam(team);
@@ -346,7 +344,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "teamId") int teamId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }

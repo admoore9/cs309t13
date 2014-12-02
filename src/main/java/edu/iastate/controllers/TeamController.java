@@ -42,7 +42,7 @@ public class TeamController {
     public @ResponseBody Team getTeamById(
             HttpSession session,
             @PathVariable int id) {
-        if(session.getAttribute("session") == null) {
+        if(session.getAttribute("member") == null) {
             return null;
         }
 
@@ -61,7 +61,7 @@ public class TeamController {
     public @ResponseBody List<Game> getGamesByTeam(
             HttpSession session,
             @PathVariable int id) {
-        if(session.getAttribute("session") == null) {
+        if(session.getAttribute("member") == null) {
             return null;
         }
 
@@ -85,7 +85,7 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
@@ -118,7 +118,7 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
@@ -150,7 +150,7 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "teamLeaderdId") int teamLeaderId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
@@ -187,7 +187,7 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
@@ -221,7 +221,7 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
-        Member me = (Member) session.getAttribute("session");
+        Member me = (Member) session.getAttribute("member");
         if(me == null) {
             return false;
         }
