@@ -18,7 +18,6 @@ import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
-import edu.iastate.models.Message;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
@@ -65,10 +64,10 @@ public class TeamController {
         team.setTournament(tournament);
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
+
         // notify member of being assigned as team leader
-        Member intermurals = (Member) memberDao.getMemberByUsername("Intramurals");
-        MessageDao messageDao = new MessageDao();
-        messageDao.save(new Message("You've been assigned as " + teamName + " leader", "", intermurals, teamLeader));
+        new MessageDao().notify(teamLeader, "You've been assigned as " + teamName + " leader");
+
         teamDao.saveTeam(team);
 
         teamLeader = memberDao.getMemberById(teamLeader.getId());
@@ -214,6 +213,9 @@ public class TeamController {
         Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
+        // notify member of being assigned as team leader
+        new MessageDao().notify(teamLeader, "You've been assigned as " + team.getName() + " leader");
+
         teamDao.saveTeam(team);
         return true;
     }
@@ -250,6 +252,9 @@ public class TeamController {
         MemberDao memberDao = new MemberDao();
         Member player = memberDao.getMemberById(playerId);
         team.addPlayer(player);
+        // notify member of being assigned as team leader
+        new MessageDao().notify(player, "You've been added to " + team.getName() + " team");
+
         teamDao.saveTeam(team);
         return true;
     }
@@ -285,6 +290,9 @@ public class TeamController {
         MemberDao memberDao = new MemberDao();
         Member player = memberDao.getMemberById(playerId);
         team.removePlayer(player);
+        // notify member of being assigned as team leader
+        new MessageDao().notify(player, "You've been removed from " + team.getName() + " team");
+
         teamDao.saveTeam(team);
         return true;
     }

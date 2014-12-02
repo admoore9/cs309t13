@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import edu.iastate.models.Member;
 import edu.iastate.models.Message;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
@@ -51,5 +52,10 @@ public class MessageDao {
         transaction.commit();
         entityManager.close();
         return message;
+    }
+
+    public void notify(Member member, String message) {
+        Member intramurals = (Member) new MemberDao().getMemberByUsername("Intramurals");
+        save(new Message(message, "", intramurals, member).setSent(true));
     }
 }
