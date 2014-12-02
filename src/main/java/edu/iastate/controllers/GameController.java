@@ -84,7 +84,7 @@ public class GameController {
         if(MemberUtils.atLeastCoordinator(member)) {
             return false;
         }
-        
+
         GameDao gameDao = new GameDao();
         MemberDao memberDao = new MemberDao();
         Game game = gameDao.getGameById(id, true);

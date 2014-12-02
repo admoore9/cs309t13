@@ -34,27 +34,27 @@ public class TeamController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
-        
+
         Member member = (Member) session.getAttribute("member");
-        
+
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
-        
+
         if (member.getTeams().contains(team)==false) {
             return "redirect:denied";
         }
-        
+
         List<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
-        
+
         model.addAttribute("team", team);
         return "team";
     }
-    
+
     /**
      * Checks if team name already exists in database
      * @param teamName the name to check in database
@@ -76,7 +76,7 @@ public class TeamController {
         }
         return isValid;
     }
-    
+
     /**
      * Handles denied page for team
      * 
@@ -89,7 +89,7 @@ public class TeamController {
     public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
         return "denied";
     }
-    
+
     /**
      * Updates the team with various parameters 
      * 
@@ -108,19 +108,19 @@ public class TeamController {
             @RequestParam(value = "removePlayer") String removePlayer,
             @RequestParam(value = "newCaptain") String newCaptain,
             HttpSession session) {
-        
-        
-        
+
+
+
         TeamDao teamDao = new TeamDao();
         MemberDao memberDao = new MemberDao();
         Team team = teamDao.getTeamById(id, true, true, true);
-        
+
         //Validates the user permission
         Member member = (Member) session.getAttribute("member");
         if(!team.getTeamLeader().equals(member)) {
             return false;
         }
-        
+
         if(teamName!="") {
             team.setName(teamName);
         }
@@ -132,7 +132,7 @@ public class TeamController {
                 team.setTeamLeader(teamLeader);
             }
         }
-        
+
         teamDao.saveTeam(team);
         return true;
     }
@@ -144,15 +144,15 @@ public class TeamController {
             return "redirect:denied";
         }
         Member member = (Member) session.getAttribute("member");
-        
+
         List<Team> teams = member.getTeams();
-        
+
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
-        
+
         model.addAttribute("tournamentId", tournamentId);
 
         return "createTeam";
