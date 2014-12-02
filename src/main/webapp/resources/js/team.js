@@ -8,9 +8,6 @@ $(document).ready(function() {
             url: url,
             data: data,
             success: function(data) {
-                document.open();
-                document.write(data);
-                document.close();
                 window.location.href = "/team/" + teamId + "/view";
             }
         });
