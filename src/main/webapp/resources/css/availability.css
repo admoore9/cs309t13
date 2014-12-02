@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+.float-right {
+	float: right;
+}
+
+#selectall {
+    margin-right: 5px;
+}
+
+#availability-alert {
+    display: none;
+    margin: 0 auto;
+}

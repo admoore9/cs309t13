@@ -206,7 +206,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Day` (
   `day_id` INT NOT NULL AUTO_INCREMENT,
   `availability_id` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `name` int(2) NOT NULL,
   PRIMARY KEY (`day_id`),
   INDEX `fk_Day_AvailabilityId_idx` (`availability_id` ASC),
   CONSTRAINT `fk_Day_AvailabilityId`
@@ -223,6 +223,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
   `period_id` INT NOT NULL AUTO_INCREMENT,
   `day_id` INT NOT NULL,
   `slot` int(7) NOT NULL,
+  `available` BOOLEAN DEFAULT FALSE NOT NULL,
   PRIMARY KEY (`period_id`),
   INDEX `fk_Period_DayId_idx` (`day_id` ASC),
   CONSTRAINT `fk_Period_DayId`
