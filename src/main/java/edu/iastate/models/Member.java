@@ -309,6 +309,12 @@ public class Member {
         surveys.remove(survey);
     }
     
+    /**
+     * Checks if the player has already registered for a tournament
+     * 
+     * @param tournament the tournament to check if this player is registered 
+     * @return true if player is registered, false otherwise
+     */
     public boolean isPlayerInTournament(Tournament tournament) {
         for(Team t: teams) {
             if(t.getTournament().equals(tournament)){

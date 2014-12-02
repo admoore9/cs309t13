@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import edu.iastate.models.Member;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 

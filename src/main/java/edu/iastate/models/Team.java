@@ -91,7 +91,7 @@ public class Team {
 
     public void setTeamLeader(Member teamLeader) {
         this.teamLeader = teamLeader;
-        System.out.println(addPlayer(teamLeader));
+        addPlayer(teamLeader);
     }
 
     public int getId() {

@@ -21,6 +21,7 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
+import edu.iastate.utils.MemberUtils;
 
 @Controller
 @RequestMapping("/team")
@@ -51,7 +52,6 @@ public class TeamController {
         model.addAttribute("tournaments", tournaments);
         
         model.addAttribute("team", team);
-        model.addAttribute("m", member);
         return "team";
     }
     
@@ -100,17 +100,27 @@ public class TeamController {
      * @param newCaptain the username of new captain
      * @return true if successful
      */
-    // TODO check users permissions
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateGame(
+    public @ResponseBody boolean updateTeam(
             @PathVariable int id,
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "addPlayer") String addPlayer,
             @RequestParam(value = "removePlayer") String removePlayer,
-            @RequestParam(value = "newCaptain") String newCaptain) {
+            @RequestParam(value = "newCaptain") String newCaptain,
+            HttpSession session) {
+        
+        
+        
         TeamDao teamDao = new TeamDao();
         MemberDao memberDao = new MemberDao();
         Team team = teamDao.getTeamById(id, true, true, true);
+        
+        //Validates the user permission
+        Member member = (Member) session.getAttribute("member");
+        if(!team.getTeamLeader().equals(member)) {
+            return false;
+        }
+        
         if(teamName!="") {
             team.setName(teamName);
         }
@@ -136,7 +146,6 @@ public class TeamController {
         Member member = (Member) session.getAttribute("member");
         
         List<Team> teams = member.getTeams();
-        //If team already exists in tournament, cannot create multiple teams
         
         model.addAttribute("teams", teams);
 
