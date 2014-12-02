@@ -50,8 +50,11 @@ public class TeamController {
 
     // TODO Add players to team
     @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
-    public String createTeamSubmit(@PathVariable int tournamentId, @RequestParam(value = "teamName") String teamName,
-            @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername, HttpSession session) {
+    public String createTeamSubmit(
+			@PathVariable int tournamentId,
+			@RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername,
+			HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();
         TeamDao teamDao = new TeamDao();
@@ -79,14 +82,14 @@ public class TeamController {
     /**
      * Returns the team given by id as JSON.
      * 
-     * @param session
-     *            The http session
-     * @param id
-     *            The id of the team.
+     * @param session The http session
+     * @param id The id of the team.
      * @return JSON representation of the team given by id.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Team getTeamById(HttpSession session, @PathVariable int id) {
+    public @ResponseBody Team getTeamById(
+			HttpSession session,
+			@PathVariable int id) {
         if (session.getAttribute("member") == null) {
             return null;
         }
@@ -98,14 +101,14 @@ public class TeamController {
     /**
      * Returns the games that the team given by id has taken part in as JSON.
      *
-     * @param session
-     *            The http session
-     * @param id
-     *            The id of the team
+     * @param session The http session
+     * @param id The id of the team
      * @return JSON representation of the games team has been in.
      */
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
-    public @ResponseBody List<Game> getGamesByTeam(HttpSession session, @PathVariable int id) {
+    public @ResponseBody List<Game> getGamesByTeam(
+			HttpSession session,
+			@PathVariable int id) {
         if (session.getAttribute("member") == null) {
             return null;
         }
@@ -120,16 +123,15 @@ public class TeamController {
      * 
      * POST request data: name
      * 
-     * @param session
-     *            The http session
-     * @param id
-     *            The id of the team
-     * @param name
-     *            The new name for the team
+     * @param session The http session
+     * @param id The id of the team
+     * @param name The new name for the team
      * @return true if the name was successfully changed, false otherwise.
      */
     @RequestMapping(value = "/{id}/name", method = RequestMethod.POST)
-    public @ResponseBody boolean setTeamName(HttpSession session, @PathVariable int id,
+    public @ResponseBody boolean setTeamName(
+			HttpSession session,
+			@PathVariable int id,
             @RequestParam(value = "name") String name) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
@@ -154,15 +156,14 @@ public class TeamController {
      * POST request data: acceptFreeAgents
      * 
      * @params session The http session for the user.
-     * @param id
-     *            The id of the team.
-     * @param acceptFreeAgents
-     *            Whether the team should accept free agents.
-     * @return true if acceptFreeAgents was successfully updated, false
-     *         otherwise.
+     * @param id The id of the team.
+     * @param acceptFreeAgents Whether the team should accept free agents.
+     * @return true if acceptFreeAgents was successfully updated, false otherwise.
      */
     @RequestMapping(value = "/{id}/acceptFreeAgents", method = RequestMethod.GET)
-    public @ResponseBody boolean setAcceptFreeAgents(HttpSession session, @PathVariable int id,
+    public @ResponseBody boolean setAcceptFreeAgents(
+			HttpSession session,
+			@PathVariable int id,
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
@@ -186,16 +187,15 @@ public class TeamController {
      * 
      * POST request data: teamLeaderId
      * 
-     * @param session
-     *            The http session for the current user.
-     * @param id
-     *            The id of the team.
-     * @param teamLeaderId
-     *            The id for the new team leader.
+     * @param session The http session for the current user.
+     * @param id The id of the team.
+     * @param teamLeaderId The id for the new team leader.
      * @return true if the leader was changed successfully, false otherwise.
      */
     @RequestMapping(value = "/{id}/teamLeader", method = RequestMethod.POST)
-    public @ResponseBody boolean changeTeamLeader(HttpSession session, @PathVariable int id,
+    public @ResponseBody boolean changeTeamLeader(
+			HttpSession session,
+			@PathVariable int id,
             @RequestParam(value = "teamLeaderdId") int teamLeaderId) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
@@ -225,17 +225,15 @@ public class TeamController {
      * 
      * POST request data: playerId
      * 
-     * @param session
-     *            The http session for the user.
-     * @param id
-     *            The id of the team.
-     * @param playerId
-     *            The id of the player to add.
-     * @return true if the player was successfully added to the team, false
-     *         otherwise.
+     * @param session The http session for the user.
+     * @param id The id of the team.
+     * @param playerId The id of the player to add.
+     * @return true if the player was successfully added to the team, false otherwise.
      */
     @RequestMapping(value = "/{id}/addPlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean addPlayerToTeam(HttpSession session, @PathVariable int id,
+    public @ResponseBody boolean addPlayerToTeam(
+			HttpSession session,
+			@PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
@@ -264,16 +262,15 @@ public class TeamController {
      * 
      * POST request data: playerId
      * 
-     * @param session
-     *            The http session for the user.
-     * @param id
-     *            The id of the team.
-     * @param playerId
-     *            The id of the player to remove.
+     * @param session The http session for the user.
+     * @param id The id of the team.
+     * @param playerId The id of the player to remove.
      * @return
      */
     @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean removePlayerFromTeam(HttpSession session, @PathVariable int id,
+    public @ResponseBody boolean removePlayerFromTeam(
+			HttpSession session,
+			@PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
@@ -300,14 +297,14 @@ public class TeamController {
     /**
      * Gets the players on a team
      * 
-     * @param session
-     *            The http session for the user.
-     * @param id
-     *            The id of the team
+     * @param session The http session for the user.
+     * @param id The id of the team
      * @return The players on the team identified by id
      */
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Member> getPlayersForTeam(HttpSession session, @PathVariable int id) {
+    public @ResponseBody List<Member> getPlayersForTeam(
+			HttpSession session,
+			@PathVariable int id) {
         if (session.getAttribute("member") == null) {
             return null;
         }
