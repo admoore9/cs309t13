@@ -64,8 +64,9 @@ public class Message {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public Message setSubject(String subject) {
         this.subject = subject;
+        return this;
     }
 
     /**
@@ -79,8 +80,9 @@ public class Message {
      * @param body
      *            the body to set
      */
-    public void setBody(String body) {
+    public Message setBody(String body) {
         this.body = body;
+        return this;
     }
 
     /**
@@ -94,8 +96,9 @@ public class Message {
      * @param deleted
      *            the deleted to set
      */
-    public void setDeleted(boolean deleted) {
+    public Message setDeleted(boolean deleted) {
         this.deleted = deleted;
+        return this;
     }
 
     public boolean isDraft() {
@@ -171,7 +174,8 @@ public class Message {
      * @param sent
      *            the sent to set
      */
-    public void setSent(boolean sent) {
+    public Message setSent(boolean sent) {
         this.sent = sent;
+        return this;
     }
 }

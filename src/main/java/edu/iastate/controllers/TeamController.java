@@ -66,7 +66,7 @@ public class TeamController {
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
         // notify member of being assigned as team leader
-        Member intermurals = (Member) memberDao.getMemberByUsername("Intermurals");
+        Member intermurals = (Member) memberDao.getMemberByUsername("Intramurals");
         MessageDao messageDao = new MessageDao();
         messageDao.save(new Message("You've been assigned as " + teamName + " leader", "", intermurals, teamLeader));
         teamDao.saveTeam(team);

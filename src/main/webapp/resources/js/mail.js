@@ -26,16 +26,19 @@ $(document).ready(function() {
             }
         }
     }).on('success.form.bv', function(e) {
-        // Stop form from submitting normally
         e.preventDefault();
         var url = "/mail/send";
+        var draftId = $("#message-form").attr("data-draft-id");
+        console.log($('#message-form').serialize() + "&draft_id=" + draftId);
         $.ajax({
             type : "POST",
             url : url,
-            data : $('#message-form').serialize(),
+            data : $('#message-form').serialize() + "&draft_id=" + draftId,
             success : function(result) {
                 $('#composeModal').modal('hide');
-                location.reload();
+                document.open();
+                document.write(result);
+                document.close();
             }
         });
     });

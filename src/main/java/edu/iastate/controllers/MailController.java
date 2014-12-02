@@ -99,19 +99,28 @@ public class MailController {
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public @ResponseBody void send(HttpSession session, @RequestParam(value = "recipient") String recipientUsername,
-            @RequestParam(value = "subject") String subject, @RequestParam(value = "body") String body) {
+    public String send(HttpSession session, @RequestParam(value = "recipient") String recipientUsername,
+            @RequestParam(value = "subject") String subject, @RequestParam(value = "body") String body,
+            @RequestParam(value = "draft_id") Integer draftId) {
         if (session.getAttribute("member") == null)
-            return;
+            return "redirect:denied";
         MemberDao memberDao = new MemberDao();
+        MessageDao messageDao = new MessageDao();
         Member sender = (Member) session.getAttribute("member");
         Member recipient = memberDao.getMemberByUsername(recipientUsername);
-        Message newMessage = new Message(subject, body, sender, recipient);
-        newMessage.setSent(true);
-        newMessage.setDraft(false);
-        new MessageDao().save(newMessage);
+        if (draftId != null) {
+            Message draft = messageDao.getMessageById(draftId);
+            draft.setRecipient(recipient).setSubject(subject).setBody(body).setDraft(false).setSent(true);
+            messageDao.save(draft);
+        } else {
+            Message newMessage = new Message(subject, body, sender, recipient);
+            newMessage.setSent(true);
+            newMessage.setDraft(false);
+            messageDao.save(newMessage);
+        }
         session.setAttribute("message", "Message sent!");
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
+        return "mail";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
