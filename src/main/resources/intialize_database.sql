@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_name` VARCHAR(45) NULL,
   `coordinator_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`tournament_id`),
-  INDEX `fk_tournament_member_idx` (`member_id` ASC),
-  CONSTRAINT `fk_tournament_member`
-  FOREIGN KEY (`member_id`)
-  REFERENCES `cs309t13`.`member` (`member_id`)
+  INDEX `fk_tournament_coordinator_idx` (`coordinator_id` ASC),
+  CONSTRAINT `fk_tournament_coordinator`
+  FOREIGN KEY (`coordinator_id`)
+  REFERENCES `cs309t13`.`Member` (`member_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION)
 ENGINE = InnoDB;
