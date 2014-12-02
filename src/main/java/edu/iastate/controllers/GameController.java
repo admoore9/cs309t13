@@ -42,7 +42,11 @@ public class GameController {
      * @return JSON representation of the game.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Game getGame(@PathVariable int id) {
+    public @ResponseBody Game getGame(HttpSession session, @PathVariable int id) {
+        if(session.getAttribute("member") == null) {
+            return null;
+        }
+
         GameDao gameDao = new GameDao();
         return gameDao.getGameById(id, true);
     }
