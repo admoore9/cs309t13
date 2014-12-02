@@ -6,8 +6,8 @@ $(document).ready(function() {
             addOfficial: $('#update-official-add-input').val(),
             removeOfficial: $('#update-official-remove-input').val(),
             success: setTimeout(function(result) {
-				window.location.href = "/game/" + gameId + "/view";
-			}, 500),
+                window.location.href = "/game/" + gameId + "/view";
+            }, 500),
         });
     });
 

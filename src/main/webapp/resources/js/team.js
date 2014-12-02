@@ -7,8 +7,8 @@ $(document).ready(function() {
             removePlayer: $('#update-player-remove-input').val(),
             newCaptain: $('#update-team-captain-input').val(),
             success: setTimeout(function(result) {
-				window.location.href = "/team/" + teamId + "/view";
-			}, 500),
+                window.location.href = "/team/" + teamId + "/view";
+            }, 500),
         });
     });
 });
