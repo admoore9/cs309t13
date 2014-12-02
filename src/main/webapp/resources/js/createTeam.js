@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+	console.log(tournamentId);
     $('#createTeamForm').bootstrapValidator({
         message: 'This value is not valid',
         fields: {
@@ -13,7 +14,7 @@ $( document ).ready(function() {
                     },
                     remote: {
 						message: 'The team name is not available',
-						url: '/team/available'
+						url: '/team/' + tournamentId + '/available'
 					}
                 }
             },

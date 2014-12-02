@@ -150,7 +150,6 @@
     <script src="../../resources/js/team.js"></script>
     <script type="text/javascript">
     var teamId = '<c:out value="${team.id}"/>';
-    var tournamentId = '<c:out value="${team.tournament.id}"/>';
     </script> 
 </footer>
 </html>

@@ -120,14 +120,4 @@ public class TournamentTests {
         System.out.println(tournamentdao.getTournamentById(1, true, true).getGameCoordinator().getName());
         System.out.println(memberdao.getMemberById(1).getManagingTournament());
     }
-    
-    @Test
-    public void tournamentGetTournamentByCoordIdTest() {
-        TournamentDao tournamentdao = new TournamentDao();
-        MemberDao memberDao = new MemberDao();
-        List<Tournament> tournaments = tournamentdao.getTournamentByCoordinator(memberDao.getMemberById(1));
-        for(Tournament tournament : tournaments) {
-            System.out.println(tournament.getGameCoordinator().getName() + " " + tournament.getName());
-        }
-    }
 }

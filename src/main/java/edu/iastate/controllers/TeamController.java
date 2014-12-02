@@ -60,12 +60,13 @@ public class TeamController {
      * @param teamName the name to check in database
      * @return true if team name is available, false otherwise
      */
-    @RequestMapping(value = "/available", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/available", method = RequestMethod.GET)
     public @ResponseBody String isTeamNameAvailable(
+            @PathVariable int id,
             @RequestParam(value = "teamName") String teamName) {
         TeamDao teamDao = new TeamDao();
         TournamentDao tournamentDao = new TournamentDao();
-        Team team = teamDao.getTeamByTeamName(teamName);
+        Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(id, true, true));
         String isValid;
         if (team == null) {
             isValid = "{ \"valid\": true }";

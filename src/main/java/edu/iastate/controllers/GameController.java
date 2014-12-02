@@ -20,6 +20,7 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
+import edu.iastate.utils.MemberUtils;
 
 
 @Controller
@@ -71,14 +72,19 @@ public class GameController {
      * @param location the new location of the game
      * @return true if successful
      */
-    // TODO check users permissions
-    // TODO check if valid tournament
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateGame(
             @PathVariable int id,
             @RequestParam(value = "location") String location,
             @RequestParam(value = "addOfficial") String addOfficial,
-            @RequestParam(value = "removeOfficial") String removeOfficial) {
+            @RequestParam(value = "removeOfficial") String removeOfficial,
+            HttpSession session) {
+        //Validates the user permission
+        Member member = (Member) session.getAttribute("member");
+        if(MemberUtils.atLeastCoordinator(member)) {
+            return false;
+        }
+        
         GameDao gameDao = new GameDao();
         MemberDao memberDao = new MemberDao();
         Game game = gameDao.getGameById(id, true);
