@@ -308,6 +308,15 @@ public class Member {
         }
         surveys.remove(survey);
     }
+    
+    public boolean isPlayerInTournament(Tournament tournament) {
+        for(Team t: teams) {
+            if(t.getTournament().equals(tournament)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     // -------------End Player-------------------------
 

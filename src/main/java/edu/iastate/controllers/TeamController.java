@@ -137,11 +137,6 @@ public class TeamController {
         
         List<Team> teams = member.getTeams();
         //If team already exists in tournament, cannot create multiple teams
-        for(Team t : teams) {
-            if(t.getTournament().getId() == tournamentId) {
-                return "redirect:denied";
-            }
-        }
         
         model.addAttribute("teams", teams);
 
