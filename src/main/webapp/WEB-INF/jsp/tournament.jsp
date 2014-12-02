@@ -20,7 +20,7 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${!tournament.isBracketFormed()}'/>" data-at-least-official="<c:out value='${!(userType == \'PLAYER\')}'/>">
+<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>" data-at-least-official="<c:out value='${!(userType == \'PLAYER\')}'/>">
     <jsp:include page="header.jsp"/>
 
     <div class="container-fluid">
@@ -31,7 +31,7 @@
                 <div id="bracket"></div>
                 <br>
                 <c:choose>
-                    <c:when test="${!tournament.isBracketFormed()}">
+                    <c:when test="${tournament.isBracketFormed()}">
                         <div id="bracket"></div>
                     </c:when>
                     <c:otherwise>

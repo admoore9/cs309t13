@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import edu.iastate.models.Availability;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
 import edu.iastate.utils.EntityManagerFactorySingleton;
@@ -142,10 +143,12 @@ public class MemberDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        Member memberToReturn = entityManager.merge(member);
+        Member savedMember = entityManager.merge(member);
         transaction.commit();
         entityManager.close();
-        return memberToReturn;
+        if (savedMember.getAvailability() == null)
+            savedMember.setAvailability(new AvailabilityDao().saveAvailability(new Availability().setPlayer(savedMember)));
+        return savedMember;
     }
     
     /**
