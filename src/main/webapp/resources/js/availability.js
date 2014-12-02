@@ -1,47 +1,50 @@
-$( document ).ready(function() {
-	
-	$('#availabilityTable').DataTable({
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "filter":	false
-	});
-	
-    $('#update').click( function(e) {
+$(document).ready(function() {
+
+    $('#availabilityTable').DataTable({
+        "paging" : false,
+        "ordering" : false,
+        "info" : false,
+        "filter" : false
+    });
+
+    $('#update').click(function(e) {
         var table = $('#availabilityTable').DataTable();
-		e.preventDefault();
-		var url = "/availability/update";
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: table.$('input, select').serialize(),
-			success: function(result) {
-			    $('#availability-alert').css("display", "table");
-			}
-		});
-        
-        return false;
-    } );
-    
-    $('body').click( function(e) {
-        $('#availability-alert').css("display", "none");
+        e.preventDefault();
+        var url = "/availability/update";
+        post(url, table.$('input, select').serialize());
     });
 
     resetSelectAll();
 
-    $('#selectall').click(function () {
+    $('#selectall').click(function() {
         $('.checkbox').prop('checked', isChecked('selectall'));
     });
-});
 
+    function post(path, params, method) {
+        method = method || "post";
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        var keyvalues = params.split("&");
+        for (var i = 0; i < keyvalues.length; i++) {
+            var pair = keyvalues[i].split("=");
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", pair[0]);
+            hiddenField.setAttribute("value", pair[1]);
+            form.appendChild(hiddenField);
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+});
 
 function isChecked(checkboxId) {
     var id = '#' + checkboxId;
     return $(id).is(":checked");
 }
 function resetSelectAll() {
-    // if all checkbox are selected, check the selectall checkbox
-    // and viceversa
     if ($(".checkbox").length == $(".checkbox:checked").length) {
         $("#selectall").attr("checked", "checked");
     } else {

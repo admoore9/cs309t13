@@ -11,10 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.AvailabilityDao;
-import edu.iastate.dao.MemberDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Day.WeekDay;
@@ -45,7 +43,7 @@ public class AvailabilityController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateAvailability(HttpSession session,
+    public String updateAvailability(Model model, HttpSession session,
             @RequestParam(value = "MONDAY", required = false) String monday,
             @RequestParam(value = "TUESDAY", required = false) String tuesday,
             @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
@@ -55,9 +53,7 @@ public class AvailabilityController {
             @RequestParam(value = "SUNDAY", required = false) String sunday) {
 
         if (session.getAttribute("member") == null)
-            return false;
-        Member member = (Member) session.getAttribute("member");
-
+            return "redirect:denied";
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
         Day newWednesday = new Day(WeekDay.WEDNESDAY);
@@ -86,8 +82,13 @@ public class AvailabilityController {
         availabilityDao.update(availability, newDays);
 
         // update session
-        session.setAttribute("member", new MemberDao().getMemberById(member.getId()));
-        return true;
+        Member member = (Member) session.getAttribute("member");
+        model.addAttribute("message", "Availability updated!");
+        availability = member.getAvailability();
+        days = availability.getDays();
+        model.addAttribute("days", days);
+        model.addAttribute("slots", Slot.values());
+        return "availability";
     }
 
     private void addPeriodsToDay(Day newMonday, String monday) {

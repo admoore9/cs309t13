@@ -27,7 +27,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_id` INT NOT NULL AUTO_INCREMENT,
-  `member_id` INT NOT NULL,
   `min_players` INT NULL,
   `max_players` INT NULL,
   `teams_per_game` INT NOT NULL DEFAULT 2,
@@ -37,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_name` VARCHAR(45) NULL,
   `coordinator_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`tournament_id`),
-  INDEX `fk_tournament_member_idx` (`member_id` ASC),
+  INDEX `fk_tournament_member_idx` (`coordinator_id` ASC),
   CONSTRAINT `fk_tournament_member`
-  FOREIGN KEY (`member_id`)
+  FOREIGN KEY (`coordinator_id`)
   REFERENCES `cs309t13`.`member` (`member_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION)

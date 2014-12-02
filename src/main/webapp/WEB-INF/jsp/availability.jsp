@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="true"%>
 <%@ page import="javax.persistence.EnumType"%>
@@ -43,8 +42,8 @@
                                 <td><c:out value="${day.getName()}"></c:out></td>
 
                                 <c:forEach items="${day.getPeriods()}" var="period">
-                                    <td><input type="checkbox" class="checkbox" name="<c:out value='${day.getName()}'></c:out>"
-                                        value="<c:out value='${period.getSlot()}'></c:out>" <c:if test='${period.isAvailable() }'>checked</c:if>></td>
+                                    <td><input type="checkbox" class="checkbox" name="${day.getName()}"
+                                        value="${period.getSlot()}" <c:if test='${period.isAvailable() }'>checked</c:if>></td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>
@@ -52,7 +51,6 @@
                 </table>
                 <label class="float-right"><input type="checkbox" id="selectall">Select all</label> <br> <br>
                 <button id="update" type="submit" class="btn btn-default float-right">Update</button>
-                <span id="availability-alert" class="alert alert-success" role="alert">Availability updated successfully!</span>
             </div>
             <jsp:include page="sideBar.jsp" />
         </div>
@@ -74,6 +72,7 @@
 
     <!-- Page specific JS -->
     <script type="text/javascript" src="../../resources/js/availability.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 
 </html>

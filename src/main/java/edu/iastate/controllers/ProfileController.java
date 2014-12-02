@@ -42,19 +42,15 @@ public class ProfileController {
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
-
         return "profile";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editProfileSubmit(
-            @RequestParam(value = "name", required = false) String name,
+    public String editProfileSubmit(@RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "height", required = false) Integer height,
-            @RequestParam(value = "weight", required = false) Integer weight,
-            Model model,
-            HttpSession session) {
+            @RequestParam(value = "weight", required = false) Integer weight, Model model, HttpSession session) {
 
         MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
