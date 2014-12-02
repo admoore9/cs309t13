@@ -64,6 +64,7 @@ public class TeamController {
     public @ResponseBody String isTeamNameAvailable(
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "tournamentId") int id) {
+        System.out.println("Validating team name");
         TeamDao teamDao = new TeamDao();
         TournamentDao tournamentDao = new TournamentDao();
         Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(id, false, false));
