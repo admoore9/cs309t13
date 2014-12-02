@@ -62,12 +62,10 @@ public class TeamController {
      */
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public @ResponseBody String isTeamNameAvailable(
-            @RequestParam(value = "teamName") String teamName,
-            @RequestParam(value = "tournamentId") int id) {
-        System.out.println("Validating team name");
+            @RequestParam(value = "teamName") String teamName) {
         TeamDao teamDao = new TeamDao();
         TournamentDao tournamentDao = new TournamentDao();
-        Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(id, false, false));
+        Team team = teamDao.getTeamByTeamName(teamName);
         String isValid;
         if (team == null) {
             isValid = "{ \"valid\": true }";

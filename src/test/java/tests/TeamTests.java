@@ -71,6 +71,6 @@ public class TeamTests {
     public void getTeamByTeamNameTest() {
         TeamDao teamDao = new TeamDao();
         TournamentDao tournamentDao = new TournamentDao();
-        System.out.println(teamDao.getTeamByTeamName("cyckickers", tournamentDao.getTournamentById(1, false, false)).getTeamLeader().getName());
+        System.out.println(teamDao.getTeamByTeamName("cyckickers"));
     }
 }

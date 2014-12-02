@@ -156,14 +156,13 @@ public class TeamDao {
         team.getInvitedPlayers().size();
     }
     
-    public Team getTeamByTeamName(String name, Tournament tournament) {
+    public Team getTeamByTeamName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Team> query = entityManager.createQuery("SELECT t from Team t WHERE t.name = :name and t.tournament = :tournament", Team.class);
+        TypedQuery<Team> query = entityManager.createQuery("SELECT t from Team t WHERE t.name = :name", Team.class);
         query.setParameter("name", name);
-        query.setParameter("tournament", tournament);
         List<Team> teams = query.getResultList();
         Team team = null;
         if (!teams.isEmpty()) {

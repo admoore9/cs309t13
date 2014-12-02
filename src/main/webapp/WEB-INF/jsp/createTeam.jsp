@@ -67,5 +67,8 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/createTeam.js"></script>
+    <script type="text/javascript">
+    var tournamentId = '<c:out value="${team.tournament.id}"/>';
+    </script>
 </footer>
 </html>

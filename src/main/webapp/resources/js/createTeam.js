@@ -10,7 +10,11 @@ $( document ).ready(function() {
                     stringLength: {
                         max: 45,
                         message: 'Your team name must be less than 46 characters long'
-                    }
+                    },
+                    remote: {
+						message: 'The team name is not available',
+						url: '/team/available'
+					}
                 }
             },
         }

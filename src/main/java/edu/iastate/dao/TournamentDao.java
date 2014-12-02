@@ -149,25 +149,4 @@ public class TournamentDao {
     private void loadTeams(Tournament tournament) {
         tournament.getTeams().size();
     }
-    
-    /**
-     * get list of tournament based on member ID of game coordinator
-     * 
-     * @param member_id the ID of the game coordinator
-     * @return A list of tournaments that the coordinator is responsible for
-     */
-    public List<Tournament> getTournamentByCoordinator(Member member) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-
-        TypedQuery<Tournament> query = entityManager.createQuery("select t from Tournament t where t.gameCoordinator = :member",
-                Tournament.class);
-        query.setParameter("member", member);
-        List<Tournament> tournaments = query.getResultList();
-
-        transaction.commit();
-        entityManager.close();
-        return tournaments;
-    }
 }
