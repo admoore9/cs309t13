@@ -102,7 +102,8 @@
                         </div>
                     </div>
                 </div>
-               <div id="goto-team-panel" class="panel panel-default">
+                <% if (member.getId() == team) { %>
+                <div id="goto-team-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a data-toggle="collapse" data-target="#update-team-content" href="#update-team-content">
@@ -129,7 +130,8 @@
                             </form>
                         </div>
                     </div>
-                </div>        
+                </div> 
+                <% } %>        
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
