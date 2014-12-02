@@ -3,7 +3,6 @@
 <%@ page import="edu.iastate.models.Member"%>
 <%
     Member member = (Member) session.getAttribute("member");
-    String requestedPage = request.getQueryString();
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +30,7 @@
                     <%
                     int unviewedMessagesNum = member.getMail().getUnviewedMessages().size();
                     if (unviewedMessagesNum > 0)
-                        out.print("(" + member.getMail().getUnviewedMessages().size() + ")");
+                        out.print("(" + unviewedMessagesNum + ")");
                 %>
                 </a>
                 <a id="sentmail" href="/mail/?sentmail">Sent Mail</a>
@@ -40,7 +39,7 @@
                     <%
                     int draftsNum = member.getMail().getDrafts().size();
                     if (draftsNum > 0)
-                        out.print("(" + member.getMail().getDrafts().size() + ")");
+                        out.print("(" + draftsNum + ")");
                 %>
                 </a>
             </div>
