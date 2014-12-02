@@ -32,7 +32,7 @@ public class TeamController {
         model.addAttribute("teamId", id);
 
         if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+            return "redirect:../../denied";
         }
 
         Member member = (Member) session.getAttribute("member");
@@ -41,7 +41,7 @@ public class TeamController {
         Team team = teamDao.getTeamById(id, true, true, true);
 
         if (member.getTeams().contains(team)==false) {
-            return "redirect:denied";
+            return "redirect:../../denied";
         }
 
         List<Team> teams = member.getTeams();
@@ -60,13 +60,13 @@ public class TeamController {
      * @param teamName the name to check in database
      * @return true if team name is available, false otherwise
      */
-    @RequestMapping(value = "/{id}/available", method = RequestMethod.GET)
+    @RequestMapping(value = "/{tournamentId}/available", method = RequestMethod.GET)
     public @ResponseBody String isTeamNameAvailable(
-            @PathVariable int id,
+            @PathVariable int tournamentId,
             @RequestParam(value = "teamName") String teamName) {
         TeamDao teamDao = new TeamDao();
         TournamentDao tournamentDao = new TournamentDao();
-        Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(id, true, true));
+        Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(tournamentId, true, true));
         String isValid;
         if (team == null) {
             isValid = "{ \"valid\": true }";
@@ -75,19 +75,6 @@ public class TeamController {
             isValid = "{ \"valid\": false }";
         }
         return isValid;
-    }
-
-    /**
-     * Handles denied page for team
-     * 
-     * @param model
-     * @param session
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/{id}/denied", method = RequestMethod.GET)
-    public String viewTeamDenied(Model model, HttpSession session, @PathVariable int id) {
-        return "denied";
     }
 
     /**
@@ -140,10 +127,11 @@ public class TeamController {
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
     public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
 
-        if (session.getAttribute("member") == null) {
+        Member member = (Member) session.getAttribute("member");
+        
+        if (member == null) {
             return "redirect:denied";
         }
-        Member member = (Member) session.getAttribute("member");
 
         List<Team> teams = member.getTeams();
 
@@ -212,7 +200,7 @@ public class TeamController {
      * @return JSON representation of the games team has been in.
      */
     @RequestMapping(value = "/{id}/games", method = RequestMethod.GET)
-    public @ResponseBody List<Game> getGamesByTeam(
+    public @ResponseBody Set<Game> getGamesByTeam(
             HttpSession session,
             @PathVariable int id) {
         if(session.getAttribute("member") == null) {
@@ -221,7 +209,7 @@ public class TeamController {
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, false, false);
-        return (List<Game>) (team == null ? null : team.getGames());
+        return (team == null ? null : team.getGames());
     }
 
     /**

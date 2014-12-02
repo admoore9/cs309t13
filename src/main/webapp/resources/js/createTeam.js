@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-	console.log(tournamentId);
 	$('#createTeamForm').bootstrapValidator({
 		message: 'This value is not valid',
 		fields: {
