@@ -19,7 +19,7 @@ $(document).ready(function() {
     }
 });
 
-var is_ref = $('body').data('is-ref');
+var at_least_official = $('body').data('at-least-official');
 
 var Team = function(id, name, score, players) {
     var self = this;
@@ -36,7 +36,7 @@ Team.prototype.getHTML = function() {
     self.html.children().remove();
     self.name_html = $('<span></span>').text(self.name);
     self.html.append(self.name_html);
-    if(!is_ref) {
+    if(!at_least_official) {
         self.html.append($('<score></score>').text(self.score));
     } else {
         self.input_box = $('<input>').width(20).val(self.score);
@@ -69,7 +69,7 @@ Team.prototype.setHandlers = function(game_id) {
         },
         content: function() {
             var html_str = getPlayerNamesHtml();
-            if(is_ref) {
+            if(at_least_official) {
                 html_str += '<br/><div class="btn btn-primary" id="team-' + self.id + '-mark-winner">Mark As Winner</div>';
             }
 
@@ -81,7 +81,7 @@ Team.prototype.setHandlers = function(game_id) {
         }
     });
 
-    if(is_ref) {
+    if(at_least_official) {
         self.input_box.on('input', function() {
             $.post('/score/update', {teamId: self.id, gameId: game_id, score: self.input_box.val()});
         });
@@ -227,7 +227,7 @@ Bracket.prototype.getName = function() {
 };
 Bracket.prototype.processTournament = function(tournament) {
     var self = this;
-    IS_REFEREE = tournament.is_referee;
+    at_least_officialEREE = tournament.at_least_officialeree;
     self.name = tournament.name;
     self.min_players = tournament.minPlayers;
     self.max_players = tournament.maxPlayers;
