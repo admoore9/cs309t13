@@ -68,12 +68,17 @@ public class Game {
     private Set<Member> officials;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<Score> scores;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "winner", referencedColumnName = "team_id")
+    private Team winner;
 
     public Game() {
         teams = new HashSet<Team>();
         officials = new HashSet<Member>();
+        scores = new HashSet<Score>();
     }
 
     public int getId() {
@@ -160,6 +165,22 @@ public class Game {
 
     public void setOfficials(Set<Member> officials) {
         this.officials = officials;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
     }
 
     /**

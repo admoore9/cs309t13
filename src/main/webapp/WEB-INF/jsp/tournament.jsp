@@ -20,8 +20,9 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bracket.css"/>">
 </head>
-<body data-tournament-id="<c:out value='${tournamentId}'/>">
+<body data-tournament-id="<c:out value='${tournament.id}'/>" data-tournament-formed="<c:out value='${tournament.isBracketFormed()}'/>" data-at-least-official="<c:out value='${!(userType == \'PLAYER\')}'/>">
     <jsp:include page="header.jsp"/>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
@@ -29,8 +30,22 @@
                 <h3>Tournament Name: <span id="tournament-name"></span></h3>
                 <div id="bracket"></div>
                 <br>
-                <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
-                <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
+                <c:choose>
+                    <c:when test="${tournament.isBracketFormed()}">
+                        <div id="bracket"></div>
+                    </c:when>
+                    <c:otherwise>
+                        <br/>
+
+                        <c:if test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
+                            <div class="btn btn-primary" id="form-bracket">Form bracket</div>
+                        </c:if>
+
+                        <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
+                        <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>

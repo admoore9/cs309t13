@@ -20,7 +20,6 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name = "Team")
@@ -62,14 +61,19 @@ public class Team {
     @Column(name = "team_skill")
     private int teamSkillLevel;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "team")
+    @JsonIgnore
+    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
     private Set<Score> scores;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "winner")
+    private Set<Game> wonGames;
 
     public Team() {
         players = new HashSet<Member>();
         games = new HashSet<Game>();
         invitedPlayers = new HashSet<Member>();
+        scores = new HashSet<Score>();
     }
 
     public Team(int id, String name, boolean acceptFreeAgents, Set<Member> players, Set<Game> games, Member teamLeader) {
@@ -145,6 +149,14 @@ public class Team {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
     }
 
     public int getTeamSkillLevel() {
