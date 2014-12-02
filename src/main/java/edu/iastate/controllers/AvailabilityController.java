@@ -19,10 +19,10 @@ public class AvailabilityController {
     public String getAvailability(Model model) {
         AvailabilityDao availabilityDao = new AvailabilityDao();
         Availability availability = availabilityDao.getAvailabilityById(2);
-        
+
         Set<Day> days = availability.getDays();
         model.addAttribute("days", days);
         return "availability";
     }
-    
+
 }

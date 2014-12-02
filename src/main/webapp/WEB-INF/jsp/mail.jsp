@@ -65,7 +65,12 @@
                                                 data-draft-recipient="${message.getRecipient().getUsername() }" data-draft-subject="${message.getSubject() }"
                                                 data-draft-body="${message.getBody() }"></button>
                                         </c:if>
+                                        <%if ("sentmail".equals(request.getQueryString()) || "drafts".equals(request.getQueryString())) { %>
+                                            <span class=message-sender>To: ${message.getRecipient().getName() }</span>
+                                        <%}
+                                        else {%>
                                         <span class=message-sender>${message.getSender().getName() }</span>
+                                        <%} %>
                                         <span> ${message.getSubject()} </span>
                                         <span class="message-time">${message.getTime()}</span>
                                     </div>
@@ -104,7 +109,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <span id="draft-alert" class="alert alert-success" role="alert">Draft saved successfully!</span>
                                         <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
                                         <button id="send-message" type="submit" class="btn btn-primary">Send</button>
                                     </div>

@@ -28,6 +28,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
   `min_players` INT NULL,
   `max_players` INT NULL,
   `teams_per_game` INT NOT NULL DEFAULT 2,

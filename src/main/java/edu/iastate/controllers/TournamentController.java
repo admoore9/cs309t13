@@ -58,7 +58,8 @@ public class TournamentController {
     /**
      * Returns the tournament given by id as JSON.
      * 
-     * @param id The id of the tournament.
+     * @param id
+     *            The id of the tournament.
      * @return JSON representation of the tournament given by id.
      */
     // TODO check if valid tournament
@@ -71,20 +72,24 @@ public class TournamentController {
     /**
      * Updates the tournament given by id with the given parameters.
      * 
-     * @param id The id of the tournament.
-     * @param name The new name for the tournament.
-     * @param minPlayers The new minimum players per team.
-     * @param maxPlayers The new maximum players per team.
-     * @param teamsPerGame The new number of teams per game.
-     * @param officialsPerGame The new number of officials per game.
+     * @param id
+     *            The id of the tournament.
+     * @param name
+     *            The new name for the tournament.
+     * @param minPlayers
+     *            The new minimum players per team.
+     * @param maxPlayers
+     *            The new maximum players per team.
+     * @param teamsPerGame
+     *            The new number of teams per game.
+     * @param officialsPerGame
+     *            The new number of officials per game.
      * @return true if the tournament was successfully updated, false otherwise.
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateTournament(
-            @PathVariable int id,
-            @RequestParam(value = "name") String name,
+    public @ResponseBody boolean updateTournament(@PathVariable int id, @RequestParam(value = "name") String name,
             @RequestParam(value = "minPlayersPerTeam") int minPlayers,
             @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
@@ -107,8 +112,10 @@ public class TournamentController {
      * 
      * POST request data: name
      * 
-     * @param id The id of the tournament.
-     * @param name The name you wish to set the tournament to.
+     * @param id
+     *            The id of the tournament.
+     * @param name
+     *            The name you wish to set the tournament to.
      * @return true if the name was successfully set, false otherwise.
      */
     // TODO check users permissions
@@ -133,16 +140,17 @@ public class TournamentController {
      * 
      * POST request data: minPlayers
      * 
-     * @param id The id of the tournament.
-     * @param minPlayers The minimum number of players you wish to set for the
+     * @param id
+     *            The id of the tournament.
+     * @param minPlayers
+     *            The minimum number of players you wish to set for the
      *            tournament.
      * @return true if the minimum number of players was set, false otherwise
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/minPlayersPerTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean setMinPlayersPerTeam(
-            @PathVariable int id,
+    public @ResponseBody boolean setMinPlayersPerTeam(@PathVariable int id,
             @RequestParam(value = "minPlayers") int minPlayers) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
@@ -159,16 +167,17 @@ public class TournamentController {
      * 
      * POST request data: maxPlayers
      * 
-     * @param id The id of the tournament.
-     * @param maxPlayers The maximum number of players you wish to set for the
+     * @param id
+     *            The id of the tournament.
+     * @param maxPlayers
+     *            The maximum number of players you wish to set for the
      *            tournament.
      * @return true if the maximum number of players was set, false otherwise
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/maxPlayersPerTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean setMaxPlayersPerTeam(
-            @PathVariable int id,
+    public @ResponseBody boolean setMaxPlayersPerTeam(@PathVariable int id,
             @RequestParam(value = "maxPlayers") int maxPlayers) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
@@ -185,17 +194,17 @@ public class TournamentController {
      * 
      * POST request data: doubleElimination
      * 
-     * @param id The id of the tournament.
-     * @param doubleElimination Whether the tournament is a double elimination
-     *            tournament.
+     * @param id
+     *            The id of the tournament.
+     * @param doubleElimination
+     *            Whether the tournament is a double elimination tournament.
      * @return true if the tournament was set by doubleElimination, false
      *         otherwise
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/doubleElimination", method = RequestMethod.POST)
-    public @ResponseBody boolean setDoubleElimination(
-            @PathVariable int id,
+    public @ResponseBody boolean setDoubleElimination(@PathVariable int id,
             @RequestParam(value = "doubleElimination") boolean doubleElimination) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
@@ -211,18 +220,18 @@ public class TournamentController {
      * 
      * POST request data: teamId
      * 
-     * @param id The id of the tournament to add the team to.
-     * @param teamId The id of the team to add
+     * @param id
+     *            The id of the tournament to add the team to.
+     * @param teamId
+     *            The id of the team to add
      * @return true if the team was added to the tournament, false otherwise
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/addTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean addTeamToTournament(
-            @PathVariable int id,
+    public @ResponseBody boolean addTeamToTournament(@PathVariable int id,
             @RequestParam(value = "teamName") String teamName,
-            @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents,
-            HttpSession session) {
+            @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents, HttpSession session) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);
 
@@ -239,6 +248,9 @@ public class TournamentController {
 
         tournament.addTeam(team);
         tournamentDao.saveTournament(tournament);
+
+        // notify team members
+
         return true;
     }
 
@@ -248,15 +260,16 @@ public class TournamentController {
      * 
      * POST request data: teamId
      * 
-     * @param id The id of the tournament to remove the team from.
-     * @param teamId The id of the team to remove
+     * @param id
+     *            The id of the tournament to remove the team from.
+     * @param teamId
+     *            The id of the team to remove
      * @return true if the team was removed from the tournament, false otherwise
      */
     // TODO check users permissions
     // TODO check if valid tournament
     @RequestMapping(value = "/{id}/removeTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean removeTeamFromTournament(
-            @PathVariable int id,
+    public @ResponseBody boolean removeTeamFromTournament(@PathVariable int id,
             @RequestParam(value = "teamId") int teamId) {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, true);

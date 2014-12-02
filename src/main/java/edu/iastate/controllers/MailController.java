@@ -27,8 +27,7 @@ public class MailController {
     public String getMail(Model model, HttpSession session,
             @RequestParam(value = "inbox", required = false) String inbox,
             @RequestParam(value = "sentmail", required = false) String sentmail,
-            @RequestParam(value = "drafts", required = false) String drafts,
-            @RequestParam(value = "deleted", required = false) String deleted) {
+            @RequestParam(value = "drafts", required = false) String drafts) {
 
         if (session.getAttribute("member") == null)
             return "redirect:denied";
@@ -41,13 +40,12 @@ public class MailController {
             messages = member.getMail().getSentMail();
         else if (drafts != null)
             messages = member.getMail().getDrafts();
-        else if (deleted != null)
-            messages = member.getMail().getDeleted();
         else
             messages = member.getMail().getMessages();
         List<Message> reversedMessages = new ArrayList<>(messages);
         Collections.reverse(reversedMessages);
         model.addAttribute("messages", reversedMessages);
+        session.setAttribute("message", null);
         return "mail";
     }
 
@@ -61,6 +59,7 @@ public class MailController {
         messageDao.save(message);
         MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
+        session.setAttribute("message", null);
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
@@ -79,6 +78,7 @@ public class MailController {
             unviewedMessage.setViewed(true);
             messageDao.save(unviewedMessage);
         }
+        session.setAttribute("message", null);
         session.setAttribute("member", new MemberDao().getMemberById(member.getId()));
     }
 
@@ -110,6 +110,7 @@ public class MailController {
         newMessage.setSent(true);
         newMessage.setDraft(false);
         new MessageDao().save(newMessage);
+        session.setAttribute("message", "Message sent!");
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
     }
 
@@ -128,6 +129,7 @@ public class MailController {
             }
         }
         MemberDao memberDao = new MemberDao();
+        session.setAttribute("message", null);
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
@@ -146,6 +148,7 @@ public class MailController {
             }
         }
         MemberDao memberDao = new MemberDao();
+        session.setAttribute("message", null);
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
@@ -171,6 +174,7 @@ public class MailController {
             draft.setDraft(true);
             messageDao.save(draft);
         }
+        session.setAttribute("message", "Draft saved!");
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
         return draftId;
     }

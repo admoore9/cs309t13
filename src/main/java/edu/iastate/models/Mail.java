@@ -67,8 +67,8 @@ public class Mail {
 
     public Set<Message> getSentMail() {
         Set<Message> sentMail = new LinkedHashSet<Message>();
-        for (Message message : messages) {
-            if (message.isSent())
+        for (Message message : sentmail) {
+            if (message.isSent() && !message.isDeleted() && !message.isDraft())
                 sentMail.add(message);
         }
         return sentMail;
@@ -76,16 +76,11 @@ public class Mail {
 
     public Set<Message> getDrafts() {
         Set<Message> drafts = new LinkedHashSet<Message>();
-        for (Message message : messages) {
+        for (Message message : sentmail) {
             if (message.isDraft() && !message.isDeleted() && !message.isSent())
                 drafts.add(message);
         }
         return drafts;
-    }
-
-    public Set<Message> getDeleted() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public Mail setMember(Member member) {

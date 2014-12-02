@@ -48,8 +48,8 @@ $(document).ready(function() {
             url : url,
             data : $('#message-form').serialize() + "&draft_id=" + draftId,
             success : function(result) {
-                $('#draft-alert').show();
                 $('#message-form').attr("data-draft-id", result);
+                $('#composeModal').modal('hide');
             }
         });
     });
