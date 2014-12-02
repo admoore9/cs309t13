@@ -1,23 +1,32 @@
 $(document).ready(function() {
-    var bracket = new Bracket($('body').data('tournament-id'));
-    bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+    if($('body').data('tournament-formed')) {
+        var bracket = new Bracket($('body').data('tournament-id'));
+        bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+    } else {
+        $("#createTeam").click( function() {
+            window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
+        });
 
-    $("#createTeam").click( function() {
-    	window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
-    });
+        $("#joinTeam").click( function() {
+            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view";
+        });
 
-    $("#joinTeam").click( function() {
-    	window.location.href = "/survey/" + $('body').data('tournament-id') + "/view";
-    });
+        $('#form-bracket').on('click', function(event) {
+            event.preventDefault();
+            var tournamentId = $('body').data('tournament-id');
+            $.post('/tournament/' + tournamentId + '/form');
+        });
+    }
 });
 
-var IS_REFEREE;
+var at_least_official = $('body').data('at-least-official');
 
-var Team = function(id, name) {
+var Team = function(id, name, score, players) {
     var self = this;
     self.id = id;
     self.name = name;
-    self.score = 0;
+    self.score = score;
+    self.players = players;
     self.html = $('<team></team>');
     self.input_box = null;
     self.name_html = null;
@@ -27,8 +36,7 @@ Team.prototype.getHTML = function() {
     self.html.children().remove();
     self.name_html = $('<span></span>').text(self.name);
     self.html.append(self.name_html);
-
-    if(!IS_REFEREE) {
+    if(!at_least_official) {
         self.html.append($('<score></score>').text(self.score));
     } else {
         self.input_box = $('<input>').width(20).val(self.score);
@@ -40,23 +48,42 @@ Team.prototype.getHTML = function() {
 };
 Team.prototype.setHandlers = function(game_id) {
     var self = this;
-    self.name_html.on('click', function() {
-        // Get players from server
-        $.get('/team/' + self.id + '/players', function(response) {
-            console.log(response);
-            var names = [];
-            response.forEach(function(player, index, array) {
-                names.push(player.name);
+
+    function getPlayerNamesHtml() {
+        var html_str = "<h5>Players</h5>";
+        html_str += "<ul>";
+        self.players.forEach(function(player, index, array) {
+            html_str += '<li>' +
+                            '<a href="/profile">' + player.name + '</a>' +
+                        '</li>';
+        });
+
+        html_str += "</ul>";
+        return html_str;
+    }
+
+    self.html.popover({
+        html: true,
+        title: function() {
+            return "Team " + self.id;
+        },
+        content: function() {
+            var html_str = getPlayerNamesHtml();
+            if(at_least_official) {
+                html_str += '<br/><div class="btn btn-primary" id="team-' + self.id + '-mark-winner">Mark As Winner</div>';
+            }
+
+            $(document).on('click', '#team-' + self.id + '-mark-winner', function() {
+                $.post('/game/' + game_id + '/winner', {winner: self.id});
             });
-            alert(names);
-        }, 'json');
+
+            return html_str;
+        }
     });
 
-    if(IS_REFEREE) {
+    if(at_least_official) {
         self.input_box.on('input', function() {
-            console.log(self.input_box.val());
-            // Post new score to server
-            // $.post('/game/' + game_id + '/update_score', {team_id: self.id, score: self.input_box.val()}, function() {}, 'json');
+            $.post('/score/update', {teamId: self.id, gameId: game_id, score: self.input_box.val()});
         });
     }
 };
@@ -204,9 +231,8 @@ Bracket.prototype.getName = function() {
 };
 Bracket.prototype.processTournament = function(tournament) {
     var self = this;
-    IS_REFEREE = tournament.is_referee;
+    at_least_officialEREE = tournament.at_least_officialeree;
     self.name = tournament.name;
-    console.log(self.name);
     self.min_players = tournament.minPlayers;
     self.max_players = tournament.maxPlayers;
     self.teams_per_game = tournament.teamsPerGame;
@@ -216,7 +242,17 @@ Bracket.prototype.processTournament = function(tournament) {
         var nextGameId = elem.nextGame !== null ? elem.nextGame.id : elem.nextGame;
         var game = new Game(elem.id, nextGameId, elem.roundNumber, elem.gameTime, elem.gameLocation, tournament.teamsPerGame, []);
         elem.teams.forEach(function(team, index, array) {
-            game.teams.push(new Team(team.id, team.name));
+            // Get score for Team
+            function getScoreForTeam(scores) {
+                for(var i = 0; i < scores.length; i++) {
+                    var score = scores[i];
+                    if(score.team.id === team.id) {
+                        return score.score;
+                    }
+                }
+                return 0;
+            }
+            game.teams.push(new Team(team.id, team.name, getScoreForTeam(elem.scores), team.players));
         });
 
         if(rounds_dict[game.roundNumber] !== undefined) {

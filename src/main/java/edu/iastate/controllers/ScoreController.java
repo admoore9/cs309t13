@@ -8,13 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.GameDao;
 import edu.iastate.dao.ScoreDao;
-import edu.iastate.dao.TeamDao;
-import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Score;
-import edu.iastate.models.Team;
 
 @Controller
 @RequestMapping(value = "/score")
@@ -37,10 +33,8 @@ public class ScoreController {
             return null;
         }
 
-        Game game = (new GameDao()).getGameById(gameId, false);
-        Team team = (new TeamDao()).getTeamById(teamId, false, false, false);
         ScoreDao scoreDao = new ScoreDao();
-        return scoreDao.getScoreByGameAndTeam(game, team);
+        return scoreDao.getScoreByGameAndTeam(gameId, teamId);
     }
     
     /**
@@ -63,11 +57,10 @@ public class ScoreController {
             return false;
         }
 
-        Game game = (new GameDao()).getGameById(gameId, false);
-        Team team = (new TeamDao()).getTeamById(teamId, false, false, false);
         ScoreDao scoreDao = new ScoreDao();
-        Score score = scoreDao.getScoreByGameAndTeam(game, team);
+        Score score = scoreDao.getScoreByGameAndTeam(gameId, teamId);
         score.setScore(teamScore);
+        scoreDao.merge(score);
         return true;
     }
 }
