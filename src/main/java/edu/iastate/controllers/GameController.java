@@ -68,7 +68,7 @@ public class GameController {
             HttpSession session) {
         //Validates the user permission
         Member member = (Member) session.getAttribute("member");
-        if(MemberUtils.atLeastCoordinator(member)) {
+        if(!MemberUtils.atLeastCoordinator(member)) {
             return false;
         }
 
