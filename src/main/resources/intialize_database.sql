@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `tournament_name` VARCHAR(45) NULL,
   `coordinator_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`tournament_id`),
-  INDEX `fk_tournament_member_idx` (`member_id` ASC),
+  INDEX `fk_tournament_member_idx` (`coordinator_id` ASC),
   CONSTRAINT `fk_tournament_member`
-  FOREIGN KEY (`member_id`)
+  FOREIGN KEY (`coordinator_id`)
   REFERENCES `cs309t13`.`member` (`member_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION)
@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
   `game_time` TIMESTAMP NULL,
   `tournament_id` INT NOT NULL,
   `next_game_id` INT,
+  `winner` INT NULL DEFAULT NULL,
   PRIMARY KEY (`game_id`),
   INDEX `fk_Game_Tournament_idx` (`tournament_id` ASC),
   INDEX `fk_Game_Game1_idx` (`next_game_id` ASC),
@@ -69,7 +70,13 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Game` (
     FOREIGN KEY (`next_game_id`)
     REFERENCES `cs309t13`.`Game` (`game_id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Game_Team_Winner`
+    FOREIGN KEY (`winner`)
+    REFERENCES `cs309t13`.`Team` (`team_id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+    
 ENGINE = InnoDB;
 
 
@@ -201,7 +208,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cs309t13`.`Day` (
   `day_id` INT NOT NULL AUTO_INCREMENT,
   `availability_id` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `name` int(2) NOT NULL,
   PRIMARY KEY (`day_id`),
   INDEX `fk_Day_AvailabilityId_idx` (`availability_id` ASC),
   CONSTRAINT `fk_Day_AvailabilityId`
@@ -218,6 +225,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Period` (
   `period_id` INT NOT NULL AUTO_INCREMENT,
   `day_id` INT NOT NULL,
   `slot` int(7) NOT NULL,
+  `available` BOOLEAN DEFAULT FALSE NOT NULL,
   PRIMARY KEY (`period_id`),
   INDEX `fk_Period_DayId_idx` (`day_id` ASC),
   CONSTRAINT `fk_Period_DayId`

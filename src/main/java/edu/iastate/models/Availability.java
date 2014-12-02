@@ -1,9 +1,11 @@
 package edu.iastate.models;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,8 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OrderBy;
+
+import edu.iastate.models.Day.WeekDay;
 
 @Entity
 @Table(name = "Availability")
@@ -27,11 +30,13 @@ public class Availability {
     @JoinColumn(name = "member_id")
     private Member player;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "availability")
+    @OneToMany(mappedBy = "availability", fetch = FetchType.EAGER)
+    @OrderBy(clause = "day_id")
     private Set<Day> days;
     
-    public Availability() {}
+    public Availability() {
+        days = new LinkedHashSet<Day>();
+    }
 
     /**
      * @return the availability_id
@@ -50,7 +55,7 @@ public class Availability {
     /**
      * @param days the days to set
      */
-    public void setDays(Set<Day> days) {
+    public void setDays(LinkedHashSet<Day> days) {
         this.days = days;
     }
 
@@ -64,8 +69,17 @@ public class Availability {
     /**
      * @param player the player to set
      */
-    public void setPlayer(Member player) {
+    public Availability setPlayer(Member player) {
         this.player = player;
+        return this;
+    }
+
+    public Day getDayByName(WeekDay name) {
+        for (Day day : days) {
+            if (day.getName().equals(name))
+                return day;
+        }
+        return null;
     }
     
 }

@@ -2,6 +2,7 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -67,12 +68,17 @@ public class Game {
     private List<Member> officials;
     
     @JsonManagedReference
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<Score> scores;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "winner", referencedColumnName = "team_id")
+    private Team winner;
 
     public Game() {
         teams = new ArrayList<Team>();
         officials = new ArrayList<Member>();
+        scores = new HashSet<Score>();
     }
 
     public int getId() {
@@ -151,6 +157,22 @@ public class Game {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
     }
 
     /**

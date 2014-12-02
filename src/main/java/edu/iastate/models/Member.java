@@ -42,6 +42,7 @@ public class Member {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -64,7 +65,7 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-    
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "gameCoordinator")
     Set<Tournament> managingTournament;
@@ -84,6 +85,21 @@ public class Member {
         this.context = UserType.PLAYER;
         this.height = -1;
         this.weight = -1;
+    }
+
+    /**
+     * @return the member_id
+     */
+    public int getMember_id() {
+        return member_id;
+    }
+
+    /**
+     * @param member_id
+     *            the member_id to set
+     */
+    public void setMember_id(int member_id) {
+        this.member_id = member_id;
     }
 
     /**
@@ -148,7 +164,7 @@ public class Member {
     public String getName() {
         return name;
     }
-    
+
     public Set<Tournament> getManagingTournament() {
         return managingTournament;
     }
@@ -252,7 +268,7 @@ public class Member {
         this.invitedTeams = invitedTeams;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "player")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "player")
     private Availability availability;
 
     public List<Team> getTeams() {
@@ -272,6 +288,10 @@ public class Member {
 
     public void setMail(Mail mail) {
         this.mail = mail;
+    }
+
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
     }
 
     public Set<Survey> getSurveys() {
