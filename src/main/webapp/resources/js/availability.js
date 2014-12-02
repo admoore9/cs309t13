@@ -16,12 +16,16 @@ $( document ).ready(function() {
 			url: url,
 			data: table.$('input, select').serialize(),
 			success: function(result) {
-				window.location.href = "/availability";
+			    $('#availability-alert').css("display", "table");
 			}
 		});
         
         return false;
     } );
+    
+    $('body').click( function(e) {
+        $('#availability-alert').css("display", "none");
+    });
 
     resetSelectAll();
 

@@ -52,6 +52,7 @@
                 </table>
                 <label class="float-right"><input type="checkbox" id="selectall">Select all</label> <br> <br>
                 <button id="update" type="submit" class="btn btn-default float-right">Update</button>
+                <span id="availability-alert" class="alert alert-success" role="alert">Availability updated successfully!</span>
             </div>
             <jsp:include page="sideBar.jsp" />
         </div>
