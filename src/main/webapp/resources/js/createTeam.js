@@ -13,17 +13,6 @@ $( document ).ready(function() {
                     }
                 }
             },
-            invitedPlayerUsername: {
-                validators: {
-                    notEmpty: {
-                        message: 'An invited player username is required'
-                    },
-                    stringLength: {
-                        max: 45,
-                        message: 'Invited usernames must be less than 46 characters long'
-                    }
-                }
-            }
         }
     })
 });

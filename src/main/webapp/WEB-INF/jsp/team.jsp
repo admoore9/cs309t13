@@ -2,7 +2,9 @@
 <%@ page session="true" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
+<%@ page import="edu.iastate.models.Team" %>
 <% Member member = (Member) session.getAttribute("member"); %>
+<% Team team = (Team) request.getAttribute("team"); %>
 
 <!DOCTYPE html>
 <html>
@@ -102,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                <% if (member.getId() == team) { %>
+                <% if (member.getId() == team.getTeamLeader().getId()) { %>
                 <div id="goto-team-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
@@ -148,6 +150,7 @@
     <script src="../../resources/js/team.js"></script>
     <script type="text/javascript">
     var teamId = '<c:out value="${team.id}"/>';
+    var tournamentId = '<c:out value="${team.tournament.id}"/>';
     </script> 
 </footer>
 </html>

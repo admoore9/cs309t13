@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin</title>
+    <title>Create Team</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -41,12 +41,6 @@
                                             <label for="teamName">Team name:</label>
                                             <input id="teamName" name="teamName" type="text" class="form-control input-md">
                                         </div>
-            
-                                        <div class="form-group">
-                                            <label for="invitedPlayerUsername">Invited Player Username:</label>
-                                            <input id="invitedPlayerUsername" name="invitedPlayerUsername" type="text" class="form-control input-md">
-                                        </div>
-            
                                         <div class="btn-group">
                                             <input type="submit" name="submitCreateTeam" class="btn btn-primary" value="Submit!"/>
                                         </div>

@@ -56,6 +56,28 @@ public class TeamController {
     }
     
     /**
+     * Checks if team name already exists in database
+     * @param teamName the name to check in database
+     * @return true if team name is available, false otherwise
+     */
+    @RequestMapping(value = "/available", method = RequestMethod.GET)
+    public @ResponseBody String isTeamNameAvailable(
+            @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "tournamentId") int id) {
+        TeamDao teamDao = new TeamDao();
+        TournamentDao tournamentDao = new TournamentDao();
+        Team team = teamDao.getTeamByTeamName(teamName, tournamentDao.getTournamentById(id, false, false));
+        String isValid;
+        if (team == null) {
+            isValid = "{ \"valid\": true }";
+        }
+        else {
+            isValid = "{ \"valid\": false }";
+        }
+        return isValid;
+    }
+    
+    /**
      * Handles denied page for team
      * 
      * @param model
@@ -103,7 +125,22 @@ public class TeamController {
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
         }
+        Member member = (Member) session.getAttribute("member");
+        
+        List<Team> teams = member.getTeams();
+        //If team already exists in tournament, cannot create multiple teams
+        for(Team t : teams) {
+            if(t.getTournament().getId() == tournamentId) {
+                return "redirect:denied";
+            }
+        }
+        
+        model.addAttribute("teams", teams);
 
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+        
         model.addAttribute("tournamentId", tournamentId);
 
         return "createTeam";
@@ -114,7 +151,6 @@ public class TeamController {
     public String createTeamSubmit(
             @PathVariable int tournamentId,
             @RequestParam(value = "teamName") String teamName,
-            @RequestParam(value = "invitedPlayerUsername") String invitedPlayerUsername,
             HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();
