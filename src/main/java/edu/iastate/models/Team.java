@@ -188,18 +188,36 @@ public class Team {
      * @return -1 if null or player already exists 0 if maximum has reached 1 if
      */
     public int addPlayer(Member player) {
-
-        if(player == null || this.players.contains(player)) {
+        if(player == null || this.players.contains(player) || player.equals(teamLeader)) {
 
             return -1;
         }
         if(this.players.size() == tournament.getMaxPlayers()) {
             return 0;
         }
+        if(!isRegisteredInTournament(player)) {
+            return -2;
+        }
         this.players.add(player);
         removeInvitedPlayer(player);
         calculateSkillLevel(); // Updates the skill level
         return 1;
+    }
+    
+    /**
+     * checks if player being added is already registered 
+     * 
+     * @param player the player being added 
+     * @return true if player is already registered, false otherwise
+     */
+    private boolean isRegisteredInTournament(Member player) {
+        List<Team> teams = player.getTeams();
+        for(Team t: teams) {
+            if(t.getTournament().equals(this.tournament)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

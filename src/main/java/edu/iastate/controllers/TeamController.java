@@ -97,6 +97,7 @@ public class TeamController {
      * @param The new name of team
      * @param addPlayer the username of player to add
      * @param removePlayer the username of player to remove
+     * @param newCaptain the username of new captain
      * @return true if successful
      */
     // TODO check users permissions
@@ -105,7 +106,8 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "teamName") String teamName,
             @RequestParam(value = "addPlayer") String addPlayer,
-            @RequestParam(value = "removePlayer") String removePlayer) {
+            @RequestParam(value = "removePlayer") String removePlayer,
+            @RequestParam(value = "newCaptain") String newCaptain) {
         TeamDao teamDao = new TeamDao();
         MemberDao memberDao = new MemberDao();
         Team team = teamDao.getTeamById(id, true, true, true);
@@ -114,6 +116,12 @@ public class TeamController {
         }
         team.removePlayer(memberDao.getMemberByUsername(removePlayer));
         team.addInvitedPlayer(memberDao.getMemberByUsername(addPlayer));
+        Member teamLeader = memberDao.getMemberByUsername(newCaptain);
+        if(teamLeader!=null) {
+            if(team.getPlayers().contains(teamLeader)) {
+                team.setTeamLeader(teamLeader);
+            }
+        }
         
         teamDao.saveTeam(team);
         return true;

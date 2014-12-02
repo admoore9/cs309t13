@@ -127,7 +127,11 @@
                                 <div class="form-group">
                                     <label for="name">Username Player to Remove:</label>
                                     <input type="text" class="form-control" id="update-player-remove-input">
-                                </div>                                 
+                                </div>  
+                                <div class="form-group">
+                                    <label for="name">Username of New Captain:</label>
+                                    <input type="text" class="form-control" id="update-team-captain-input">
+                                </div>                               
                                 <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
                             </form>
                         </div>
