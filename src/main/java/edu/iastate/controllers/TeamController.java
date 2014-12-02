@@ -33,14 +33,14 @@ public class TeamController {
 
         Member member = (Member) session.getAttribute("member");
         if (member == null) {
-            return "redirect:../../denied";
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
 
         if (member.getTeams().contains(team) == false) {
-            return "redirect:../../denied";
+            return "redirect:/denied";
         }
 
         List<Team> teams = member.getTeams();
@@ -105,7 +105,7 @@ public class TeamController {
         // Validates the user permission
         Member member = (Member) session.getAttribute("member");
         if (!team.getTeamLeader().equals(member))
-            return "redirect:../../denied";
+            return "redirect:/denied";
 
         if (teamName != null && teamName.length() != 0)
             team.setName(teamName);
@@ -143,7 +143,7 @@ public class TeamController {
         Member member = (Member) session.getAttribute("member");
 
         if (member == null) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         List<Team> teams = member.getTeams();
@@ -402,7 +402,7 @@ public class TeamController {
      * @return The players on the team identified by id
      */
     @RequestMapping(value = "/{id}/players", method = RequestMethod.GET)
-    public @ResponseBody List<Member> getPlayersForTeam(
+    public @ResponseBody Set<Member> getPlayersForTeam(
             HttpSession session,
             @PathVariable int id) {
         if (session.getAttribute("member") == null) {
@@ -411,6 +411,6 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        return (List<Member>) team.getPlayers();
+        return team.getPlayers();
     }
 }

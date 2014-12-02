@@ -28,13 +28,13 @@ public class CoordinatorController {
     public String getTournament(Model model, HttpSession session) {
 
         if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         Member member = (Member) session.getAttribute("member");
 
         if (member.getUserType() != Member.UserType.COORDINATOR) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         Set<Tournament> tournaments = member.getManagingTournament();

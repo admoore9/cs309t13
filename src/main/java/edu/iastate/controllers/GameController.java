@@ -31,7 +31,7 @@ public class GameController {
     public String getGame(Model model, HttpSession session, @PathVariable int id) {
         model.addAttribute("gameId", id);
         if (session.getAttribute("member") == null) {
-            return "redirect:../../denied";
+            return "redirect:/denied";
         }
 
         Member member = (Member) session.getAttribute("member");
