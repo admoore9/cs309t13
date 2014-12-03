@@ -6,7 +6,10 @@ $(document).ready(function() {
             minPlayersPerTeam: $('#create-tournament-min-players-input').val(),
             maxPlayersPerTeam: $('#create-tournament-max-players-input').val(),
             teamsPerGame: $('#create-teams-per-game-input').val(),
-            officialsPerGame: $('#create-officials-per-game-input').val()
+            officialsPerGame: $('#create-officials-per-game-input').val(),
+            success: function(result) {
+                window.location.href = "/admin";
+            },
         });
     });
 

@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,7 +37,7 @@ public class ProfileController {
 
         Member member = (Member) session.getAttribute("member");
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -59,7 +60,7 @@ public class ProfileController {
         MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();

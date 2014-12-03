@@ -23,6 +23,8 @@ import javax.persistence.TemporalType;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
+import edu.iastate.utils.MemberUtils;
+
 /**
  * Game class
  *
@@ -61,12 +63,12 @@ public class Game {
 
     @JoinTable(name = "teamgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Team> teams;
+    private Set<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Member> officials;
-    
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Member> officials;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     private Set<Score> scores;
@@ -76,8 +78,8 @@ public class Game {
     private Team winner;
 
     public Game() {
-        teams = new ArrayList<Team>();
-        officials = new ArrayList<Member>();
+        teams = new HashSet<Team>();
+        officials = new HashSet<Member>();
         scores = new HashSet<Score>();
     }
 
@@ -143,11 +145,11 @@ public class Game {
         this.gameLocation = gameLocation;
     }
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
 
@@ -157,6 +159,14 @@ public class Game {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+    
+    public Set<Member> getOfficials() {
+        return officials;
+    }
+
+    public void setOfficials(Set<Member> officials) {
+        this.officials = officials;
     }
 
     public Set<Score> getScores() {
@@ -216,7 +226,7 @@ public class Game {
      * 
      */
     public int addOfficial(Member official) {
-        if(official == null || this.officials.contains(official)) {
+        if(official == null || this.officials.contains(official)  || MemberUtils.atLeastOfficial(official)) {
             return -1;
         }
         if(this.officials.size() == tournament.getOfficialsPerGame()) {
@@ -233,7 +243,7 @@ public class Game {
      * @param official The official to be removed
      */
     public void removeOfficial(Member official) {
-        if(official == null || this.officials.contains(official)) {
+        if(official == null || !this.officials.contains(official)) {
             return;
         }
         this.officials.remove(official);
