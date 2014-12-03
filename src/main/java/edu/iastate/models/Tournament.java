@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -207,13 +206,15 @@ public class Tournament {
         }
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
-        int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
-        int leftoverTeams = this.teams.size() - numGamesFirstFullRound;
+        System.out.println("roundWithoutPlayin : " + roundsWithoutPlayin);
+        int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin - 1);
+        int leftoverTeams = this.teams.size() - numGamesFirstFullRound * this.teamsPerGame;
         int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
+        System.out.println("numPlayinGames : " + numPlayinGames);
 
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
         int roundNumber = 1;
@@ -231,7 +232,7 @@ public class Tournament {
         int playinToFirst = (int) Math.ceil(1.0 * numPlayinGames / this.teamsPerGame);
         List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames, playinToFirst);
         List<Game> secondRoundPlayinGames = new ArrayList<Game>();
-        for(int i = 0; i < numNonPlayinGames; i++) {
+        for(int i = 0; i < numPlayinGames / this.teamsPerGame; i++) {
             Game game = new Game();
             game.setTournament(this);
             game.setRoundNumber(2);
@@ -249,6 +250,7 @@ public class Tournament {
         if(numPlayinGames != 0) {
             // Playin games to second round games
             List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size(), 0);
+            System.out.println(playinGamesToGames.size());
 
             int count = 0;
             for(int i = 0; i < playinGamesToGames.size(); i++) {
@@ -372,12 +374,17 @@ public class Tournament {
      *         that should be in it as the value at that index.
      */
     public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount, int playinToFirst) {
+        if(nextRoundCount == 0) {
+            return new ArrayList<Integer>();
+        }
+
         Integer[] arr = new Integer[nextRoundCount];
         for(int i = 0; i < arr.length; i++) {
             arr[i] = 0;
         }
 
-        for(int i = 0; i < currRoundCount; i++) {
+        int iterations = currRoundCount + playinToFirst;
+        for(int i = 0; i < iterations; i++) {
             int ind = i % nextRoundCount;
             // Save slots for playin game winners
             if(ind == 0 && playinToFirst > 0) {
