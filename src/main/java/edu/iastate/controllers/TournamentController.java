@@ -1,5 +1,8 @@
 package edu.iastate.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -36,12 +39,45 @@ public class TournamentController {
         if(me == null) {
             return "redirect:denied";
         }
+        
+        Set<Team> teams = me.getTeams();
+        model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
         model.addAttribute("tournament", tournament);
         model.addAttribute("userType", me.getUserType());
         return "tournament";
+    }
+    
+    /**
+     * Lists all teams in tournament
+     * 
+     * @param model
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
+    public String viewTournamentTeams(Model model, HttpSession session, @PathVariable int id) {
+        Member me = (Member) session.getAttribute("member");
+        if(me == null) {
+            return "redirect:denied";
+        }
+        
+        Set<Team> teams = me.getTeams();
+        model.addAttribute("teams", teams);
+
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
+        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        model.addAttribute("tournament", tournament);
+        return "joinTeam";
     }
 
     /**

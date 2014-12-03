@@ -5,7 +5,6 @@ $( document ).ready(function() {
         $.ajax({
             type: "POST",
             url: url,
-            //data: data,
             success: function() {
                 window.location.href = "/profile";
             }
@@ -17,7 +16,6 @@ $( document ).ready(function() {
         $.ajax({
             type: "POST",
             url: url,
-            //data: data,
             success: function() {
                 window.location.href = "/profile";
             }

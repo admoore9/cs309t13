@@ -74,7 +74,7 @@ public class SurveyController {
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
 
-        return "redirect:../../profile";
+        return "redirect:/tournament/" + tournamentId + "/teams";
     }
 
     /**
