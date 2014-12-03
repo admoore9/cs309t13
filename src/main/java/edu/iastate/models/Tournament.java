@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -207,12 +206,15 @@ public class Tournament {
         }
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
-        int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin);
-        int leftoverTeams = this.teams.size() - numGamesFirstFullRound;
+        System.out.println(roundsWithoutPlayin);
+        int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin - 1);
+        System.out.println(numGamesFirstFullRound);
+        int leftoverTeams = this.teams.size() - numGamesFirstFullRound * this.teamsPerGame;
         int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
 
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
+        System.out.println(numPlayinGames);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
 
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
@@ -228,10 +230,11 @@ public class Tournament {
 
         // The teams that didn't have a play in game
         int numNonPlayinGames = (int) Math.ceil(1.0 * nonPlayinTeams.size() / this.teamsPerGame);
+        System.out.println(numNonPlayinGames);
         int playinToFirst = (int) Math.ceil(1.0 * numPlayinGames / this.teamsPerGame);
         List<Game> secondRoundNonPlayinGames = groupTeamsIntoGames(nonPlayinTeams, roundNumber, numNonPlayinGames, playinToFirst);
         List<Game> secondRoundPlayinGames = new ArrayList<Game>();
-        for(int i = 0; i < numNonPlayinGames; i++) {
+        for(int i = 0; i < numPlayinGames; i++) {
             Game game = new Game();
             game.setTournament(this);
             game.setRoundNumber(2);
@@ -241,12 +244,14 @@ public class Tournament {
         List<Game> secondRoundGames = new ArrayList<Game>();
         secondRoundGames.addAll(secondRoundPlayinGames);
         secondRoundGames.addAll(secondRoundNonPlayinGames);
+        System.out.println("Second round game size" + secondRoundGames.size());
 
         // Form and link the games
         formRoundsAndLink(secondRoundGames, roundNumber, gameDao);
 
         // If there's playin games
         if(numPlayinGames != 0) {
+            System.out.println("here");
             // Playin games to second round games
             List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size(), 0);
 
@@ -324,6 +329,10 @@ public class Tournament {
      * @param gameDao A GameDao object that will allow the saving of games.
      */
     public void formRoundsAndLink(List<Game> currRoundGames, int roundNumber, GameDao gameDao) {
+        if(currRoundGames.size() == 0) {
+            return;
+        }
+
         if(currRoundGames.size() == 1) {
             Game game = currRoundGames.get(0);
             game.setTournament(this);
@@ -334,6 +343,7 @@ public class Tournament {
 
         // Form next round
         int nextRoundLen = (int) Math.ceil(1.0 * currRoundGames.size() / this.teamsPerGame);
+        System.out.println(nextRoundLen);
         List<Integer> teamsPerGame = getBalancedTeamsPerGame(currRoundGames.size(), nextRoundLen, 0);
         List<Game> nextRoundGames = new ArrayList<Game>();
 
@@ -372,6 +382,10 @@ public class Tournament {
      *         that should be in it as the value at that index.
      */
     public List<Integer> getBalancedTeamsPerGame(int currRoundCount, int nextRoundCount, int playinToFirst) {
+        if(nextRoundCount == 0) {
+            return new ArrayList<Integer>();
+        }
+
         Integer[] arr = new Integer[nextRoundCount];
         for(int i = 0; i < arr.length; i++) {
             arr[i] = 0;
