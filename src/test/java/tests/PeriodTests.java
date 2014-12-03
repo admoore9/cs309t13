@@ -3,6 +3,7 @@ package tests;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.iastate.dao.AvailabilityDao;
@@ -16,30 +17,35 @@ import edu.iastate.models.Period;
 import edu.iastate.models.Period.Slot;
 
 public class PeriodTests {
+
+    PeriodDao periodDao;
+    AvailabilityDao availabilityDao;
+    MemberDao playerDao;
+    Member player;
+    Availability availability;
+    List<Day> savedDays;
+    DayDao dayDao;
+
+    @Before
+    public void setup() {
+        playerDao = new MemberDao();
+        availabilityDao = new AvailabilityDao();
+        periodDao = new PeriodDao();
+        player = playerDao.save(new Member("test1", "test1", "123"));
+        availability = new Availability();
+        dayDao = new DayDao();
+
+        availability.setPlayer(player);
+        Availability savedAvailability = availabilityDao
+                .saveAvailability(availability);
+
+    }
+
     @Test
-    public void constructorTest() {
-        
-        MemberDao playerDao = new MemberDao();
-        Member player = new Member("test1", "test1", "123");
-        Member returnedPlayer = (Member) playerDao.save(player);
-        
-        AvailabilityDao availabilityDao = new AvailabilityDao();
-        Availability availability = new Availability();
-        availability.setPlayer(returnedPlayer);
-        availabilityDao.saveAvailability(availability);
-        
-        DayDao dayDao = new DayDao();
-        List<Day> days = Arrays.asList(new Day("Monday"), new Day("Tuesday"), new Day("Wednesday"), new Day("Thursday"), new Day("Friday"));
-        for (Day day : days)
-            day.setAvailability(availability);
-        dayDao.saveDays(days);
-        
-        PeriodDao periodDao = new PeriodDao();
-        for (Day day : days) {
-            Period period = new Period(Slot.NINE);
-            period.setDay(day);
-            periodDao.savePeriod(period);
+    public void changePeriodAvailabilityTest() {
+        for (Day day : savedDays) {
+            System.out.println(day.getPeriods().size());
+            periodDao.savePeriod(day.getPeriods().iterator().next().setAvailable(true));
         }
-        
     }
 }
