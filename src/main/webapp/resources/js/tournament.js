@@ -288,9 +288,6 @@ Bracket.prototype.formHTML = function() {
     self.rounds.forEach(function(round, index, array) {
         self.html.append(round.getHTML());
     });
-    if(self.html.children().length === 0) {
-        self.html.text("The bracket for this tournament isn't formed yet.");
-    }
 };
 Bracket.prototype.formAndAppendBracket = function(parent) {
     var self = this;
