@@ -59,7 +59,9 @@
                                         id="heading-${message.getMessageId()}" data-toggle="collapse" data-parent="#accordion"
                                         data-target="#collapse-${message.getMessageId()}" aria-expanded="true" aria-controls="collapse-${message.getMessageId()}"
                                         data-message-id="${message.getMessageId() }">
-                                        <input type="checkbox" id="message-${message.getMessageId()}-checkbox" class="selection-checkbox" value="${message.getMessageId()}">
+                                        <%if (!"sentmail".equals(request.getQueryString())) { %>
+                                            <input type="checkbox" id="message-${message.getMessageId()}-checkbox" class="selection-checkbox" value="${message.getMessageId()}">
+                                        <%}%>
                                         <c:if test="${message.isDraft() }">
                                             <button id="edit-draft" class="glyphicon glyphicon-pencil" data-draft-id="${message.getMessageId() }"
                                                 data-draft-recipient="${message.getRecipient().getUsername() }" data-draft-subject="${message.getSubject() }"
