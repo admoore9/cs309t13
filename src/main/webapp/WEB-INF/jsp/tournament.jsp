@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <h2>Bracket</h2>
-                <h3>Tournament Name: <span id="tournament-name"></span></h3>
+                <h3>Tournament Name: ${tournament.name}</h3>
                 <div id="bracket"></div>
                 <br>
                 <c:choose>
@@ -35,6 +35,7 @@
                         <div id="bracket"></div>
                     </c:when>
                     <c:otherwise>
+                        <strong>The bracket for this tournament isn't formed yet<br/></strong>
                         <br/>
 
                         <c:if test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
