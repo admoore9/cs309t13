@@ -3,4 +3,19 @@ $( document ).ready(function() {
     $('#danger').fadeIn(500);
     $('#success').fadeOut(5000).slideUp(500);
     $('#danger').fadeOut(5000).slideUp(500);
+    
+    $('#context-form').on('submit', function(event) {
+        event.preventDefault();
+        var url = "/context";
+        var data = $('#context-form').serialize();
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            data: data,
+            url: url,
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    });
 });
