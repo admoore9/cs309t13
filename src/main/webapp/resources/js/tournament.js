@@ -1,7 +1,7 @@
 $(document).ready(function() {
     if($('body').data('tournament-formed')) {
         var bracket = new Bracket($('body').data('tournament-id'));
-        bracket.formAndAppendBracket($('#bracket'), $('#tournament-name'));
+        bracket.formAndAppendBracket($('#bracket'));
     } else {
         $("#createTeam").click( function() {
             window.location.href = "/team/" + $('body').data('tournament-id') + "/create";
@@ -288,11 +288,8 @@ Bracket.prototype.formHTML = function() {
     self.rounds.forEach(function(round, index, array) {
         self.html.append(round.getHTML());
     });
-    if(self.html.children().length === 0) {
-        self.html.text("The bracket for this tournament isn't formed yet.");
-    }
 };
-Bracket.prototype.formAndAppendBracket = function(parent, tournamentNameElement) {
+Bracket.prototype.formAndAppendBracket = function(parent) {
     var self = this;
     $.get('/tournament/' + self.id, function(tournament) {
         self.processTournament(tournament);
@@ -300,6 +297,5 @@ Bracket.prototype.formAndAppendBracket = function(parent, tournamentNameElement)
         self.formHTML();
         parent.append(self.html);
         self.setHandlers();
-        tournamentNameElement.text(self.name);
     }, 'json');
 };
