@@ -47,9 +47,10 @@
                                         <label for="password">Team Password: </label>
                                         <input type="text" class="form-control" id="teampassword" name="teamPassword">
                                     </div>
-                                    <button id="invite-accept-${team.id}-submit" type="submit" class="btn btn-default">Join</button>
+                                    <button id="invite-accept-submit" type="submit" class="btn btn-default"
+                                        onclick="submitTeamForm(${team.id})">Join</button>
                                     <script type="text/javascript">
-                                        var teamId = '<c:out value="${team.id}"/>';
+                                        //var teamId = '<c:out value="${team.id}"/>';
                                     </script>
                                 </form>
                                 </td>
@@ -57,7 +58,6 @@
                         </c:forEach>
                     </tbody>
                 </table>
-
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
