@@ -5,9 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import edu.iastate.models.Member;
 import edu.iastate.models.Survey;
+import edu.iastate.models.Tournament;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 /**
@@ -62,20 +65,24 @@ public class SurveyDao {
      * @param tournament_id The tournament id to get the survey for
      * @return The survey corresponding to the player and tournament id
      */
-    public Survey getSurvey(int tournament_id, int player_id) {
+    public Survey getSurvey(Tournament tournament, Member player) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-
-        TypedQuery<Survey> query = entityManager.createQuery("select s from Survey s where s.tournament_id = :tournament_id"
-                + "and s.player_id = :player_id", Survey.class);
-        query.setParameter("tournament_id", tournament_id);
-        query.setParameter("player_id", player_id);
-        Survey survey = query.getSingleResult();
-
-        transaction.commit();
-        entityManager.close();
-        return survey;
+        
+        try {
+            TypedQuery<Survey> query = entityManager.createQuery("select s from Survey s where s.tournament = :tournament"
+                    + " and s.player = :player", Survey.class);
+            query.setParameter("tournament", tournament);
+            query.setParameter("player", player);
+            Survey survey = query.getSingleResult();
+            transaction.commit();
+            entityManager.close();
+            return survey;
+        }
+        catch (NoResultException nre) {
+            return null;
+        }
     }
 
     /**

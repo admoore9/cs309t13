@@ -54,7 +54,12 @@ public class SurveyController {
 
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         Member player = (Member) session.getAttribute("member");
-        Survey survey = new Survey();
+        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(tournamentId, true, true), 
+                                                            memberDao.getMemberById(player.getId()));
+        
+        if(survey==null) {
+            survey = new Survey(); 
+        }
 
         if (sex != null)
             player.setSex(sex);
