@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.models.Member;
 import edu.iastate.models.Tournament;
+import edu.iastate.utils.MemberUtils;
 /**
  * All information need to be seen and used by the game coordinator
  * 
@@ -33,7 +34,7 @@ public class CoordinatorController {
 
         Member member = (Member) session.getAttribute("member");
 
-        if (member.getUserType() != Member.UserType.COORDINATOR) {
+        if (MemberUtils.atLeastCoordinator(member)) {
             return "redirect:/denied";
         }
 
