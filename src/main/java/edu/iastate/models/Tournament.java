@@ -206,7 +206,6 @@ public class Tournament {
         }
         // Get number of rounds without the play in games
         int roundsWithoutPlayin = (int) Math.floor(MathUtils.log(this.teams.size(), this.teamsPerGame));
-        System.out.println("roundWithoutPlayin : " + roundsWithoutPlayin);
         int numGamesFirstFullRound = (int) Math.pow(this.teamsPerGame, roundsWithoutPlayin - 1);
         int leftoverTeams = this.teams.size() - numGamesFirstFullRound * this.teamsPerGame;
         int leftoverTeamsPerPlayinGame = this.teamsPerGame - 1;
@@ -214,7 +213,6 @@ public class Tournament {
         // Get teams for play in games
         int numPlayinGames = (int) Math.ceil(1.0 * leftoverTeams / leftoverTeamsPerPlayinGame);
         int numPlayinTeams = leftoverTeams + numPlayinGames;
-        System.out.println("numPlayinGames : " + numPlayinGames);
 
         List<Team> nonPlayinTeams = this.teams.subList(numPlayinTeams, this.teams.size());
         int roundNumber = 1;
@@ -250,7 +248,6 @@ public class Tournament {
         if(numPlayinGames != 0) {
             // Playin games to second round games
             List<Integer> playinGamesToGames = getBalancedTeamsPerGame(numPlayinGames, secondRoundPlayinGames.size(), 0);
-            System.out.println(playinGamesToGames.size());
 
             int count = 0;
             for(int i = 0; i < playinGamesToGames.size(); i++) {
