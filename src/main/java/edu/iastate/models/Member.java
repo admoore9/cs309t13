@@ -247,6 +247,10 @@ public class Member {
         return mail;
     }
 
+    public void setMail(Mail mail) {
+        this.mail = mail;
+    }
+
     @JsonIgnore
     @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
     private List<Team> teams;
@@ -283,10 +287,6 @@ public class Member {
      */
     public Availability getAvailability() {
         return availability;
-    }
-
-    public void setMail(Mail mail) {
-        this.mail = mail;
     }
 
     public void setAvailability(Availability availability) {

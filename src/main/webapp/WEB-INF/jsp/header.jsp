@@ -6,7 +6,7 @@
 <% Member member = (Member) session.getAttribute("member"); %>
 
 <head>
-	<!-- Page specific CSS -->
+    <!-- Page specific CSS -->
     <link rel="stylesheet" type="text/css" href="/resources/css/header.css">
 </head>
 
@@ -39,35 +39,35 @@
                 <% } else {
                     Member.UserType userType = member.getUserType();%>
                     <div class="navbar-right">
-					    <ul class="nav navbar-nav navbar-right">
-						<li id="messages" class="dropdown"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown">Message <span
-								id="messageBadge" class="badge">
-									<%
-									    out.print(member.getMail().getUnviewedMessages().size());
-									%>
-							</span></a>
-							<ul class="dropdown-menu">
-								<%
-								    for (Message message : member.getMail().getUnviewedMessages()) {
-																            out.print("<li class='message'>"
-																                    + message.getSubject() + " "
-																                    + "<span class='message-time'>" + message.getTime() + "</span>"
+                        <ul class="nav navbar-nav navbar-right">
+                        <li id="messages" class="dropdown"><a href="#"
+                            class="dropdown-toggle" data-toggle="dropdown">Message <span
+                                id="messageBadge" class="badge">
+                                    <%
+                                        out.print(member.getMail().getUnviewedMessages().size());
+                                    %>
+                            </span></a>
+                            <ul class="dropdown-menu">
+                                <%
+                                    for (Message message : member.getMail().getUnviewedMessages()) {
+                                                                            out.print("<li class='message'>"
+                                                                                    + message.getSubject() + " "
+                                                                                    + "<span class='message-time'>" + message.getTime() + "</span>"
                                                                                     + "</li>");
-																        }
-								%>
-								<li class="inbox"><hr><a href="/mail">Inbox</a></li>
-							</ul></li>
-						<%
-						    if (userType != Member.UserType.PLAYER) {
-						%>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Context <b class="caret"></b></a>
-							<ul class="dropdown-menu">
+                                                                        }
+                                %>
+                                <li class="inbox"><hr><a href="/mail">Inbox</a></li>
+                            </ul></li>
+                        <%
+                            if (userType != Member.UserType.PLAYER) {
+                        %>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle"
+                            data-toggle="dropdown">Context <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
 
-								<% if (userType == Member.UserType.ADMIN) { %>
-								<li><a href="#">Administrator</a></li>
-								<% } %>
+                                <% if (userType == Member.UserType.ADMIN) { %>
+                                <li><a href="#">Administrator</a></li>
+                                <% } %>
 
                             <% if (userType != Member.UserType.PLAYER) { %>
                                 <li class="dropdown">
@@ -96,15 +96,15 @@
                                 </li>
                             <% } %>
 
-								<li><a href="#">Official</a></li>
-								<li><a href="#">Player</a></li>
-							</ul></li>
-						<% } %>
+                                <li><a href="#">Official</a></li>
+                                <li><a href="#">Player</a></li>
+                            </ul></li>
+                        <% } %>
 
-						<li><a href="/profile">Welcome, ${sessionScope.member.name}!</a></li>
-						<li><a href="/logout">Logout</a></li>
-					</ul>
-				</div>
+                        <li><a href="/profile">Welcome, ${sessionScope.member.name}!</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </div>
                 <% } %>
             </div>
         </div>
