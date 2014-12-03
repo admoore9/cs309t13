@@ -43,6 +43,10 @@
                                 <td>${team.teamSkillLevel}</td>
                                 <td>
                                 <form role="form" id="join-team-form">
+                                    <div class="form-group">
+                                        <label for="name">Team Password: </label>
+                                        <input type="text" class="form-control" id="teampassword" name="teamPassword">
+                                    </div>
                                     <button id="invite-accept-submit" type="submit" class="btn btn-default">Join</button>
                                     <script type="text/javascript">
                                         var teamId = '<c:out value="${team.id}"/>';

@@ -27,6 +27,9 @@ import edu.iastate.utils.MemberUtils;
 @RequestMapping("/team")
 public class TeamController {
 
+    private static final String JOIN_TEAM_SUCCESS_MESSAGE = "Join complete!";
+    private static final String JOIN_TEAM_ERROR_MESSAGE = "Team Password Incorrect!";
+
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
         model.addAttribute("teamId", id);
@@ -357,6 +360,43 @@ public class TeamController {
         return true;
     }
     
+    /**
+     * Called when player wants to join team
+     * Checks for team password for security
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
+    public @ResponseBody boolean joinPlayerToTeam(
+            @RequestParam(value = "teamPassword") String teamPassword,
+            @PathVariable int id,
+            HttpSession session) {
+        Member me = (Member) session.getAttribute("member");
+        if (me == null) {
+            return false;
+        }
+
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+
+        if (team == null || !(teamPassword.compareTo(team.getPassword())==0)) {
+            return false;
+        }
+        
+        team.addPlayer(me);
+        teamDao.saveTeam(team);
+
+        return true;
+    }
+    
+    /**
+     * Called when player rejects an invitation to join team
+     * 
+     * @param session
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
     public @ResponseBody boolean removePlayerFromInvitedTeam(
             HttpSession session,
