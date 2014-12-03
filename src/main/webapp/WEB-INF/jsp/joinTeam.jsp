@@ -39,15 +39,15 @@
                     <tbody>
                         <c:forEach items="${tournament.teams}" var="team">
                             <tr>
-                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                <td><c:out value="${team.name}"/></td>
                                 <td>${team.teamSkillLevel}</td>
                                 <td>
-                                <form role="form" id="join-team-form">
+                                <form role="form" id="join-team${team.id}-form">
                                     <div class="form-group">
-                                        <label for="name">Team Password: </label>
+                                        <label for="password">Team Password: </label>
                                         <input type="text" class="form-control" id="teampassword" name="teamPassword">
                                     </div>
-                                    <button id="invite-accept-submit" type="submit" class="btn btn-default">Join</button>
+                                    <button id="invite-accept-${team.id}-submit" type="submit" class="btn btn-default">Join</button>
                                     <script type="text/javascript">
                                         var teamId = '<c:out value="${team.id}"/>';
                                     </script>

@@ -167,6 +167,7 @@ public class TeamController {
     public String createTeamSubmit(
             @PathVariable int tournamentId,
             @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "teamPassword") String teamPassword,
             HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -180,6 +181,7 @@ public class TeamController {
         team.setTournament(tournament);
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
+        team.setPassword(teamPassword);
 
         teamDao.saveTeam(team);
 
@@ -376,7 +378,8 @@ public class TeamController {
         if (me == null) {
             return false;
         }
-
+        
+        System.out.println("here");
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 

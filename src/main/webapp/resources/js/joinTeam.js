@@ -1,8 +1,9 @@
 $( document ).ready(function() {
-    $('#join-team-form').on('submit', function(event) {
+    $('#join-team' + teamId + '-form').on('submit', function(event) {
         event.preventDefault();
+        console.log(teamId);
         var url = "/team/" + teamId + "/joinTeam";
-        var data = $('#join-team-form').serialize();
+        var data = $('#join-team' + teamId + '-form').serialize();
         $.ajax({
             type: "POST",
             url: url,

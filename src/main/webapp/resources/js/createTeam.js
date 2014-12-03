@@ -17,6 +17,17 @@ $( document ).ready(function() {
                     }
                 }
             },
+            teamPassword: {
+                validators: {
+                    notEmpty: {
+                        message: 'Your team password is required'
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: 'Your Password must be at least 8 characters long'
+                    }
+                }
+            },
         }
     })
 });
