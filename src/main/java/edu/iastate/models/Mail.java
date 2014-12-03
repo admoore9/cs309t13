@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.OrderBy;
 
 @Entity
@@ -22,16 +23,18 @@ public class Mail {
     @Id
     @GeneratedValue
     @Column(name = "mail_id")
-    private int mailId;
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recipient", fetch = FetchType.EAGER)
     @OrderBy(clause = "message_id")
     private Set<Message> messages;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
     @OrderBy(clause = "message_id")
     private Set<Message> sentmail;
@@ -83,12 +86,14 @@ public class Mail {
         return drafts;
     }
 
-    public Mail setMember(Member member) {
+    public Mail setMember(
+            Member member) {
         this.member = member;
         return this;
     }
 
-    public Message getMessageById(int id) {
+    public Message getMessageById(
+            int id) {
         for (Message message : messages) {
             if (message.getMessageId() == id)
                 return message;

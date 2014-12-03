@@ -23,7 +23,7 @@ public class Message {
     @Id
     @GeneratedValue
     @Column(name = "message_id")
-    private int messageId;
+    private int id;
 
     private String subject;
     private String body;
@@ -57,14 +57,15 @@ public class Message {
      * @return the message_id
      */
     public int getMessageId() {
-        return messageId;
+        return id;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public Message setSubject(String subject) {
+    public Message setSubject(
+            String subject) {
         this.subject = subject;
         return this;
     }
@@ -77,10 +78,10 @@ public class Message {
     }
 
     /**
-     * @param body
-     *            the body to set
+     * @param body the body to set
      */
-    public Message setBody(String body) {
+    public Message setBody(
+            String body) {
         this.body = body;
         return this;
     }
@@ -93,10 +94,10 @@ public class Message {
     }
 
     /**
-     * @param deleted
-     *            the deleted to set
+     * @param deleted the deleted to set
      */
-    public Message setDeleted(boolean deleted) {
+    public Message setDeleted(
+            boolean deleted) {
         this.deleted = deleted;
         return this;
     }
@@ -105,7 +106,8 @@ public class Message {
         return draft;
     }
 
-    public Message setDraft(boolean draft) {
+    public Message setDraft(
+            boolean draft) {
         this.draft = draft;
         return this;
     }
@@ -123,8 +125,7 @@ public class Message {
         if (messageDatetime.get(Calendar.YEAR) < now.get(Calendar.YEAR)) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
             return simpleDateFormat.format(datetime);
-        } else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now.get(Calendar.DAY_OF_MONTH)
-                || messageDatetime.get(Calendar.MONTH) < now.get(Calendar.MONTH)) {
+        } else if (messageDatetime.get(Calendar.DAY_OF_MONTH) < now.get(Calendar.DAY_OF_MONTH) || messageDatetime.get(Calendar.MONTH) < now.get(Calendar.MONTH)) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd");
             return simpleDateFormat.format(datetime);
         }
@@ -147,10 +148,10 @@ public class Message {
     }
 
     /**
-     * @param member
-     *            the member to set
+     * @param member the member to set
      */
-    public Message setRecipient(Member recipient) {
+    public Message setRecipient(
+            Member recipient) {
         this.recipient = recipient;
         return this;
     }
@@ -159,7 +160,8 @@ public class Message {
         return viewed;
     }
 
-    public void setViewed(boolean viewed) {
+    public void setViewed(
+            boolean viewed) {
         this.viewed = viewed;
     }
 
@@ -171,10 +173,10 @@ public class Message {
     }
 
     /**
-     * @param sent
-     *            the sent to set
+     * @param sent the sent to set
      */
-    public Message setSent(boolean sent) {
+    public Message setSent(
+            boolean sent) {
         this.sent = sent;
         return this;
     }

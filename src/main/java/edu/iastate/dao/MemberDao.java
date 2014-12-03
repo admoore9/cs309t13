@@ -11,17 +11,14 @@ import edu.iastate.models.Availability;
 import edu.iastate.models.Mail;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
-import edu.iastate.utils.EntityManagerFactorySingleton;
 
-public class MemberDao {
-
-    protected final EntityManagerFactory entityManagerFactory;
+public class MemberDao extends BaseDao<Member> {
 
     /**
      * Standard constructor
      */
     public MemberDao() {
-        this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
+        super();
     }
 
     /**
@@ -30,16 +27,19 @@ public class MemberDao {
      * @param entityManagerFactory The factory to use to get sessions
      */
     public MemberDao(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+        super(entityManagerFactory);
     }
 
     /**
      * Login with given username and password
+     * 
      * @param username
      * @param password
      * @return Member matching given username and password
      */
-    public Member login(String username, String password) {
+    public Member login(
+            String username,
+            String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -57,6 +57,7 @@ public class MemberDao {
 
     /**
      * Get all members in the database
+     * 
      * @return List of members in database
      */
     public List<Member> getAllMembers() {
@@ -75,10 +76,12 @@ public class MemberDao {
 
     /**
      * Get member matching given id
+     * 
      * @param id ID of member to search for
      * @return Member Member matching id
      */
-    public Member getMemberById(int id) {
+    public Member getMemberById(
+            int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -98,7 +101,8 @@ public class MemberDao {
      * @param username
      * @return a member with
      */
-    public Member getMemberByUsername(String username) {
+    public Member getMemberByUsername(
+            String username) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -116,7 +120,9 @@ public class MemberDao {
         return member;
     }
 
-    public Member getMemberByUsernamePassword(String username, String password) {
+    public Member getMemberByUsernamePassword(
+            String username,
+            String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -140,16 +146,12 @@ public class MemberDao {
      * 
      * @param member The member to save to the database
      */
-    public Member save(Member member) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        Member savedMember = entityManager.merge(member);
-        transaction.commit();
-        entityManager.close();
+    public Member save(
+            Member member) {
+        Member savedMember = super.merge(member);
 
         if (savedMember.getMail() == null)
-            savedMember.setMail(new MailDao().save(new Mail().setMember(savedMember)));
+            savedMember.setMail(new MailDao().merge(new Mail().setMember(savedMember)));
 
         if (savedMember.getAvailability() == null)
             savedMember.setAvailability(new AvailabilityDao().saveAvailability(new Availability().setPlayer(savedMember)));
@@ -158,11 +160,12 @@ public class MemberDao {
 
     /**
      * Get a list of all members of given user type in database
+     * 
      * @return List of members in database
      */
-    public List<Member> getAllByUserType(UserType userType) {
-        EntityManager entityManager = entityManagerFactory
-                .createEntityManager();
+    public List<Member> getAllByUserType(
+            UserType userType) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
@@ -183,7 +186,9 @@ public class MemberDao {
      * @param getSurveys Whether to get the survey list for player
      */
     @SuppressWarnings("unused")
-    private void loadForeignKeys(Member member, boolean getSurveys) {
+    private void loadForeignKeys(
+            Member member,
+            boolean getSurveys) {
         if (getSurveys) {
             loadSurveys(member);
         }
@@ -194,7 +199,8 @@ public class MemberDao {
      * 
      * @param player the player to load surveys for
      */
-    private void loadSurveys(Member member) {
+    private void loadSurveys(
+            Member member) {
         member.getSurveys().size();
     }
 }

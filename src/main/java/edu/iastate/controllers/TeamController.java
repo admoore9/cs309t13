@@ -26,7 +26,10 @@ import edu.iastate.models.Tournament;
 public class TeamController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
-    public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
+    public String viewTeam(
+            Model model,
+            HttpSession session,
+            @PathVariable int id) {
         model.addAttribute("teamId", id);
 
         if (session.getAttribute("member") == null) {
@@ -37,7 +40,10 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
-    public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
+    public String createTeam(
+            @PathVariable int tournamentId,
+            Model model,
+            HttpSession session) {
 
         if (session.getAttribute("member") == null) {
             return "redirect:denied";
@@ -67,10 +73,6 @@ public class TeamController {
         team.setTournament(tournament);
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
-
-        // notify member of being assigned as team leader
-        new MessageDao().notify(teamLeader, "You've been assigned as " + teamName + " leader");
-
         teamDao.saveTeam(team);
 
         teamLeader = memberDao.getMemberById(teamLeader.getId());
@@ -90,7 +92,7 @@ public class TeamController {
     public @ResponseBody Team getTeamById(
             HttpSession session,
             @PathVariable int id) {
-        if(session.getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             return null;
         }
 
@@ -109,7 +111,7 @@ public class TeamController {
     public @ResponseBody List<Game> getGamesByTeam(
             HttpSession session,
             @PathVariable int id) {
-        if(session.getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             return null;
         }
 
@@ -134,14 +136,14 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false, false);
 
-        if(team == null || !me.equals(team.getTeamLeader())) {
+        if (team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -167,14 +169,14 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false, false);
 
-        if(team == null || !me.equals(team.getTeamLeader())) {
+        if (team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -199,15 +201,14 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "teamLeaderdId") int teamLeaderId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-
-        if(team == null || !me.equals(team.getTeamLeader())) {
+        if (team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -239,14 +240,14 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        if(team == null || me.equals(team.getTeamLeader())) {
+        if (team == null || me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -276,14 +277,14 @@ public class TeamController {
             @PathVariable int id,
             @RequestParam(value = "playerId") int playerId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
-        if(team == null || me.equals(team.getTeamLeader())) {
+        if (team == null || me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -308,7 +309,7 @@ public class TeamController {
     public @ResponseBody List<Member> getPlayersForTeam(
             HttpSession session,
             @PathVariable int id) {
-        if(session.getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             return null;
         }
 

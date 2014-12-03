@@ -24,7 +24,9 @@ import edu.iastate.models.Message;
 public class MailController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getMail(Model model, HttpSession session,
+    public String getMail(
+            Model model,
+            HttpSession session,
             @RequestParam(value = "inbox", required = false) String inbox,
             @RequestParam(value = "sentmail", required = false) String sentmail,
             @RequestParam(value = "drafts", required = false) String drafts) {
@@ -34,9 +36,7 @@ public class MailController {
 
         Member member = (Member) session.getAttribute("member");
         Set<Message> messages;
-        if (inbox != null)
-            messages = member.getMail().getMessages();
-        else if (sentmail != null)
+        if (sentmail != null)
             messages = member.getMail().getSentMail();
         else if (drafts != null)
             messages = member.getMail().getDrafts();
@@ -50,13 +50,15 @@ public class MailController {
     }
 
     @RequestMapping(value = "/setMessageAsViewed", method = RequestMethod.POST)
-    public @ResponseBody void setMessageAsViewed(HttpSession session, @RequestParam(value = "messageId") int messageId) {
+    public @ResponseBody void setMessageAsViewed(
+            HttpSession session,
+            @RequestParam(value = "messageId") int messageId) {
         if (session.getAttribute("member") == null)
             return;
         MessageDao messageDao = new MessageDao();
-        Message message = messageDao.getMessageById(messageId);
+        Message message = messageDao.getById(messageId);
         message.setViewed(true);
-        messageDao.save(message);
+        messageDao.merge(message);
         MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
         session.setAttribute("message", null);
@@ -64,7 +66,8 @@ public class MailController {
     }
 
     @RequestMapping(value = "/setMessagesAsViewed", method = RequestMethod.POST)
-    public @ResponseBody void setNotificationsAsViewed(HttpSession session) {
+    public @ResponseBody void setNotificationsAsViewed(
+            HttpSession session) {
 
         if (session.getAttribute("member") == null)
             return;
@@ -76,17 +79,18 @@ public class MailController {
         Set<Message> unviewedMessages = member.getMail().getUnviewedMessages();
         for (Message unviewedMessage : unviewedMessages) {
             unviewedMessage.setViewed(true);
-            messageDao.save(unviewedMessage);
+            messageDao.merge(unviewedMessage);
         }
         session.setAttribute("message", null);
         session.setAttribute("member", new MemberDao().getMemberById(member.getId()));
     }
 
     @RequestMapping(value = "/doesRecipientExist", method = RequestMethod.GET)
-    public @ResponseBody String doesRecipientExist(HttpSession session,
+    public @ResponseBody String doesRecipientExist(
+            HttpSession session,
             @RequestParam(value = "recipient") String username) {
         if (session.getAttribute("member") == null)
-            return "redirect:../denied";
+            return "redirect:/denied";
         MemberDao memberDao = new MemberDao();
         Member member = memberDao.getMemberByUsername(username);
         String isValid;
@@ -99,24 +103,27 @@ public class MailController {
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public String send(HttpSession session, @RequestParam(value = "recipient") String recipientUsername,
-            @RequestParam(value = "subject") String subject, @RequestParam(value = "body") String body,
+    public String send(
+            HttpSession session,
+            @RequestParam(value = "recipient") String recipientUsername,
+            @RequestParam(value = "subject") String subject,
+            @RequestParam(value = "body") String body,
             @RequestParam(value = "draft_id") Integer draftId) {
         if (session.getAttribute("member") == null)
-            return "redirect:denied";
+            return "redirect:/denied";
         MemberDao memberDao = new MemberDao();
         MessageDao messageDao = new MessageDao();
         Member sender = (Member) session.getAttribute("member");
         Member recipient = memberDao.getMemberByUsername(recipientUsername);
         if (draftId != null) {
-            Message draft = messageDao.getMessageById(draftId);
+            Message draft = messageDao.getById(draftId);
             draft.setRecipient(recipient).setSubject(subject).setBody(body).setDraft(false).setSent(true);
-            messageDao.save(draft);
+            messageDao.merge(draft);
         } else {
             Message newMessage = new Message(subject, body, sender, recipient);
             newMessage.setSent(true);
             newMessage.setDraft(false);
-            messageDao.save(newMessage);
+            messageDao.merge(newMessage);
         }
         session.setAttribute("message", "Message sent!");
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
@@ -124,7 +131,9 @@ public class MailController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public @ResponseBody void delete(HttpSession session, @RequestParam(value = "messages") String messages) {
+    public @ResponseBody void delete(
+            HttpSession session,
+            @RequestParam(value = "messages") String messages) {
         if (session.getAttribute("member") == null)
             return;
         Member member = (Member) session.getAttribute("member");
@@ -134,7 +143,7 @@ public class MailController {
             Message message = member.getMail().getMessageById(Integer.parseInt(messageId));
             if (message != null) {
                 message.setDeleted(true);
-                messageDao.save(message);
+                messageDao.merge(message);
             }
         }
         MemberDao memberDao = new MemberDao();
@@ -143,7 +152,9 @@ public class MailController {
     }
 
     @RequestMapping(value = "/mark_unread", method = RequestMethod.POST)
-    public @ResponseBody void markUnread(HttpSession session, @RequestParam(value = "messages") String messages) {
+    public @ResponseBody void markUnread(
+            HttpSession session,
+            @RequestParam(value = "messages") String messages) {
         if (session.getAttribute("member") == null)
             return;
         Member member = (Member) session.getAttribute("member");
@@ -153,7 +164,7 @@ public class MailController {
             Message message = member.getMail().getMessageById(Integer.parseInt(messageId));
             if (message != null) {
                 message.setViewed(false);
-                messageDao.save(message);
+                messageDao.merge(message);
             }
         }
         MemberDao memberDao = new MemberDao();
@@ -162,9 +173,11 @@ public class MailController {
     }
 
     @RequestMapping(value = "/save_draft", method = RequestMethod.POST)
-    public @ResponseBody int saveDraft(HttpSession session,
+    public @ResponseBody int saveDraft(
+            HttpSession session,
             @RequestParam(value = "recipient") String recipientUsername,
-            @RequestParam(value = "subject") String subject, @RequestParam(value = "body") String body,
+            @RequestParam(value = "subject") String subject,
+            @RequestParam(value = "body") String body,
             @RequestParam(value = "draft_id") Integer draftId) {
         if (session.getAttribute("member") == null)
             return 0;
@@ -174,14 +187,14 @@ public class MailController {
         MessageDao messageDao = new MessageDao();
         if (draftId == null) {
             Message draft = new Message(subject, body, sender, recipient).setDraft(true);
-            draftId = messageDao.save(draft).getMessageId();
+            draftId = messageDao.merge(draft).getMessageId();
         } else {
-            Message draft = messageDao.getMessageById(draftId);
+            Message draft = messageDao.getById(draftId);
             draft.setBody(body);
             draft.setSubject(subject);
             draft.setRecipient(recipient);
             draft.setDraft(true);
-            messageDao.save(draft);
+            messageDao.merge(draft);
         }
         session.setAttribute("message", "Draft saved!");
         session.setAttribute("member", memberDao.getMemberById(sender.getId()));
