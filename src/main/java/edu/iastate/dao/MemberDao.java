@@ -45,8 +45,7 @@ public class MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Member> query = entityManager.createQuery(
-                "select m from Member m where m.username=:username and m.password=:password", Member.class);
+        TypedQuery<Member> query = entityManager.createQuery("select m from Member m where m.username=:username and m.password=:password", Member.class);
         query.setParameter("username", username);
         query.setParameter("password", password);
         Member member = query.getSingleResult();
@@ -107,8 +106,7 @@ public class MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Member> query = entityManager.createQuery("SELECT m from Member m WHERE m.username = :username",
-                Member.class);
+        TypedQuery<Member> query = entityManager.createQuery("SELECT m from Member m WHERE m.username = :username", Member.class);
         query.setParameter("username", username);
         List<Member> members = query.getResultList();
         Member member = null;
@@ -126,8 +124,7 @@ public class MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Member> query = entityManager.createQuery(
-                "Select m from Member m Where m.username = :username AND m.password = :password", Member.class);
+        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.username = :username AND m.password = :password", Member.class);
         query.setParameter("username", username);
         query.setParameter("password", password);
         List<Member> members = query.getResultList();
@@ -158,8 +155,7 @@ public class MemberDao {
             savedMember.setMail(new MailDao().save(new Mail().setMember(savedMember)));
 
         if (savedMember.getAvailability() == null)
-            savedMember.setAvailability(new AvailabilityDao().saveAvailability(new Availability()
-                    .setPlayer(savedMember)));
+            savedMember.setAvailability(new AvailabilityDao().saveAvailability(new Availability().setPlayer(savedMember)));
         return savedMember;
     }
 
@@ -173,8 +169,7 @@ public class MemberDao {
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.user_type = :userType",
-                Member.class);
+        TypedQuery<Member> query = entityManager.createQuery("Select m from Member m Where m.user_type = :userType", Member.class);
         query.setParameter("userType", userType);
         List<Member> members = query.getResultList();
 
