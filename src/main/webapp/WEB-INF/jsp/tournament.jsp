@@ -35,8 +35,8 @@
                         <div id="bracket"></div>
                     </c:when>
                     <c:otherwise>
-                        <strong>The bracket for this tournament isn't formed yet<br/></strong>
-                        <br/>
+                        <strong>The bracket for this tournament isn't formed yet.<br/></strong>
+                        <br/><br/>
 
                         <c:if test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
                             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
