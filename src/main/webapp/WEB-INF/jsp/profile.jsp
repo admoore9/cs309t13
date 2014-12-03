@@ -89,6 +89,51 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div id="my-invited-teams-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#my-invited-teams-content" href="#my-invited-teams-content">
+                                    Team Invites (${invitedTeamsSize})
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="my-invited-teams-content">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Name</th>
+                                            <th>Tournament</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${invitedTeams}" var="team">
+                                            <tr>
+                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
+                                                <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
+                                                <td>
+                                                <form role="form" id="invite-accept-form">
+                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default">Accept</button>
+                                                    <script type="text/javascript">
+                                                        var teamId = '<c:out value="${team.id}"/>';
+                                                    </script>
+                                                </form>
+                                                <form role="form" id="invite-reject-form">
+                                                    <button id="invite-reject-submit" type="submit" class="btn btn-default">Reject</button>
+                                                    <script type="text/javascript">
+                                                        var teamId = '<c:out value="${team.id}"/>';
+                                                    </script>
+                                                </form>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="game-history-panel" class="panel panel-default">
                         <div class="panel-heading">

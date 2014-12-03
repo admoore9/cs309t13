@@ -242,7 +242,7 @@ public class Member {
     private Set<Team> teams;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "invitedPlayers")
+    @ManyToMany(mappedBy = "invitedPlayers", fetch = FetchType.EAGER)
     private Set<Team> invitedTeams;
 
     @JsonManagedReference

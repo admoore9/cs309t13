@@ -339,8 +339,7 @@ public class TeamController {
     @RequestMapping(value = "/{id}/addPlayer", method = RequestMethod.POST)
     public @ResponseBody boolean addPlayerToTeam(
             HttpSession session,
-            @PathVariable int id,
-            @RequestParam(value = "playerId") int playerId) {
+            @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
             return false;
@@ -353,9 +352,28 @@ public class TeamController {
             return false;
         }
 
-        MemberDao memberDao = new MemberDao();
-        Member player = memberDao.getMemberById(playerId);
-        team.addPlayer(player);
+        team.addPlayer(me);
+        teamDao.saveTeam(team);
+        return true;
+    }
+    
+    @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
+    public @ResponseBody boolean removePlayerFromInvitedTeam(
+            HttpSession session,
+            @PathVariable int id) {
+        Member me = (Member) session.getAttribute("member");
+        if (me == null) {
+            return false;
+        }
+
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+
+        if (team == null || me.equals(team.getTeamLeader())) {
+            return false;
+        }
+
+        team.removeInvitedPlayer(me);;
         teamDao.saveTeam(team);
         return true;
     }

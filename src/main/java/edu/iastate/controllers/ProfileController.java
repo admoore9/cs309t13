@@ -39,6 +39,10 @@ public class ProfileController {
 
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
+        
+        Set<Team> invitedTeams = member.getInvitedTeams();
+        model.addAttribute("invitedTeams", invitedTeams);
+        model.addAttribute("invitedTeamsSize", invitedTeams.size());
 
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
@@ -62,7 +66,7 @@ public class ProfileController {
 
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
-
+        
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
