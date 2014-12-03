@@ -33,5 +33,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/login.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

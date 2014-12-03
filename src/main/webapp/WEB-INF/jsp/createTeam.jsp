@@ -73,5 +73,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/createTeam.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

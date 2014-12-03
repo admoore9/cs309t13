@@ -40,5 +40,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <!-- Page specific JS -->
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>
