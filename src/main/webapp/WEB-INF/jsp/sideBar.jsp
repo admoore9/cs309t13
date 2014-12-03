@@ -35,7 +35,7 @@
                 <tr>
                     <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
                     <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
-                    <td>TO DO</td>
+                    <td><c:out value="${nextGameDate}"/></td>
                 </tr>
             </c:forEach>
         </tbody>

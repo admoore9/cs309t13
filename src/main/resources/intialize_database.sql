@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Tournament` (
   `is_started` TINYINT(1) NULL,
   `tournament_name` VARCHAR(45) NULL,
   `coordinator_id` INT NULL DEFAULT NULL,
+  `open_date` TIMESTAMP NULL,
+  `close_date` TIMESTAMP NULL,
   PRIMARY KEY (`tournament_id`),
   INDEX `fk_tournament_member_idx` (`coordinator_id` ASC),
   CONSTRAINT `fk_tournament_member`

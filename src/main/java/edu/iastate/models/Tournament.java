@@ -3,6 +3,7 @@ package edu.iastate.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -70,6 +73,14 @@ public class Tournament {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tournament")
     private List<Game> games;
+    
+    @Column(name="open_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationOpenDate;
+    
+    @Column(name="close_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationCloseDate;
 
     public int getId() {
         return id;
@@ -392,6 +403,22 @@ public class Tournament {
         }
 
         return Arrays.asList(arr);
+    }
+
+    public Date getRegistrationOpenDate() {
+        return registrationOpenDate;
+    }
+
+    public void setRegistrationOpenDate(Date registrationOpenDate) {
+        this.registrationOpenDate = registrationOpenDate;
+    }
+
+    public Date getRegistrationCloseDate() {
+        return registrationCloseDate;
+    }
+
+    public void setRegistrationCloseDate(Date registrationCloseDate) {
+        this.registrationCloseDate = registrationCloseDate;
     }
 
     @Override

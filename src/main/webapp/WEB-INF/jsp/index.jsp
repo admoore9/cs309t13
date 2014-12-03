@@ -45,8 +45,8 @@
                                 <c:forEach items="${tournaments}" var="tournament">
                                     <tr>
                                         <td><c:out value="${tournament.name}"/></td>
-                                        <td>TO DO</td>
-                                        <td>TO DO</td>
+                                        <td><c:out value="${tournament.registrationOpenDate}"/></td>
+                                        <td><c:out value="${tournament.registrationCloseDate}"/></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
