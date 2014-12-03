@@ -27,8 +27,7 @@ public class MemberDao {
     /**
      * Can use a custom EntityManagerFactory for unit testing
      * 
-     * @param entityManagerFactory
-     *            The factory to use to get sessions
+     * @param entityManagerFactory The factory to use to get sessions
      */
     public MemberDao(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
@@ -80,8 +79,7 @@ public class MemberDao {
     /**
      * Get member matching given id
      * 
-     * @param id
-     *            ID of member to search for
+     * @param id ID of member to search for
      * @return Member Member matching id
      */
     public Member getMemberById(int id) {
@@ -146,8 +144,7 @@ public class MemberDao {
     /**
      * Saves the given member to the database
      * 
-     * @param member
-     *            The member to save to the database
+     * @param member The member to save to the database
      */
     public Member save(Member member) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -190,10 +187,8 @@ public class MemberDao {
     /**
      * Loads the foreign keys for a player based on the booleans
      * 
-     * @param player
-     *            the player to load the foreign keys for
-     * @param getSurveys
-     *            Whether to get the survey list for player
+     * @param player the player to load the foreign keys for
+     * @param getSurveys Whether to get the survey list for player
      */
     @SuppressWarnings("unused")
     private void loadForeignKeys(Member member, boolean getSurveys) {
@@ -205,8 +200,7 @@ public class MemberDao {
     /**
      * Loads the Surveys for a player
      * 
-     * @param player
-     *            the player to load surveys for
+     * @param player the player to load surveys for
      */
     private void loadSurveys(Member member) {
         member.getSurveys().size();

@@ -259,7 +259,8 @@ public class TournamentController {
      * 
      * @param session The http session
      * @param id The id of the tournament.
-     * @param doubleElimination Whether the tournament is a double elimination tournament.
+     * @param doubleElimination Whether the tournament is a double elimination
+     *            tournament.
      * @return true if the tournament was set by doubleElimination, false
      *         otherwise
      */
