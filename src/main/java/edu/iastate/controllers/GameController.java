@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,7 +37,7 @@ public class GameController {
 
         Member member = (Member) session.getAttribute("member");
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -45,6 +46,10 @@ public class GameController {
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
+        
+        if(game==null) {
+            return "redirect:/denied";
+        }
 
         model.addAttribute("game", game);
         return "game";

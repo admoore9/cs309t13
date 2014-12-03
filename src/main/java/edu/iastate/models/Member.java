@@ -239,32 +239,32 @@ public class Member {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)
-    private List<Team> teams;
+    private Set<Team> teams;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "invitedPlayers")
-    private List<Team> invitedTeams;
+    private Set<Team> invitedTeams;
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
     protected Set<Survey> surveys;
 
-    public List<Team> getInvitedTeams() {
+    public Set<Team> getInvitedTeams() {
         return invitedTeams;
     }
 
-    public void setInvitedTeams(List<Team> invitedTeams) {
+    public void setInvitedTeams(Set<Team> invitedTeams) {
         this.invitedTeams = invitedTeams;
     }
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "player")
     private Availability availability;
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
 

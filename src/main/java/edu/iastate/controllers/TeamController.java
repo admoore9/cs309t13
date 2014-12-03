@@ -43,7 +43,7 @@ public class TeamController {
             return "redirect:/denied";
         }
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -125,7 +125,7 @@ public class TeamController {
             }
         }
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         teamDao.saveTeam(team);
@@ -146,7 +146,7 @@ public class TeamController {
             return "redirect:/denied";
         }
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
 
         model.addAttribute("teams", teams);
 
