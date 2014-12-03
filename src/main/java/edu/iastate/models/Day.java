@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.OrderBy;
 
 @Entity
@@ -30,12 +28,10 @@ public class Day {
     @Column(name = "day_id")
     private int day_id;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "day", fetch = FetchType.EAGER)
     @OrderBy(clause = "period_id")
     private Set<Period> periods;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "availability_id")
     private Availability availability;
