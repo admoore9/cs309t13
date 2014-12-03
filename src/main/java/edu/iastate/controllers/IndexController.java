@@ -55,6 +55,6 @@ public class IndexController {
         } else {
             model.addAttribute("errorMessage", LOGIN_ERROR_MESSAGE);
         }
-        return "index";
+        return "redirect:profile";
     }
 }
