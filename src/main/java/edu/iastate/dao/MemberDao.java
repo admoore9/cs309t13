@@ -35,7 +35,6 @@ public class MemberDao {
 
     /**
      * Login with given username and password
-     * 
      * @param username
      * @param password
      * @return Member matching given username and password
@@ -58,7 +57,6 @@ public class MemberDao {
 
     /**
      * Get all members in the database
-     * 
      * @return List of members in database
      */
     public List<Member> getAllMembers() {
@@ -77,7 +75,6 @@ public class MemberDao {
 
     /**
      * Get member matching given id
-     * 
      * @param id ID of member to search for
      * @return Member Member matching id
      */
@@ -161,11 +158,11 @@ public class MemberDao {
 
     /**
      * Get a list of all members of given user type in database
-     * 
      * @return List of members in database
      */
     public List<Member> getAllByUserType(UserType userType) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory
+                .createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 

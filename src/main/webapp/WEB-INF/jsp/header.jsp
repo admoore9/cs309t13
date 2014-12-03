@@ -3,9 +3,7 @@
 <%@ page import="edu.iastate.models.Member" %>
 <%@ page import="edu.iastate.models.Message" %>
 <%@ page import="edu.iastate.dao.MessageDao" %>
-<%
-    Member member = (Member) session.getAttribute("member");
-%>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <head>
 	<!-- Page specific CSS -->
@@ -38,12 +36,10 @@
                         </div>
                         <a href="/register">Sign up!</a>
                     </form>
-                <%
-                    } else {
-                            Member.UserType userType = member.getUserType();
-                %>
+                <% } else {
+                    Member.UserType userType = member.getUserType();%>
                     <div class="navbar-right">
-					<ul class="nav navbar-nav navbar-right">
+					    <ul class="nav navbar-nav navbar-right">
 						<li id="messages" class="dropdown"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown">Message <span
 								id="messageBadge" class="badge">
@@ -105,8 +101,7 @@
 							</ul></li>
 						<% } %>
 
-						<li><a href="/profile">Welcome,
-								${sessionScope.member.name}!</a></li>
+						<li><a href="/profile">Welcome, ${sessionScope.member.name}!</a></li>
 						<li><a href="/logout">Logout</a></li>
 					</ul>
 				</div>

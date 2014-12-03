@@ -95,8 +95,7 @@ public class Member {
     }
 
     /**
-     * @param member_id
-     *            the member_id to set
+     * @param member_id the member_id to set
      */
     public void setMember_id(int member_id) {
         this.member_id = member_id;
@@ -305,8 +304,7 @@ public class Member {
     /**
      * Returns the survey pertaining to a particular tournament
      * 
-     * @param tournament
-     *            The tournament whose survey we are interested in
+     * @param tournament The tournament whose survey we are interested in
      * @return Survey object pertaining to that tournament
      */
     public Survey getSurveyByTournament(Tournament tournament) {
@@ -322,8 +320,7 @@ public class Member {
     /**
      * Adds survey to the list of surveys for player
      * 
-     * @param survey
-     *            the survey to be added top player
+     * @param survey the survey to be added top player
      */
     public void addSurvey(Survey survey) {
         if (survey == null || surveys.contains(survey)) {
@@ -335,8 +332,7 @@ public class Member {
     /**
      * Removes survey from list of surveys for player
      * 
-     * @param survey
-     *            the survey to be removed from player
+     * @param survey the survey to be removed from player
      */
     public void removeSurvey(Survey survey) {
         if (survey == null || !surveys.contains(survey)) {
