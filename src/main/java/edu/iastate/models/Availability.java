@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.OrderBy;
 
 import edu.iastate.models.Day.WeekDay;
@@ -26,10 +28,12 @@ public class Availability {
     @Column(name = "availability_id")
     private int availability_id;
     
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member player;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "availability", fetch = FetchType.EAGER)
     @OrderBy(clause = "day_id")
     private Set<Day> days;
