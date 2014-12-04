@@ -37,19 +37,11 @@
                     <a href="/register">Sign up!</a>
                 </form>
                 <% } else {
-                    Member.UserType userType = member.getUserType();%>
-                    <div class="navbar-right">
-                        <ul class="nav navbar-nav navbar-right">
+                Member.UserType userType = member.getUserType();%>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+
                         <li><a href="/profile">Welcome, ${sessionScope.member.name}!</a></li>
-                        <% if (userType != Member.UserType.PLAYER) { %>
-                        <li class="dropdown"><a href="#" class="dropdown-toggle"
-                            data-toggle="dropdown">Context <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-
-                                <% if (userType == Member.UserType.ADMIN) { %>
-                                <li><a href="#">Administrator</a></li>
-                                <% } %>
-
                         <% if (userType != Member.UserType.PLAYER) { %>
                         <li>
                             <form id="context-form" action="/context" method="POST">
@@ -76,10 +68,6 @@
                         </li>
                         <% } %>
 
-                                <li><a href="#">Official</a></li>
-                                <li><a href="#">Player</a></li>
-                            </ul></li>
-                        <% } %>
                         <li id="messages" class="dropdown"><a href="#"
                             class="dropdown-toggle" data-toggle="dropdown">Message <span
                                 id="messageBadge" class="badge">
@@ -88,14 +76,9 @@
                                     %>
                             </span></a>
                             <ul class="dropdown-menu">
-                                <%
-                                    for (Message message : member.getMail().getUnviewedMessages()) {
-                                                                            out.print("<li class='message'>"
-                                                                                    + message.getSubject() + " "
-                                                                                    + "<span class='message-time'>" + message.getTime() + "</span>"
-                                                                                    + "</li>");
-                                                                        }
-                                %>
+                                <% for (Message message : member.getMail().getUnviewedMessages()) {
+                                        out.print("<li class='message'>" + message.getSubject() + " " + "<span class='message-time'>" + message.getTime() + "</span>" + "</li>");
+                                    } %>
                                 <li class="inbox"><hr><a href="/mail">Inbox</a></li>
                             </ul>
                         </li>
