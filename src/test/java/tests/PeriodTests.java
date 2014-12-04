@@ -33,7 +33,8 @@ public class PeriodTests {
         dayDao = new DayDao();
 
         availability.setPlayer(player);
-        Availability savedAvailability = availabilityDao.saveAvailability(availability);
+        Availability savedAvailability = availabilityDao
+                .saveAvailability(availability);
 
     }
 

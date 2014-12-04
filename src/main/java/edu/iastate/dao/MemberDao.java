@@ -153,7 +153,8 @@ public class MemberDao extends BaseDao<Member> {
      * @return List of members in database
      */
     public List<Member> getAllByUserType(UserType userType) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory
+                .createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 

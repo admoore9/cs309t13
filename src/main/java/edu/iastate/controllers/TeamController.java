@@ -86,7 +86,7 @@ public class TeamController {
     public @ResponseBody Team getTeamById(
             HttpSession session,
             @PathVariable int id) {
-        if (session.getAttribute("member") == null) {
+        if(session.getAttribute("member") == null) {
             return null;
         }
 

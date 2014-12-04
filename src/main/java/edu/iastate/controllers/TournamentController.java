@@ -323,7 +323,6 @@ public class TournamentController {
 
         tournament.addTeam(team);
         tournamentDao.saveTournament(tournament);
-
         return true;
     }
 
@@ -383,7 +382,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
-        if (me == null || !MemberUtils.atLeastCoordinator(me)) {
+        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
