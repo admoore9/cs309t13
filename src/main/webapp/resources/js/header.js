@@ -13,7 +13,6 @@ $( document ).ready(function() {
             data: data,
             url: url,
             success: function(data) {
-                window.location.reload();
             }
         });
     });
