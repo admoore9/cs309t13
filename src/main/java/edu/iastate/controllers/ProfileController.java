@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.StringUtils;
@@ -31,11 +32,10 @@ public class ProfileController {
     @RequestMapping(method = RequestMethod.GET)
     public String loadProfilePage(Model model, HttpSession session) {
 
-        if (session.getAttribute("member") == null) {
+        Member member = (Member) session.getAttribute("member");
+        if (member == null || member.getContext() != UserType.PLAYER) {
             return "redirect:denied";
         }
-
-        Member member = (Member) session.getAttribute("member");
 
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);

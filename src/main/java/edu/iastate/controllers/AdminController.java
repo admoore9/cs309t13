@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
 import edu.iastate.models.Tournament;
+import edu.iastate.models.Member.UserType;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -20,13 +21,8 @@ public class AdminController {
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model, HttpSession session) {
 
-        if (session.getAttribute("member") == null) {
-            return "redirect:denied";
-        }
-
         Member member = (Member) session.getAttribute("member");
-
-        if (member.getUserType() != Member.UserType.ADMIN) {
+        if (member == null || member.getContext() != UserType.ADMIN) {
             return "redirect:denied";
         }
 
