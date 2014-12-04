@@ -30,7 +30,7 @@ public class ContextController {
         Member member = (Member) session.getAttribute("member");
 
         if (member == null)
-            return "redirect:denied";
+            return "redirect:/denied";
 
         if (context == member.getContext().ordinal()) {
             return null;
@@ -51,7 +51,7 @@ public class ContextController {
             member.setContext(UserType.ADMIN);
 
         } else {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         MemberDao memberDao = new MemberDao();

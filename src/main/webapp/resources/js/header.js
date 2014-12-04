@@ -8,7 +8,6 @@ $( document ).ready(function() {
         event.preventDefault();
         var url = "/context";
         var data = $('#context-form').serialize();
-        console.log(data);
         $.ajax({
             type: "POST",
             data: data,
