@@ -64,8 +64,7 @@ public class DayDao {
         return savedDays;
     }
 
-    public Day getByNameAndAvailabilityId(WeekDay weekDay,
-            Availability availability) {
+    public Day getByNameAndAvailabilityId(WeekDay weekDay, Availability availability) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();

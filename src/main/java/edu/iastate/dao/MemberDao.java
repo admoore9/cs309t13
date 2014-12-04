@@ -32,14 +32,11 @@ public class MemberDao extends BaseDao<Member> {
 
     /**
      * Login with given username and password
-     * 
      * @param username
      * @param password
      * @return Member matching given username and password
      */
-    public Member login(
-            String username,
-            String password) {
+    public Member login(String username, String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -57,7 +54,6 @@ public class MemberDao extends BaseDao<Member> {
 
     /**
      * Get all members in the database
-     * 
      * @return List of members in database
      */
     public List<Member> getAllMembers() {
@@ -76,12 +72,10 @@ public class MemberDao extends BaseDao<Member> {
 
     /**
      * Get member matching given id
-     * 
      * @param id ID of member to search for
      * @return Member Member matching id
      */
-    public Member getMemberById(
-            int id) {
+    public Member getMemberById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -101,8 +95,7 @@ public class MemberDao extends BaseDao<Member> {
      * @param username
      * @return a member with
      */
-    public Member getMemberByUsername(
-            String username) {
+    public Member getMemberByUsername(String username) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -120,9 +113,7 @@ public class MemberDao extends BaseDao<Member> {
         return member;
     }
 
-    public Member getMemberByUsernamePassword(
-            String username,
-            String password) {
+    public Member getMemberByUsernamePassword(String username, String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -146,8 +137,7 @@ public class MemberDao extends BaseDao<Member> {
      * 
      * @param member The member to save to the database
      */
-    public Member save(
-            Member member) {
+    public Member save(Member member) {
         Member savedMember = super.merge(member);
 
         if (savedMember.getMail() == null)
@@ -160,11 +150,9 @@ public class MemberDao extends BaseDao<Member> {
 
     /**
      * Get a list of all members of given user type in database
-     * 
      * @return List of members in database
      */
-    public List<Member> getAllByUserType(
-            UserType userType) {
+    public List<Member> getAllByUserType(UserType userType) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -186,9 +174,7 @@ public class MemberDao extends BaseDao<Member> {
      * @param getSurveys Whether to get the survey list for player
      */
     @SuppressWarnings("unused")
-    private void loadForeignKeys(
-            Member member,
-            boolean getSurveys) {
+    private void loadForeignKeys(Member member, boolean getSurveys) {
         if (getSurveys) {
             loadSurveys(member);
         }
@@ -199,8 +185,7 @@ public class MemberDao extends BaseDao<Member> {
      * 
      * @param player the player to load surveys for
      */
-    private void loadSurveys(
-            Member member) {
+    private void loadSurveys(Member member) {
         member.getSurveys().size();
     }
 }
