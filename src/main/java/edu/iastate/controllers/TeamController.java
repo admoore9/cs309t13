@@ -138,7 +138,6 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false, false);
 
-
         if(team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
@@ -203,6 +202,7 @@ public class TeamController {
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
+
 
         if(team == null || !me.equals(team.getTeamLeader())) {
             return false;
