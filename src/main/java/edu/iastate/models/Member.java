@@ -257,6 +257,7 @@ public class Member {
         this.invitedTeams = invitedTeams;
     }
 
+    @JsonManagedReference
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "player")
     private Availability availability;
 

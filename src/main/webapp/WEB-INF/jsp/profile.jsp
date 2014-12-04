@@ -24,8 +24,9 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
 
                 <!-- Page specific html -->
+                <% if (member.getContext() == Member.UserType.PLAYER) { %>
                 <h2>Profile</h2>
-
+                
                 <div id="accordion" class="panel-group">
 
                     <div id="join-tournament-panel" class="panel panel-default">
@@ -196,6 +197,8 @@
                     </div>
 
                 </div>
+                <% } %>
+
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>

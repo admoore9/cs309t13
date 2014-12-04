@@ -64,5 +64,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/tournament.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>
