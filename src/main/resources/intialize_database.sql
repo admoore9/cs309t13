@@ -324,7 +324,7 @@ ENGINE = InnoDB;
 -- System data
 -- -----------------------------------------------------
 INSERT INTO `cs309t13`.`Member` (`member_id`, `name`, `username`, `password`, `user_type`, `height`, `weight`, `context`, `mail_id`) 
-	VALUES ('1', 'Iowa State Intramurals', 'Intramurals', 'd32e607bddfb2cbf5e91c38cd64dc4db', '0', '-1', '-1', '0', '1');
+	VALUES ('1', 'Iowa State Intramurals', 'Intramurals', 'd32e607bddfb2cbf5e91c38cd64dc4db', '3', '-1', '-1', '3', '1');
 INSERT INTO `cs309t13`.`Mail` (`mail_id`, `member_id`)
 	VALUES ('1', '1');
 
