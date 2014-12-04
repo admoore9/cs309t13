@@ -70,5 +70,6 @@
     <script type="text/javascript">
     var tournamentId = '<c:out value="${tournamentId}"/>';
     </script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

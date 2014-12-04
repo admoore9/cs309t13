@@ -151,5 +151,6 @@
     <script type="text/javascript">
         var teamId = '<c:out value="${team.id}"/>';
     </script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>
