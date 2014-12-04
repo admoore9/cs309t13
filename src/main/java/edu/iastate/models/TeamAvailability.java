@@ -21,7 +21,7 @@ public class TeamAvailability {
     @Id
     @GeneratedValue
     @Column(name = "availability_id")
-    private int availability_id;
+    private int availabilityId;
     
     @OneToOne
     @JoinColumn(name = "team_id")
@@ -36,8 +36,8 @@ public class TeamAvailability {
     /**
      * @return the availability_id
      */
-    public int getAvailability_id() {
-        return availability_id;
+    public int getAvailabilityId() {
+        return availabilityId;
     }
 
     /**

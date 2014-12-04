@@ -26,7 +26,7 @@ public class Availability {
     @Id
     @GeneratedValue
     @Column(name = "availability_id")
-    private int availability_id;
+    private int availabilityId;
     
     @JsonBackReference
     @OneToOne
@@ -45,8 +45,8 @@ public class Availability {
     /**
      * @return the availability_id
      */
-    public int getAvailability_id() {
-        return availability_id;
+    public int getAvailabilityId() {
+        return availabilityId;
     }
 
     /**
