@@ -174,7 +174,7 @@ public class Game {
     public void setWinner(Team winner) {
         this.nextGame.removeTeam(this.winner);
         this.winner = winner;
-        this.nextGame.addTeam(this.winner);
+        this.nextGame.addTeam(winner);
     }
 
     /**
