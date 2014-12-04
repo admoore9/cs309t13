@@ -25,6 +25,7 @@ import edu.iastate.models.Tournament;
 @RequestMapping("/team")
 public class TeamController {
 
+    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
         model.addAttribute("teamId", id);
 
@@ -136,6 +137,7 @@ public class TeamController {
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, false, false);
+
 
         if(team == null || !me.equals(team.getTeamLeader())) {
             return false;
