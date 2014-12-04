@@ -24,9 +24,6 @@ public class ContextController {
             Model model,
             HttpSession session) {
 
-        model.addAttribute("message", "");
-        model.addAttribute("errorMessage", "");
-
         Member member = (Member) session.getAttribute("member");
 
         if (member == null)
