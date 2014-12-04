@@ -38,15 +38,15 @@ public class ContextController {
         } else if (context == UserType.PLAYER.ordinal()) {
             member.setContext(UserType.PLAYER);
 
-        } else if (context == (int) UserType.OFFICIAL.ordinal() &&
+        } else if (context == UserType.OFFICIAL.ordinal() &&
                 MemberUtils.atLeastOfficial(member)) {
             member.setContext(UserType.OFFICIAL);
 
-        } else if (context == (int) UserType.COORDINATOR.ordinal() &&
+        } else if (context == UserType.COORDINATOR.ordinal() &&
                 MemberUtils.atLeastCoordinator(member)) {
             member.setContext(UserType.COORDINATOR);
 
-        } else if (context == (int) UserType.ADMIN.ordinal() &&
+        } else if (context == UserType.ADMIN.ordinal() &&
                 member.getUserType() == UserType.ADMIN) {
             member.setContext(UserType.ADMIN);
 
@@ -58,5 +58,28 @@ public class ContextController {
         memberDao.save(member);
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return null;
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String loadContextSpecificPage(Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return "redirect:../denied";
+        }
+
+        UserType context = member.getContext();
+
+        if (context == UserType.PLAYER) {
+            return "redirect:../profile";
+
+        } else if (context == UserType.OFFICIAL) {
+            return "redirect:../official";
+
+        } else if (context == UserType.COORDINATOR) {
+            return "redirect:../coordinator";
+
+        } else {
+            return "redirect:../admin";
+        }
     }
 }
