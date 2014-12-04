@@ -7,14 +7,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import edu.iastate.models.Game;
+import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 /**
- * Data Access Object for the Team class, this should be used for
- * interacting with the Tournament table in the database.
+ * Data Access Object for the Team class, this should be used for interacting
+ * with the Team table in the database.
  * 
  * @author shubangsridhar
  *
@@ -56,7 +56,6 @@ public class TeamDao {
         return teams;
     }
 
-
     /**
      * Get a team's information using team ID
      * 
@@ -79,6 +78,20 @@ public class TeamDao {
         transaction.commit();
         entityManager.close();
         return team;
+    }
+
+    public void deleteTeamById(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Team> query = entityManager.createQuery("from Team t where t.id = :id", Team.class);
+        query.setParameter("id", id);
+        Team team = query.getSingleResult();
+        entityManager.remove(team);
+
+        transaction.commit();
+        entityManager.close();
     }
 
     /**
@@ -141,5 +154,24 @@ public class TeamDao {
      */
     private void loadInvitedPlayers(Team team) {
         team.getInvitedPlayers().size();
+    }
+    
+    public Team getTeamByTeamName(String name, Tournament tournament) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        TypedQuery<Team> query = entityManager.createQuery("SELECT t from Team t WHERE t.name = :name and t.tournament = :tournament", Team.class);
+        query.setParameter("name", name);
+        query.setParameter("tournament", tournament);
+        List<Team> teams = query.getResultList();
+        Team team = null;
+        if (!teams.isEmpty()) {
+            team = teams.get(0);
+        }
+
+        transaction.commit();
+        entityManager.close();
+        return team;
     }
 }

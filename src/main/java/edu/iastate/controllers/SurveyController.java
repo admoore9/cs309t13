@@ -1,16 +1,18 @@
 package edu.iastate.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.PlayerDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.SurveyDao;
 import edu.iastate.dao.TournamentDao;
-import edu.iastate.models.Player;
+import edu.iastate.models.Member;
 import edu.iastate.models.Survey;
 import edu.iastate.models.Tournament;
 
@@ -21,33 +23,38 @@ public class SurveyController {
     private static final double LBS_TO_KG_FACTOR = 0.453592;
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String loadSurveyPage(Model m) {
+    @RequestMapping(value = "/{tournamentId}/view", method = RequestMethod.GET)
+    public String loadSurveyPage(@PathVariable int tournamentId, Model m, HttpSession session) {
+
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+
+        m.addAttribute("tournamentId", tournamentId);
+
         return "survey";
     }
 
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public @ResponseBody void surveySubmit(
-            @RequestParam(value = "sex") String sex,
-            @RequestParam(value = "height") Integer height,
-            @RequestParam(value = "weight") Integer weight,
+    @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
+    public String surveySubmit(
+            @PathVariable int tournamentId,
+            @RequestParam(value = "sex", required = false) String sex,
+            @RequestParam(value = "height", required = false) Integer height,
+            @RequestParam(value = "weight", required = false) Integer weight,
             @RequestParam(value = "compYears") Integer compYears,
             @RequestParam(value = "intsPlayed") Integer intsPlayed,
             @RequestParam(value = "compLvl") Integer compLvl,
-            @RequestParam(value = "isClubPlayer") boolean isClubPlayer) {
+            @RequestParam(value = "isClubPlayer") boolean isClubPlayer,
+            HttpSession session) {
 
         // set up database access objects
-        PlayerDao playerDao = new PlayerDao();
+        MemberDao memberDao = new MemberDao();
         SurveyDao surveyDao = new SurveyDao();
         TournamentDao tournamentDao = new TournamentDao();
 
-        // TODO use the player from the session id
-        // get first player from database
-        Player player = playerDao.getAllPlayers().get(0);
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
+        Member player = (Member) session.getAttribute("member");
         Survey survey = new Survey();
-        // TODO use the correct tournament
-        // get first tournament from database
-        Tournament tournament = tournamentDao.getAllTournaments().get(0);
 
         if (sex != null)
             player.setSex(sex);
@@ -56,7 +63,7 @@ public class SurveyController {
         if (weight != null)
             player.setWeight(weight);
 
-        int surveyScore = calcSurveyScore(sex, height, weight, compYears, intsPlayed, compLvl, isClubPlayer);
+        int surveyScore = calcSurveyScore(player.getSex(), player.getHeight(), player.getWeight(), compYears, intsPlayed, compLvl, isClubPlayer);
 
         // set the surveys parameters
         survey.setTournament(tournament);
@@ -64,8 +71,10 @@ public class SurveyController {
         survey.setSurveyScore(surveyScore);
 
         // Save updated player and survey to database
-        playerDao.savePlayer(player);
+        memberDao.save(player);
         surveyDao.saveSurvey(survey);
+
+        return "redirect:../../profile";
     }
 
     /**

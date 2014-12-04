@@ -16,16 +16,17 @@ import javax.persistence.TypedQuery;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.iastate.dao.PlayerDao;
-import edu.iastate.models.Player;
+import edu.iastate.dao.MemberDao;
+import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 
 public class PlayerTests {
 
-    PlayerDao playerDao;
+    MemberDao playerDao;
     EntityManager entityManager;
     EntityManagerFactory entityManagerFactory;
     EntityTransaction transaction;
-    TypedQuery<Player> query;
+    TypedQuery<Member> query;
     String selectAllQuery = "from Player";
     String selectByIdQuery = "from Player p where p.member_id = 0";
     
@@ -38,7 +39,7 @@ public class PlayerTests {
         query = mock(TypedQuery.class);
         
         // Given
-        playerDao = new PlayerDao(entityManagerFactory);
+        playerDao = new MemberDao(entityManagerFactory);
         when(entityManagerFactory.createEntityManager()).thenReturn(entityManager);
         when(entityManager.getTransaction()).thenReturn(transaction);
     }
@@ -47,15 +48,15 @@ public class PlayerTests {
     public void getAllPlayersTest() {
         
         // Given
-        when(entityManager.createQuery(selectAllQuery, Player.class)).thenReturn(query);
-        List<Player> expectedPlayerList = new ArrayList<Player>();
-        expectedPlayerList.add(new Player("Brian", "mike", "123"));
-        expectedPlayerList.add(new Player("Andrew", "mike", "123"));
-        expectedPlayerList.add(new Player("Shubang", "mike", "123"));
+        when(entityManager.createQuery(selectAllQuery, Member.class)).thenReturn(query);
+        List<Member> expectedPlayerList = new ArrayList<Member>();
+        expectedPlayerList.add(new Member("Brian", "mike", "123"));
+        expectedPlayerList.add(new Member("Andrew", "mike", "123"));
+        expectedPlayerList.add(new Member("Shubang", "mike", "123"));
         // When
         when(query.getResultList()).thenReturn(expectedPlayerList);
         
-        List<Player> actualPlayerList = playerDao.getAllPlayers();
+        List<Member> actualPlayerList = playerDao.getAllByUserType(UserType.PLAYER);
         // Then
         assertNotNull(actualPlayerList);
         assertSame(expectedPlayerList, actualPlayerList);
@@ -64,12 +65,13 @@ public class PlayerTests {
     @Test
     public void getPlayerByIdTest() {
         // Given
-        when(entityManager.createQuery(selectByIdQuery, Player.class)).thenReturn(query);
-        Player expectedPlayer = new Player("test1", "test1", "asdf");
+        when(entityManager.createQuery(selectByIdQuery, Member.class)).thenReturn(query);
+        Member expectedPlayer = new Member("test1", "test1", "asdf");
+        
         // When
         when(query.getSingleResult()).thenReturn(expectedPlayer);
+        Member actualPlayer = playerDao.getMemberById(1);
         
-        Player actualPlayer = playerDao.getPlayerById(1, false);
         // Then
         assertNotNull(actualPlayer);
         assertSame(expectedPlayer, actualPlayer);

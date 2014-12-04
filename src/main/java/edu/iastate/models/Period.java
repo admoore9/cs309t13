@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 @Entity
 @Table(name = "Period")
 public class Period {
@@ -19,18 +21,30 @@ public class Period {
     @Column(name = "period_id")
     private int period_id;
     
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "day_id")
     private Day day;
     
     public enum Slot {
-        SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE
+        SIXPM(6, "PM"), SEVENPM(7, "PM"), EIGHTPM(8, "PM"), NINEPM(9, "PM"), TENPM(10, "PM"), ELEVENPM(11, "PM"), TWELVEPM(12, "PM");
+        int hour;
+        String period;
+        Slot(int hour, String period) {
+            this.hour = hour;
+            this.period = period;
+        }
+        public int hour()   { return hour; }
+        public String period() { return period; }
     };
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "slot")
     private Slot slot;
-    
+
+    @Column(name = "available")
+    private boolean available;
+
     public Period() {}
     
     /**
@@ -38,6 +52,13 @@ public class Period {
      */
     public Period(Slot slot) {
         this.slot = slot;
+    }
+
+    public Period(String slotName) {
+        for (Slot slot : Slot.values()) {
+            if (slot.name().equals(slotName))
+                this.slot = slot;
+        }
     }
 
     /**
@@ -50,8 +71,53 @@ public class Period {
     /**
      * @param day the day to set
      */
-    public void setDay(Day day) {
+    public Period setDay(Day day) {
         this.day = day;
+        return this;
+    }
+
+    /**
+     * @return the slot
+     */
+    public Slot getSlot() {
+        return slot;
+    }
+
+    /**
+     * @param slot the slot to set
+     */
+    public void setSlot(Slot slot) {
+        this.slot = slot;
+    }
+
+    /**
+     * @return the period_id
+     */
+    public int getPeriod_id() {
+        return period_id;
+    }
+
+    /**
+     * @param period_id the period_id to set
+     */
+    public void setPeriod_id(int period_id) {
+        this.period_id = period_id;
+    }
+
+    /**
+     * @return the available
+     */
+    public boolean isAvailable() {
+        return available;
+    }
+
+    /**
+     * @param available the available to set
+     * @return
+     */
+    public Period setAvailable(boolean available) {
+        this.available = available;
+        return this;
     }
 
     @Override

@@ -34,3 +34,7 @@ score {
     border-left-color: black;
     text-align: center;
 }
+
+.popover {
+    width: 200px;
+}

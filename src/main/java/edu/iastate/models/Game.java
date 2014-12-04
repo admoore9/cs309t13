@@ -2,7 +2,9 @@ package edu.iastate.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +15,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import edu.iastate.utils.MemberUtils;
 
 /**
  * Game class
@@ -24,6 +32,7 @@ import javax.persistence.TemporalType;
  *
  */
 
+// TODO game winner and associated methods
 @Entity
 @Table(name = "Game")
 public class Game {
@@ -43,25 +52,35 @@ public class Game {
     @Column(name = "game_location")
     private String gameLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "next_game_id", referencedColumnName = "game_id")
     private Game nextGame;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @JoinTable(name = "teamgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Team> teams;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Team> teams;
 
     @JoinTable(name = "officialgamemapper", joinColumns = {@JoinColumn(name = "game_id", referencedColumnName = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Official> officials;
-    
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Member> officials;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private Set<Score> scores;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "winner", referencedColumnName = "team_id")
+    private Team winner;
+
     public Game() {
-        teams = new ArrayList<Team>();
-        officials = new ArrayList<Official>();
+        teams = new HashSet<Team>();
+        officials = new HashSet<Member>();
+        scores = new HashSet<Score>();
     }
 
     public int getId() {
@@ -126,11 +145,11 @@ public class Game {
         this.gameLocation = gameLocation;
     }
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
 
@@ -140,6 +159,32 @@ public class Game {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+    
+    public Set<Member> getOfficials() {
+        return officials;
+    }
+
+    public void setOfficials(Set<Member> officials) {
+        this.officials = officials;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.nextGame.removeTeam(this.winner);
+        this.winner = winner;
+        this.nextGame.addTeam(winner);
     }
 
     /**
@@ -182,8 +227,8 @@ public class Game {
      *         -1 if official is null or official already exists
      * 
      */
-    public int addOfficial(Official official) {
-        if(official == null || this.officials.contains(official)) {
+    public int addOfficial(Member official) {
+        if(official == null || this.officials.contains(official)  || MemberUtils.atLeastOfficial(official)) {
             return -1;
         }
         if(this.officials.size() == tournament.getOfficialsPerGame()) {
@@ -199,8 +244,8 @@ public class Game {
      * 
      * @param official The official to be removed
      */
-    public void removeOfficial(Official official) {
-        if(official == null || this.officials.contains(official)) {
+    public void removeOfficial(Member official) {
+        if(official == null || !this.officials.contains(official)) {
             return;
         }
         this.officials.remove(official);
