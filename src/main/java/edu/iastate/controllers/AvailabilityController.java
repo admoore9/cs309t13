@@ -8,17 +8,20 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.iastate.dao.AvailabilityDao;
+import edu.iastate.dao.TeamDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Day.WeekDay;
 import edu.iastate.models.Member;
 import edu.iastate.models.Period;
 import edu.iastate.models.Period.Slot;
+import edu.iastate.models.Team;
 
 @Controller
 @RequestMapping("/availability")
@@ -39,6 +42,23 @@ public class AvailabilityController {
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
+        return "availability";
+    }
+
+    @RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
+    public String getTeamAvailability(Model model,
+            HttpSession session,
+            @PathVariable int id) {
+        if (session.getAttribute("member") == null) {
+            return "redirect:denied";
+        }
+        availabilityDao = new AvailabilityDao();
+        Team team = new TeamDao().getTeamById(1, false, true, false);
+        availability = availabilityDao.getTeamAvailability(team);
+        days = availability.getDays();
+        model.addAttribute("days", days);
+        model.addAttribute("slots", Slot.values());
+        model.addAttribute("isTeam", true);
         return "availability";
     }
 

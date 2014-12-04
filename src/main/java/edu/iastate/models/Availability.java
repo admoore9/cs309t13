@@ -85,5 +85,12 @@ public class Availability {
         }
         return null;
     }
+
+    public void setPeriodAvailability(Period period,
+            boolean isAvailable) {
+        Day day = this.getDayByName(period.getDay().getName());
+        Period p = day.getPeriodByName(period.getSlot());
+        p.setAvailable(isAvailable);
+    }
     
 }
