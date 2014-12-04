@@ -68,7 +68,7 @@ public class TournamentController {
         if(!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
-        
+
         Tournament tournament = new Tournament();
         tournament.setName(name);
         tournament.setMinPlayers(minPlayers);
