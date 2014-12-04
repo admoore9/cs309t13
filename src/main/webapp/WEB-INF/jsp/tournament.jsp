@@ -2,7 +2,9 @@
 <%@ page session="true" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
+<%@ page import="edu.iastate.models.Tournament" %>
 <% Member member = (Member) session.getAttribute("member"); %>
+<% Tournament tournament = (Tournament) request.getAttribute("tournament"); %>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +29,7 @@
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <h2>Bracket</h2>
-                <h3>Tournament Name: <span id="tournament-name"></span></h3>
+                <h3>Tournament Name: ${tournament.name}</h3>
                 <div id="bracket"></div>
                 <br>
                 <c:choose>
@@ -35,14 +37,16 @@
                         <div id="bracket"></div>
                     </c:when>
                     <c:otherwise>
-                        <br/>
+                        <strong>The bracket for this tournament isn't formed yet.<br/></strong>
+                        <br/><br/>
 
                         <c:if test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
                             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
                         </c:if>
-
+                        <% if(!member.isPlayerInTournament(tournament)) { %>
                         <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
                         <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
+                        <% } %>
                     </c:otherwise>
                 </c:choose>
 
@@ -60,5 +64,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/tournament.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

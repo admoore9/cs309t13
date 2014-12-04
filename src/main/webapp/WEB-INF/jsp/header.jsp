@@ -24,18 +24,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <% if (member == null) { %>
-                    <form class="navbar-form navbar-right" id="loginForm" action="/login" method="POST">
-                        <div class="form-group">
-                            <input id="username" name="username" type="text" placeholder="Username" class="form-control input-sm">
-                        </div>
-                        <div class="form-group">
-                            <input id="password" name="password" type="password" placeholder="Password" class="form-control input-sm">
-                        </div>
-                        <div class="btn-group">
-                            <input type="submit" name="submitLogin" class="btn btn-success" value="Login"/>
-                        </div>
-                        <a href="/register">Sign up!</a>
-                    </form>
+                <form class="navbar-form navbar-right" id="loginForm" action="/login" method="POST">
+                    <div class="form-group">
+                        <input id="username" name="username" type="text" placeholder="Username" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <input id="password" name="password" type="password" placeholder="Password" class="form-control input-sm">
+                    </div>
+                    <div class="btn-group">
+                        <input type="submit" name="submitLogin" class="btn btn-success" value="Login"/>
+                    </div>
+                    <a href="/register">Sign up!</a>
+                </form>
                 <% } else {
                     Member.UserType userType = member.getUserType();%>
                     <div class="navbar-right">
@@ -69,32 +69,31 @@
                                 <li><a href="#">Administrator</a></li>
                                 <% } %>
 
-                            <% if (userType != Member.UserType.PLAYER) { %>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Context <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
+                        <% if (userType != Member.UserType.PLAYER) { %>
+                        <li>
+                            <form id="context-form" action="/context" method="POST">
+                                <input type="hidden" name="context" id="context">
+                                <ul style="line-height: 50px;">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#8B8B8B;"><c:out value="${ member.context }"/><b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+        
+                                            <% if (userType == Member.UserType.ADMIN) { %>
+                                            <li><a href="#" onclick="$('#context').val('3'); $('#context-form').submit()">Administrator</a></li>
+                                            <% } %>
+        
+                                            <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
+                                            <li><a href="#" onclick="$('#context').val('2'); $('#context-form').submit()">Coordinator</a></li>
+                                            <% } %>
     
-                                        <% if (userType == Member.UserType.ADMIN) { %>
-                                          <li>
-                                              <a href="#">Administrator</a>
-                                          </li>
-                                        <% } %>
-    
-                                        <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
-                                          <li>
-                                              <a href="#">Coordinator</a>
-                                          </li>
-                                        <% } %>
-
-                                        <li>
-                                            <a href="#">Official</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Player</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            <% } %>
+                                            <li><a href="#" onclick="$('#context').val('1'); $('#context-form').submit()">Official</a></li>
+                                            <li><a href="#" onclick="$('#context').val('0'); $('#context-form').submit()">Player</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </form>
+                        </li>
+                        <% } %>
 
                                 <li><a href="#">Official</a></li>
                                 <li><a href="#">Player</a></li>

@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,26 +14,80 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
+import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
+import edu.iastate.models.Tournament;
+import edu.iastate.utils.MemberUtils;
+
 
 @Controller
 @RequestMapping("/game")
 public class GameController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getGame(Model model, HttpSession session) {
-
+    @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
+    public String getGame(Model model, HttpSession session, @PathVariable int id) {
+        model.addAttribute("gameId", id);
         if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+            return "redirect:/denied";
+        }
+
+        Member member = (Member) session.getAttribute("member");
+
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
+        GameDao gameDao = new GameDao();
+        Game game = gameDao.getGameById(id, true);
+        
+        if(game==null) {
+            return "redirect:/denied";
+        }
+
+        model.addAttribute("game", game);
+        return "game";
+    }
+
+    /**
+     * Updates the game given the location, official to add or remove
+     * Does nothing for the fields that are left blank and sumbit is pressed
+     * 
+     * 
+     * @param id the game ID
+     * @param location the new location of the game
+     * @return true if successful
+     */
+    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
+    public @ResponseBody boolean updateGame(
+            @PathVariable int id,
+            @RequestParam(value = "location") String location,
+            @RequestParam(value = "addOfficial") String addOfficial,
+            @RequestParam(value = "removeOfficial") String removeOfficial,
+            HttpSession session) {
+        //Validates the user permission
+        Member member = (Member) session.getAttribute("member");
+        if(!MemberUtils.atLeastCoordinator(member)) {
+            return false;
         }
 
         GameDao gameDao = new GameDao();
-        List<Game> games = gameDao.getAllGames();
-        model.addAttribute("games", games);
-        return "game";
+        MemberDao memberDao = new MemberDao();
+        Game game = gameDao.getGameById(id, true);
+        if(location!="") {
+            game.setGameLocation(location);
+        }
+        game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
+        game.addOfficial(memberDao.getMemberByUsername(addOfficial));
+
+        gameDao.saveGame(game);
+        return true;
     }
 
     /**

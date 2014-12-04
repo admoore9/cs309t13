@@ -13,4 +13,18 @@ $( document ).ready(function() {
             }
         });
     });
+    
+    $('#context-form').on('submit', function(event) {
+        event.preventDefault();
+        var url = "/context";
+        var data = $('#context-form').serialize();
+        $.ajax({
+            type: "POST",
+            data: data,
+            url: url,
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    });
 });

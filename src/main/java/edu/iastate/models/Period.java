@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 @Entity
 @Table(name = "Period")
 public class Period {
@@ -19,6 +21,7 @@ public class Period {
     @Column(name = "period_id")
     private int period_id;
     
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "day_id")
     private Day day;

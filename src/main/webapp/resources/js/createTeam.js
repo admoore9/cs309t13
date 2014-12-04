@@ -10,20 +10,13 @@ $( document ).ready(function() {
                     stringLength: {
                         max: 45,
                         message: 'Your team name must be less than 46 characters long'
+                    },
+                    remote: {
+                        message: 'The team name is not available',
+                        url: '/team/' + tournamentId + '/available'
                     }
                 }
             },
-            invitedPlayerUsername: {
-                validators: {
-                    notEmpty: {
-                        message: 'An invited player username is required'
-                    },
-                    stringLength: {
-                        max: 45,
-                        message: 'Invited usernames must be less than 46 characters long'
-                    }
-                }
-            }
         }
     })
 });
