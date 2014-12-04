@@ -146,5 +146,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/admin_view.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>

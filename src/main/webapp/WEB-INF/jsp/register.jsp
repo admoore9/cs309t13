@@ -65,5 +65,6 @@
 
     <!-- Page specific JS -->
     <script src="../../resources/js/register.js"></script>
+    <script src="../../resources/js/header.js"></script>
 </footer>
 </html>
