@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.StringUtils;
 
@@ -39,11 +41,7 @@ public class IndexController {
             HttpSession session,
             Model model) {
 
-        TournamentDao tournamentDao = new TournamentDao();
         MemberDao memberDao = new MemberDao();
-
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
 
         String genPassword = StringUtils.secureString(password);
 
@@ -55,6 +53,16 @@ public class IndexController {
         } else {
             model.addAttribute("errorMessage", LOGIN_ERROR_MESSAGE);
         }
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         return "index";
     }
 }

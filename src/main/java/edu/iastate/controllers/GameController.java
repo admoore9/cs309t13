@@ -23,35 +23,39 @@ import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.MemberUtils;
 
-
 @Controller
 @RequestMapping("/game")
 public class GameController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String getGame(Model model, HttpSession session, @PathVariable int id) {
-        model.addAttribute("gameId", id);
-        if (session.getAttribute("member") == null) {
+
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
             return "redirect:/denied";
         }
 
-        Member member = (Member) session.getAttribute("member");
-
-        Set<Team> teams = member.getTeams();
-        model.addAttribute("teams", teams);
-
-        TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
-
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);
-        
-        if(game==null) {
+        if (game == null) {
             return "redirect:/denied";
         }
 
         model.addAttribute("game", game);
+        model.addAttribute("gameId", id);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
+
         return "game";
     }
 
@@ -71,16 +75,16 @@ public class GameController {
             @RequestParam(value = "addOfficial") String addOfficial,
             @RequestParam(value = "removeOfficial") String removeOfficial,
             HttpSession session) {
-        //Validates the user permission
+        // Validates the user permission
         Member member = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(member)) {
+        if (!MemberUtils.atLeastCoordinator(member)) {
             return false;
         }
 
         GameDao gameDao = new GameDao();
         MemberDao memberDao = new MemberDao();
         Game game = gameDao.getGameById(id, true);
-        if(location!="") {
+        if (location != "") {
             game.setGameLocation(location);
         }
         game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
@@ -98,7 +102,7 @@ public class GameController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Game getGame(HttpSession session, @PathVariable int id) {
-        if(session.getAttribute("member") == null) {
+        if (session.getAttribute("member") == null) {
             return null;
         }
 
@@ -120,7 +124,7 @@ public class GameController {
             @PathVariable int id,
             @RequestParam(value = "winner") int winnerId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null || me.getUserType() == Member.UserType.PLAYER) {
+        if (me == null || me.getUserType() == Member.UserType.PLAYER) {
             return false;
         }
 

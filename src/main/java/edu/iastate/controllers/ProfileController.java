@@ -37,12 +37,17 @@ public class ProfileController {
             return "redirect:/denied";
         }
 
+        // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
+
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
 
         return "profile";
     }
@@ -57,15 +62,7 @@ public class ProfileController {
             Model model,
             HttpSession session) {
 
-        MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
-
-        Set<Team> teams = member.getTeams();
-        model.addAttribute("teams", teams);
-
-        TournamentDao tournamentDao = new TournamentDao();
-        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
-        model.addAttribute("tournaments", tournaments);
 
         String errorMessage = "";
 
@@ -110,14 +107,25 @@ public class ProfileController {
             }
         }
 
-        memberDao.save(member);
         if (!errorMessage.equals("")) {
             System.out.println(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
         } else {
             model.addAttribute("message", "Profile updated.");
         }
-        session.setAttribute("member", member);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
+        MemberDao memberDao = new MemberDao();
+        memberDao.save(member);
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
 
         return "profile";
     }

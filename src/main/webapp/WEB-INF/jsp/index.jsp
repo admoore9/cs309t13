@@ -1,4 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="true" %>
+<%@ page import="edu.iastate.models.Member" %>
+<% Member member = (Member) session.getAttribute("member");%>
 
 <!DOCTYPE html>
 <html>
@@ -44,7 +47,16 @@
                             <tbody>
                                 <c:forEach items="${tournaments}" var="tournament">
                                     <tr>
+                                        <% if (member != null) { %>
+
+                                        <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+
+                                        <% } else { %>
+
                                         <td><c:out value="${tournament.name}"/></td>
+
+                                        <% } %>
+
                                         <td>TO DO</td>
                                         <td>TO DO</td>
                                     </tr>
