@@ -2,9 +2,7 @@
 <%@ page session="true"%>
 <%@ page import="javax.persistence.EnumType"%>
 <%@ page import="edu.iastate.models.Member"%>
-<%
-    Member member = (Member) session.getAttribute("member");
-%>
+<% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
 <html>
@@ -16,10 +14,8 @@
     <title>Coordinator</title>
     
     <!-- CSS -->
-    <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
 </head>
 <body>
     <jsp:include page="header.jsp" />
@@ -33,10 +29,7 @@
                     <div id="my-teams-panel" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse"
-                                    data-target="#my-tournaments-content"
-                                    href="#my-tournaments-content">
-                                    Manage My Teams </a>
+                                <a data-toggle="collapse" data-target="#my-tournaments-content" href="#my-tournaments-content"> Manage My Teams </a>
                             </h3>
                         </div>
                         <div class="panel panel-collapse collapse"
@@ -44,32 +37,20 @@
                             <div class="panel-body">
                                 <c:forEach items="${tournaments}"
                                     var="tournament">
-                                    <div
-                                        id="teams-${tournament.name}-panel"
-                                        class="panel panel-default">
+                                    <div id="teams-${tournament.name}-panel" class="panel panel-default">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">
-                                                <a
-                                                    data-toggle="collapse"
-                                                    data-target="#my-${tournament.name}-teams"
-                                                    href="#my-${tournament.name}-teams">
-                                                    ${tournament.name} </a>
+                                                <a data-toggle="collapse" data-target="#my-${tournament.name}-teams" href="#my-${tournament.name}-teams"> ${tournament.name} </a>
                                             </h3>
                                         </div>
-                                        <div
-                                            class="panel panel-collapse collapse"
-                                            id="my-${tournament.name}-teams">
+                                        <div class="panel panel-collapse collapse" id="my-${tournament.name}-teams">
                                             <div class="panel-body">
                                                 <table
                                                     class="table table-bordered">
                                                     <tbody>
-                                                        <c:forEach
-                                                            items="${tournament.teams}"
-                                                            var="team">
+                                                        <c:forEach items="${tournament.teams}" var="team">
                                                             <tr>
-                                                                <td><a
-                                                                    href="<c:out value="/team/${team.id}/view"/>"><c:out
-                                                                            value="${team.name}" /></a></td>
+                                                                <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}" /></a></td>
                                                             </tr>
                                                         </c:forEach>
                                                     </tbody>
@@ -84,10 +65,7 @@
                     <div id="my-games-panel" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse"
-                                    data-target="#my-games-content"
-                                    href="#my-games-content"> Manage
-                                    My Games </a>
+                                <a data-toggle="collapse" data-target="#my-games-content" href="#my-games-content"> Manage My Games </a>
                             </h3>
                         </div>
                         <div class="panel panel-collapse collapse"
@@ -95,21 +73,13 @@
                             <div class="panel-body">
                                 <c:forEach items="${tournaments}"
                                     var="tournament">
-                                    <div
-                                        id="games-${tournament.name}-panel"
-                                        class="panel panel-default">
+                                    <div id="games-${tournament.name}-panel" class="panel panel-default">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">
-                                                <a
-                                                    data-toggle="collapse"
-                                                    data-target="#my-${tournament.name}-games"
-                                                    href="#my-${tournament.name}-games">
-                                                    ${tournament.name} </a>
+                                                <a data-toggle="collapse" data-target="#my-${tournament.name}-games" href="#my-${tournament.name}-games"> ${tournament.name} </a>
                                             </h3>
                                         </div>
-                                        <div
-                                            class="panel panel-collapse collapse"
-                                            id="my-${tournament.name}-games">
+                                        <div class="panel panel-collapse collapse" id="my-${tournament.name}-games">
                                             <div class="panel-body">
                                                 <table
                                                     class="table table-bordered">
@@ -118,9 +88,7 @@
                                                             items="${tournament.games}"
                                                             var="game">
                                                             <tr>
-                                                                <td><a
-                                                                    href="<c:out value="/game/${game.id}/view"/>"><c:out
-                                                                            value="Game ${game.id}" /></a></td>
+                                                                <td><a href="<c:out value="/game/${game.id}/view"/>"><c:out value="Game ${game.id}" /></a></td>
                                                             </tr>
                                                         </c:forEach>
                                                     </tbody>
@@ -140,18 +108,16 @@
 </body>
 <footer>
     <!-- jQuery library -->
-    <script
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <!-- Bootstrap JavaScript plug-ins -->
-    <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <!-- Bootstrap validator -->
-    <script type="text/javascript"
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
     <!-- Page specific JS -->
+    <script src="../../resources/js/header.js"></script>
     <script src="../../resources/js/coord_view.js"></script>
 </footer>
 </html>

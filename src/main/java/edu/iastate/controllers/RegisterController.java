@@ -22,7 +22,7 @@ public class RegisterController {
     public String loadSurveyPage(Model m, HttpSession session) {
 
         if (session.getAttribute("member") != null) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         return "register";
