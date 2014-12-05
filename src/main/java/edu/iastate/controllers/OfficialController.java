@@ -36,7 +36,6 @@ public class OfficialController {
         }
         
         Set<Game> games = member.getGames();
-        System.out.println(games.size());
         model.addAttribute("games", games);
 
         return "official";
