@@ -71,7 +71,7 @@ public class DayDao {
 
         TypedQuery<Day> query = entityManager.createQuery("from Day d where d.name = :name and d.availability_id = :availability_id", Day.class);
         query.setParameter("name", weekDay.ordinal());
-        query.setParameter("availability_id", availability.getAvailability_id());
+        query.setParameter("availability_id", availability.getAvailabilityId());
         Day day = query.getSingleResult();
 
         transaction.commit();

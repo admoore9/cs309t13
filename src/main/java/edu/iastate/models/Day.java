@@ -21,6 +21,8 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.OrderBy;
 
+import edu.iastate.models.Period.Slot;
+
 @Entity
 @Table(name = "Day")
 public class Day {
@@ -132,5 +134,12 @@ public class Day {
                 return true;
         }
         return false;
+    }
+
+    public Period getPeriodByName(Slot slot) {
+        for (Period period : periods)
+            if (period.getSlot().equals(slot))
+                return period;
+        return null;
     }
 }
