@@ -187,8 +187,10 @@ public class TeamController {
 
         teamLeader = memberDao.getMemberById(teamLeader.getId());
         session.setAttribute("member", teamLeader);
+        
+        int teamId = teamDao.getTeamByTeamName(teamName, tournament).getId();
 
-        return "redirect:/team/" + team.getId() + "/view";
+        return "redirect:/team/" + teamId + "/view";
     }
 
     /**
