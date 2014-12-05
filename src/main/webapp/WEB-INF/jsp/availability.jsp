@@ -2,6 +2,7 @@
 <%@ page session="true"%>
 <%@ page import="javax.persistence.EnumType"%>
 <%@ page import="edu.iastate.models.Member"%>
+<%@ page import="edu.iastate.models.Team"%>
 <% Member member = (Member) session.getAttribute("member");%>
 
 <!DOCTYPE html>
@@ -42,15 +43,25 @@
                                 <td><c:out value="${day.getName()}"></c:out></td>
 
                                 <c:forEach items="${day.getPeriods()}" var="period">
-                                    <td><input type="checkbox" class="checkbox" name="${day.getName()}"
-                                        value="${period.getSlot()}" <c:if test='${period.isAvailable() }'>checked</c:if>></td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${isTeam}">
+                                                <c:if test='${period.isAvailable() }'><span class="glyphicon glyphicon-ok"></span></c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="checkbox" class="checkbox" name="${day.getName()}" value="${period.getSlot()}" <c:if test='${period.isAvailable() }'>checked</c:if>>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                <label class="float-right"><input type="checkbox" id="selectall">Select all</label> <br> <br>
-                <button id="update" type="submit" class="btn btn-default float-right">Update</button>
+                <c:if test="${!isTeam}">
+                    <label class="float-right"><input type="checkbox" id="selectall">Select all</label> <br> <br>
+                    <button id="update" type="submit" class="btn btn-default float-right">Update</button>
+                </c:if>
             </div>
             <jsp:include page="sideBar.jsp" />
         </div>

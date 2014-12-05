@@ -1,8 +1,7 @@
 package edu.iastate.models;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -275,6 +274,31 @@ public class Team {
 
     public void setTeamSkillLevel(int teamSkillLevel) {
         this.teamSkillLevel = teamSkillLevel;
+    }
+
+    public Availability getTeamAvailability(Team team) {
+        Availability teamAvailability = initializeAvailability(new Availability());
+        Set<Member> players = team.getPlayers();
+        for (Member player : players) {
+            Availability playerAvailability = player.getAvailability();
+            for (Day day : playerAvailability.getDays())
+                for (Period period : day.getPeriods())
+                    if (!period.isAvailable())
+                        teamAvailability.setPeriodAvailability(period, false);
+        }
+        return teamAvailability;
+    }
+
+    private Availability initializeAvailability(Availability availability) {
+        LinkedHashSet<Day> days = new LinkedHashSet<Day>();
+        for (Day.WeekDay weekDay : Day.WeekDay.values()) {
+            Day day = new Day(weekDay);
+            for (Period.Slot slot : Period.Slot.values())
+                day.addPeriod(new Period(slot).setAvailable(true));
+            days.add(day);
+        }
+        availability.setDays(days);
+        return availability;
     }
 
     @Override
