@@ -190,6 +190,19 @@ public class TeamController {
         session.setAttribute("member", teamLeader);
 
         int teamId = teamDao.getTeamByTeamName(teamName, tournament).getId();
+        
+        //if(team.addPlayer(teamLeader)==1) {
+            teamDao.saveTeam(team);
+            Set<Team> invitedTeams = teamLeader.getInvitedTeams();
+            Iterator<Team> teamIterator = invitedTeams.iterator();
+            while(teamIterator.hasNext()) {
+                Team invitedTeam = teamIterator.next();
+                if(invitedTeam.getTournament().equals(team.getTournament())){
+                    invitedTeam.removeInvitedPlayer(teamLeader);
+                    teamDao.saveTeam(invitedTeam);
+                }
+            }
+        //}
 
         return "redirect:/team/" + teamId + "/view";
     }
@@ -400,8 +413,18 @@ public class TeamController {
             return false;
         }
 
-        team.addPlayer(me);
-        teamDao.saveTeam(team);
+        if(team.addPlayer(me)==1) {
+            teamDao.saveTeam(team);
+            Set<Team> invitedTeams = me.getInvitedTeams();
+            Iterator<Team> teamIterator = invitedTeams.iterator();
+            while(teamIterator.hasNext()) {
+                Team invitedTeam = teamIterator.next();
+                if(invitedTeam.getTournament().equals(team.getTournament())){
+                    invitedTeam.removeInvitedPlayer(me);
+                    teamDao.saveTeam(invitedTeam);
+                }
+            }
+        }
 
         return true;
     }
