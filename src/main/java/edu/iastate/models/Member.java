@@ -348,13 +348,13 @@ public class Member {
     // ============Official=============
     @JsonIgnore
     @ManyToMany(mappedBy = "officials")
-    private List<Game> games;
+    private Set<Game> games;
 
-    public List<Game> getGames() {
+    public Set<Game> getGames() {
         return games;
     }
 
-    public void setGames(List<Game> games) {
+    public void setGames(Set<Game> games) {
         this.games = games;
     }
     // ----------ENd Official------------

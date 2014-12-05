@@ -72,8 +72,10 @@ public class GameController {
             @RequestParam(value = "removeOfficial") String removeOfficial,
             HttpSession session) {
         //Validates the user permission
+
         Member member = (Member) session.getAttribute("member");
         if(!MemberUtils.atLeastCoordinator(member)) {
+
             return false;
         }
 
@@ -85,7 +87,6 @@ public class GameController {
         }
         game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
         game.addOfficial(memberDao.getMemberByUsername(addOfficial));
-
         gameDao.saveGame(game);
         return true;
     }
