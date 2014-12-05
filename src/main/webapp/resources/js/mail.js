@@ -43,18 +43,37 @@ $(document).ready(function() {
         });
     });
     $('body').on('click', '#save-draft', function(e) {
-        var draftId = $('#message-form').attr("data-draft-id");
-        var url = "/mail/save_draft";
-        console.log($('#message-form').serialize() + "&draft_id=" + draftId);
-        $.ajax({
-            type : "POST",
-            url : url,
-            data : $('#message-form').serialize() + "&draft_id=" + draftId,
-            success : function(result) {
-                $('#message-form').attr("data-draft-id", result);
-                $('#composeModal').modal('hide');
-            }
-        });
+        var options = {
+                message : 'This value is not valid',
+                fields : {
+                    recipient : {
+                        validators : {
+                            notEmpty : {
+                                message : 'At least one recipient must be entered'
+                            },
+                            remote : {
+                                message : 'The recipient does not exist',
+                                url : '/mail/doesRecipientExist'
+                            }
+                        }
+                    }
+                }
+            };
+        var isValid = $('#message-form').data('bootstrapValidator').validateField("recipient");
+        if (isValid.$invalidFields.length == 0) {
+            var draftId = $('#message-form').attr("data-draft-id");
+            var url = "/mail/save_draft";
+            console.log($('#message-form').serialize() + "&draft_id=" + draftId);
+            $.ajax({
+                type : "POST",
+                url : url,
+                data : $('#message-form').serialize() + "&draft_id=" + draftId,
+                success : function(result) {
+                    $('#message-form').attr("data-draft-id", result);
+                    $('#composeModal').modal('hide');
+                }
+            });
+        }
     });
     $('body').on('click', '.modal-body', function(e) {
         $('#draft-alert').hide();
