@@ -21,10 +21,7 @@ $( document ).ready(function() {
         $.ajax({
             type: "POST",
             data: data,
-            url: url,
-            success: function(data) {
-                window.location.reload();
-            }
+            url: url
         });
     });
 });

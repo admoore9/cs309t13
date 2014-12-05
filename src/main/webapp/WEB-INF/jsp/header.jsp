@@ -41,7 +41,7 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav navbar-right">
 
-                        <li><a href="/profile">Welcome, ${sessionScope.member.name}!</a></li>
+                        <li><a href="/context/home">Welcome, ${sessionScope.member.name}!</a></li>
                         <% if (userType != Member.UserType.PLAYER) { %>
                         <li>
                             <form id="context-form" action="/context" method="POST">
@@ -52,15 +52,15 @@
                                         <ul class="dropdown-menu">
         
                                             <% if (userType == Member.UserType.ADMIN) { %>
-                                            <li><a href="#" onclick="$('#context').val('3'); $('#context-form').submit()">Administrator</a></li>
+                                            <li><a href="/admin" onclick="$('#context').val('3'); $('#context-form').submit()">Administrator</a></li>
                                             <% } %>
         
                                             <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
-                                            <li><a href="#" onclick="$('#context').val('2'); $('#context-form').submit()">Coordinator</a></li>
+                                            <li><a href="/coordinator" onclick="$('#context').val('2'); $('#context-form').submit()">Coordinator</a></li>
                                             <% } %>
     
-                                            <li><a href="#" onclick="$('#context').val('1'); $('#context-form').submit()">Official</a></li>
-                                            <li><a href="#" onclick="$('#context').val('0'); $('#context-form').submit()">Player</a></li>
+                                            <li><a href="/official" onclick="$('#context').val('1'); $('#context-form').submit()">Official</a></li>
+                                            <li><a href="/profile" onclick="$('#context').val('0'); $('#context-form').submit()">Player</a></li>
                                         </ul>
                                     </li>
                                 </ul>
