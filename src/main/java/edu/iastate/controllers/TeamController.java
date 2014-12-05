@@ -1,5 +1,6 @@
 package edu.iastate.controllers;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -360,19 +361,17 @@ public class TeamController {
         }
 
         if(team.addPlayer(me)==1) {
-//            System.out.println("Here");
-//            Set<Team> invitedTeams = me.getInvitedTeams();
-//            System.out.println(invitedTeams.size());
-//            for(int i=0; i<invitedTeams.size(); i++) {
-//                Team invitedTeam = invitedTeams.iterator().next();
-//                System.out.println(invitedTeam.getName());
-//                if(invitedTeam.getTournament().equals(team.getTournament())){
-//                    invitedTeam.removeInvitedPlayer(me);
-//                    teamDao.saveTeam(invitedTeam);
-//                }
-//            }
+            teamDao.saveTeam(team);
+            Set<Team> invitedTeams = me.getInvitedTeams();
+            Iterator<Team> teamIterator = invitedTeams.iterator();
+            while(teamIterator.hasNext()) {
+                Team invitedTeam = teamIterator.next();
+                if(invitedTeam.getTournament().equals(team.getTournament())){
+                    invitedTeam.removeInvitedPlayer(me);
+                    teamDao.saveTeam(invitedTeam);
+                }
+            }
         }
-        teamDao.saveTeam(team);
         return true;
     }
 
