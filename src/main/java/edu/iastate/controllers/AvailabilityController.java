@@ -54,7 +54,7 @@ public class AvailabilityController {
         }
         availabilityDao = new AvailabilityDao();
         Team team = new TeamDao().getTeamById(1, false, true, false);
-        availability = availabilityDao.getTeamAvailability(team);
+        availability = team.getTeamAvailability(team);
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());

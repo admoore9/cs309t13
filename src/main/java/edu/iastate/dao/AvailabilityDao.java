@@ -11,9 +11,7 @@ import javax.persistence.TypedQuery;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Day.WeekDay;
-import edu.iastate.models.Member;
 import edu.iastate.models.Period;
-import edu.iastate.models.Team;
 import edu.iastate.utils.EntityManagerFactorySingleton;
 
 public class AvailabilityDao {
@@ -83,30 +81,5 @@ public class AvailabilityDao {
                 }
             }
         }
-    }
-
-    public Availability getTeamAvailability(Team team) {
-        Availability teamAvailability = initializeAvailability(new Availability());
-        Set<Member> players = team.getPlayers();
-        for (Member player : players) {
-            Availability playerAvailability = player.getAvailability();
-            for (Day day : playerAvailability.getDays())
-                for (Period period : day.getPeriods())
-                    if (!period.isAvailable())
-                        teamAvailability.setPeriodAvailability(period, false);
-        }
-        return teamAvailability;
-    }
-
-    private Availability initializeAvailability(Availability availability) {
-        LinkedHashSet<Day> days = new LinkedHashSet<Day>();
-        for (Day.WeekDay weekDay : Day.WeekDay.values()) {
-            Day day = new Day(weekDay);
-            for (Period.Slot slot : Period.Slot.values())
-                day.addPeriod(new Period(slot).setAvailable(true));
-            days.add(day);
-        }
-        availability.setDays(days);
-        return availability;
     }
 }
