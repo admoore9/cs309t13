@@ -36,29 +36,27 @@
                     <div class="panel panel-collapse collapse"
                         id="my-games-content">
                         <div class="panel-body">
-                            <div class="panel panel-collapse collapse" id="my-${tournament.name}-games">
-                                <div class="panel-body">
-                                    <table class="table table-bordered">
-                                        <thead>
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Game</th>
+                                            <th>Tournament</th>
+                                            <th>Date</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${games}" var="game">
                                             <tr>
-                                                <th>Game</th>
-                                                <th>Tournament</th>
-                                                <th>Date</th>
-                                                <th>Location</th>
+                                                <td><a href="<c:out value="/game/${game.id}/view"/>"><c:out value="Game ${game.id}" /></a></td>
+                                                <td><a href="<c:out value="/tournament/${game.tournament.id}/view"/>"><c:out value="${game.tournament.name}" /></a></td>
+                                                <td>${game.gameTime}</td>
+                                                <td>${game.gameLocation}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${games}" var="game">
-                                                <tr>
-                                                    <td><a href="<c:out value="/game/${game.id}/view"/>"><c:out value="Game ${game.id}" /></a></td>
-                                                    <td><a href="<c:out value="/tournament/${game.tournament.id}/view"/>"><c:out value="${game.tournament.name}" /></a></td>
-                                                    <td>${game.gameTime}</td>
-                                                    <td>${game.gameLocation}</td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

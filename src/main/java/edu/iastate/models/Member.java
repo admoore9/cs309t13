@@ -347,7 +347,7 @@ public class Member {
 
     // ============Official=============
     @JsonIgnore
-    @ManyToMany(mappedBy = "officials")
+    @ManyToMany(mappedBy = "officials", fetch = FetchType.EAGER)
     private Set<Game> games;
 
     public Set<Game> getGames() {

@@ -3,6 +3,9 @@
  */
 package edu.iastate.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
 
@@ -30,6 +34,10 @@ public class OfficialController {
         if (member == null || member.getContext() != UserType.OFFICIAL) {
             return "redirect:/denied";
         }
+        
+        Set<Game> games = member.getGames();
+        System.out.println(games.size());
+        model.addAttribute("games", games);
 
         return "official";
     }
