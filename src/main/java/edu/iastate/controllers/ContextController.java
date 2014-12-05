@@ -61,22 +61,22 @@ public class ContextController {
     public String loadContextSpecificPage(Model model, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         if (member == null) {
-            return "redirect:../denied";
+            return "redirect:/denied";
         }
 
         UserType context = member.getContext();
 
         if (context == UserType.PLAYER) {
-            return "redirect:../profile";
+            return "redirect:/profile";
 
         } else if (context == UserType.OFFICIAL) {
-            return "redirect:../official";
+            return "redirect:/official";
 
         } else if (context == UserType.COORDINATOR) {
-            return "redirect:../coordinator";
+            return "redirect:/coordinator";
 
         } else {
-            return "redirect:../admin";
+            return "redirect:/admin";
         }
     }
 }
