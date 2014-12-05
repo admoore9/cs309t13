@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.MessageDao;
 import edu.iastate.dao.TeamDao;
@@ -22,7 +21,6 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
-import edu.iastate.utils.MemberUtils;
 
 @Controller
 @RequestMapping("/team")
@@ -111,17 +109,27 @@ public class TeamController {
         if (teamName != null && teamName.length() != 0)
             team.setName(teamName);
 
-        if (removePlayer != null && removePlayer.length() != 0)
-            team.removePlayer(memberDao.getMemberByUsername(removePlayer));
+        if (removePlayer != null && removePlayer.length() != 0) {
+            Member player = memberDao.getMemberByUsername(removePlayer);
+            team.removePlayer(player);
+            // notify player of being removed from team
+            new MessageDao().notify(player, member.getName() + " removed you from " + team.getName());
+        }
 
-        if (addPlayer != null && addPlayer.length() != 0)
-            team.addInvitedPlayer(memberDao.getMemberByUsername(addPlayer));
+        if (addPlayer != null && addPlayer.length() != 0) {
+            Member player = memberDao.getMemberByUsername(addPlayer);
+            team.addInvitedPlayer(player);
+            // notify player of being added to team
+            new MessageDao().notify(player, member.getName() + " added you to " + team.getName());
+        }
 
         if (newCaptain != null && newCaptain.length() != 0) {
             Member teamLeader = memberDao.getMemberByUsername(newCaptain);
             if (teamLeader != null) {
                 if (team.getPlayers().contains(teamLeader)) {
                     team.setTeamLeader(teamLeader);
+                    // notify player of being assigned the role of team leader
+                    new MessageDao().notify(teamLeader, member.getName() + " made you the team leader of " + team.getName());
                 }
             }
         }
@@ -253,8 +261,12 @@ public class TeamController {
             return false;
         }
 
+        String oldTeamName = team.getName();
         team.setName(name);
         teamDao.saveTeam(team);
+        // notify team players of the new team name
+        for (Member player : team.getPlayers())
+            new MessageDao().notify(player, me.getName() + " has changed the name of " + oldTeamName + " team to " + team.getName());
         return true;
     }
 
@@ -322,8 +334,8 @@ public class TeamController {
         Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
-        // notify member of being assigned as team leader
-        new MessageDao().notify(teamLeader, "You've been assigned as " + team.getName() + " leader");
+        // notify player of being assigned the role of team leader
+        new MessageDao().notify(teamLeader, me.getName() + " made you the team leader of " + team.getName());
 
         teamDao.saveTeam(team);
         return true;
@@ -360,8 +372,8 @@ public class TeamController {
         MemberDao memberDao = new MemberDao();
         Member player = memberDao.getMemberById(playerId);
         team.addPlayer(player);
-        // notify member of being assigned as team leader
-        new MessageDao().notify(player, "You've been added to " + team.getName() + " team");
+        // notify player of being added to team
+        new MessageDao().notify(player, me.getName() + " added you to " + team.getName());
 
         teamDao.saveTeam(team);
         return true;
@@ -397,8 +409,8 @@ public class TeamController {
         MemberDao memberDao = new MemberDao();
         Member player = memberDao.getMemberById(playerId);
         team.removePlayer(player);
-        // notify member of being assigned as team leader
-        new MessageDao().notify(player, "You've been removed from " + team.getName() + " team");
+        // notify player of being removed from team
+        new MessageDao().notify(player, me.getName() + " removed you from " + team.getName());
 
         teamDao.saveTeam(team);
         return true;
