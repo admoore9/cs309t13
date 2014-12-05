@@ -33,8 +33,8 @@ public class TournamentController {
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
-            return "redirect:denied";
+        if (me == null) {
+            return "redirect:/denied";
         }
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -65,7 +65,7 @@ public class TournamentController {
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
             @RequestParam(value = "officialsPerGame") int officialsPerGame) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
@@ -94,7 +94,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return null;
         }
 
@@ -125,14 +125,14 @@ public class TournamentController {
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
             @RequestParam(value = "officialsPerGame") int officialsPerGame) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null) {
+        if (tournament == null) {
             return false;
         }
 
@@ -163,14 +163,14 @@ public class TournamentController {
             @PathVariable int id,
             @RequestParam(value = "name") String name) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null) {
+        if (tournament == null) {
             return false;
         }
 
@@ -198,14 +198,14 @@ public class TournamentController {
             @PathVariable int id,
             @RequestParam(value = "minPlayers") int minPlayers) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null) {
+        if (tournament == null) {
             return false;
         }
 
@@ -233,14 +233,14 @@ public class TournamentController {
             @PathVariable int id,
             @RequestParam(value = "maxPlayers") int maxPlayers) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null) {
+        if (tournament == null) {
             return false;
         }
 
@@ -269,14 +269,14 @@ public class TournamentController {
             @PathVariable int id,
             @RequestParam(value = "doubleElimination") boolean doubleElimination) {
         Member me = (Member) session.getAttribute("member");
-        if(!MemberUtils.atLeastCoordinator(me)) {
+        if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
 
-        if(tournament == null) {
+        if (tournament == null) {
             return false;
         }
 
@@ -304,7 +304,7 @@ public class TournamentController {
             @RequestParam(value = "acceptFreeAgents") boolean acceptFreeAgents,
             @RequestParam(value = "teamLeaderId") int teamLeaderId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
@@ -343,7 +343,7 @@ public class TournamentController {
             @PathVariable int id,
             @RequestParam(value = "teamId") int teamId) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null) {
+        if (me == null) {
             return false;
         }
 
@@ -353,7 +353,7 @@ public class TournamentController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(teamId, false, false, false);
 
-        if(tournament == null || team == null || !me.equals(team.getTeamLeader())) {
+        if (tournament == null || team == null || !me.equals(team.getTeamLeader())) {
             return false;
         }
 
@@ -375,7 +375,7 @@ public class TournamentController {
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
-        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
+        if (me == null || !MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
 

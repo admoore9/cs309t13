@@ -15,7 +15,7 @@ public class LogoutController {
     public String loadProfilePage(Model m, HttpSession session) {
 
         if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         session.invalidate();

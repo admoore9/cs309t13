@@ -20,6 +20,7 @@ import edu.iastate.utils.StringUtils;
 @RequestMapping("/")
 public class IndexController {
 
+    private static final String LOGIN_MESSAGE = "Your login is complete.";
     private static final String LOGIN_ERROR_MESSAGE = "Your login was invalid, please try again.";
 
     @RequestMapping(method = RequestMethod.GET)
@@ -50,6 +51,7 @@ public class IndexController {
 
         if (member != null) {
             session.setAttribute("member", member);
+            model.addAttribute("message", LOGIN_MESSAGE);
         } else {
             model.addAttribute("errorMessage", LOGIN_ERROR_MESSAGE);
         }
