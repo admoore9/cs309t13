@@ -187,7 +187,7 @@ public class TeamController {
 
         teamLeader = memberDao.getMemberById(teamLeader.getId());
         session.setAttribute("member", teamLeader);
-        
+
         int teamId = teamDao.getTeamByTeamName(teamName, tournament).getId();
 
         return "redirect:/team/" + teamId + "/view";
@@ -363,7 +363,7 @@ public class TeamController {
         teamDao.saveTeam(team);
         return true;
     }
-    
+
     /**
      * Called when player wants to join team
      * Checks for team password for security
@@ -373,28 +373,29 @@ public class TeamController {
      */
     @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
     public @ResponseBody boolean joinPlayerToTeam(
-            @RequestParam(value = "teamPassword") String teamPassword,
+            @RequestParam(value = "teamPassword", required = true) String enteredPassword,
             @PathVariable int id,
             HttpSession session) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
             return false;
         }
-        
+
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
+        String teamPassword = team.getPassword();
 
-        if (team == null || !(teamPassword.compareTo(team.getPassword())==0)) {
+        if (team == null || !enteredPassword.equals(teamPassword)) {
             System.out.println(teamPassword);
             return false;
         }
-        
+
         team.addPlayer(me);
         teamDao.saveTeam(team);
 
         return true;
     }
-    
+
     /**
      * Called when player rejects an invitation to join team
      * 
@@ -418,7 +419,7 @@ public class TeamController {
             return false;
         }
 
-        team.removeInvitedPlayer(me);;
+        team.removeInvitedPlayer(me);
         teamDao.saveTeam(team);
         return true;
     }
