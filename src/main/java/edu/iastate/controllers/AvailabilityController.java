@@ -53,7 +53,7 @@ public class AvailabilityController {
             @RequestParam(value = "SUNDAY", required = false) String sunday) {
 
         if (session.getAttribute("member") == null)
-            return "redirect:denied";
+            return "redirect:/denied";
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
         Day newWednesday = new Day(WeekDay.WEDNESDAY);

@@ -27,7 +27,7 @@ public class SurveyController {
     public String loadSurveyPage(@PathVariable int tournamentId, Model m, HttpSession session) {
 
         if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         m.addAttribute("tournamentId", tournamentId);
@@ -78,7 +78,6 @@ public class SurveyController {
         // Save updated player and survey to database
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
-
         return "redirect:/tournament/" + tournamentId + "/teams";
     }
 

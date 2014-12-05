@@ -188,7 +188,7 @@ public class TeamController {
         teamLeader = memberDao.getMemberById(teamLeader.getId());
         session.setAttribute("member", teamLeader);
 
-        return "redirect:../../../profile";
+        return "redirect:/profile";
     }
 
     /**
