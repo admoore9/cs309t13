@@ -34,7 +34,7 @@ public class ProfileController {
 
         Member member = (Member) session.getAttribute("member");
         if (member == null || member.getContext() != UserType.PLAYER) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         Set<Team> teams = member.getTeams();

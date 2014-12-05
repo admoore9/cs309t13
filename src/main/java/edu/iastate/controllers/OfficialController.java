@@ -28,7 +28,7 @@ public class OfficialController {
 
         Member member = (Member) session.getAttribute("member");
         if (member == null || member.getContext() != UserType.OFFICIAL) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         return "official";

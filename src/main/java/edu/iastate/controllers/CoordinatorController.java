@@ -31,7 +31,7 @@ public class CoordinatorController {
 
         Member member = (Member) session.getAttribute("member");
         if (member == null || member.getContext() != UserType.COORDINATOR) {
-            return "redirect:denied";
+            return "redirect:/denied";
         }
 
         Set<Tournament> tournaments = member.getManagingTournament();
