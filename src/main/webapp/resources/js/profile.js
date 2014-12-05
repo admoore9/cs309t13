@@ -1,26 +1,24 @@
+function acceptTeamForm(teamId) {
+    var url = "/team/" + teamId + "/addPlayer";
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function() {
+            window.location.href = "/profile";
+        }
+    });
+}
+function rejectTeamForm(teamId) {
+    var url = "/team/" + teamId + "/rejectInvite";
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function() {
+            window.location.href = "/profile";
+        }
+    });
+}
 $( document ).ready(function() {
-    $('#invite-accept-form').on('submit', function(event) {
-        event.preventDefault();
-        var url = "/team/" + teamId + "/addPlayer";
-        $.ajax({
-            type: "POST",
-            url: url,
-            success: function() {
-                window.location.href = "/profile";
-            }
-        });
-    });
-    $('#invite-reject-form').on('submit', function(event) {
-        event.preventDefault();
-        var url = "/team/" + teamId + "/rejectInvite";
-        $.ajax({
-            type: "POST",
-            url: url,
-            success: function() {
-                window.location.href = "/profile";
-            }
-        });
-    });
     $('#edit-profile-form').bootstrapValidator({
         message: 'This value is not valid',
         fields: {

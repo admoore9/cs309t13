@@ -114,17 +114,11 @@
                                                 <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
                                                 <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
                                                 <td>
-                                                <form role="form" id="invite-accept-form">
-                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default">Accept</button>
-                                                    <script type="text/javascript">
-                                                        var teamId = '<c:out value="${team.id}"/>';
-                                                    </script>
+                                                <form role="form" id="invite-accept${team.id}-form">
+                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default" onclick="acceptTeamForm(${team.id})">Accept</button>
                                                 </form>
                                                 <form role="form" id="invite-reject-form">
-                                                    <button id="invite-reject-submit" type="submit" class="btn btn-default">Reject</button>
-                                                    <script type="text/javascript">
-                                                        var teamId = '<c:out value="${team.id}"/>';
-                                                    </script>
+                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default" onclick="rejectTeamForm(${team.id})">Reject</button>
                                                 </form>
                                                 </td>
                                             </tr>

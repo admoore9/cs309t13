@@ -386,7 +386,6 @@ public class TeamController {
         String teamPassword = team.getPassword();
 
         if (team == null || !enteredPassword.equals(teamPassword)) {
-            System.out.println(teamPassword);
             return false;
         }
 
