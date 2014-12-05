@@ -42,7 +42,7 @@
                                             <input id="teamName" name="teamName" type="text" class="form-control input-md">
                                         </div>
                                         <div class="form-group">
-                                            <label for="teamPassword">Team name:</label>
+                                            <label for="teamPassword">Team Password:</label>
                                             <input id="teamPassword" name="teamPassword" type="text" class="form-control input-md">
                                         </div>
                                         <div class="btn-group">

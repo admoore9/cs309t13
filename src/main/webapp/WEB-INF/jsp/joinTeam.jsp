@@ -49,9 +49,6 @@
                                     </div>
                                     <button id="invite-accept-submit" type="submit" class="btn btn-default"
                                         onclick="submitTeamForm(${team.id})">Join</button>
-                                    <script type="text/javascript">
-                                        //var teamId = '<c:out value="${team.id}"/>';
-                                    </script>
                                 </form>
                                 </td>
                             </tr>

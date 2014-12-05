@@ -379,11 +379,11 @@ public class TeamController {
             return false;
         }
         
-        System.out.println("here");
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || !(teamPassword.compareTo(team.getPassword())==0)) {
+            System.out.println(teamPassword);
             return false;
         }
         
