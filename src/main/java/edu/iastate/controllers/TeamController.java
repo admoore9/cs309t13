@@ -23,6 +23,7 @@ import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.MemberUtils;
+import edu.iastate.utils.StringUtils;
 
 @Controller
 @RequestMapping("/team")
@@ -182,7 +183,10 @@ public class TeamController {
         team.setTournament(tournament);
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
-        team.setPassword(teamPassword);
+        
+        String genPassword = StringUtils.secureString(teamPassword);
+        
+        team.setPassword(genPassword);
 
         teamDao.saveTeam(team);
 
@@ -404,8 +408,10 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
         String teamPassword = team.getPassword();
+        
+        String genPassword = StringUtils.secureString(enteredPassword);
 
-        if (team == null || !enteredPassword.equals(teamPassword)) {
+        if (team == null || !genPassword.equals(teamPassword)) {
             return false;
         }
 
