@@ -79,7 +79,9 @@
                                             out.print("<li class='message'>" + message.getSubject() + " " + "<span class='message-time'>" + message.getTime() + "</span>" + "</li>");
                                         }
                                 %>
-                                <li role="presentation" class="divider"></li>
+                                <% if (!member.getMail().getUnviewedMessages().isEmpty()) { %>
+                                    <li role="presentation" class="divider"></li>
+                                <% } %>
                                 <li class="inbox"><a href="/mail">Inbox</a></li>
                             </ul></li>
                         <li style="margin-right: 15px;"><a href="/logout">Logout</a></li>

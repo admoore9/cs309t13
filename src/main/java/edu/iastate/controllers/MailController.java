@@ -35,9 +35,11 @@ public class MailController {
             @RequestParam(value = "drafts", required = false) String drafts) {
 
         Member member = (Member) session.getAttribute("member");
-
-        if (member == null)
-            return "redirect:denied";
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
+            return "redirect:/denied";
+        }
 
         Set<Message> messages;
         if (sentmail != null)
