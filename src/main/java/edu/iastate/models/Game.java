@@ -1,9 +1,7 @@
 package edu.iastate.models;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,6 +21,7 @@ import javax.persistence.TemporalType;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
+import edu.iastate.dao.GameDao;
 import edu.iastate.utils.MemberUtils;
 
 /**
@@ -185,6 +184,8 @@ public class Game {
         this.nextGame.removeTeam(this.winner);
         this.winner = winner;
         this.nextGame.addTeam(winner);
+        GameDao gameDao = new GameDao();
+        gameDao.saveGame(this.nextGame);
     }
 
     /**
