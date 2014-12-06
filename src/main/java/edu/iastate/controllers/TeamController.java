@@ -55,6 +55,7 @@ public class TeamController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "team";
     }
 
@@ -176,6 +177,9 @@ public class TeamController {
         model.addAttribute("tournaments", tournaments);
 
         model.addAttribute("tournamentId", tournamentId);
+
+        MemberDao memberDao = new MemberDao();
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
 
         return "createTeam";
     }
