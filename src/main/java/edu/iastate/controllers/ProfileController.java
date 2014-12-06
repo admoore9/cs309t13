@@ -17,6 +17,7 @@ import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
+import edu.iastate.utils.MemberUtils;
 import edu.iastate.utils.StringUtils;
 
 @Controller
@@ -49,6 +50,58 @@ public class ProfileController {
         model.addAttribute("tournaments", tournaments);
 
         return "profile";
+    }
+
+    @RequestMapping(value = "/promote", method = RequestMethod.POST)
+    public boolean promote(
+            HttpSession session,
+            @RequestParam(value = "promoteeId") int promoteeId,
+            @RequestParam(value = "newUserType") int newUserTypeInt) {
+        Member me = (Member) session.getAttribute("member");
+        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
+            return false;
+        }
+
+        MemberDao memberDao = new MemberDao();
+        Member promotee = memberDao.getById(promoteeId);
+
+        Member.UserType newUserType = Member.UserType.values()[newUserTypeInt];
+
+        if(me.getUserType() == Member.UserType.COORDINATOR &&
+                (MemberUtils.atLeastCoordinator(promotee) ||
+                (newUserType == Member.UserType.ADMIN || newUserType == Member.UserType.COORDINATOR))) {
+            return false;
+        }
+
+        promotee.setUserType(newUserType);
+        promotee.setContext(newUserType);
+        return true;
+    }
+
+    @RequestMapping(value = "/demote", method = RequestMethod.POST)
+    public boolean demote(
+            HttpSession session,
+            @RequestParam(value = "demoteeId") int demoteeId,
+            @RequestParam(value = "newUserType") int newUserTypeInt) {
+        Member me = (Member) session.getAttribute("member");
+        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
+            return false;
+        }
+
+        MemberDao memberDao = new MemberDao();
+        Member demotee = memberDao.getById(demoteeId);
+
+        Member.UserType newUserType = Member.UserType.values()[newUserTypeInt];
+
+        if(me.getUserType() == Member.UserType.COORDINATOR &&
+                (MemberUtils.atLeastCoordinator(demotee) ||
+                (newUserType == Member.UserType.ADMIN || newUserType == Member.UserType.COORDINATOR))) {
+            return false;
+        }
+
+        demotee.setUserType(newUserType);
+        demotee.setContext(newUserType);
+        return true;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
