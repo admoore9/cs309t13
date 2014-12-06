@@ -85,7 +85,7 @@ public class GameController {
         }
         game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
         game.addOfficial(memberDao.getMemberByUsername(addOfficial));
-        
+
         gameDao.saveGame(game);
         return true;
     }
