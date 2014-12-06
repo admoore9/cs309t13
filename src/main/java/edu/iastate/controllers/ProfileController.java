@@ -33,13 +33,17 @@ public class ProfileController {
     public String loadProfilePage(Model model, HttpSession session) {
 
         Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
         if (member == null || member.getContext() != UserType.PLAYER) {
             return "redirect:/denied";
         }
 
+        // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
