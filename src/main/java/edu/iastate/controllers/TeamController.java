@@ -1,5 +1,6 @@
 package edu.iastate.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -157,11 +158,20 @@ public class TeamController {
             return "redirect:/denied";
         }
 
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, true, true);
+        Date date = new Date();
+        if(date.before(tournament.getRegistrationStart())) {
+            return "redirect:/denied"; // Should probably have a better page
+        }
+        if(date.after(tournament.getRegistrationClose())) {
+            return "redirect:/denied"; // Should probably have a better page
+        }
+
         Set<Team> teams = member.getTeams();
 
         model.addAttribute("teams", teams);
 
-        TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
