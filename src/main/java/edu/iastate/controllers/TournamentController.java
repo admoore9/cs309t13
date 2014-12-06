@@ -74,20 +74,25 @@ public class TournamentController {
      */
     @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
     public String viewTournamentTeams(Model model, HttpSession session, @PathVariable int id) {
-        Member me = (Member) session.getAttribute("member");
-        if (me == null) {
-            return "redirect:denied";
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
+            return "redirect:/denied";
         }
 
-        Set<Team> teams = me.getTeams();
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        model.addAttribute("tournament", tournament);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
-        TournamentDao tournamentDao = new TournamentDao();
+        // For sidebar
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
-        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
-        model.addAttribute("tournament", tournament);
         return "joinTeam";
     }
 
