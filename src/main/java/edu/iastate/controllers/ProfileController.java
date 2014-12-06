@@ -1,6 +1,7 @@
 package edu.iastate.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.utils.StringUtils;
@@ -30,15 +32,18 @@ public class ProfileController {
     @RequestMapping(method = RequestMethod.GET)
     public String loadProfilePage(Model model, HttpSession session) {
 
-        if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null || member.getContext() != UserType.PLAYER) {
+            return "redirect:/denied";
         }
 
-        Member member = (Member) session.getAttribute("member");
-
-        List<Team> teams = member.getTeams();
+        // For sidebar
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
@@ -59,7 +64,7 @@ public class ProfileController {
         MemberDao memberDao = new MemberDao();
         Member member = (Member) session.getAttribute("member");
 
-        List<Team> teams = member.getTeams();
+        Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
         TournamentDao tournamentDao = new TournamentDao();

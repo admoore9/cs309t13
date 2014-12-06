@@ -25,7 +25,7 @@
 
                 <!-- Page specific html -->
                 <h2>Profile</h2>
-
+                
                 <div id="accordion" class="panel-group">
 
                     <div id="join-tournament-panel" class="panel panel-default">
@@ -151,6 +151,7 @@
                     </div>
 
                 </div>
+
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>

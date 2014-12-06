@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="true" %>
 
 <!DOCTYPE html>
 <html>
@@ -44,7 +45,12 @@
                             <tbody>
                                 <c:forEach items="${tournaments}" var="tournament">
                                     <tr>
-                                        <td><c:out value="${tournament.name}"/></td>
+                                        <c:if test="${not empty member}">
+                                            <td><a href="<c:out value="/tournament/${tournament.id}/view"/>"><c:out value="${tournament.name}"/></a></td>
+                                        </c:if>
+                                        <c:if test="${empty member}">
+                                            <td><c:out value="${tournament.name}"/></td>
+                                        </c:if>
                                         <td><c:out value="${tournament.registrationOpenDate}"/></td>
                                         <td><c:out value="${tournament.registrationCloseDate}"/></td>
                                     </tr>

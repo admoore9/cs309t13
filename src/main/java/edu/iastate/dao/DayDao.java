@@ -23,7 +23,7 @@ public class DayDao {
     public DayDao() {
         this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
     }
-    
+
     public DayDao(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
@@ -48,7 +48,7 @@ public class DayDao {
             LinkedHashSet<Period> periods = new LinkedHashSet<Period>();
             PeriodDao periodDao = new PeriodDao();
             for (Slot slot : Slot.values())
-                periods.add(periodDao.savePeriod(new Period(slot).setDay(savedDay)));
+                periods.add(periodDao.merge(new Period(slot).setDay(savedDay)));
             savedDay.setPeriods(periods);
         }
 
@@ -71,7 +71,7 @@ public class DayDao {
 
         TypedQuery<Day> query = entityManager.createQuery("from Day d where d.name = :name and d.availability_id = :availability_id", Day.class);
         query.setParameter("name", weekDay.ordinal());
-        query.setParameter("availability_id", availability.getAvailability_id());
+        query.setParameter("availability_id", availability.getAvailabilityId());
         Day day = query.getSingleResult();
 
         transaction.commit();

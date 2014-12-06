@@ -1,17 +1,18 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
-import edu.iastate.models.*;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
+import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 
 public class GameTests {
@@ -37,7 +38,7 @@ public class GameTests {
         Game game = new Game();
         game.setGameLocation("saveGameTestLocation");
         game.setGameTime(new Date());
-        List<Team> teams = new ArrayList<Team>();
+        Set<Team> teams = new HashSet<Team>();
         TeamDao teamdao = new TeamDao();
         teams.add(teamdao.getTeamById(1, false, false, false));
         teams.add(teamdao.getTeamById(1, false, false, false));
@@ -62,12 +63,13 @@ public class GameTests {
     @Test
     public void addTeamToGameTest() {
         GameDao gamedao = new GameDao();
-        Game game = gamedao.getGameById(9, true);
+        Game game = gamedao.getGameById(1, true);
         TeamDao teamdao = new TeamDao();
-        Team team = teamdao.getTeamById(10, false, false, false);
+        Team team = teamdao.getTeamById(1, false, false, false);
+        //game.addTeam(team);
         game.removeTeam(team);
         for (Team t : game.getTeams()) {
-            System.out.println(game.getId() + " " + t.getId());
+            System.out.println(t.getId());
         }
         gamedao.saveGame(game);
     }

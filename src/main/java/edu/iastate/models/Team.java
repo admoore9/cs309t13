@@ -1,8 +1,7 @@
 package edu.iastate.models;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -38,16 +37,16 @@ public class Team {
 
     @JoinTable(name = "teamplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Member> players;
+    private Set<Member> players;
 
     @JoinTable(name = "teaminvitedplayermapper", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Member> invitedPlayers;
+    private Set<Member> invitedPlayers;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "teams")
-    private List<Game> games;
+    private Set<Game> games;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
@@ -70,13 +69,13 @@ public class Team {
     private Set<Game> wonGames;
 
     public Team() {
-        players = new ArrayList<Member>();
-        games = new ArrayList<Game>();
-        invitedPlayers = new ArrayList<Member>();
+        players = new HashSet<Member>();
+        games = new HashSet<Game>();
+        invitedPlayers = new HashSet<Member>();
         scores = new HashSet<Score>();
     }
 
-    public Team(int id, String name, boolean acceptFreeAgents, List<Member> players, List<Game> games, Member teamLeader) {
+    public Team(int id, String name, boolean acceptFreeAgents, Set<Member> players, Set<Game> games, Member teamLeader) {
         this.id = id;
         this.name = name;
         this.acceptFreeAgents = acceptFreeAgents;
@@ -118,28 +117,28 @@ public class Team {
         this.acceptFreeAgents = acceptFreeAgents;
     }
 
-    public List<Member> getPlayers() {
+    public Set<Member> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Member> players) {
+    public void setPlayers(Set<Member> players) {
         this.players = players;
         calculateSkillLevel();
     }
 
-    public List<Member> getInvitedPlayers() {
+    public Set<Member> getInvitedPlayers() {
         return invitedPlayers;
     }
 
-    public void setInvitedPlayers(List<Member> invitedPlayers) {
+    public void setInvitedPlayers(Set<Member> invitedPlayers) {
         this.invitedPlayers = invitedPlayers;
     }
 
-    public List<Game> getGames() {
+    public Set<Game> getGames() {
         return games;
     }
 
-    public void setGames(List<Game> games) {
+    public void setGames(Set<Game> games) {
         this.games = games;
     }
 
@@ -188,13 +187,15 @@ public class Team {
      * @return -1 if null or player already exists 0 if maximum has reached 1 if
      */
     public int addPlayer(Member player) {
-
         if(player == null || this.players.contains(player)) {
 
             return -1;
         }
         if(this.players.size() == tournament.getMaxPlayers()) {
             return 0;
+        }
+        if(player.isPlayerInTournament(tournament)) {
+            return -2;
         }
         this.players.add(player);
         removeInvitedPlayer(player);
@@ -209,7 +210,7 @@ public class Team {
      * @param player The player to be removed
      */
     public void removePlayer(Member player) {
-        if(player == null || !this.players.contains(player)) {
+        if(player == null || !this.players.contains(player)  || player.equals(teamLeader)) {
             return;
         }
         player.removeSurvey(player.getSurveyByTournament(this.tournament));
@@ -262,6 +263,31 @@ public class Team {
 
     public void setTeamSkillLevel(int teamSkillLevel) {
         this.teamSkillLevel = teamSkillLevel;
+    }
+
+    public Availability getTeamAvailability(Team team) {
+        Availability teamAvailability = initializeAvailability(new Availability());
+        Set<Member> players = team.getPlayers();
+        for (Member player : players) {
+            Availability playerAvailability = player.getAvailability();
+            for (Day day : playerAvailability.getDays())
+                for (Period period : day.getPeriods())
+                    if (!period.isAvailable())
+                        teamAvailability.setPeriodAvailability(period, false);
+        }
+        return teamAvailability;
+    }
+
+    private Availability initializeAvailability(Availability availability) {
+        LinkedHashSet<Day> days = new LinkedHashSet<Day>();
+        for (Day.WeekDay weekDay : Day.WeekDay.values()) {
+            Day day = new Day(weekDay);
+            for (Period.Slot slot : Period.Slot.values())
+                day.addPeriod(new Period(slot).setAvailable(true));
+            days.add(day);
+        }
+        availability.setDays(days);
+        return availability;
     }
 
     @Override

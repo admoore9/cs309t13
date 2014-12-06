@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package edu.iastate.controllers;
 
 import java.util.List;
@@ -17,17 +20,23 @@ import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.models.Member.UserType;
 
-@Controller
-@RequestMapping(value = "/admin")
-public class AdminController {
+/**
+ * All information need to be seen and used by the game coordinator
+ * 
+ * @author Shubang
+ *
+ */
 
+@Controller
+@RequestMapping(value = "/official")
+public class OfficialController {
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model, HttpSession session) {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
         member = memberDao.getMemberById(member.getId());
-        if (member == null || member.getContext() != UserType.ADMIN) {
+        if (member == null || member.getContext() != UserType.OFFICIAL) {
             return "redirect:/denied";
         }
 
@@ -40,6 +49,6 @@ public class AdminController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
-        return "admin";
+        return "official";
     }
 }

@@ -20,15 +20,17 @@ import edu.iastate.utils.StringUtils;
 @RequestMapping("/")
 public class IndexController {
 
-    private static final String LOGIN_SUCCESS_MESSAGE = "Login complete!";
+    private static final String LOGIN_MESSAGE = "Your login is complete.";
     private static final String LOGIN_ERROR_MESSAGE = "Your login was invalid, please try again.";
 
     @RequestMapping(method = RequestMethod.GET)
     public String loadIndexPage(Model model) {
 
+        // For basic upcoming tournament list
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
+
         return "index";
     }
 
@@ -51,7 +53,7 @@ public class IndexController {
 
         if (member != null) {
             session.setAttribute("member", member);
-            model.addAttribute("message", LOGIN_SUCCESS_MESSAGE);
+            model.addAttribute("message", LOGIN_MESSAGE);
         } else {
             model.addAttribute("errorMessage", LOGIN_ERROR_MESSAGE);
         }

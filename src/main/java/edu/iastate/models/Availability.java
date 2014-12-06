@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.OrderBy;
 
 import edu.iastate.models.Day.WeekDay;
@@ -24,12 +26,14 @@ public class Availability {
     @Id
     @GeneratedValue
     @Column(name = "availability_id")
-    private int availability_id;
+    private int availabilityId;
     
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member player;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "availability", fetch = FetchType.EAGER)
     @OrderBy(clause = "day_id")
     private Set<Day> days;
@@ -41,8 +45,8 @@ public class Availability {
     /**
      * @return the availability_id
      */
-    public int getAvailability_id() {
-        return availability_id;
+    public int getAvailabilityId() {
+        return availabilityId;
     }
 
     /**
@@ -80,6 +84,13 @@ public class Availability {
                 return day;
         }
         return null;
+    }
+
+    public void setPeriodAvailability(Period period,
+            boolean isAvailable) {
+        Day day = this.getDayByName(period.getDay().getName());
+        Period p = day.getPeriodByName(period.getSlot());
+        p.setAvailable(isAvailable);
     }
     
 }

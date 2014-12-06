@@ -1,6 +1,5 @@
 package tests;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,8 +12,6 @@ import edu.iastate.dao.PeriodDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
 import edu.iastate.models.Member;
-import edu.iastate.models.Period;
-import edu.iastate.models.Period.Slot;
 
 public class PeriodTests {
 
@@ -45,7 +42,7 @@ public class PeriodTests {
     public void changePeriodAvailabilityTest() {
         for (Day day : savedDays) {
             System.out.println(day.getPeriods().size());
-            periodDao.savePeriod(day.getPeriods().iterator().next().setAvailable(true));
+            periodDao.merge(day.getPeriods().iterator().next().setAvailable(true));
         }
     }
 }
