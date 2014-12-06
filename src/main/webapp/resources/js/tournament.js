@@ -74,7 +74,9 @@ Team.prototype.setHandlers = function(game_id) {
             }
 
             $(document).on('click', '#team-' + self.id + '-mark-winner', function() {
-                $.post('/game/' + game_id + '/winner', {winner: self.id});
+                $.post('/game/' + game_id + '/winner', {winner: self.id}, function() {
+                    window.location.reload();
+                });
             });
 
             return html_str;
