@@ -1,4 +1,4 @@
-var sendValidatorOptions = {
+var validatorOptions = {
         message : 'This value is not valid',
         fields : {
             recipient : {
@@ -34,48 +34,15 @@ var sendValidatorOptions = {
         }
 };
 
-var saveDraftValidatorOptions = {
-        message : 'This value is not valid',
-        fields : {
-            recipient : {
-                validators : {
-                    notEmpty : {
-                        message : 'At least one recipient must be entered'
-                    },
-                    remote : {
-                        message : 'The recipient does not exist',
-                        url : '/mail/doesRecipientExist'
-                    }
-                }
-            },
-            subject : {
-                validators : {
-                    stringLength : {
-                        max : 100,
-                        message : 'The message subject must be less than 100 characters long'
-                    }
-                }
-            },
-            body : {
-                validators : {
-                    stringLength : {
-                        max : 1000,
-                        message : 'The message subject must be less than 1000 characters long'
-                    }
-                }
-            }
-        }
-};
-
 $(document).ready(function() {
+    $('#message-form').bootstrapValidator(validatorOptions);
     $('body').on('click', '#send-message', function(e) {
         e.preventDefault();
-        $('#message-form').bootstrapValidator(sendValidatorOptions);
-        var isValid = $('#message-form').data('bootstrapValidator').validate();
-        if (isValid) {
+        $('#message-form').bootstrapValidator(validatorOptions);
+        var validator = $('#message-form').data('bootstrapValidator').validate();
+        if (validator.$invalidFields.length == 0) {
             var url = "/mail/send";
             var draftId = $("#message-form").attr("data-draft-id");
-            console.log($('#message-form').serialize() + "&draft_id=" + draftId);
             $.ajax({
                 type : "POST",
                 url : url,
@@ -91,13 +58,11 @@ $(document).ready(function() {
     });
     $('body').on('click', '#save-draft', function(e) {
         e.preventDefault();
-        $('#message-form').bootstrapValidator(saveDraftValidatorOptions);
-        var isValid = $('#message-form').data('bootstrapValidator').validate();
-        console.log(e.target.id);
-        if (isValid.$invalidFields.length == 0) {
+        $('#message-form').bootstrapValidator(validatorOptions);
+        var validator = $('#message-form').data('bootstrapValidator').validate();
+        if (validator.$invalidFields.length == 0) {
             var draftId = $('#message-form').attr("data-draft-id");
             var url = "/mail/save_draft";
-            console.log($('#message-form').serialize() + "&draft_id=" + draftId);
             $.ajax({
                 type : "POST",
                 url : url,
