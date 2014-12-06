@@ -2,7 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
+<%@ page import="edu.iastate.models.Message" %>
+<%@ page import="edu.iastate.dao.MessageDao" %>
 <% Member member = (Member) session.getAttribute("member"); %>
+
+<head>
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" type="text/css" href="/resources/css/header.css">
+</head>
 
 <div class="container-fluid">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -35,6 +42,7 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav navbar-right">
 
+                        <li><a href="/context/home">Welcome, ${sessionScope.member.name}!</a></li>
                         <% if (userType != Member.UserType.PLAYER) { %>
                         <li>
                             <form id="context-form" action="/context" method="POST">
@@ -58,7 +66,24 @@
                         </li>
                         <% } %>
 
-                        <li><a href="/context/home">Welcome, ${sessionScope.member.name}!</a></li>
+                        <li id="messages" class="dropdown"><a href="#"
+                            class="dropdown-toggle" data-toggle="dropdown">Message <span
+                                id="messageBadge" class="badge">
+                                    <%
+                                        out.print(member.getMail().getUnviewedMessages().size());
+                                    %>
+                            </span></a>
+                            <ul class="dropdown-menu">
+                                <%
+                                    for (Message message : member.getMail().getUnviewedMessages()) {
+                                            out.print("<li class='message'>" + message.getSubject() + " " + "<span class='message-time'>" + message.getTime() + "</span>" + "</li>");
+                                        }
+                                %>
+                                <% if (!member.getMail().getUnviewedMessages().isEmpty()) { %>
+                                    <li role="presentation" class="divider"></li>
+                                <% } %>
+                                <li class="inbox"><a href="/mail">Inbox</a></li>
+                            </ul></li>
                         <li style="margin-right: 15px;"><a href="/logout">Logout</a></li>
                     </ul>
                 </div>
@@ -82,3 +107,10 @@
         <strong>Warning!</strong> ${errorMessage}
     </div>
 </c:if>
+
+<footer>
+    <!-- jQuery library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Page specific JS -->
+    <script src="../../resources/js/header.js"></script>
+</footer>

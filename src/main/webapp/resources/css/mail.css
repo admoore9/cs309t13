@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+
+.message.false {
+	font-weight: bold;
+}
+
+table#messages {
+	width: 100%;
+}
+
+tr.message {
+	border-top: solid 1px;
+	border-bottom: solid 1px;
+}
+
+.message-time {
+	float: right;
+}
+
+.unviewed {
+	font-weight: bold;
+}
+
+.message-sender {
+	margin-right: 100px;
+}
+
+.mainbox {
+	/*float: right;*/
+}
+
+.modal-body {
+	min-height: 420px;
+}
+
+.navbar-form .form-group {
+    display: block;
+    margin-top: 15px;
+}
+
+#new-message-body {
+    min-height: 275px;
+    min-width: 540px;
+    resize: none;
+}
+
+.help-block {
+    display: inline;
+}
+
+.panel-heading {
+    cursor: pointer;
+}
+
+#mail-sidebar {
+    /*position: fixed;*/
+}
+
+#mail-sidebar>a {
+    display: block;
+}
+
+#accordion {
+    overflow-y: scroll;
+}
+
+.panel-title {
+    display: inline;
+    margin-right: 20px;
+}
+
+.selection-icon {
+    margin-right: 10px;
+    display: none;
+    cursor: pointer;
+}
+
+.inbox-heading {
+    cursor: default;
+}
+
+#draft-alert {
+    display: none;
+}
+
+#edit-draft {
+    margin: 0 11px;
+}

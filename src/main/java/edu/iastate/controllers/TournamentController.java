@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
+import edu.iastate.dao.MessageDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
@@ -411,6 +412,12 @@ public class TournamentController {
 
         tournament.removeTeam(team);
         teamDao.deleteTeamById(teamId);
+
+        // notify team members
+        MessageDao messageDao = new MessageDao();
+        for (Member player : team.getPlayers())
+            messageDao.notify(player, team.getName() + " team was removed from " + tournament.getName());
+
         return true;
     }
 

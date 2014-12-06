@@ -65,10 +65,13 @@ public class Member {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "user_type")
     private UserType userType;
-    
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "gameCoordinator")
     Set<Tournament> managingTournament;
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "member")
+    private Mail mail;
 
     public Member() {
         this.userType = UserType.PLAYER;
@@ -160,7 +163,7 @@ public class Member {
     public String getName() {
         return name;
     }
-    
+
     public Set<Tournament> getManagingTournament() {
         return managingTournament;
     }
@@ -236,6 +239,17 @@ public class Member {
     }
 
     // =========Player================
+
+    /**
+     * @return the mail
+     */
+    public Mail getMail() {
+        return mail;
+    }
+
+    public void setMail(Mail mail) {
+        this.mail = mail;
+    }
 
     @JsonIgnore
     @ManyToMany(mappedBy = "players", fetch = FetchType.EAGER)

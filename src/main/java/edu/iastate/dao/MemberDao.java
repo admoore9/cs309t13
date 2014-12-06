@@ -8,19 +8,17 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import edu.iastate.models.Availability;
+import edu.iastate.models.Mail;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
-import edu.iastate.utils.EntityManagerFactorySingleton;
 
-public class MemberDao {
-
-    protected final EntityManagerFactory entityManagerFactory;
+public class MemberDao extends BaseDao<Member> {
 
     /**
      * Standard constructor
      */
     public MemberDao() {
-        this.entityManagerFactory = EntityManagerFactorySingleton.getFactory();
+        super();
     }
 
     /**
@@ -29,11 +27,11 @@ public class MemberDao {
      * @param entityManagerFactory The factory to use to get sessions
      */
     public MemberDao(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+        super(entityManagerFactory);
     }
 
     /**
-     * Login with given username and password 
+     * Login with given username and password
      * @param username
      * @param password
      * @return Member matching given username and password
@@ -95,7 +93,7 @@ public class MemberDao {
      * Gets a member given a username
      * 
      * @param username
-     * @return a member with 
+     * @return a member with
      */
     public Member getMemberByUsername(String username) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -140,17 +138,16 @@ public class MemberDao {
      * @param member The member to save to the database
      */
     public Member save(Member member) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        Member savedMember = entityManager.merge(member);
-        transaction.commit();
-        entityManager.close();
+        Member savedMember = super.merge(member);
+
+        if (savedMember.getMail() == null)
+            savedMember.setMail(new MailDao().merge(new Mail().setMember(savedMember)));
+
         if (savedMember.getAvailability() == null)
             savedMember.setAvailability(new AvailabilityDao().saveAvailability(new Availability().setPlayer(savedMember)));
         return savedMember;
     }
-    
+
     /**
      * Get a list of all members of given user type in database
      * @return List of members in database
@@ -170,7 +167,7 @@ public class MemberDao {
 
         return members;
     }
-    
+
     /**
      * Loads the foreign keys for a player based on the booleans
      * 
