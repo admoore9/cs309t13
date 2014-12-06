@@ -28,30 +28,32 @@ public class TeamController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
-        model.addAttribute("teamId", id);
 
         Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
-
-        if (member.getTeams().contains(team) == false) {
+        if (team == null) {
             return "redirect:/denied";
         }
 
+        model.addAttribute("team", team);
+        model.addAttribute("teamId", id);
+
+        // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
-        model.addAttribute("team", team);
-        MemberDao memberDao = new MemberDao();
-        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "team";
     }
 

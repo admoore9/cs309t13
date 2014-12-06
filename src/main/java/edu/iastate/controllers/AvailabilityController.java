@@ -2,6 +2,7 @@ package edu.iastate.controllers;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -12,14 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.AvailabilityDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
+import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Day;
+import edu.iastate.models.Tournament;
 import edu.iastate.models.Day.WeekDay;
 import edu.iastate.models.Member;
 import edu.iastate.models.Period;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Period.Slot;
 import edu.iastate.models.Team;
 
@@ -33,15 +39,29 @@ public class AvailabilityController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAvailability(Model model, HttpSession session) {
-        if (session.getAttribute("member") == null) {
-            return "redirect:denied";
-        }
+
         Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
+            return "redirect:/denied";
+        }
+
         availabilityDao = new AvailabilityDao();
         availability = member.getAvailability();
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         return "availability";
     }
 
@@ -49,21 +69,35 @@ public class AvailabilityController {
     public String getTeamAvailability(Model model,
             HttpSession session,
             @PathVariable int id) {
-        if (session.getAttribute("member") == null) {
-            return "redirect:denied";
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null || member.getContext() != UserType.ADMIN) {
+            return "redirect:/denied";
         }
+
         availabilityDao = new AvailabilityDao();
-        Team team = new TeamDao().getTeamById(1, false, true, false);
+        Team team = new TeamDao().getTeamById(id, false, true, false);
         availability = team.getTeamAvailability(team);
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
         model.addAttribute("isTeam", true);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         return "availability";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateAvailability(Model model, HttpSession session,
+    public @ResponseBody boolean updateAvailability(Model model, HttpSession session,
             @RequestParam(value = "MONDAY", required = false) String monday,
             @RequestParam(value = "TUESDAY", required = false) String tuesday,
             @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
@@ -73,7 +107,7 @@ public class AvailabilityController {
             @RequestParam(value = "SUNDAY", required = false) String sunday) {
 
         if (session.getAttribute("member") == null)
-            return "redirect:/denied";
+            return false;
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
         Day newWednesday = new Day(WeekDay.WEDNESDAY);
@@ -108,7 +142,7 @@ public class AvailabilityController {
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
-        return "availability";
+        return true;
     }
 
     private void addPeriodsToDay(Day newMonday, String monday) {
