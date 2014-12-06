@@ -64,8 +64,7 @@ public class Message {
         return subject;
     }
 
-    public Message setSubject(
-            String subject) {
+    public Message setSubject(String subject) {
         this.subject = subject;
         return this;
     }
@@ -80,8 +79,7 @@ public class Message {
     /**
      * @param body the body to set
      */
-    public Message setBody(
-            String body) {
+    public Message setBody(String body) {
         this.body = body;
         return this;
     }
@@ -96,8 +94,7 @@ public class Message {
     /**
      * @param deleted the deleted to set
      */
-    public Message setDeleted(
-            boolean deleted) {
+    public Message setDeleted(boolean deleted) {
         this.deleted = deleted;
         return this;
     }
@@ -106,8 +103,7 @@ public class Message {
         return draft;
     }
 
-    public Message setDraft(
-            boolean draft) {
+    public Message setDraft(boolean draft) {
         this.draft = draft;
         return this;
     }
@@ -150,8 +146,7 @@ public class Message {
     /**
      * @param member the member to set
      */
-    public Message setRecipient(
-            Member recipient) {
+    public Message setRecipient(Member recipient) {
         this.recipient = recipient;
         return this;
     }
@@ -160,8 +155,7 @@ public class Message {
         return viewed;
     }
 
-    public void setViewed(
-            boolean viewed) {
+    public void setViewed(boolean viewed) {
         this.viewed = viewed;
     }
 
@@ -175,8 +169,7 @@ public class Message {
     /**
      * @param sent the sent to set
      */
-    public Message setSent(
-            boolean sent) {
+    public Message setSent(boolean sent) {
         this.sent = sent;
         return this;
     }

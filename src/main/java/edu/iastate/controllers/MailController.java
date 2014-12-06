@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.MessageDao;
+import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
 import edu.iastate.models.Message;
+import edu.iastate.models.Team;
+import edu.iastate.models.Tournament;
 
 @Controller
 @RequestMapping("/mail")
@@ -31,10 +34,11 @@ public class MailController {
             @RequestParam(value = "sentmail", required = false) String sentmail,
             @RequestParam(value = "drafts", required = false) String drafts) {
 
-        if (session.getAttribute("member") == null)
+        Member member = (Member) session.getAttribute("member");
+
+        if (member == null)
             return "redirect:denied";
 
-        Member member = (Member) session.getAttribute("member");
         Set<Message> messages;
         if (sentmail != null)
             messages = member.getMail().getSentMail();
@@ -46,6 +50,16 @@ public class MailController {
         Collections.reverse(reversedMessages);
         model.addAttribute("messages", reversedMessages);
         session.setAttribute("message", null);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        TournamentDao tournamentDao = new TournamentDao();
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         return "mail";
     }
 

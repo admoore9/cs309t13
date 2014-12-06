@@ -122,7 +122,6 @@
                 </div>
                 <!-- panel -->
             </div>
-            <div id="selection-sidebar" class="col-lg-1 col-md-1 col-sm-1"></div>
         </div>
     </div>
 </body>
