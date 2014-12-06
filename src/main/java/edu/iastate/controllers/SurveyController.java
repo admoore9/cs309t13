@@ -1,5 +1,8 @@
 package edu.iastate.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import edu.iastate.dao.SurveyDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
 import edu.iastate.models.Survey;
+import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 
 @Controller
@@ -24,14 +28,30 @@ public class SurveyController {
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
     @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/view", method = RequestMethod.GET)
-    public String loadSurveyPage(@PathVariable int tournamentId, @PathVariable boolean isTeamLeader, Model m, HttpSession session) {
-
-        if (session.getAttribute("member") == null) {
+    public String loadSurveyPage(@PathVariable int tournamentId, @PathVariable boolean isTeamLeader, Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
             return "redirect:/denied";
         }
 
-        m.addAttribute("tournamentId", tournamentId);
-        m.addAttribute("isTeamLeader", isTeamLeader);
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
+        if (tournament == null) {
+            return "redirect:/denied";
+        }
+
+        model.addAttribute("tournamentId", tournamentId);
+        model.addAttribute("isTeamLeader", isTeamLeader);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
 
         return "survey";
     }
