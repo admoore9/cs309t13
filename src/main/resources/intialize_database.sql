@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Member` (
   `weight` INT NOT NULL,
   `availability` INT NULL,
   `context` int(4) NOT NULL,
+  `mail_id`	INT NULL,
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
@@ -274,8 +275,59 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Score` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-    
-    
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Mail`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Mail` (
+  `mail_id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  PRIMARY KEY (`mail_id`),
+  INDEX `fk_Mail_MemberId_idx` (`member_id` ASC),
+  CONSTRAINT `fk_Mail_MemberId`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `cs309t13`.`Message`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs309t13`.`Message` (
+  `message_id` INT NOT NULL AUTO_INCREMENT,
+  `recipient_id` INT NOT NULL,
+  `sender_id` INT NOT NULL,
+  `subject` VARCHAR(100) NOT NULL,
+  `body` VARCHAR(1000) NOT NULL,
+  `viewed` BOOLEAN DEFAULT FALSE NOT NULL,
+  `sent` BOOLEAN DEFAULT FALSE NOT NULL,
+  `deleted` BOOLEAN DEFAULT FALSE NOT NULL,
+  `draft` BOOLEAN DEFAULT FALSE NOT NULL,
+  `datetime` TIMESTAMP,
+  PRIMARY KEY (`message_id`),
+  INDEX `fk_Message_RecipientId_idx` (`recipient_id` ASC),
+  CONSTRAINT `fk_Message_RecipientId`
+    FOREIGN KEY (`recipient_id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  INDEX `fk_Message_SenderId_idx` (`sender_id` ASC),
+  CONSTRAINT `fk_Message_SenderId`
+    FOREIGN KEY (`sender_Id`)
+    REFERENCES `Member` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- System data
+-- -----------------------------------------------------
+INSERT INTO `cs309t13`.`Member` (`member_id`, `name`, `username`, `password`, `user_type`, `height`, `weight`, `context`, `mail_id`) 
+	VALUES ('1', 'Iowa State Intramurals', 'Intramurals', '1a1dc91c907325c69271ddf0c944bc72', '3', '-1', '-1', '0', '1');
+INSERT INTO `cs309t13`.`Mail` (`mail_id`, `member_id`)
+	VALUES ('1', '1');
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
