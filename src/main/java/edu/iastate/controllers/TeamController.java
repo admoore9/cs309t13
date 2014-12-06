@@ -398,19 +398,18 @@ public class TeamController {
      *         otherwise.
      */
     @RequestMapping(value = "/{id}/addPlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean addPlayerToTeam(
+    public String addPlayerToTeam(
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
-
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
         if (team.addPlayer(me) == 1) {
@@ -425,7 +424,7 @@ public class TeamController {
                 }
             }
         }
-        return true;
+        return "redirect:/team/" + team.getId() + "/view";
     }
 
     /**
@@ -437,13 +436,13 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
-    public @ResponseBody boolean joinPlayerToTeam(
+    public String joinPlayerToTeam(
             @RequestParam(value = "teamPassword", required = true) String enteredPassword,
             @PathVariable int id,
             HttpSession session) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
@@ -453,7 +452,7 @@ public class TeamController {
         String genPassword = StringUtils.secureString(enteredPassword);
 
         if (team == null || !genPassword.equals(teamPassword)) {
-            return false;
+            return "redirect:/tournament/" + team.getTournament().getId() + "/teams";
         }
 
         if (team.addPlayer(me) == 1) {
@@ -468,8 +467,7 @@ public class TeamController {
                 }
             }
         }
-
-        return true;
+        return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
     }
 
     /**

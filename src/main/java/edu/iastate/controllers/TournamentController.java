@@ -81,7 +81,6 @@ public class TournamentController {
         if (member == null) {
             return "redirect:/denied";
         }
-
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
         model.addAttribute("tournament", tournament);

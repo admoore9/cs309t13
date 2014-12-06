@@ -114,8 +114,8 @@
                                                 <td><a href="<c:out value="/team/${team.id}/view"/>"><c:out value="${team.name}"/></a></td>
                                                 <td><a href="<c:out value="/tournament/${team.tournament.id}/view"/>"><c:out value="${team.tournament.name}"/></a></td>
                                                 <td>
-                                                <form role="form" id="invite-accept${team.id}-form">
-                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default" onclick="acceptTeamForm(${team.id})">Accept</button>
+                                                <form role="form" id="invite-accept${team.id}-form" action="<c:out value="/team/${team.id}/addPlayer"/>" method="POST">
+                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default">Accept</button>
                                                 </form>
                                                 <form role="form" id="invite-reject-form">
                                                     <button id="invite-accept-submit" type="submit" class="btn btn-default" onclick="rejectTeamForm(${team.id})">Reject</button>

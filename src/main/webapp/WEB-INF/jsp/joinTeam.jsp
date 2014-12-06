@@ -42,13 +42,12 @@
                                 <td><c:out value="${team.name}"/></td>
                                 <td>${team.teamSkillLevel}</td>
                                 <td>
-                                <form role="form" id="join-team${team.id}-form">
+                                <form role="form" id="join-team${team.id}-form" action="<c:out value="/team/${team.id}/joinTeam"/>" method="POST">
                                     <div class="form-group">
                                         <label for="password">Team Password: </label>
                                         <input type="password" class="form-control" id="teamPassword" name="teamPassword">
                                     </div>
-                                    <button id="invite-accept-submit" type="submit" class="btn btn-default"
-                                        onclick="submitTeamForm(${team.id})">Join</button>
+                                    <button id="invite-accept-submit" type="submit" class="btn btn-default">Join</button>
                                 </form>
                                 </td>
                             </tr>
