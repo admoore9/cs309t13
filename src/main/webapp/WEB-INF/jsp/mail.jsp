@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button id="save-draft" type="button" class="btn btn-default">Save Draft</button>
+                                        <button id="save-draft" type="submit" class="btn btn-default">Save Draft</button>
                                         <button id="send-message" type="submit" class="btn btn-primary">Send</button>
                                     </div>
                                 </form>

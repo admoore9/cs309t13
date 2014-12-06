@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `cs309t13`.`Message` (
   `message_id` INT NOT NULL AUTO_INCREMENT,
   `recipient_id` INT NOT NULL,
   `sender_id` INT NOT NULL,
-  `subject` VARCHAR(45) NOT NULL,
+  `subject` VARCHAR(100) NOT NULL,
   `body` VARCHAR(1000) NOT NULL,
   `viewed` BOOLEAN DEFAULT FALSE NOT NULL,
   `sent` BOOLEAN DEFAULT FALSE NOT NULL,

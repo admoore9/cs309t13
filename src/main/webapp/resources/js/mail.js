@@ -1,5 +1,4 @@
-$(document).ready(function() {
-    $('#message-form').bootstrapValidator({
+var sendValidatorOptions = {
         message : 'This value is not valid',
         fields : {
             recipient : {
@@ -23,27 +22,78 @@ $(document).ready(function() {
                         message : 'The message subject must be less than 100 characters long'
                     }
                 }
+            },
+            body : {
+                validators : {
+                    stringLength : {
+                        max : 1000,
+                        message : 'The message subject must be less than 1000 characters long'
+                    }
+                }
             }
         }
-    }).on('success.form.bv', function(e) {
-        e.preventDefault();
-        var url = "/mail/send";
-        var draftId = $("#message-form").attr("data-draft-id");
-        console.log($('#message-form').serialize() + "&draft_id=" + draftId);
-        $.ajax({
-            type : "POST",
-            url : url,
-            data : $('#message-form').serialize() + "&draft_id=" + draftId,
-            success : function(result) {
-                $('#composeModal').modal('hide');
-                document.open();
-                document.write(result);
-                document.close();
+};
+
+var saveDraftValidatorOptions = {
+        message : 'This value is not valid',
+        fields : {
+            recipient : {
+                validators : {
+                    notEmpty : {
+                        message : 'At least one recipient must be entered'
+                    },
+                    remote : {
+                        message : 'The recipient does not exist',
+                        url : '/mail/doesRecipientExist'
+                    }
+                }
+            },
+            subject : {
+                validators : {
+                    stringLength : {
+                        max : 100,
+                        message : 'The message subject must be less than 100 characters long'
+                    }
+                }
+            },
+            body : {
+                validators : {
+                    stringLength : {
+                        max : 1000,
+                        message : 'The message subject must be less than 1000 characters long'
+                    }
+                }
             }
-        });
+        }
+};
+
+$(document).ready(function() {
+    $('body').on('click', '#send-message', function(e) {
+        e.preventDefault();
+        $('#message-form').bootstrapValidator(sendValidatorOptions);
+        var isValid = $('#message-form').data('bootstrapValidator').validate();
+        if (isValid) {
+            var url = "/mail/send";
+            var draftId = $("#message-form").attr("data-draft-id");
+            console.log($('#message-form').serialize() + "&draft_id=" + draftId);
+            $.ajax({
+                type : "POST",
+                url : url,
+                data : $('#message-form').serialize() + "&draft_id=" + draftId,
+                success : function(result) {
+                    $('#composeModal').modal('hide');
+                    document.open();
+                    document.write(result);
+                    document.close();
+                }
+            });
+        }
     });
     $('body').on('click', '#save-draft', function(e) {
-        var isValid = $('#message-form').data('bootstrapValidator').validateField("recipient");
+        e.preventDefault();
+        $('#message-form').bootstrapValidator(saveDraftValidatorOptions);
+        var isValid = $('#message-form').data('bootstrapValidator').validate();
+        console.log(e.target.id);
         if (isValid.$invalidFields.length == 0) {
             var draftId = $('#message-form').attr("data-draft-id");
             var url = "/mail/save_draft";
