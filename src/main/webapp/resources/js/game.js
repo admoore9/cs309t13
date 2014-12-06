@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    console.log("here");
     $('#update-game-form').on('submit', function(event) {
         event.preventDefault();
         $.post('/game/' + gameId + '/update', {
@@ -7,7 +6,7 @@ $(document).ready(function() {
             addOfficial: $('#update-official-add-input').val(),
             removeOfficial: $('#update-official-remove-input').val(),
             success: setTimeout(function(result) {
-                //window.location.href = "/game/" + gameId + "/view";
+                window.location.href = "/game/" + gameId + "/view";
             }, 500),
         });
     });
