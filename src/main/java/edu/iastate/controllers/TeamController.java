@@ -148,6 +148,14 @@ public class TeamController {
         return "team";
     }
 
+    /**
+     * Returns the create team page for a given tournament
+     * 
+     * @param tournamentId the ID for tournament that for which team is being created
+     * @param model the model of the JSP page
+     * @param session the current session of user
+     * @return
+     */
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
     public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
 
@@ -170,7 +178,15 @@ public class TeamController {
         return "createTeam";
     }
 
-    // TODO Add players to team
+    /**
+     * Creates a new team based on information provided
+     * 
+     * @param tournamentId the tournament ID for which team is being created
+     * @param teamName the name of the team
+     * @param teamPassword the password of the team
+     * @param session the current user session
+     * @return
+     */
     @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
     public String createTeamSubmit(
             @PathVariable int tournamentId,
@@ -397,8 +413,9 @@ public class TeamController {
     /**
      * Called when player wants to join team
      * Checks for team password for security
-     * @param session
-     * @param id
+     * 
+     * @param session the current user session
+     * @param id the team ID for which the player wants to join
      * @return
      */
     @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
@@ -440,8 +457,8 @@ public class TeamController {
     /**
      * Called when player rejects an invitation to join team
      * 
-     * @param session
-     * @param id
+     * @param session the current user session
+     * @param id the Team ID for which player rejects invitation
      * @return
      */
     @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)

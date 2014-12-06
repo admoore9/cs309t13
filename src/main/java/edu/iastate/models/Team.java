@@ -32,6 +32,7 @@ public class Team {
     @Column(name = "team_name")
     private String name;
     
+    @JsonIgnore
     @Column(name = "team_password")
     private String password;
 

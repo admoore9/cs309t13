@@ -56,8 +56,8 @@ public class SurveyController {
 
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         Member player = (Member) session.getAttribute("member");
-        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(tournamentId, true, true),
-                memberDao.getMemberById(player.getId()));
+        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(tournamentId, true, true).getId(),
+                memberDao.getMemberById(player.getId()).getId());
 
         if (survey == null) {
             survey = new Survey();
