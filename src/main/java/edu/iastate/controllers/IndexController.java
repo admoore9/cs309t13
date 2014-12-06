@@ -26,9 +26,11 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET)
     public String loadIndexPage(Model model) {
 
+        // For basic upcoming tournament list
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
+
         return "index";
     }
 

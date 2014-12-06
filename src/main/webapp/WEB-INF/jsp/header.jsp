@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
 <%@ page import="edu.iastate.models.Message" %>
@@ -46,25 +47,22 @@
                         <li>
                             <form id="context-form" action="/context" method="POST">
                                 <input type="hidden" name="context" id="context">
-                                <ul style="line-height: 50px;">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#8B8B8B;"><c:out value="${ member.context }"/><b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-        
-                                            <% if (userType == Member.UserType.ADMIN) { %>
-                                            <li><a href="/admin" onclick="$('#context').val('3'); $('#context-form').submit()">Administrator</a></li>
-                                            <% } %>
-        
-                                            <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
-                                            <li><a href="/coordinator" onclick="$('#context').val('2'); $('#context-form').submit()">Coordinator</a></li>
-                                            <% } %>
-    
-                                            <li><a href="/official" onclick="$('#context').val('1'); $('#context-form').submit()">Official</a></li>
-                                            <li><a href="/profile" onclick="$('#context').val('0'); $('#context-form').submit()">Player</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </form>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-transform: capitalize">
+                                <c:out value="${ fn:toLowerCase(member.context) }"/> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <% if (userType == Member.UserType.ADMIN) { %>
+                                    <li><a href="#" onclick="$('#context').val('3'); $('#context-form').submit()">Administrator</a></li>
+                                <% } %>
+
+                                <% if (userType == Member.UserType.COORDINATOR || userType == Member.UserType.ADMIN) { %>
+                                    <li><a href="#" onclick="$('#context').val('2'); $('#context-form').submit()">Coordinator</a></li>
+                                <% } %>
+
+                                <li><a href="#" onclick="$('#context').val('1'); $('#context-form').submit()">Official</a></li>
+                                <li><a href="#" onclick="$('#context').val('0'); $('#context-form').submit()">Player</a></li>
+                            </ul>
                         </li>
                         <% } %>
 
@@ -84,7 +82,7 @@
                                 <li role="presentation" class="divider"></li>
                                 <li class="inbox"><a href="/mail">Inbox</a></li>
                             </ul></li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li style="margin-right: 15px;"><a href="/logout">Logout</a></li>
                     </ul>
                 </div>
                 <% } %>
