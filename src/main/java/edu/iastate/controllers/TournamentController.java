@@ -1,5 +1,8 @@
 package edu.iastate.controllers;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
@@ -32,15 +36,31 @@ public class TournamentController {
      */
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTournament(Model model, HttpSession session, @PathVariable int id) {
-        Member me = (Member) session.getAttribute("member");
-        if (me == null) {
+
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
             return "redirect:/denied";
         }
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        if (tournament == null) {
+            return "redirect:/denied";
+        }
+
         model.addAttribute("tournament", tournament);
-        model.addAttribute("userType", me.getUserType());
+        model.addAttribute("userType", member.getUserType());
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
         return "tournament";
     }
 

@@ -19,42 +19,47 @@ import edu.iastate.utils.MemberUtils;
 public class ContextController {
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String updateContext(
+    public String updateContext(
             @RequestParam(value = "context", required = true) int context,
             Model model,
             HttpSession session) {
 
         Member member = (Member) session.getAttribute("member");
-
-        if (member == null)
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
             return "redirect:/denied";
+        }
 
-        if (context == member.getContext().ordinal()) {
-            return null;
+        String redirect;
 
-        } else if (context == UserType.PLAYER.ordinal()) {
+        if (context == UserType.PLAYER.ordinal()) {
             member.setContext(UserType.PLAYER);
+            redirect = "redirect:/profile";
 
         } else if (context == UserType.OFFICIAL.ordinal() &&
                 MemberUtils.atLeastOfficial(member)) {
             member.setContext(UserType.OFFICIAL);
+            redirect = "redirect:/official";
 
         } else if (context == UserType.COORDINATOR.ordinal() &&
                 MemberUtils.atLeastCoordinator(member)) {
             member.setContext(UserType.COORDINATOR);
+            redirect = "redirect:/coordinator";
 
         } else if (context == UserType.ADMIN.ordinal() &&
                 member.getUserType() == UserType.ADMIN) {
             member.setContext(UserType.ADMIN);
+            redirect = "redirect:/admin";
 
         } else {
             return "redirect:/denied";
         }
 
-        MemberDao memberDao = new MemberDao();
         memberDao.save(member);
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
-        return null;
+
+        return redirect;
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)

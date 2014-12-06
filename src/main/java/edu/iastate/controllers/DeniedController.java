@@ -1,7 +1,6 @@
 package edu.iastate.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DeniedController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String loadProfilePage(Model m) {
+    public String loadProfilePage() {
         return "denied";
     }
 
