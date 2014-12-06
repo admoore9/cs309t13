@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
 <% Member member = (Member) session.getAttribute("member"); %>
@@ -39,8 +40,8 @@
                             <form id="context-form" action="/context" method="POST">
                                 <input type="hidden" name="context" id="context">
                             </form>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <c:out value="${ member.context }"/> <span class="caret"></span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-transform: capitalize">
+                                <c:out value="${ fn:toLowerCase(member.context) }"/> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <% if (userType == Member.UserType.ADMIN) { %>
