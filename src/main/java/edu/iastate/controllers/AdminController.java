@@ -28,8 +28,6 @@ public class AdminController {
         MemberDao memberDao = new MemberDao();
         member = memberDao.getMemberById(member.getId());
         if (member == null || member.getContext() != UserType.ADMIN) {
-            System.out.println("shouldn't be here");
-            System.out.println(member.getContext());
             return "redirect:/denied";
         }
 

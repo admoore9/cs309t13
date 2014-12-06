@@ -37,7 +37,7 @@ public class OfficialController {
         MemberDao memberDao = new MemberDao();
         member = memberDao.getMemberById(member.getId());
         if (member == null || member.getContext() != UserType.OFFICIAL) {
-            return "redirect/:denied";
+            return "redirect:/denied";
         }
 
         // For sidebar
