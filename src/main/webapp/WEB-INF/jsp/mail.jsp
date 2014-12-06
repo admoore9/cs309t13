@@ -8,42 +8,56 @@
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Mail</title>
-<!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
-
-<!-- Page specific CSS -->
-<link rel="stylesheet" type="text/css" href="../../resources/css/mail.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Mail</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
+    
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/mail.css">
 </head>
 
 <body>
     <jsp:include page="header.jsp" />
-    <div class="container">
-        <div class="row">
-            <div id="mail-sidebar" class="col-lg-1 col-md-1 col-sm-1">
+    <div class="container-fluid">
+        <div class="row" style="margin-bottom: 4px;">
+            <div id="mail-sidebar" class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#composeModal">Compose</button>
-                <a id="inbox" href="/mail/?inbox">
-                    Inbox
-                    <%
-                    int unviewedMessagesNum = member.getMail().getUnviewedMessages().size();
-                    if (unviewedMessagesNum > 0)
-                        out.print("(" + unviewedMessagesNum + ")");
-                %>
-                </a>
-                <a id="sentmail" href="/mail/?sentmail">Sent Mail</a>
-                <a id="drafts" href="/mail/?drafts">
-                    Drafts
-                    <%
-                    int draftsNum = member.getMail().getDrafts().size();
-                    if (draftsNum > 0)
-                        out.print("(" + draftsNum + ")");
-                %>
-                </a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#composeModal">Compose</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a id="inbox" href="/mail/?inbox">
+                            Inbox
+                            <%
+                            int unviewedMessagesNum = member.getMail().getUnviewedMessages().size();
+                            if (unviewedMessagesNum > 0)
+                                out.print("(" + unviewedMessagesNum + ")");
+                        %>
+                        </a></li>
+                        <li><a id="sentmail" href="/mail/?sentmail">Sent Mail</a></li>
+                        <li><a id="drafts" href="/mail/?drafts">
+                            Drafts
+                            <%
+                            int draftsNum = member.getMail().getDrafts().size();
+                            if (draftsNum > 0)
+                                out.print("(" + draftsNum + ")");
+                        %>
+                        </a></li>
+                    </ul>
+                </div>
             </div>
-            <div id="mailBox" class="mainbox col-lg-11 col-md-11 col-sm-11">
+        </div>
+        <div class="row">
+            <div id="mailBox" class="mainbox col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading inbox-heading">
                         <h3 class="panel-title">Mail</h3>
@@ -123,6 +137,7 @@
                 <!-- panel -->
             </div>
             <div id="selection-sidebar" class="col-lg-1 col-md-1 col-sm-1"></div>
+            <jsp:include page="sideBar.jsp"/>
         </div>
     </div>
 </body>
