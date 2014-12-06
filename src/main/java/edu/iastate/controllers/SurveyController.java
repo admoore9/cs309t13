@@ -23,21 +23,23 @@ public class SurveyController {
     private static final double LBS_TO_KG_FACTOR = 0.453592;
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
-    @RequestMapping(value = "/{tournamentId}/view", method = RequestMethod.GET)
-    public String loadSurveyPage(@PathVariable int tournamentId, Model m, HttpSession session) {
+    @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/view", method = RequestMethod.GET)
+    public String loadSurveyPage(@PathVariable int tournamentId, @PathVariable boolean isTeamLeader, Model m, HttpSession session) {
 
         if (session.getAttribute("member") == null) {
             return "redirect:/denied";
         }
 
         m.addAttribute("tournamentId", tournamentId);
+        m.addAttribute("isTeamLeader", isTeamLeader);
 
         return "survey";
     }
 
-    @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/submit", method = RequestMethod.POST)
     public String surveySubmit(
             @PathVariable int tournamentId,
+            @PathVariable boolean isTeamLeader,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "height", required = false) Integer height,
             @RequestParam(value = "weight", required = false) Integer weight,
@@ -54,11 +56,11 @@ public class SurveyController {
 
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         Member player = (Member) session.getAttribute("member");
-        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(tournamentId, true, true), 
-                                                            memberDao.getMemberById(player.getId()));
-        
-        if(survey==null) {
-            survey = new Survey(); 
+        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(tournamentId, true, true),
+                memberDao.getMemberById(player.getId()));
+
+        if (survey == null) {
+            survey = new Survey();
         }
 
         if (sex != null)
@@ -78,7 +80,10 @@ public class SurveyController {
         // Save updated player and survey to database
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
-        return "redirect:/tournament/" + tournamentId + "/teams";
+        if (isTeamLeader)
+            return "redirect:/team/" + tournamentId + "/create";
+        else
+            return "redirect:/tournament/" + tournamentId + "/teams";
     }
 
     /**
