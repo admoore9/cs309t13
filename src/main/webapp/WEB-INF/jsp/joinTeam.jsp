@@ -45,7 +45,7 @@
                                 <form role="form" id="join-team${team.id}-form">
                                     <div class="form-group">
                                         <label for="password">Team Password: </label>
-                                        <input type="text" class="form-control" id="teamPassword" name="teamPassword">
+                                        <input type="password" class="form-control" id="teamPassword" name="teamPassword">
                                     </div>
                                     <button id="invite-accept-submit" type="submit" class="btn btn-default"
                                         onclick="submitTeamForm(${team.id})">Join</button>

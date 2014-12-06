@@ -100,6 +100,7 @@ public class TeamController {
             @RequestParam(value = "addPlayer", required = false) String addPlayer,
             @RequestParam(value = "removePlayer", required = false) String removePlayer,
             @RequestParam(value = "newCaptain", required = false) String newCaptain,
+            @RequestParam(value = "newPassword", required = false) String newTeamPassword,
             HttpSession session,
             Model model) {
 
@@ -128,6 +129,11 @@ public class TeamController {
                     team.setTeamLeader(teamLeader);
                 }
             }
+        }
+        
+        if(newTeamPassword!=null) {
+            String genPassword = StringUtils.secureString(newTeamPassword);
+            team.setPassword(genPassword);
         }
 
         Set<Team> teams = member.getTeams();
