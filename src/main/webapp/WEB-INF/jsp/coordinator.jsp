@@ -35,7 +35,7 @@
                         <div class="panel panel-collapse collapse"
                             id="my-tournaments-content">
                             <div class="panel-body">
-                                <c:forEach items="${tournaments}"
+                                <c:forEach items="${managingTournaments}"
                                     var="tournament">
                                     <div id="teams-${tournament.name}-panel" class="panel panel-default">
                                         <div class="panel-heading">
@@ -71,7 +71,7 @@
                         <div class="panel panel-collapse collapse"
                             id="my-games-content">
                             <div class="panel-body">
-                                <c:forEach items="${tournaments}"
+                                <c:forEach items="${managingTournaments}"
                                     var="tournament">
                                     <div id="games-${tournament.name}-panel" class="panel panel-default">
                                         <div class="panel-heading">

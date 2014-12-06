@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
@@ -22,7 +21,6 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
-import edu.iastate.utils.MemberUtils;
 import edu.iastate.utils.StringUtils;
 
 @Controller
@@ -34,30 +32,32 @@ public class TeamController {
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
-        model.addAttribute("teamId", id);
 
         Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
-
-        if (member.getTeams().contains(team) == false) {
+        if (team == null) {
             return "redirect:/denied";
         }
 
+        model.addAttribute("team", team);
+        model.addAttribute("teamId", id);
+
+        // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
-        model.addAttribute("team", team);
-        MemberDao memberDao = new MemberDao();
-        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "team";
     }
 
@@ -130,8 +130,8 @@ public class TeamController {
                 }
             }
         }
-        
-        if(newTeamPassword!=null) {
+
+        if (newTeamPassword != null) {
             String genPassword = StringUtils.secureString(newTeamPassword);
             team.setPassword(genPassword);
         }
@@ -189,9 +189,9 @@ public class TeamController {
         team.setTournament(tournament);
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
-        
+
         String genPassword = StringUtils.secureString(teamPassword);
-        
+
         team.setPassword(genPassword);
 
         teamDao.saveTeam(team);
@@ -200,12 +200,12 @@ public class TeamController {
         session.setAttribute("member", teamLeader);
 
         int teamId = teamDao.getTeamByTeamName(teamName, tournament).getId();
-        
+
         Set<Team> invitedTeams = teamLeader.getInvitedTeams();
         Iterator<Team> teamIterator = invitedTeams.iterator();
-        while(teamIterator.hasNext()) {
+        while (teamIterator.hasNext()) {
             Team invitedTeam = teamIterator.next();
-            if(invitedTeam.getTournament().equals(team.getTournament())){
+            if (invitedTeam.getTournament().equals(team.getTournament())) {
                 invitedTeam.removeInvitedPlayer(teamLeader);
                 teamDao.saveTeam(invitedTeam);
             }
@@ -379,13 +379,13 @@ public class TeamController {
             return false;
         }
 
-        if(team.addPlayer(me)==1) {
+        if (team.addPlayer(me) == 1) {
             teamDao.saveTeam(team);
             Set<Team> invitedTeams = me.getInvitedTeams();
             Iterator<Team> teamIterator = invitedTeams.iterator();
-            while(teamIterator.hasNext()) {
+            while (teamIterator.hasNext()) {
                 Team invitedTeam = teamIterator.next();
-                if(invitedTeam.getTournament().equals(team.getTournament())){
+                if (invitedTeam.getTournament().equals(team.getTournament())) {
                     invitedTeam.removeInvitedPlayer(me);
                     teamDao.saveTeam(invitedTeam);
                 }
@@ -414,20 +414,20 @@ public class TeamController {
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
         String teamPassword = team.getPassword();
-        
+
         String genPassword = StringUtils.secureString(enteredPassword);
 
         if (team == null || !genPassword.equals(teamPassword)) {
             return false;
         }
 
-        if(team.addPlayer(me)==1) {
+        if (team.addPlayer(me) == 1) {
             teamDao.saveTeam(team);
             Set<Team> invitedTeams = me.getInvitedTeams();
             Iterator<Team> teamIterator = invitedTeams.iterator();
-            while(teamIterator.hasNext()) {
+            while (teamIterator.hasNext()) {
                 Team invitedTeam = teamIterator.next();
-                if(invitedTeam.getTournament().equals(team.getTournament())){
+                if (invitedTeam.getTournament().equals(team.getTournament())) {
                     invitedTeam.removeInvitedPlayer(me);
                     teamDao.saveTeam(invitedTeam);
                 }

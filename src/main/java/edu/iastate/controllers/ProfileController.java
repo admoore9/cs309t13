@@ -33,17 +33,21 @@ public class ProfileController {
     public String loadProfilePage(Model model, HttpSession session) {
 
         Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
         if (member == null || member.getContext() != UserType.PLAYER) {
             return "redirect:/denied";
         }
 
-        Set<Team> teams = member.getTeams();
-        model.addAttribute("teams", teams);
-        
         Set<Team> invitedTeams = member.getInvitedTeams();
         model.addAttribute("invitedTeams", invitedTeams);
         model.addAttribute("invitedTeamsSize", invitedTeams.size());
 
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
@@ -66,7 +70,7 @@ public class ProfileController {
 
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
-        
+
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
