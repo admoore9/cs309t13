@@ -541,7 +541,7 @@ public class TeamController {
 
         team.removePlayer(me);
         // notify player of being removed from team
-        new MessageDao().notify(me, me.getName() + " removed you from " + team.getName());
+        new MessageDao().notify(me, "You were removed you from " + team.getName());
 
         teamDao.saveTeam(team);
         return "redirect:/profile";
