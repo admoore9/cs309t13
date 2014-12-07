@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +21,10 @@ import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.utils.JsonDateSerializer;
 import edu.iastate.utils.MemberUtils;
 
 /**
@@ -44,6 +47,7 @@ public class Game {
     @Column(name = "round_number")
     private int roundNumber;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "game_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date gameTime;
@@ -269,5 +273,13 @@ public class Game {
      */
     public boolean hasOfficialsPerGame() {
         return this.officials.size() == tournament.getOfficialsPerGame();
+    }
+
+    public String getGameTimePretty() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        if(this.gameTime == null) {
+            return "";
+        }
+        return sdf.format(this.gameTime);
     }
 }

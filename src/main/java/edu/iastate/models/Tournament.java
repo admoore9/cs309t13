@@ -1,5 +1,6 @@
 package edu.iastate.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,8 +20,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.utils.JsonDateSerializer;
 import edu.iastate.utils.MathUtils;
 import edu.iastate.utils.TeamComparer;
 
@@ -54,10 +57,12 @@ public class Tournament {
     @Column(name = "officials_per_game")
     private int officialsPerGame;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_start")
     private Date registrationStart;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_close")
     private Date registrationClose;
@@ -200,6 +205,33 @@ public class Tournament {
         this.games = games;
     }
 
+    /**
+     * The registration start date of the tournament formatted as a string,
+     * empty string if the date is null.
+     * 
+     * @return The registration start date formatted as a string.
+     */
+    public String getRegistrationStartPretty() {
+        if(this.registrationStart == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(this.registrationStart);
+    }
+
+    /**
+     * The registration close date of the tournament formatted as a string,
+     * empty string if the date is null.
+     * 
+     * @return The registration close date formatted as a string.
+     */
+    public String getRegistrationClosePretty() {
+        if(this.registrationClose == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(this.registrationClose);
+    }
     /**
      * Determines if a bracket has already been formed for the tournament. A
      * bracket has been formed if there are already games linked to the

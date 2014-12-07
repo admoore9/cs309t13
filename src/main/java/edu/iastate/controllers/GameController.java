@@ -1,5 +1,8 @@
 package edu.iastate.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -61,43 +64,54 @@ public class GameController {
     }
 
     /**
-     * Updates the game given the location, official to add or remove
-     * Does nothing for the fields that are left blank and sumbit is pressed
+     * Updates the game given the location, official to add or remove. Does
+     * nothing for the fields that are left blank and sumbit is pressed
      * 
      * 
      * @param id the game ID
      * @param location the new location of the game
      * @return true if successful
+     * @throws ParseException
      */
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateGame(
             @PathVariable int id,
             @RequestParam(value = "location") String location,
+            @RequestParam(value = "gameTime") String gameTimeStr,
             @RequestParam(value = "addOfficial") String addOfficial,
             @RequestParam(value = "removeOfficial") String removeOfficial,
-            HttpSession session) {
+            HttpSession session) throws ParseException {
 
         // Validates the user permission
-        // TODO Check to make sure the game belongs to the coordinator
         Member member = (Member) session.getAttribute("member");
         if (!MemberUtils.atLeastCoordinator(member)) {
             return false;
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date gameTime = sdf.parse(gameTimeStr);
+
         GameDao gameDao = new GameDao();
         MemberDao memberDao = new MemberDao();
         MessageDao messageDao = new MessageDao();
         Game game = gameDao.getGameById(id, true);
+        // update location
         if (location != "") {
             game.setGameLocation(location);
             // notify teams of location change
             messageDao.notifyGameTeams(game, member.getName() + " has changed the location of " + game.getTournament().getName() + "'s game " + game.getId() + " to "
                     + location);
         }
-        Member official =  memberDao.getMemberByUsername(removeOfficial);
+        // update time
+        game.setGameTime(gameTime);
+        // notify teams of time change
+        messageDao.notifyGameTeams(game, member.getName() + " has changed the time of " + game.getTournament().getName() + "'s game " + game.getId() + " to " + gameTime);
+        // remove official
+        Member official = memberDao.getMemberByUsername(removeOfficial);
         boolean removed = game.removeOfficial(official);
         if (removed) // notify member of being no longer official of the game
             messageDao.notify(official, member.getName() + " has removed you from being offical of " + game.getTournament().getName() + "'s game " + game.getId());
+        // add official
         int added = game.addOfficial(memberDao.getMemberByUsername(addOfficial));
         if (added == 1) // notify game teams of the new official
             messageDao.notifyGameTeams(game, member.getName() + " has added " + official.getName() + " as offical of " + game.getTournament().getName() + "'s game "

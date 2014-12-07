@@ -14,7 +14,9 @@ $(document).ready(function() {
         $('#form-bracket').on('click', function(event) {
             event.preventDefault();
             var tournamentId = $('body').data('tournament-id');
-            $.post('/tournament/' + tournamentId + '/form');
+            $.post('/tournament/' + tournamentId + '/form', function() {
+                window.location.reload();
+            });
         });
     }
 });
@@ -53,9 +55,7 @@ Team.prototype.setHandlers = function(game_id) {
         var html_str = "<h5>Players</h5>";
         html_str += "<ul>";
         self.players.forEach(function(player, index, array) {
-            html_str += '<li>' +
-                            '<a href="/profile">' + player.name + '</a>' +
-                        '</li>';
+            html_str += '<li>' + player.name + '</li>';
         });
 
         html_str += "</ul>";

@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('.date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        pickTime: false
+    });
+
     $('#create-tournament-form').on('submit', function(event) {
         event.preventDefault();
         $.post('/tournament/create', {
@@ -7,9 +12,26 @@ $(document).ready(function() {
             maxPlayersPerTeam: $('#create-tournament-max-players-input').val(),
             teamsPerGame: $('#create-teams-per-game-input').val(),
             officialsPerGame: $('#create-officials-per-game-input').val(),
+            registrationStart: $('#create-registration-start-date-input').val(),
+            registrationClose: $('#create-registration-close-date-input').val(),
             success: function(result) {
                 window.location.href = "/admin";
             },
+        });
+    });
+    
+    $(".newUserTypeBtn").click(function() {
+        $("#newUserType").val($(this).val());
+    });
+    
+    $('#promote-demote-form').submit ( function (e) {
+        e.preventDefault();
+        var url = "/profile/promote";
+        $.post(url, {
+            username: $('#username').val(),
+            newUserType: $('#newUserType').val()
+        }, function() {
+            location.reload(true);
         });
     });
 
@@ -24,6 +46,8 @@ $(document).ready(function() {
         self.maxPlayers = $('#update-tournament-max-players-input');
         self.teamsPerGame = $('#update-teams-per-game-input');
         self.officialsPerGame = $('#update-officials-per-game-input');
+        self.registrationStart = $('#update-registration-start-date-input');
+        self.registrationClose = $('#update-registration-close-date-input');
 
         // Causes new values to be fetched from the server when the input boxes value is changed.
         self.setInputHandler = function() {
@@ -43,6 +67,8 @@ $(document).ready(function() {
             self.maxPlayers.val(response.maxPlayers);
             self.teamsPerGame.val(response.teamsPerGame);
             self.officialsPerGame.val(response.officialsPerGame);
+            self.registrationStart.val(response.registrationStart);
+            self.registrationClose.val(response.registrationClose);
         };
 
         self.updateTournament = function(event) {
@@ -52,13 +78,14 @@ $(document).ready(function() {
                 minPlayersPerTeam: self.minPlayers.val(),
                 maxPlayersPerTeam: self.maxPlayers.val(),
                 teamsPerGame: self.teamsPerGame.val(),
-                officialsPerGame: self.officialsPerGame.val()
+                officialsPerGame: self.officialsPerGame.val(),
+                registrationStart: self.registrationStart.val(),
+                registrationClose: self.registrationClose.val()
             });
         };
 
         self.handleGoToTournament = function(event) {
             event.preventDefault();
-            alert(window.location.href);
             window.location.href = '/tournament/' + self.inputBox.val() + '/view';
         };
     };

@@ -2,6 +2,7 @@
 <%@ page session="true" %>
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
+<%@ page import="edu.iastate.utils.MemberUtils" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 
 <!DOCTYPE html>
@@ -17,6 +18,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/css/bootstrap-datetimepicker.min.css"/>
 
     <!-- Page specific CSS -->
 </head>
@@ -36,7 +38,7 @@
                    </div>
                    <div class="panel panel-collapse collapse" id="my-${game.id}-teams">
                        <div class="panel-body">
-                           <table class="table table-bordered">                                                    
+                           <table class="table table-bordered">
                                <tbody>
                                    <c:forEach items="${game.teams}" var="team">
                                        <tr>
@@ -44,7 +46,7 @@
                                        </tr>
                                    </c:forEach>
                                </tbody>
-                           </table>                                              
+                           </table>
                        </div>
                    </div>
                </div>
@@ -58,7 +60,7 @@
                    </div>
                    <div class="panel panel-collapse collapse" id="my-${game.id}-info">
                        <div class="panel-body">
-                           <table class="table table-bordered">                                                    
+                           <table class="table table-bordered">
                                <tbody>
                                    <tr>
                                         <td>Game Location</td>
@@ -77,11 +79,11 @@
 	                                   </td>
 	                              </tr>
                                </tbody>
-                           </table>                                              
+                           </table>
                        </div>
                    </div>
                </div>
-               <% if (member.getUserType() == Member.UserType.COORDINATOR) { %>
+               <% if (MemberUtils.atLeastCoordinator(member)) { %>
                <div id="goto-game-panel" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
@@ -91,26 +93,30 @@
                         </h3>
                     </div>
                     <div class="panel panel-collapse collapse" id="update-game-content">
-                        <div class="panel-body">                            
+                        <div class="panel-body">
                             <form role="form" id="update-game-form">
                                 <div class="form-group">
-                                    <label for="name">New Game Location:</label>
-                                    <input type="text" class="form-control" id="update-game-location-input">
+                                    <label for="name">Game Location:</label>
+                                    <input value="${game.getGameLocation()}" type="text" class="form-control" id="update-game-location-input">
+                                </div>
+                                <div class="form-group input-group">
+                                    <label for="gameTime">Game Time:</label>
+                                    <input value="${game.getGameTimePretty()}" type='text' class="form-control date" id="update-game-time-input">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Username Official to Add:</label>
                                     <input type="text" class="form-control" id="update-official-add-input">
-                                </div>  
+                                </div>
                                 <div class="form-group">
                                     <label for="name">Username Official to Remove:</label>
                                     <input type="text" class="form-control" id="update-official-remove-input">
-                                </div>                                 
+                                </div>
                                 <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                <% } %>                  
+                <% } %>
             </div>
             <jsp:include page="sideBar.jsp"/>
         </div>
@@ -125,11 +131,13 @@
 
     <!-- Bootstrap validator (if needed) -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Page specific JS -->
     <script src="../../resources/js/game.js"></script>
     <script type="text/javascript">
-    var gameId = '<c:out value="${game.id}"/>';
-    </script> 
+        var gameId = '<c:out value="${game.id}"/>';
+    </script>
 </footer>
 </html>

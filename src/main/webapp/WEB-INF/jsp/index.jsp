@@ -51,8 +51,8 @@
                                         <c:if test="${empty member}">
                                             <td><c:out value="${tournament.name}"/></td>
                                         </c:if>
-                                        <td>TO DO</td>
-                                        <td>TO DO</td>
+                                        <td><c:out value="${tournament.getRegistrationStartPretty()}"/></td>
+                                        <td><c:out value="${tournament.getRegistrationClosePretty()}"/></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
