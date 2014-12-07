@@ -25,6 +25,7 @@ public class Mail {
     @Column(name = "mail_id")
     private int id;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
