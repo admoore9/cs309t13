@@ -146,28 +146,29 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="newUserType">Usertype:</label>
+                                        <input type="hidden" id="newUserType" value="" />
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" id="newUserType-admin" value="3" /> Admin
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="3" /> Admin
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" id="newUserType-admin" value="2" /> Coordinator
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="2" /> Coordinator
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" id="newUserType-admin" value="1" /> Official
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="1" /> Official
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" id="newUserType-admin" value="0" /> Player
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="0" /> Player
                                             </label>
                                         </div>
                                     </div>
-                                    <button id="promote-demote-submit" type="submit" id="newUserType-admin" class="btn btn-default">Submit</button>
+                                    <button id="promote-demote-submit" type="submit" class="btn btn-default">Submit</button>
                                 </form>
                             </div>
                         </div>

@@ -118,18 +118,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="newUserType">Usertype:</label>
+                                        <input type="hidden" id="newUserType" value="" />
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" value="1" /> Official
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="1" /> Official
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="newUserType" value="0" /> Player
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="0" /> Player
                                             </label>
                                         </div>
                                     </div>
-                                    <button id="promoteDemote-submit" type="submit" class="btn btn-default">Submit</button>
+                                    <button id="promote-demote-submit" type="submit" class="btn btn-default">Submit</button>
                                 </form>
                             </div>
                         </div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
+import edu.iastate.dao.MessageDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Member;
 import edu.iastate.models.Member.UserType;
@@ -59,31 +60,29 @@ public class ProfileController {
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "newUserType", required = true) int newUserTypeInt) {
 
-        System.out.println("We in hurr");
-        System.out.println("username = " + username);
-        System.out.println("type = " + newUserTypeInt);
         Member me = (Member) session.getAttribute("member");
         if (me == null || !MemberUtils.atLeastCoordinator(me)) {
-            System.out.println("at least coord");
             return false;
         }
 
         MemberDao memberDao = new MemberDao();
-        Member member = memberDao.getMemberByUsername(username);
+        Member promotee = memberDao.getMemberByUsername(username);
 
         Member.UserType newUserType = Member.UserType.values()[newUserTypeInt];
 
         if (me.getUserType() == Member.UserType.COORDINATOR &&
-                (MemberUtils.atLeastCoordinator(member) ||
+                (MemberUtils.atLeastCoordinator(promotee) ||
                 (newUserType == Member.UserType.ADMIN || newUserType == Member.UserType.COORDINATOR))) {
-            System.out.println("Brian goofed");
             return false;
         }
 
-        System.out.println(newUserType);
-        member.setUserType(newUserType);
-        member.setContext(newUserType);
-        memberDao.save(member);
+        String message = "Your user type has been changed to " + newUserType + " by " + me.getName() + ".";
+        new MessageDao().notify(promotee, message);
+
+        promotee.setUserType(newUserType);
+        promotee.setContext(newUserType);
+        memberDao.save(promotee);
+
         return true;
     }
 
