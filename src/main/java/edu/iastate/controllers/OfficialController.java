@@ -17,9 +17,9 @@ import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
-import edu.iastate.models.Member.UserType;
 
 /**
  * All information need to be seen and used by the game coordinator
@@ -31,6 +31,14 @@ import edu.iastate.models.Member.UserType;
 @Controller
 @RequestMapping(value = "/official")
 public class OfficialController {
+
+    /**
+     * Returns the page for officials.
+     * 
+     * @param model The model for the jsp page.
+     * @param session The http session for the current page.
+     * @return The officials jsp page.
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model, HttpSession session) {
 

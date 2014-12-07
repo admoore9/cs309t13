@@ -23,6 +23,13 @@ public class IndexController {
     private static final String LOGIN_MESSAGE = "Your login is complete.";
     private static final String LOGIN_ERROR_MESSAGE = "Your login was invalid, please try again.";
 
+    /**
+     * Returns the view for the index page
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String loadIndexPage(Model model, HttpSession session) {
 
@@ -40,6 +47,15 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * Returns the view for the index page and logs the user in
+     * 
+     * @param username User to login
+     * @param password Password of the user
+     * @param session The http session
+     * @param model The jsp page for the view
+     * @return The jsp page for the view
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(
             @RequestParam(value = "username") String username,

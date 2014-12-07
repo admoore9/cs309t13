@@ -2,7 +2,6 @@ package edu.iastate.controllers;
 
 import java.util.Date;
 import java.util.Iterator;
-
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +32,14 @@ public class TeamController {
     private static final String JOIN_TEAM_SUCCESS_MESSAGE = "Join complete!";
     private static final String JOIN_TEAM_ERROR_MESSAGE = "Team Password Incorrect!";
 
+    /**
+     * Returns the view for a particular team's page.
+     * 
+     * @param model The model for the jsp page.
+     * @param session The http session for the user.
+     * @param id The id of the team.
+     * @return The view team page.
+     */
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
 
@@ -165,10 +172,11 @@ public class TeamController {
     /**
      * Returns the create team page for a given tournament
      * 
-     * @param tournamentId the ID for tournament that for which team is being created
+     * @param tournamentId the ID for tournament that for which team is being
+     *            created
      * @param model the model of the JSP page
      * @param session the current session of user
-     * @return
+     * @return The create team page.
      */
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
     public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
@@ -211,7 +219,7 @@ public class TeamController {
      * @param teamName the name of the team
      * @param teamPassword the password of the team
      * @param session the current user session
-     * @return
+     * @return a redirect to the newly created team's page.
      */
     @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
     public String createTeamSubmit(
@@ -445,12 +453,12 @@ public class TeamController {
     }
 
     /**
-     * Called when player wants to join team
-     * Checks for team password for security
+     * Called when player wants to join team Checks for team password for
+     * security
      * 
      * @param session the current user session
      * @param id the team ID for which the player wants to join
-     * @return
+     * @return a redirect to the page of the team you joined.
      */
     @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
     public String joinPlayerToTeam(
@@ -494,7 +502,7 @@ public class TeamController {
      * 
      * @param session the current user session
      * @param id the Team ID for which player rejects invitation
-     * @return
+     * @return a redirect to the current user's profile.
      */
     @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
     public String removePlayerFromInvitedTeam(
@@ -528,7 +536,7 @@ public class TeamController {
      * @param session The http session for the user.
      * @param id The id of the team.
      * @param playerId The id of the player to remove.
-     * @return
+     * @return True if the player was successfully removed, false otherwise.
      */
     @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
     public String removePlayerFromTeam(

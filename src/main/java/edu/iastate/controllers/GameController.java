@@ -30,6 +30,14 @@ import edu.iastate.utils.MemberUtils;
 @RequestMapping("/game")
 public class GameController {
 
+    /**
+     * Returns the view for the game given by id
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @param id The id of the game
+     * @return The jsp page for the view
+     */
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String getGame(Model model, HttpSession session, @PathVariable int id) {
 

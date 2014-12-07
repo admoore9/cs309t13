@@ -32,6 +32,13 @@ public class ProfileController {
     private static final String HEIGHT_ERROR_MESSAGE = "Your height is invalid and was not saved.";
     private static final String WEIGHT_ERROR_MESSAGE = "Your weight is invalid and was not saved.";
 
+    /**
+     * Returns the view for the current users profile.
+     * 
+     * @param model The jsp page for profile.
+     * @param session The http session for the current user.
+     * @return The profile page.
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String loadProfilePage(Model model, HttpSession session) {
 
@@ -59,6 +66,19 @@ public class ProfileController {
         return "profile";
     }
 
+    /**
+     * Edit the basics of a users information. Sets each option if it isn't
+     * null.
+     * 
+     * @param name A new name for the user.
+     * @param password A new password for the user.
+     * @param sex A new sex for the user (M or F).
+     * @param height A new height for the user in inches.
+     * @param weight A new weight for the user in pounds.
+     * @param model The model for the jsp page.
+     * @param session The http session for the current user.
+     * @return The profile page for the current user.
+     */
     @RequestMapping(value = "/promote", method = RequestMethod.POST)
     public @ResponseBody boolean promote(
             HttpSession session,
