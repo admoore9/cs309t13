@@ -25,4 +25,11 @@ public class MessageDao extends BaseDao<Message> {
         }
 
     }
+
+    public void notifyTeamPlayers(Team team,
+            String message) {
+        for (Member player : team.getPlayers()) {
+            notify(player, message);
+        }
+    }
 }

@@ -2,7 +2,6 @@ package edu.iastate.controllers;
 
 import java.util.Date;
 import java.util.Iterator;
-
 import java.util.List;
 import java.util.Set;
 
@@ -117,21 +116,26 @@ public class TeamController {
         if (!team.getTeamLeader().equals(member))
             return "redirect:/denied";
 
-        if (teamName != null && teamName.length() != 0)
+        MessageDao messageDao = new MessageDao();
+        if (teamName != null && teamName.length() != 0) {
+            String oldTeamName = team.getName();
             team.setName(teamName);
+            // notify team players of new team name
+            messageDao.notifyTeamPlayers(team, member.getName() + " has changed " + oldTeamName + " team name to " + team.getName());
+        }
 
         if (removePlayer != null && removePlayer.length() != 0) {
             Member player = memberDao.getMemberByUsername(removePlayer);
             team.removePlayer(player);
             // notify player of being removed from team
-            new MessageDao().notify(player, member.getName() + " removed you from " + team.getName());
+            messageDao.notify(player, member.getName() + " removed you from " + team.getName());
         }
 
         if (addPlayer != null && addPlayer.length() != 0) {
             Member player = memberDao.getMemberByUsername(addPlayer);
             team.addInvitedPlayer(player);
             // notify player of being added to team
-            new MessageDao().notify(player, member.getName() + " added you to " + team.getName());
+            messageDao.notify(player, member.getName() + " added you to " + team.getName());
         }
 
         if (newCaptain != null && newCaptain.length() != 0) {
@@ -139,8 +143,8 @@ public class TeamController {
             if (teamLeader != null) {
                 if (team.getPlayers().contains(teamLeader)) {
                     team.setTeamLeader(teamLeader);
-                    // notify player of being assigned the role of team leader
-                    new MessageDao().notify(teamLeader, member.getName() + " made you the team leader of " + team.getName());
+                    // notify team players of the new team leader
+                    messageDao.notifyTeamPlayers(team, member.getName() + " made " + teamLeader.getName() + " the team leader of " + team.getName());
                 }
             }
         }
@@ -325,8 +329,7 @@ public class TeamController {
         team.setName(name);
         teamDao.saveTeam(team);
         // notify team players of the new team name
-        for (Member player : team.getPlayers())
-            new MessageDao().notify(player, me.getName() + " has changed the name of " + oldTeamName + " team to " + team.getName());
+        new MessageDao().notifyTeamPlayers(team, me.getName() + " has changed " + oldTeamName + " team name to " + team.getName());
         return true;
     }
 
@@ -394,8 +397,8 @@ public class TeamController {
         Member teamLeader = memberDao.getMemberById(teamLeaderId);
 
         team.setTeamLeader(teamLeader);
-        // notify player of being assigned the role of team leader
-        new MessageDao().notify(teamLeader, me.getName() + " made you the team leader of " + team.getName());
+        // notify team players of the new team leader
+        new MessageDao().notifyTeamPlayers(team, me.getName() + " made " + teamLeader.getName() + " the team leader of " + team.getName());
 
         teamDao.saveTeam(team);
         return true;
@@ -428,6 +431,8 @@ public class TeamController {
         }
 
         if (team.addPlayer(me) == 1) {
+            // notify player of being added to team
+            new MessageDao().notify(me, "You've been added to " + team.getName());
             teamDao.saveTeam(team);
             Set<Team> invitedTeams = me.getInvitedTeams();
             Iterator<Team> teamIterator = invitedTeams.iterator();
@@ -471,6 +476,8 @@ public class TeamController {
         }
 
         if (team.addPlayer(me) == 1) {
+            // notify player of being added to team
+            new MessageDao().notify(me, "You've joined " + team.getName());
             teamDao.saveTeam(team);
             Set<Team> invitedTeams = me.getInvitedTeams();
             Iterator<Team> teamIterator = invitedTeams.iterator();
@@ -509,6 +516,8 @@ public class TeamController {
         }
 
         team.removeInvitedPlayer(me);
+        // notify team leader of the rejection of the invite
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " didn't accpet the invite to " + team.getName());
         teamDao.saveTeam(team);
         return "redirect:/profile";
     }
