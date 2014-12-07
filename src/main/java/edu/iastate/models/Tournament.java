@@ -3,6 +3,7 @@ package edu.iastate.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -51,10 +54,14 @@ public class Tournament {
     @Column(name = "officials_per_game")
     private int officialsPerGame;
 
-    // TODO: make this do stuff
-    @Column(name = "is_double_elimination")
-    private boolean isDoubleElimination;
+    @Column(name = "registration_start")
+    private Date registrationStart;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "registration_close")
+    private Date registrationClose;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "is_started")
     private boolean isStarted;
 
@@ -126,12 +133,20 @@ public class Tournament {
         this.officialsPerGame = officialsPerGame;
     }
 
-    public boolean isDoubleElimination() {
-        return isDoubleElimination;
+    public Date getRegistrationStart() {
+        return registrationStart;
     }
 
-    public void setDoubleElimination(boolean isDoubleElimination) {
-        this.isDoubleElimination = isDoubleElimination;
+    public void setRegistrationStart(Date registrationStart) {
+        this.registrationStart = registrationStart;
+    }
+
+    public Date getRegistrationClose() {
+        return registrationClose;
+    }
+
+    public void setRegistrationClose(Date registrationClose) {
+        this.registrationClose = registrationClose;
     }
 
     public boolean isStarted() {
