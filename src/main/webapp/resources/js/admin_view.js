@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('.date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        pickTime: false
+    });
+
     $('#create-tournament-form').on('submit', function(event) {
         event.preventDefault();
         $.post('/tournament/create', {

@@ -16,7 +16,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/css/bootstrap-datetimepicker.min.css"/>
 </head>
 <body>
     <jsp:include page="header.jsp"/>
@@ -58,13 +58,13 @@
                                         <label for="officialsPerGame">Officials Per Game:</label>
                                         <input type="text" class="form-control" id="create-officials-per-game-input">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group input-group">
                                         <label for="registrationStart">Registration Start Date:</label>
-                                        <input type="text" class="form-control" id="create-registration-start-date-input">
+                                        <input type='text' class="form-control date" id="create-registration-start-date-input">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="registrationClose">Registration Close Date:</label>
-                                        <input type="text" class="form-control" id="create-registration-close-date-input">
+                                    <div class="form-group input-group">
+                                        <label for="registrationClose">Registration End Date:</label>
+                                        <input type='text' class="form-control date" id="create-registration-close-date-input">
                                     </div>
                                     <button id="create-tournament-submit" type="submit" class="btn btn-default">Submit</button>
                                 </form>
@@ -132,13 +132,13 @@
                                         <label for="officialsPerGame">Officials Per Game:</label>
                                         <input type="text" class="form-control" id="update-officials-per-game-input">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group input-group">
                                         <label for="registrationStart">Registration Start Date:</label>
-                                        <input type="text" class="form-control" id="update-registration-start-date-input">
+                                        <input type='text' class="form-control date" id="update-registration-start-date-input">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="registrationClose">Registration Close Date:</label>
-                                        <input type="text" class="form-control" id="update-registration-close-date-input">
+                                    <div class="form-group input-group">
+                                        <label for="registrationClose">Registration End Date:</label>
+                                        <input type='text' class="form-control date" id="update-registration-close-date-input">
                                     </div>
                                     <button id="update-tournament-submit" type="submit" class="btn btn-default">Update Tournament</button>
                                 </form>
@@ -150,6 +150,8 @@
             <jsp:include page="sideBar.jsp"/>
         </div>
     </div>
+</div>
+</div>
 </body>
 <footer>
     <!-- jQuery library -->
@@ -158,19 +160,14 @@
     <!-- Bootstrap JavaScript plug-ins -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
-
     <!-- Bootstrap validator -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Page specific JS -->
     <script src="../../resources/js/admin_view.js"></script>
     <script src="../../resources/js/header.js"></script>
-    <script type="text/javascript">
-        $('#registration-start-picker').datetimepicker({
-            pickTime: false,
-            format: 'yyyy-MM-dd'
-        });
-    </script>
 </footer>
 </html>
