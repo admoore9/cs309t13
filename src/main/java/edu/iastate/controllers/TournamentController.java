@@ -113,6 +113,7 @@ public class TournamentController {
      * @param teamsPerGame The number of teams per game.
      * @param officialsPerGame The number of officials per game.
      * @return true if the tournament was successfully created, false otherwise.
+     * @throws ParseException
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody boolean createTournament(
@@ -121,11 +122,29 @@ public class TournamentController {
             @RequestParam(value = "minPlayersPerTeam") int minPlayers,
             @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
-            @RequestParam(value = "officialsPerGame") int officialsPerGame) {
+            @RequestParam(value = "officialsPerGame") int officialsPerGame,
+            @RequestParam(value = "registrationStart") String registrationStartString,
+            @RequestParam(value = "registrationClose") String registrationCloseString) throws ParseException {
         Member me = (Member) session.getAttribute("member");
         if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
+
+        SimpleDateFormat sdfStart = new SimpleDateFormat("yyyy-MM-dd");
+        Date registrationStart = sdfStart.parse(registrationStartString);
+        Calendar regStartCal = new GregorianCalendar();
+        regStartCal.setTime(registrationStart);
+        regStartCal.set(Calendar.HOUR_OF_DAY, 0);
+        regStartCal.set(Calendar.MINUTE, 0);
+        regStartCal.set(Calendar.SECOND, 0);
+
+        SimpleDateFormat sdfClose = new SimpleDateFormat("yyyy-MM-dd");
+        Date registrationClose = sdfClose.parse(registrationCloseString);
+        Calendar regCloseCal = new GregorianCalendar();
+        regCloseCal.setTime(registrationClose);
+        regCloseCal.set(Calendar.HOUR_OF_DAY, 23);
+        regCloseCal.set(Calendar.MINUTE, 59);
+        regCloseCal.set(Calendar.SECOND, 59);
 
         Tournament tournament = new Tournament();
         tournament.setName(name);
@@ -133,6 +152,8 @@ public class TournamentController {
         tournament.setMaxPlayers(maxPlayers);
         tournament.setTeamsPerGame(teamsPerGame);
         tournament.setOfficialsPerGame(officialsPerGame);
+        tournament.setRegistrationStart(registrationStart);
+        tournament.setRegistrationClose(registrationClose);
 
         TournamentDao tournamentDao = new TournamentDao();
         tournamentDao.saveTournament(tournament);
