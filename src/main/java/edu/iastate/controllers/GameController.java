@@ -99,11 +99,9 @@ public class GameController {
         if (removed) // notify member of being no longer official of the game
             messageDao.notify(official, member.getName() + " has removed you from being offical of " + game.getTournament().getName() + "'s game " + game.getId());
         int added = game.addOfficial(memberDao.getMemberByUsername(addOfficial));
-        if (added == 1) {
-            // notify game teams of the new official
+        if (added == 1) // notify game teams of the new official
             messageDao.notifyGameTeams(game, member.getName() + " has added " + official.getName() + " as offical of " + game.getTournament().getName() + "'s game "
                     + game.getId());
-        }
         gameDao.saveGame(game);
         return true;
     }

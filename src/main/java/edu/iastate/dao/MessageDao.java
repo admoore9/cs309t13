@@ -23,7 +23,6 @@ public class MessageDao extends BaseDao<Message> {
                 notify(player, message);
             }
         }
-
     }
 
     public void notifyTeamPlayers(Team team,
