@@ -150,8 +150,6 @@
             <jsp:include page="sideBar.jsp"/>
         </div>
     </div>
-</div>
-</div>
 </body>
 <footer>
     <!-- jQuery library -->
