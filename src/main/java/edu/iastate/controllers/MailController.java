@@ -26,6 +26,16 @@ import edu.iastate.models.Tournament;
 @RequestMapping("/mail")
 public class MailController {
 
+    /**
+     * Returns a jsp page for managing your messages.
+     * 
+     * @param model The model for the jsp page.
+     * @param session The http session for the current user.
+     * @param inbox Whether to view the inbox.
+     * @param sentmail Whether to view your sent mail.
+     * @param drafts Whether to view your drafts
+     * @return The jsp page for managing your messages.
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getMail(
             Model model,
@@ -66,6 +76,12 @@ public class MailController {
         return "mail";
     }
 
+    /**
+     * Sets a message as view by the recipient.
+     * 
+     * @param session The http session of the current user.
+     * @param messageId The id of the message to set as viewed.
+     */
     @RequestMapping(value = "/setMessageAsViewed", method = RequestMethod.POST)
     public @ResponseBody void setMessageAsViewed(
             HttpSession session,
@@ -82,6 +98,11 @@ public class MailController {
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
+    /**
+     * Sets all the unread messages for a user as read.
+     * 
+     * @param session The http session for the current user.
+     */
     @RequestMapping(value = "/setMessagesAsViewed", method = RequestMethod.POST)
     public @ResponseBody void setNotificationsAsViewed(
             HttpSession session) {
@@ -102,6 +123,13 @@ public class MailController {
         session.setAttribute("member", new MemberDao().getMemberById(member.getId()));
     }
 
+    /**
+     * Checks if the recipient of the message is a valid user.
+     * 
+     * @param session The http session for the current user.
+     * @param username The intended recipients username.
+     * @return Whether the recipient is a valid user.
+     */
     @RequestMapping(value = "/doesRecipientExist", method = RequestMethod.GET)
     public @ResponseBody String doesRecipientExist(
             HttpSession session,
@@ -119,6 +147,16 @@ public class MailController {
         return isValid;
     }
 
+    /**
+     * Sends a message.
+     * 
+     * @param session The http session of the current user.
+     * @param recipientUsername The username of the recipient
+     * @param subject The subject line of the message
+     * @param body The main body of the message.
+     * @param draftId The draft id, if it exists.
+     * @return The mail jsp page.
+     */
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public String send(
             HttpSession session,
@@ -147,6 +185,12 @@ public class MailController {
         return "mail";
     }
 
+    /**
+     * Deletes messages.
+     * 
+     * @param session The http session for the current user.
+     * @param messages The message id, as a comma separated list.
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody void delete(
             HttpSession session,
@@ -168,6 +212,13 @@ public class MailController {
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
+    /**
+     * Marks messages as unread.
+     * 
+     * @param session The http session for the current user.
+     * @param messages The messages to mark as unread, as a comma separated
+     *            list.
+     */
     @RequestMapping(value = "/mark_unread", method = RequestMethod.POST)
     public @ResponseBody void markUnread(
             HttpSession session,
@@ -189,6 +240,16 @@ public class MailController {
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
     }
 
+    /**
+     * Saves a draft.
+     * 
+     * @param session The http session for the current user.
+     * @param recipientUsername The recipients username.
+     * @param subject The subject line of the message.
+     * @param body The main body of the message.
+     * @param draftId The id of the draft.
+     * @return The id of the draft.
+     */
     @RequestMapping(value = "/save_draft", method = RequestMethod.POST)
     public @ResponseBody int saveDraft(
             HttpSession session,
