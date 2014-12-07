@@ -39,22 +39,29 @@
                     </c:when>
                     <c:otherwise>
                         <strong>The bracket for this tournament isn't formed yet.<br/></strong>
-                        <br/><br/>
+                        <br/>
+
+                        <% if(!member.isPlayerInTournament(tournament)) { %>
+                            <% if(!DateUtils.currentDateInRange(tournament.getRegistrationStart(), tournament.getRegistrationClose())) { %>
+                                <strong>Registration Dates are ${tournament.getRegistrationStartPretty()} to ${tournament.getRegistrationClosePretty()}. You can create teams in this range.<br/></strong>
+                            <% } %>
+                            <% if(DateUtils.currentDateBefore(tournament.getRegistrationStart())) { %>
+                                <strong>Teams may only be joined after registration opens, which is ${tournament.getRegistrationStartPretty()}<br/></strong>
+                            <% } %>
+                        <% } %>
+
+                        <br/>
 
                         <c:if test="${userType == 'ADMIN' || userType == 'COORDINATOR'}">
                             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
                         </c:if>
                         <% if(!member.isPlayerInTournament(tournament)) { %>
-                            <% !if(DateUtils.currentDateInRange(tournament.getRegistrationStart(), tournament.getRegistrationClose())) { %>
+                            <% if(DateUtils.currentDateInRange(tournament.getRegistrationStart(), tournament.getRegistrationClose())) { %>
                                 <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
-                            <% } else { %>
-                                <span>Registration Dates are ${tournament.getRegistrationStart()} to ${tournament.getRegistrationClose()}. You can create teams in this range.</span>
                             <% } %>
-                            <% if(DateUtils.currentDateBefore(tournament.getRegistrationStart())) { %>
+                            <% if(!DateUtils.currentDateBefore(tournament.getRegistrationStart())) { %>
                                 <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
-                            <% } else { %>
-                                <span>Teams may only be joined after registration opens, which is ${tournament.getRegistrationStart()}</span>
-                            <% } %>
+                            <% }%>
                         <% } %>
                     </c:otherwise>
                 </c:choose>
