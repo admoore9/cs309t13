@@ -6,7 +6,6 @@
 <%@ page import="edu.iastate.utils.DateUtils" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 <% Tournament tournament = (Tournament) request.getAttribute("tournament"); %>
-<% boolean canCreateTeam = DateUtils.currentDateInRange(tournament.getRegistrationStart(), tournament.getRegistrationClose()) %>
 
 <!DOCTYPE html>
 <html>
