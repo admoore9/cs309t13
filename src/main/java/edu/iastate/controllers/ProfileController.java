@@ -52,6 +52,7 @@ public class ProfileController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "profile";
     }
 
@@ -125,7 +126,8 @@ public class ProfileController {
         } else {
             model.addAttribute("message", "Profile updated.");
         }
-        session.setAttribute("member", member);
+
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
 
         return "profile";
     }

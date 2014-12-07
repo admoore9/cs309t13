@@ -1,5 +1,10 @@
 package edu.iastate.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
@@ -62,6 +67,7 @@ public class TournamentController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "tournament";
     }
 
@@ -166,7 +172,10 @@ public class TournamentController {
      * @param maxPlayers The new maximum players per team.
      * @param teamsPerGame The new number of teams per game.
      * @param officialsPerGame The new number of officials per game.
+     * @param registrationStartString The date the registration starts at.
+     * @param registrationCloseString The date the registration closes at.
      * @return true if the tournament was successfully updated, false otherwise.
+     * @throws ParseException
      */
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateTournament(
@@ -176,11 +185,29 @@ public class TournamentController {
             @RequestParam(value = "minPlayersPerTeam") int minPlayers,
             @RequestParam(value = "maxPlayersPerTeam") int maxPlayers,
             @RequestParam(value = "teamsPerGame") int teamsPerGame,
-            @RequestParam(value = "officialsPerGame") int officialsPerGame) {
+            @RequestParam(value = "officialsPerGame") int officialsPerGame,
+            @RequestParam(value = "registrationStart") String registrationStartString,
+            @RequestParam(value = "registrationClose") String registrationCloseString) throws ParseException {
         Member me = (Member) session.getAttribute("member");
         if (!MemberUtils.atLeastCoordinator(me)) {
             return false;
         }
+
+        SimpleDateFormat sdfStart = new SimpleDateFormat("yyyy-MM-dd");
+        Date registrationStart = sdfStart.parse(registrationStartString);
+        Calendar regStartCal = new GregorianCalendar();
+        regStartCal.setTime(registrationStart);
+        regStartCal.set(Calendar.HOUR_OF_DAY, 0);
+        regStartCal.set(Calendar.MINUTE, 0);
+        regStartCal.set(Calendar.SECOND, 0);
+
+        SimpleDateFormat sdfClose = new SimpleDateFormat("yyyy-MM-dd");
+        Date registrationClose = sdfClose.parse(registrationCloseString);
+        Calendar regCloseCal = new GregorianCalendar();
+        regCloseCal.setTime(registrationClose);
+        regCloseCal.set(Calendar.HOUR_OF_DAY, 23);
+        regCloseCal.set(Calendar.MINUTE, 59);
+        regCloseCal.set(Calendar.SECOND, 59);
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, false, false);
@@ -194,6 +221,8 @@ public class TournamentController {
         tournament.setMaxPlayers(maxPlayers);
         tournament.setTeamsPerGame(teamsPerGame);
         tournament.setOfficialsPerGame(officialsPerGame);
+        tournament.setRegistrationStart(regStartCal.getTime());
+        tournament.setRegistrationClose(regCloseCal.getTime());
 
         tournamentDao.saveTournament(tournament);
         return true;
@@ -333,7 +362,6 @@ public class TournamentController {
             return false;
         }
 
-        tournament.setDoubleElimination(doubleElimination);
         tournamentDao.saveTournament(tournament);
         return true;
     }

@@ -11,16 +11,15 @@ import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
 import edu.iastate.models.Member;
+import edu.iastate.models.Member.UserType;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
-import edu.iastate.models.Member.UserType;
 
 public class TournamentTests {
     @Test
     public void addTournamentTest() {
         TournamentDao tournamentdao = new TournamentDao();
         Tournament tournament = new Tournament();
-        tournament.setDoubleElimination(false);
         tournament.setMaxPlayers(8);
         tournament.setMinPlayers(2);
         tournament.setName("Tennis");

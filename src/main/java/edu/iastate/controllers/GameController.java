@@ -55,6 +55,7 @@ public class GameController {
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
 
+        session.setAttribute("member", memberDao.getMemberById(member.getId()));
         return "game";
     }
 
