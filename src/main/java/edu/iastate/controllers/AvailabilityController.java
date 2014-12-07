@@ -37,6 +37,13 @@ public class AvailabilityController {
     Availability availability;
     Set<Day> days;
 
+    /**
+     * Returns the view for the availability page
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getAvailability(Model model, HttpSession session) {
 
@@ -66,6 +73,14 @@ public class AvailabilityController {
         return "availability";
     }
 
+    /**
+     * Returns the view for the team availability by id
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @param id The id of the team
+     * @return The jsp page for the view
+     */
     @RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
     public String getTeamAvailability(Model model,
             HttpSession session,
@@ -98,6 +113,20 @@ public class AvailabilityController {
         return "availability";
     }
 
+    /**
+     * Returns true if availability is updated. False otherwise.
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @param monday The Monday of the week
+     * @param tuesday The Tuesday of the week
+     * @param wednesday The Wednesday of the week
+     * @param thursday The Thursday of the week
+     * @param friday The Friday of the week
+     * @param saturday The Saturday of the week
+     * @param sunday The Sunday of the week
+     * @return True if availability updated. False otherwise
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody boolean updateAvailability(Model model, HttpSession session,
             @RequestParam(value = "MONDAY", required = false) String monday,

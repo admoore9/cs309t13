@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/denied")
 public class DeniedController {
 
+    /**
+     * Returns the view for the denied page
+     * 
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String loadProfilePage() {
         return "denied";
