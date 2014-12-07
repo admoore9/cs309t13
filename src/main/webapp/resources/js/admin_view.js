@@ -58,7 +58,6 @@ $(document).ready(function() {
 
         self.handleGoToTournament = function(event) {
             event.preventDefault();
-            alert(window.location.href);
             window.location.href = '/tournament/' + self.inputBox.val() + '/view';
         };
     };
