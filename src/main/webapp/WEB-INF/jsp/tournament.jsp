@@ -3,6 +3,7 @@
 <%@ page import="javax.persistence.EnumType" %>
 <%@ page import="edu.iastate.models.Member" %>
 <%@ page import="edu.iastate.models.Tournament" %>
+<%@ page import="edu.iastate.utils.DateUtils" %>
 <% Member member = (Member) session.getAttribute("member"); %>
 <% Tournament tournament = (Tournament) request.getAttribute("tournament"); %>
 
@@ -44,7 +45,9 @@
                             <div class="btn btn-primary" id="form-bracket">Form bracket</div>
                         </c:if>
                         <% if(!member.isPlayerInTournament(tournament)) { %>
-                        <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
+                            <% if(DateUtils.currentDateInRange(tournament.getRegistrationStart(), tournament.getRegistrationClose())) { %>
+                                <a href="#" class="btn btn-primary btn-primary" id="createTeam">Create Team</a>
+                            <% } %>
                         <a href="#" class="btn btn-primary btn-primary" id="joinTeam">Join Team</a>
                         <% } %>
                     </c:otherwise>

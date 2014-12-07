@@ -152,8 +152,8 @@ public class TournamentController {
         tournament.setMaxPlayers(maxPlayers);
         tournament.setTeamsPerGame(teamsPerGame);
         tournament.setOfficialsPerGame(officialsPerGame);
-        tournament.setRegistrationStart(registrationStart);
-        tournament.setRegistrationClose(registrationClose);
+        tournament.setRegistrationStart(regStartCal.getTime());
+        tournament.setRegistrationClose(regCloseCal.getTime());
 
         TournamentDao tournamentDao = new TournamentDao();
         tournamentDao.saveTournament(tournament);
@@ -488,6 +488,11 @@ public class TournamentController {
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+
+        if(tournament.getTeams().size() <= 1) {
+            return false;
+        }
+
         tournament.formBracket(new GameDao());
         tournamentDao.saveTournament(tournament);
         return true;
