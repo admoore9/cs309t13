@@ -114,6 +114,7 @@ public class AvailabilityController {
     }
 
     /**
+     * Updates the availability
      * Returns true if availability is updated. False otherwise.
      * 
      * @param model The model for the view
