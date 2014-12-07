@@ -152,8 +152,8 @@ public class TournamentController {
         tournament.setMaxPlayers(maxPlayers);
         tournament.setTeamsPerGame(teamsPerGame);
         tournament.setOfficialsPerGame(officialsPerGame);
-        tournament.setRegistrationStart(registrationStart);
-        tournament.setRegistrationClose(registrationClose);
+        tournament.setRegistrationStart(regStartCal.getTime());
+        tournament.setRegistrationClose(regCloseCal.getTime());
 
         TournamentDao tournamentDao = new TournamentDao();
         tournamentDao.saveTournament(tournament);
