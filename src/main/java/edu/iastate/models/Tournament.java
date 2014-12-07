@@ -54,6 +54,7 @@ public class Tournament {
     @Column(name = "officials_per_game")
     private int officialsPerGame;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_start")
     private Date registrationStart;
 
@@ -61,7 +62,6 @@ public class Tournament {
     @Column(name = "registration_close")
     private Date registrationClose;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "is_started")
     private boolean isStarted;
 
