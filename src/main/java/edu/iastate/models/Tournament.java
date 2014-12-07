@@ -19,8 +19,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import edu.iastate.dao.GameDao;
+import edu.iastate.utils.JsonDateSerializer;
 import edu.iastate.utils.MathUtils;
 import edu.iastate.utils.TeamComparer;
 
@@ -54,10 +56,12 @@ public class Tournament {
     @Column(name = "officials_per_game")
     private int officialsPerGame;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_start")
     private Date registrationStart;
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_close")
     private Date registrationClose;
