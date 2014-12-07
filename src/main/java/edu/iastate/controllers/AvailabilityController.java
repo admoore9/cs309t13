@@ -49,10 +49,10 @@ public class AvailabilityController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
 
         availabilityDao = new AvailabilityDao();
         availability = member.getAvailability();
@@ -87,8 +87,11 @@ public class AvailabilityController {
             @PathVariable int id) {
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
+        if (member == null) {
+            return "redirect:/denied";
+        }
         member = memberDao.getMemberById(member.getId());
-        if (member == null || member.getContext() != UserType.ADMIN) {
+        if (member.getContext() != UserType.ADMIN) {
             return "redirect:/denied";
         }
 

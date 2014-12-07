@@ -27,7 +27,6 @@ public class SurveyController {
     private static final double LBS_TO_KG_FACTOR = 0.453592;
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
-
     /**
      * Returns the view for the survey for the current user for the given
      * tournament.
@@ -43,17 +42,17 @@ public class SurveyController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, false, false);
         if (tournament == null) {
             return "redirect:/denied";
         }
-        
+
         model.addAttribute("tournamentId", tournamentId);
         model.addAttribute("isTeamLeader", isTeamLeader);
 
@@ -88,7 +87,7 @@ public class SurveyController {
     @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
     public String surveySubmit(
             @PathVariable int tournamentId,
-            @RequestParam(value = "isTeamLeader", required=true) boolean isTeamLeader,
+            @RequestParam(value = "isTeamLeader", required = true) boolean isTeamLeader,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "height", required = false) Integer height,
             @RequestParam(value = "weight", required = false) Integer weight,

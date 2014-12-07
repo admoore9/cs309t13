@@ -36,8 +36,11 @@ public class CoordinatorController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
+        if (member == null) {
+            return "redirect:/denied";
+        }
         member = memberDao.getMemberById(member.getId());
-        if (member == null || member.getContext() != UserType.COORDINATOR) {
+        if (member.getContext() != UserType.COORDINATOR) {
             return "redirect:/denied";
         }
 

@@ -45,10 +45,10 @@ public class TournamentController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
@@ -83,10 +83,11 @@ public class TournamentController {
     public String viewTournamentTeams(Model model, HttpSession session, @PathVariable int id) {
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
+
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
         model.addAttribute("tournament", tournament);
@@ -489,7 +490,7 @@ public class TournamentController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
 
-        if(tournament.getTeams().size() <= 1) {
+        if (tournament.getTeams().size() <= 1) {
             return false;
         }
 
