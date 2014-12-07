@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.GameDao;
 import edu.iastate.dao.MemberDao;
+import edu.iastate.dao.MessageDao;
 import edu.iastate.dao.TeamDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Game;
@@ -100,13 +101,29 @@ public class GameController {
 
         GameDao gameDao = new GameDao();
         MemberDao memberDao = new MemberDao();
+        MessageDao messageDao = new MessageDao();
         Game game = gameDao.getGameById(id, true);
-
-        game.setGameLocation(location);
+        // update location
+        if (location != "") {
+            game.setGameLocation(location);
+            // notify teams of location change
+            messageDao.notifyGameTeams(game, member.getName() + " has changed the location of " + game.getTournament().getName() + "'s game " + game.getId() + " to "
+                    + location);
+        }
+        // update time
         game.setGameTime(gameTime);
-        game.removeOfficial(memberDao.getMemberByUsername(removeOfficial));
-        game.addOfficial(memberDao.getMemberByUsername(addOfficial));
-
+        // notify teams of time change
+        messageDao.notifyGameTeams(game, member.getName() + " has changed the time of " + game.getTournament().getName() + "'s game " + game.getId() + " to " + gameTime);
+        // remove official
+        Member official = memberDao.getMemberByUsername(removeOfficial);
+        boolean removed = game.removeOfficial(official);
+        if (removed) // notify member of being no longer official of the game
+            messageDao.notify(official, member.getName() + " has removed you from being offical of " + game.getTournament().getName() + "'s game " + game.getId());
+        // add official
+        int added = game.addOfficial(memberDao.getMemberByUsername(addOfficial));
+        if (added == 1) // notify game teams of the new official
+            messageDao.notifyGameTeams(game, member.getName() + " has added " + official.getName() + " as offical of " + game.getTournament().getName() + "'s game "
+                    + game.getId());
         gameDao.saveGame(game);
         return true;
     }
@@ -156,6 +173,8 @@ public class GameController {
 
         game.setWinner(team);
         gameDao.saveGame(game);
+
+        new MessageDao().notifyGameTeams(game, team.getName() + " has won " + game.getTournament().getName() + "'s game " + game.getId());
 
         return true;
     }

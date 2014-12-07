@@ -8,6 +8,7 @@ import edu.iastate.dao.SurveyDao;
 import edu.iastate.dao.TournamentDao;
 import edu.iastate.models.Availability;
 import edu.iastate.models.Member;
+import edu.iastate.models.Survey;
 
 public class SurveyTests {
 
@@ -29,9 +30,7 @@ public class SurveyTests {
         SurveyDao surveyDao = new SurveyDao();
         MemberDao memberDao = new MemberDao();
         TournamentDao tournamentDao = new TournamentDao();
-        // Survey survey =
-        // surveyDao.getSurvey(tournamentDao.getTournamentById(1, true, true),
-        // memberDao.getMemberById(9));
+        Survey survey = surveyDao.getSurvey(1, 9);
     }
 
 }

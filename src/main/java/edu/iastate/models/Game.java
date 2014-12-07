@@ -249,11 +249,12 @@ public class Game {
      * 
      * @param official The official to be removed
      */
-    public void removeOfficial(Member official) {
+    public boolean removeOfficial(Member official) {
         if(official == null || !this.officials.contains(official)) {
-            return;
+            return false;
         }
         this.officials.remove(official);
+        return true;
     }
 
     /**
