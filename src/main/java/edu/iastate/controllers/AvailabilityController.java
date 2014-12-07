@@ -115,7 +115,6 @@ public class AvailabilityController {
 
     /**
      * Updates the availability
-     * Returns true if availability is updated. False otherwise.
      * 
      * @param model The model for the view
      * @param session The http session
@@ -126,10 +125,11 @@ public class AvailabilityController {
      * @param friday The Friday of the week
      * @param saturday The Saturday of the week
      * @param sunday The Sunday of the week
-     * @return True if availability updated. False otherwise
+     * @return redirects to team page if update was successful
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateAvailability(Model model, HttpSession session,
+    public String updateAvailability(Model model, HttpSession session,
+            //@PathVariable int teamId,
             @RequestParam(value = "MONDAY", required = false) String monday,
             @RequestParam(value = "TUESDAY", required = false) String tuesday,
             @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
@@ -139,7 +139,7 @@ public class AvailabilityController {
             @RequestParam(value = "SUNDAY", required = false) String sunday) {
 
         if (session.getAttribute("member") == null)
-            return false;
+            return "redirect:/denied";
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
         Day newWednesday = new Day(WeekDay.WEDNESDAY);
@@ -175,7 +175,7 @@ public class AvailabilityController {
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
-        return true;
+        return "redirect:/profile";
     }
 
     /**
