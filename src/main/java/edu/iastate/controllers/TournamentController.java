@@ -74,10 +74,10 @@ public class TournamentController {
     /**
      * Lists all teams in tournament
      * 
-     * @param model
-     * @param session
-     * @param id
-     * @return
+     * @param model The model for the jsp page.
+     * @param session The http session for the user.
+     * @param id The id of the tournament.
+     * @return The joinTeam page.
      */
     @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
     public String viewTournamentTeams(Model model, HttpSession session, @PathVariable int id) {
