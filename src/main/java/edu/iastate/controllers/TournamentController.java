@@ -488,6 +488,11 @@ public class TournamentController {
 
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+
+        if(tournament.getGames().size() <= 1) {
+            return false;
+        }
+
         tournament.formBracket(new GameDao());
         tournamentDao.saveTournament(tournament);
         return true;
