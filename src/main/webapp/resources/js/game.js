@@ -3,6 +3,7 @@ $(document).ready(function() {
         event.preventDefault();
         $.post('/game/' + gameId + '/update', {
             location: $('#update-game-location-input').val(),
+            gameTime: $('#update-game-time-input').val(),
             addOfficial: $('#update-official-add-input').val(),
             removeOfficial: $('#update-official-remove-input').val(),
             success: setTimeout(function(result) {
@@ -12,6 +13,7 @@ $(document).ready(function() {
     });
 
     $('.date').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'YYYY-MM-DD HH:mm',
+        useSeconds: false,
     });
 });

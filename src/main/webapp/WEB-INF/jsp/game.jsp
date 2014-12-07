@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="form-group input-group">
                                     <label for="gameTime">Game Time:</label>
-                                    <input type='text' class="form-control date" id="update-game-time-input">
+                                    <input value="${game.getGameTimePretty()}" type='text' class="form-control date" id="update-game-time-input">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Username Official to Add:</label>

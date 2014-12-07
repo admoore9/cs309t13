@@ -87,7 +87,7 @@ public class GameController {
             return false;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date gameTime = sdf.parse(gameTimeStr);
 
         GameDao gameDao = new GameDao();
