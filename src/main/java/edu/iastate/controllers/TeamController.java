@@ -1,6 +1,8 @@
 package edu.iastate.controllers;
 
 import java.util.Date;
+import java.util.Iterator;
+
 import java.util.List;
 import java.util.Set;
 
@@ -22,10 +24,14 @@ import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
+import edu.iastate.utils.StringUtils;
 
 @Controller
 @RequestMapping("/team")
 public class TeamController {
+
+    private static final String JOIN_TEAM_SUCCESS_MESSAGE = "Join complete!";
+    private static final String JOIN_TEAM_ERROR_MESSAGE = "Team Password Incorrect!";
 
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
@@ -98,6 +104,7 @@ public class TeamController {
             @RequestParam(value = "addPlayer", required = false) String addPlayer,
             @RequestParam(value = "removePlayer", required = false) String removePlayer,
             @RequestParam(value = "newCaptain", required = false) String newCaptain,
+            @RequestParam(value = "newPassword", required = false) String newTeamPassword,
             HttpSession session,
             Model model) {
 
@@ -138,6 +145,11 @@ public class TeamController {
             }
         }
 
+        if (newTeamPassword != null) {
+            String genPassword = StringUtils.secureString(newTeamPassword);
+            team.setPassword(genPassword);
+        }
+
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
 
@@ -150,6 +162,14 @@ public class TeamController {
         return "team";
     }
 
+    /**
+     * Returns the create team page for a given tournament
+     * 
+     * @param tournamentId the ID for tournament that for which team is being created
+     * @param model the model of the JSP page
+     * @param session the current session of user
+     * @return
+     */
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
     public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
 
@@ -184,11 +204,20 @@ public class TeamController {
         return "createTeam";
     }
 
-    // TODO Add players to team
+    /**
+     * Creates a new team based on information provided
+     * 
+     * @param tournamentId the tournament ID for which team is being created
+     * @param teamName the name of the team
+     * @param teamPassword the password of the team
+     * @param session the current user session
+     * @return
+     */
     @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
     public String createTeamSubmit(
             @PathVariable int tournamentId,
             @RequestParam(value = "teamName") String teamName,
+            @RequestParam(value = "teamPassword") String teamPassword,
             HttpSession session) {
 
         TournamentDao tournamentDao = new TournamentDao();
@@ -203,12 +232,27 @@ public class TeamController {
         team.setName(teamName);
         team.setTeamLeader(teamLeader);
 
+        String genPassword = StringUtils.secureString(teamPassword);
+
+        team.setPassword(genPassword);
+
         teamDao.saveTeam(team);
 
         teamLeader = memberDao.getMemberById(teamLeader.getId());
         session.setAttribute("member", teamLeader);
 
-        return "redirect:/profile";
+        int teamId = teamDao.getTeamByTeamName(teamName, tournament).getId();
+
+        Set<Team> invitedTeams = teamLeader.getInvitedTeams();
+        Iterator<Team> teamIterator = invitedTeams.iterator();
+        while (teamIterator.hasNext()) {
+            Team invitedTeam = teamIterator.next();
+            if (invitedTeam.getTournament().equals(team.getTournament())) {
+                invitedTeam.removeInvitedPlayer(teamLeader);
+                teamDao.saveTeam(invitedTeam);
+            }
+        }
+        return "redirect:/team/" + teamId + "/view";
     }
 
     /**
@@ -369,30 +413,104 @@ public class TeamController {
      *         otherwise.
      */
     @RequestMapping(value = "/{id}/addPlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean addPlayerToTeam(
+    public String addPlayerToTeam(
             HttpSession session,
-            @PathVariable int id,
-            @RequestParam(value = "playerId") int playerId) {
+            @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
-            return false;
+            return "redirect:/denied";
+        }
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+
+        if (team == null || me.equals(team.getTeamLeader())) {
+            return "redirect:/denied";
+        }
+
+        if (team.addPlayer(me) == 1) {
+            teamDao.saveTeam(team);
+            Set<Team> invitedTeams = me.getInvitedTeams();
+            Iterator<Team> teamIterator = invitedTeams.iterator();
+            while (teamIterator.hasNext()) {
+                Team invitedTeam = teamIterator.next();
+                if (invitedTeam.getTournament().equals(team.getTournament())) {
+                    invitedTeam.removeInvitedPlayer(me);
+                    teamDao.saveTeam(invitedTeam);
+                }
+            }
+        }
+        return "redirect:/team/" + team.getId() + "/view";
+    }
+
+    /**
+     * Called when player wants to join team
+     * Checks for team password for security
+     * 
+     * @param session the current user session
+     * @param id the team ID for which the player wants to join
+     * @return
+     */
+    @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
+    public String joinPlayerToTeam(
+            @RequestParam(value = "teamPassword", required = true) String enteredPassword,
+            @PathVariable int id,
+            HttpSession session) {
+        Member me = (Member) session.getAttribute("member");
+        if (me == null) {
+            return "redirect:/denied";
+        }
+
+        TeamDao teamDao = new TeamDao();
+        Team team = teamDao.getTeamById(id, false, true, false);
+        String teamPassword = team.getPassword();
+
+        String genPassword = StringUtils.secureString(enteredPassword);
+
+        if (team == null || !genPassword.equals(teamPassword)) {
+            return "redirect:/tournament/" + team.getTournament().getId() + "/teams";
+        }
+
+        if (team.addPlayer(me) == 1) {
+            teamDao.saveTeam(team);
+            Set<Team> invitedTeams = me.getInvitedTeams();
+            Iterator<Team> teamIterator = invitedTeams.iterator();
+            while (teamIterator.hasNext()) {
+                Team invitedTeam = teamIterator.next();
+                if (invitedTeam.getTournament().equals(team.getTournament())) {
+                    invitedTeam.removeInvitedPlayer(me);
+                    teamDao.saveTeam(invitedTeam);
+                }
+            }
+        }
+        return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
+    }
+
+    /**
+     * Called when player rejects an invitation to join team
+     * 
+     * @param session the current user session
+     * @param id the Team ID for which player rejects invitation
+     * @return
+     */
+    @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
+    public String removePlayerFromInvitedTeam(
+            HttpSession session,
+            @PathVariable int id) {
+        Member me = (Member) session.getAttribute("member");
+        if (me == null) {
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
-        MemberDao memberDao = new MemberDao();
-        Member player = memberDao.getMemberById(playerId);
-        team.addPlayer(player);
-        // notify player of being added to team
-        new MessageDao().notify(player, me.getName() + " added you to " + team.getName());
-
+        team.removeInvitedPlayer(me);
         teamDao.saveTeam(team);
-        return true;
+        return "redirect:/profile";
     }
 
     /**

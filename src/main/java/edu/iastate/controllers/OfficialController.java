@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
+import edu.iastate.models.Game;
 import edu.iastate.models.Member;
 import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
@@ -39,6 +40,9 @@ public class OfficialController {
         if (member == null || member.getContext() != UserType.OFFICIAL) {
             return "redirect:/denied";
         }
+        
+        Set<Game> games = member.getGames();
+        model.addAttribute("games", games);
 
         // For sidebar
         Set<Team> teams = member.getTeams();
