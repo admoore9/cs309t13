@@ -176,9 +176,15 @@ public class AvailabilityController {
         return true;
     }
 
-    private void addPeriodsToDay(Day newMonday, String monday) {
-        String periodsNames[] = monday.split(",");
+    /**
+     * Splits the comma separated list given by the client
+     * 
+     * @param newDay The day object
+     * @param stringDay The day String
+     */
+    private void addPeriodsToDay(Day newDay, String stringDay) {
+        String periodsNames[] = stringDay.split(",");
         for (String periodName : periodsNames)
-            newMonday.addPeriod(new Period(periodName).setAvailable(true));
+            newDay.addPeriod(new Period(periodName).setAvailable(true));
     }
 }
