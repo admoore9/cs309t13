@@ -20,16 +20,17 @@ import edu.iastate.models.Team;
 import edu.iastate.models.Tournament;
 import edu.iastate.models.Member.UserType;
 
-/**
- * All information need to be seen and used by the game coordinator
- * 
- * @author Shubang
- *
- */
-
 @Controller
 @RequestMapping(value = "/coordinator")
 public class CoordinatorController {
+
+    /**
+     * Returns the view for the coordinator page
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model, HttpSession session) {
 

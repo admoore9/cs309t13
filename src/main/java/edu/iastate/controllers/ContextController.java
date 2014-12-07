@@ -17,6 +17,14 @@ import edu.iastate.utils.MemberUtils;
 @RequestMapping(value = "/context")
 public class ContextController {
 
+    /**
+     * Returns the view for the selected context page
+     * 
+     * @param context The user type context to switch to
+     * @param model The model for the view
+     * @param session The http session
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String updateContext(
             @RequestParam(value = "context", required = true) int context,
@@ -61,6 +69,13 @@ public class ContextController {
         return redirect;
     }
 
+    /**
+     * Returns the view for the user type
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @return the jsp page for the view
+     */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String loadContextSpecificPage(Model model, HttpSession session) {
         Member member = (Member) session.getAttribute("member");

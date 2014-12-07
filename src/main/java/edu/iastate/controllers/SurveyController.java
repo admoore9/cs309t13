@@ -28,6 +28,16 @@ public class SurveyController {
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
 
+    /**
+     * Returns the view for the survey for the current user for the given
+     * tournament.
+     * 
+     * @param tournamentId The id of the tournament.
+     * @param isTeamLeader Whether the person creating will be the team leader.
+     * @param model The model for the jsp page
+     * @param session The http session for the current user.
+     * @return The jsp page for viewing the survey.
+     */
     @RequestMapping(value = "/{tournamentId}/view", method = RequestMethod.GET)
     public String loadSurveyPage(@PathVariable int tournamentId, @RequestParam boolean isTeamLeader, Model model, HttpSession session) {
 
@@ -59,6 +69,22 @@ public class SurveyController {
         return "survey";
     }
 
+    /**
+     * Submits a survey for the current user for the given tournament.
+     * 
+     * @param tournamentId The id of the tournament.
+     * @param isTeamLeader Whether the user will be the team leader.
+     * @param sex Whether the user is male or female (M or F).
+     * @param height The users height in inches.
+     * @param weight The users weight in pounds.
+     * @param compYears The number of years the user has played competitively.
+     * @param intsPlayed The number of intramurals the user has played in.
+     * @param compLvl How competitive the user wants to be (1-5).
+     * @param isClubPlayer Whether the user has played in a club in this sport.
+     * @param session The http session for the user.
+     * @return a redirect to either the teams in the tournament or the create
+     *         team page, depending on whether they will be the team leader.
+     */
     @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
     public String surveySubmit(
             @PathVariable int tournamentId,

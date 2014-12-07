@@ -196,15 +196,12 @@ public class Team {
      * already exists in current team
      * 
      * @param player The player to be added
-     * @return -1 if null or player already exists 0 if maximum has reached 1 if
+     * @return -1 if null or player already exists 1 if successful
      */
     public int addPlayer(Member player) {
         if(player == null || this.players.contains(player)) {
 
             return -1;
-        }
-        if(this.players.size() == tournament.getMaxPlayers()) {
-            return 0;
         }
         if(player.isPlayerInTournament(tournament)) {
             return -2;

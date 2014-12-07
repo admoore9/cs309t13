@@ -32,6 +32,14 @@ public class TeamController {
     private static final String JOIN_TEAM_SUCCESS_MESSAGE = "Join complete!";
     private static final String JOIN_TEAM_ERROR_MESSAGE = "Team Password Incorrect!";
 
+    /**
+     * Returns the view for a particular team's page.
+     * 
+     * @param model The model for the jsp page.
+     * @param session The http session for the user.
+     * @param id The id of the team.
+     * @return The view team page.
+     */
     @RequestMapping(value = "/{id}/view", method = RequestMethod.GET)
     public String viewTeam(Model model, HttpSession session, @PathVariable int id) {
 
@@ -135,7 +143,7 @@ public class TeamController {
             Member player = memberDao.getMemberByUsername(addPlayer);
             team.addInvitedPlayer(player);
             // notify player of being added to team
-            messageDao.notify(player, member.getName() + " added you to " + team.getName());
+            messageDao.notify(player, member.getName() + " invited you to " + team.getName());
         }
 
         if (newCaptain != null && newCaptain.length() != 0) {
@@ -169,10 +177,11 @@ public class TeamController {
     /**
      * Returns the create team page for a given tournament
      * 
-     * @param tournamentId the ID for tournament that for which team is being created
+     * @param tournamentId the ID for tournament that for which team is being
+     *            created
      * @param model the model of the JSP page
      * @param session the current session of user
-     * @return
+     * @return The create team page.
      */
     @RequestMapping(value = "/{tournamentId}/create", method = RequestMethod.GET)
     public String createTeam(@PathVariable int tournamentId, Model model, HttpSession session) {
@@ -215,7 +224,7 @@ public class TeamController {
      * @param teamName the name of the team
      * @param teamPassword the password of the team
      * @param session the current user session
-     * @return
+     * @return a redirect to the newly created team's page.
      */
     @RequestMapping(value = "/{tournamentId}/create/submit", method = RequestMethod.POST)
     public String createTeamSubmit(
@@ -443,17 +452,19 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " accepted to join " + team.getName());
+            new MessageDao().notify(me, " You are part of " + team.getName());
         }
         return "redirect:/team/" + team.getId() + "/view";
     }
 
     /**
-     * Called when player wants to join team
-     * Checks for team password for security
+     * Called when player wants to join team Checks for team password for
+     * security
      * 
      * @param session the current user session
      * @param id the team ID for which the player wants to join
-     * @return
+     * @return a redirect to the page of the team you joined.
      */
     @RequestMapping(value = "/{id}/joinTeam", method = RequestMethod.POST)
     public String joinPlayerToTeam(
@@ -488,6 +499,8 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(me, "You have succesfully joined " + team.getName());
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " has joined team " + team.getName());
         }
         return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
     }
@@ -497,17 +510,19 @@ public class TeamController {
      * 
      * @param session the current user session
      * @param id the Team ID for which player rejects invitation
-     * @return
+     * @return a redirect to the current user's profile.
      */
     @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
     public String removePlayerFromInvitedTeam(
             HttpSession session,
             @PathVariable int id) {
+
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
             return "redirect:/denied";
         }
-
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
@@ -519,6 +534,7 @@ public class TeamController {
         // notify team leader of the rejection of the invite
         new MessageDao().notify(team.getTeamLeader(), me.getName() + " didn't accpet the invite to " + team.getName());
         teamDao.saveTeam(team);
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " rejected to join " + team.getName());
         return "redirect:/profile";
     }
 
@@ -530,33 +546,33 @@ public class TeamController {
      * @param session The http session for the user.
      * @param id The id of the team.
      * @param playerId The id of the player to remove.
-     * @return
+     * @return True if the player was successfully removed, false otherwise.
      */
     @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean removePlayerFromTeam(
+    public String removePlayerFromTeam(
             HttpSession session,
-            @PathVariable int id,
-            @RequestParam(value = "playerId") int playerId) {
+            @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
-        MemberDao memberDao = new MemberDao();
-        Member player = memberDao.getMemberById(playerId);
-        team.removePlayer(player);
+        team.removePlayer(me);
         // notify player of being removed from team
-        new MessageDao().notify(player, me.getName() + " removed you from " + team.getName());
+        new MessageDao().notify(me, "You were removed from " + team.getName());
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " was removed from " + team.getName());
 
         teamDao.saveTeam(team);
-        return true;
+        return "redirect:/profile";
     }
 
     /**

@@ -21,6 +21,13 @@ import edu.iastate.models.Member.UserType;
 @RequestMapping(value = "/admin")
 public class AdminController {
 
+    /**
+     * Returns the view for the admin page
+     * 
+     * @param model The model for the view
+     * @param session The http session
+     * @return The jsp page for the view
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getTournament(Model model, HttpSession session) {
 
