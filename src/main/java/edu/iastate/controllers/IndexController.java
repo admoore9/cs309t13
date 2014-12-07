@@ -24,12 +24,18 @@ public class IndexController {
     private static final String LOGIN_ERROR_MESSAGE = "Your login was invalid, please try again.";
 
     @RequestMapping(method = RequestMethod.GET)
-    public String loadIndexPage(Model model) {
+    public String loadIndexPage(Model model, HttpSession session) {
 
         // For basic upcoming tournament list
         TournamentDao tournamentDao = new TournamentDao();
         List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
         model.addAttribute("tournaments", tournaments);
+
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            MemberDao memberDao = new MemberDao();
+            session.setAttribute("member", memberDao.getMemberById(member.getId()));
+        }
 
         return "index";
     }
