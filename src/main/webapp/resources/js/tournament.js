@@ -14,7 +14,9 @@ $(document).ready(function() {
         $('#form-bracket').on('click', function(event) {
             event.preventDefault();
             var tournamentId = $('body').data('tournament-id');
-            $.post('/tournament/' + tournamentId + '/form');
+            $.post('/tournament/' + tournamentId + '/form', function() {
+                window.location.reload();
+            });
         });
     }
 });
