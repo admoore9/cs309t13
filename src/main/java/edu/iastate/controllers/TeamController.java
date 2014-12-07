@@ -265,7 +265,7 @@ public class TeamController {
                 teamDao.saveTeam(invitedTeam);
             }
         }
-        return "redirect:/team/" + teamId + "/view";
+        return "redirect:/availability?createTeam=true&teamId=" + teamId;
     }
 
     /**
@@ -502,7 +502,8 @@ public class TeamController {
             new MessageDao().notify(me, "You have succesfully joined " + team.getName());
             new MessageDao().notify(team.getTeamLeader(), me.getName() + " has joined team " + team.getName());
         }
-        return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
+        System.out.println("here");
+        return "redirect:/availability?createTeam=true&teamId=" + team.getId();
     }
 
     /**

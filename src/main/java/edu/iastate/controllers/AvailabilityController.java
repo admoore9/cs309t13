@@ -45,7 +45,11 @@ public class AvailabilityController {
      * @return The jsp page for the view
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String getAvailability(Model model, HttpSession session) {
+    public String getAvailability(
+            Model model,
+            HttpSession session,
+            @RequestParam(value = "createTeam", required = true) boolean createTeam,
+            @RequestParam(value = "teamId", required = false) int teamId) {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
@@ -60,6 +64,9 @@ public class AvailabilityController {
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
 
+        model.addAttribute("createTeam", createTeam);
+        model.addAttribute("teamId", teamId);
+
         // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
@@ -70,6 +77,7 @@ public class AvailabilityController {
         model.addAttribute("tournaments", tournaments);
 
         session.setAttribute("member", memberDao.getMemberById(member.getId()));
+
         return "availability";
     }
 
@@ -118,7 +126,6 @@ public class AvailabilityController {
 
     /**
      * Updates the availability
-     * Returns true if availability is updated. False otherwise.
      * 
      * @param model The model for the view
      * @param session The http session
@@ -129,20 +136,23 @@ public class AvailabilityController {
      * @param friday The Friday of the week
      * @param saturday The Saturday of the week
      * @param sunday The Sunday of the week
-     * @return True if availability updated. False otherwise
+     * @return redirects to team page if update was successful
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody boolean updateAvailability(Model model, HttpSession session,
+    public String updateAvailability(Model model, HttpSession session,
+            // @PathVariable int teamId,
             @RequestParam(value = "MONDAY", required = false) String monday,
             @RequestParam(value = "TUESDAY", required = false) String tuesday,
             @RequestParam(value = "WEDNESDAY", required = false) String wednesday,
             @RequestParam(value = "THURSDAY", required = false) String thursday,
             @RequestParam(value = "FRIDAY", required = false) String friday,
             @RequestParam(value = "SATURDAY", required = false) String saturday,
-            @RequestParam(value = "SUNDAY", required = false) String sunday) {
+            @RequestParam(value = "SUNDAY", required = false) String sunday,
+            @RequestParam(value = "createTeam", required = true) boolean createTeam,
+            @RequestParam(value = "teamId", required = false) int teamId) {
 
         if (session.getAttribute("member") == null)
-            return false;
+            return "redirect:/denied";
         Day newMonday = new Day(WeekDay.MONDAY);
         Day newTuesday = new Day(WeekDay.TUESDAY);
         Day newWednesday = new Day(WeekDay.WEDNESDAY);
@@ -178,7 +188,12 @@ public class AvailabilityController {
         days = availability.getDays();
         model.addAttribute("days", days);
         model.addAttribute("slots", Slot.values());
-        return true;
+
+        if (createTeam) {
+            return "redirect:/team/" + teamId + "/view";
+        } else {
+            return "redirect:/profile";
+        }
     }
 
     /**

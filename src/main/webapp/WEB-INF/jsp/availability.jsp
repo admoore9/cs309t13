@@ -83,6 +83,10 @@
 
     <!-- Page specific JS -->
     <script type="text/javascript" src="../../resources/js/availability.js"></script>
+    <script type="text/javascript">
+        var createTeam = '<c:out value="${createTeam}"/>';
+        var teamId = '<c:out value="${teamId}"/>';
+    </script>
     <script src="../../resources/js/header.js"></script>
 </footer>
 

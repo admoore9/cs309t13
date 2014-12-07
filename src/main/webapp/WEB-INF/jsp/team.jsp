@@ -28,6 +28,7 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <!-- Page specific html -->
                 <h2>${team.name}</h2>
+                <h4>Team Skill Level : ${team.teamSkillLevel}</h4>
                 <div id="accordion" class="panel-group">
                     <div id="my-players-panel"
                         class="panel panel-default">
