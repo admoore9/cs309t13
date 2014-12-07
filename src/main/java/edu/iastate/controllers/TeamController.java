@@ -478,24 +478,24 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value = "/{id}/rejectInvite", method = RequestMethod.POST)
-    public @ResponseBody boolean removePlayerFromInvitedTeam(
+    public String removePlayerFromInvitedTeam(
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
         team.removeInvitedPlayer(me);
         teamDao.saveTeam(team);
-        return true;
+        return "redirect:/profile";
     }
 
     /**

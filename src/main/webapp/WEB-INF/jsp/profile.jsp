@@ -117,8 +117,8 @@
                                                 <form role="form" id="invite-accept${team.id}-form" action="<c:out value="/team/${team.id}/addPlayer"/>" method="POST">
                                                     <button id="invite-accept-submit" type="submit" class="btn btn-default">Accept</button>
                                                 </form>
-                                                <form role="form" id="invite-reject-form">
-                                                    <button id="invite-accept-submit" type="submit" class="btn btn-default" onclick="rejectTeamForm(${team.id})">Reject</button>
+                                                <form role="form" id="invite-reject${team.id}-form" action="<c:out value="/team/${team.id}/rejectInvite"/>" method="POST">
+                                                    <button id="invite-reject-submit" type="submit" class="btn btn-default">Reject</button>
                                                 </form>
                                                 </td>
                                             </tr>

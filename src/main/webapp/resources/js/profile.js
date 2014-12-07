@@ -1,14 +1,3 @@
-function acceptTeamForm(teamId) {
-    var url = "/team/" + teamId + "/addPlayer";
-    $.post(url);
-}
-function rejectTeamForm(teamId) {
-    var url = "/team/" + teamId + "/rejectInvite";
-    $.ajax({
-        type: "POST",
-        url: url
-    });
-}
 $( document ).ready(function() {
     $('#edit-profile-form').bootstrapValidator({
         message: 'This value is not valid',
