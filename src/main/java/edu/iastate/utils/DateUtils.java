@@ -16,4 +16,9 @@ public class DateUtils {
         Date now = new Date();
         return now.before(second) && now.after(first);
     }
+
+    public static boolean currentDateBefore(Date first) {
+        Date now = new Date();
+        return now.before(first);
+    }
 }
