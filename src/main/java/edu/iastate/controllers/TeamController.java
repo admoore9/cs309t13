@@ -535,6 +535,8 @@ public class TeamController {
             HttpSession session,
             @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
             return "redirect:/denied";
         }
