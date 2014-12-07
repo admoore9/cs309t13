@@ -484,6 +484,7 @@ public class TeamController {
                 }
             }
             new MessageDao().notify(me, "You have succesfully joined " + team.getName());
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " has joined team " + team.getName());
         }
         return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
     }
@@ -499,11 +500,13 @@ public class TeamController {
     public String removePlayerFromInvitedTeam(
             HttpSession session,
             @PathVariable int id) {
+
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
             return "redirect:/denied";
         }
-
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
