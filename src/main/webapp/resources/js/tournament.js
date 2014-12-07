@@ -8,7 +8,7 @@ $(document).ready(function() {
         });
 
         $("#joinTeam").click( function() {
-            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view?isTeamLeader=true";
+            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view?isTeamLeader=false";
         });
 
         $('#form-bracket').on('click', function(event) {

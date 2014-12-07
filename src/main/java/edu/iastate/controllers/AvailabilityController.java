@@ -136,6 +136,7 @@ public class AvailabilityController {
         newDays.addAll(Arrays.asList(newMonday, newTuesday, newWednesday, newThursday, newFriday, newSaturday,
                 newSunday));
         availabilityDao.update(availability, newDays);
+        availabilityDao.saveAvailability(availability);
 
         // update session
         Member member = (Member) session.getAttribute("member");

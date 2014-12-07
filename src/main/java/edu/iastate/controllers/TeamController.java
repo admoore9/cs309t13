@@ -131,7 +131,7 @@ public class TeamController {
             Member player = memberDao.getMemberByUsername(addPlayer);
             team.addInvitedPlayer(player);
             // notify player of being added to team
-            new MessageDao().notify(player, member.getName() + " added you to " + team.getName());
+            new MessageDao().notify(player, member.getName() + " Invited you to " + team.getName());
         }
 
         if (newCaptain != null && newCaptain.length() != 0) {
@@ -438,6 +438,8 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " accepted to join " + team.getName());
+            new MessageDao().notify(me, " You are part of " + team.getName());
         }
         return "redirect:/team/" + team.getId() + "/view";
     }
@@ -481,6 +483,8 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(me, "You have succesfully joined " + team.getName());
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " has joined team " + team.getName());
         }
         return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
     }
@@ -496,11 +500,13 @@ public class TeamController {
     public String removePlayerFromInvitedTeam(
             HttpSession session,
             @PathVariable int id) {
+
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
             return "redirect:/denied";
         }
-
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
@@ -510,6 +516,7 @@ public class TeamController {
 
         team.removeInvitedPlayer(me);
         teamDao.saveTeam(team);
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " rejected to join " + team.getName());
         return "redirect:/profile";
     }
 
@@ -524,30 +531,30 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean removePlayerFromTeam(
+    public String removePlayerFromTeam(
             HttpSession session,
-            @PathVariable int id,
-            @RequestParam(value = "playerId") int playerId) {
+            @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        me = memberDao.getMemberById(me.getId());
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
-        MemberDao memberDao = new MemberDao();
-        Member player = memberDao.getMemberById(playerId);
-        team.removePlayer(player);
+        team.removePlayer(me);
         // notify player of being removed from team
-        new MessageDao().notify(player, me.getName() + " removed you from " + team.getName());
+        new MessageDao().notify(me, "You were removed from " + team.getName());
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " was removed from " + team.getName());
 
         teamDao.saveTeam(team);
-        return true;
+        return "redirect:/profile";
     }
 
     /**
