@@ -72,7 +72,6 @@ public class SurveyController {
             @RequestParam(value = "isClubPlayer") boolean isClubPlayer,
             HttpSession session) {
 
-        System.out.println("Begin");
         // set up database access objects
         MemberDao memberDao = new MemberDao();
         SurveyDao surveyDao = new SurveyDao();
@@ -105,7 +104,6 @@ public class SurveyController {
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
         if (isTeamLeader) {
-            System.out.println("Here");
             return "redirect:/team/" + tournamentId + "/create";
         }
         else
