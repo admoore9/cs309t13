@@ -31,6 +31,10 @@ public class Team {
 
     @Column(name = "team_name")
     private String name;
+    
+    @JsonIgnore
+    @Column(name = "team_password")
+    private String password;
 
     @Column(name = "accepts_free_agents")
     private boolean acceptFreeAgents;
@@ -107,6 +111,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isAcceptFreeAgents() {

@@ -256,7 +256,7 @@ public class Member {
     private Set<Team> teams;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "invitedPlayers")
+    @ManyToMany(mappedBy = "invitedPlayers", fetch = FetchType.EAGER)
     private Set<Team> invitedTeams;
 
     @JsonManagedReference
@@ -361,14 +361,14 @@ public class Member {
 
     // ============Official=============
     @JsonIgnore
-    @ManyToMany(mappedBy = "officials")
-    private List<Game> games;
+    @ManyToMany(mappedBy = "officials", fetch = FetchType.EAGER)
+    private Set<Game> games;
 
-    public List<Game> getGames() {
+    public Set<Game> getGames() {
         return games;
     }
 
-    public void setGames(List<Game> games) {
+    public void setGames(Set<Game> games) {
         this.games = games;
     }
     // ----------ENd Official------------
