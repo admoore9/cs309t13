@@ -28,7 +28,7 @@ public class SurveyController {
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
     @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/view", method = RequestMethod.GET)
-    public String loadSurveyPage(@PathVariable int tournamentId, @PathVariable boolean isTeamLeader, Model model, HttpSession session) {
+    public String loadSurveyPage(@PathVariable int tournamentId, Model model, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
         member = memberDao.getMemberById(member.getId());
@@ -41,9 +41,9 @@ public class SurveyController {
         if (tournament == null) {
             return "redirect:/denied";
         }
-
+        
         model.addAttribute("tournamentId", tournamentId);
-        model.addAttribute("isTeamLeader", isTeamLeader);
+        //model.addAttribute("isTeamLeader", isTeamLeader);
 
         // For sidebar
         Set<Team> teams = member.getTeams();
