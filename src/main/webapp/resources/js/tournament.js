@@ -53,7 +53,7 @@ Team.prototype.setHandlers = function(game_id) {
         var html_str = "<h5>Players</h5>";
         html_str += "<ul>";
         self.players.forEach(function(player, index, array) {
-            html_str += '<li>' + player.name' + </li>';
+            html_str += '<li>' + player.name + '</li>';
         });
 
         html_str += "</ul>";
