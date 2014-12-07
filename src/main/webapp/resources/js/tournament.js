@@ -4,11 +4,11 @@ $(document).ready(function() {
         bracket.formAndAppendBracket($('#bracket'));
     } else {
         $("#createTeam").click( function() {
-            window.location.href = "/survey/" + $('body').data('tournament-id') + "/true/view";
+            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view?isTeamLeader=true";
         });
 
         $("#joinTeam").click( function() {
-            window.location.href = "/survey/" + $('body').data('tournament-id') + "/false/view";
+            window.location.href = "/survey/" + $('body').data('tournament-id') + "/view?isTeamLeader=true";
         });
 
         $('#form-bracket').on('click', function(event) {

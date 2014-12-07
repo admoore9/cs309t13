@@ -27,8 +27,8 @@ public class SurveyController {
     private static final double LBS_TO_KG_FACTOR = 0.453592;
     private static final double IN_TO_CM_FACTOR = 0.0254;
 
-    @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/view", method = RequestMethod.GET)
-    public String loadSurveyPage(@PathVariable int tournamentId, @PathVariable boolean isTeamLeader, Model model, HttpSession session) {
+    @RequestMapping(value = "/{tournamentId}/view", method = RequestMethod.GET)
+    public String loadSurveyPage(@PathVariable int tournamentId, @RequestParam boolean isTeamLeader, Model model, HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
         member = memberDao.getMemberById(member.getId());
@@ -57,7 +57,7 @@ public class SurveyController {
         return "survey";
     }
 
-    @RequestMapping(value = "/{tournamentId}/{isTeamLeader}/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/{tournamentId}/submit?isTeamLeader={isTeamLeader}", method = RequestMethod.POST)
     public String surveySubmit(
             @PathVariable int tournamentId,
             @PathVariable boolean isTeamLeader,
