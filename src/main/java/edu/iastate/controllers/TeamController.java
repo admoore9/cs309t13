@@ -131,7 +131,7 @@ public class TeamController {
             Member player = memberDao.getMemberByUsername(addPlayer);
             team.addInvitedPlayer(player);
             // notify player of being added to team
-            new MessageDao().notify(player, member.getName() + " added you to " + team.getName());
+            new MessageDao().notify(player, member.getName() + " Invited you to " + team.getName());
         }
 
         if (newCaptain != null && newCaptain.length() != 0) {
@@ -438,6 +438,8 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(team.getTeamLeader(), me.getName() + " accepted to join " + team.getName());
+            new MessageDao().notify(me, " You are part of " + team.getName());
         }
         return "redirect:/team/" + team.getId() + "/view";
     }
@@ -481,6 +483,7 @@ public class TeamController {
                     teamDao.saveTeam(invitedTeam);
                 }
             }
+            new MessageDao().notify(me, "You have succesfully joined " + team.getName());
         }
         return "redirect:/team/" + teamDao.getTeamById(team.getId(), true, true, true).getId() + "/view";
     }
@@ -510,6 +513,7 @@ public class TeamController {
 
         team.removeInvitedPlayer(me);
         teamDao.saveTeam(team);
+        new MessageDao().notify(team.getTeamLeader(), me.getName() + " rejected to join " + team.getName());
         return "redirect:/profile";
     }
 
@@ -541,7 +545,7 @@ public class TeamController {
 
         team.removePlayer(me);
         // notify player of being removed from team
-        new MessageDao().notify(me, "You were removed you from " + team.getName());
+        new MessageDao().notify(me, "You were removed from " + team.getName());
 
         teamDao.saveTeam(team);
         return "redirect:/profile";
