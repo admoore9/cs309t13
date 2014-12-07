@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('#update').click(function(e) {
         var table = $('#availabilityTable').DataTable();
         e.preventDefault();
-        var url = "/availability/update";
+        var url = "/availability/update?createTeam=" + createTeam + "&teamId=" + teamId;
         $.post(url, table.$('input, select').serialize(), function(data) {
             document.open();
             document.write(data);

@@ -190,10 +190,10 @@ public class TeamController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, true, true);
         Date date = new Date();
-        if(date.before(tournament.getRegistrationStart())) {
+        if (date.before(tournament.getRegistrationStart())) {
             return "redirect:/denied"; // Should probably have a better page
         }
-        if(date.after(tournament.getRegistrationClose())) {
+        if (date.after(tournament.getRegistrationClose())) {
             return "redirect:/denied"; // Should probably have a better page
         }
 
@@ -260,7 +260,7 @@ public class TeamController {
                 teamDao.saveTeam(invitedTeam);
             }
         }
-        return "redirect:/availability";
+        return "redirect:/availability?createTeam=true&teamId=" + teamId;
     }
 
     /**
@@ -494,7 +494,8 @@ public class TeamController {
             new MessageDao().notify(me, "You have succesfully joined " + team.getName());
             new MessageDao().notify(team.getTeamLeader(), me.getName() + " has joined team " + team.getName());
         }
-        return "redirect:/availability";
+        System.out.println("here");
+        return "redirect:/availability?createTeam=true&teamId=" + team.getId();
     }
 
     /**
