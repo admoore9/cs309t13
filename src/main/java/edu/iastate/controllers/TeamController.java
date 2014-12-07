@@ -406,30 +406,27 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value = "/{id}/removePlayer", method = RequestMethod.POST)
-    public @ResponseBody boolean removePlayerFromTeam(
+    public String removePlayerFromTeam(
             HttpSession session,
-            @PathVariable int id,
-            @RequestParam(value = "playerId") int playerId) {
+            @PathVariable int id) {
         Member me = (Member) session.getAttribute("member");
         if (me == null) {
-            return false;
+            return "redirect:/denied";
         }
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
         if (team == null || me.equals(team.getTeamLeader())) {
-            return false;
+            return "redirect:/denied";
         }
 
-        MemberDao memberDao = new MemberDao();
-        Member player = memberDao.getMemberById(playerId);
-        team.removePlayer(player);
+        team.removePlayer(me);
         // notify player of being removed from team
-        new MessageDao().notify(player, me.getName() + " removed you from " + team.getName());
+        new MessageDao().notify(me, me.getName() + " removed you from " + team.getName());
 
         teamDao.saveTeam(team);
-        return true;
+        return "redirect:/profile";
     }
 
     /**

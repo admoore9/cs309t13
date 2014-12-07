@@ -28,9 +28,10 @@
             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
                 <!-- Page specific html -->
                 <h2>${team.name}</h2>
-
+                <form role="form" id="update-team-form" action="" method="">
+                    <button id="Drop-Team-submit" type="submit" class="btn btn-default">Drop Team</button>
+                </form>
                 <div id="accordion" class="panel-group">
-
                     <div id="my-players-panel"
                         class="panel panel-default">
                         <div class="panel-heading">
