@@ -100,6 +100,41 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div id="promote-demote-panel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-target="#promote-demote-content" href="#promote-demote-content">
+                                    Promote and Demote:
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel panel-collapse collapse" id="promote-demote-content">
+                            <div class="panel-body">
+                                <form role="form" id="promote-demote-form">
+                                    <div class="form-group">
+                                        <label for="username">Username:</label>
+                                        <input type="text" class="form-control" id="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newUserType">Usertype:</label>
+                                        <input type="hidden" id="newUserType" value="" />
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="1" /> Official
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="newUserTypeBtn" class="newUserTypeBtn" value="0" /> Player
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button id="promote-demote-submit" type="submit" class="btn btn-default">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <jsp:include page="sideBar.jsp" />
