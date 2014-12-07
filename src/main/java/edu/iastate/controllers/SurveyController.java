@@ -45,7 +45,7 @@ public class SurveyController {
         }
         
         model.addAttribute("tournamentId", tournamentId);
-        //model.addAttribute("isTeamLeader", isTeamLeader);
+        model.addAttribute("isTeamLeader", isTeamLeader);
 
         // For sidebar
         Set<Team> teams = member.getTeams();
@@ -59,10 +59,10 @@ public class SurveyController {
         return "survey";
     }
 
-    @RequestMapping(value = "/{tournamentId}/submit?isTeamLeader={isTeamLeader}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{tournamentId}/submit", method = RequestMethod.POST)
     public String surveySubmit(
             @PathVariable int tournamentId,
-            @PathVariable boolean isTeamLeader,
+            @RequestParam(value = "isTeamLeader", required=true) boolean isTeamLeader,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "height", required = false) Integer height,
             @RequestParam(value = "weight", required = false) Integer weight,
@@ -72,6 +72,7 @@ public class SurveyController {
             @RequestParam(value = "isClubPlayer") boolean isClubPlayer,
             HttpSession session) {
 
+        System.out.println("Begin");
         // set up database access objects
         MemberDao memberDao = new MemberDao();
         SurveyDao surveyDao = new SurveyDao();
@@ -103,8 +104,10 @@ public class SurveyController {
         // Save updated player and survey to database
         memberDao.save(player);
         surveyDao.saveSurvey(survey);
-        if (isTeamLeader)
+        if (isTeamLeader) {
+            System.out.println("Here");
             return "redirect:/team/" + tournamentId + "/create";
+        }
         else
             return "redirect:/tournament/" + tournamentId + "/teams";
     }
