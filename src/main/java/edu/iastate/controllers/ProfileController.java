@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.iastate.dao.MemberDao;
 import edu.iastate.dao.TournamentDao;
@@ -53,54 +54,36 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/promote", method = RequestMethod.POST)
-    public boolean promote(
+    public @ResponseBody boolean promote(
             HttpSession session,
-            @RequestParam(value = "promoteeId") int promoteeId,
-            @RequestParam(value = "newUserType") int newUserTypeInt) {
+            @RequestParam(value = "username", required = true) String username,
+            @RequestParam(value = "newUserType", required = true) int newUserTypeInt) {
+
+        System.out.println("We in hurr");
+        System.out.println("username = " + username);
+        System.out.println("type = " + newUserTypeInt);
         Member me = (Member) session.getAttribute("member");
-        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
+        if (me == null || !MemberUtils.atLeastCoordinator(me)) {
+            System.out.println("at least coord");
             return false;
         }
 
         MemberDao memberDao = new MemberDao();
-        Member promotee = memberDao.getById(promoteeId);
+        Member member = memberDao.getMemberByUsername(username);
 
         Member.UserType newUserType = Member.UserType.values()[newUserTypeInt];
 
-        if(me.getUserType() == Member.UserType.COORDINATOR &&
-                (MemberUtils.atLeastCoordinator(promotee) ||
+        if (me.getUserType() == Member.UserType.COORDINATOR &&
+                (MemberUtils.atLeastCoordinator(member) ||
                 (newUserType == Member.UserType.ADMIN || newUserType == Member.UserType.COORDINATOR))) {
+            System.out.println("Brian goofed");
             return false;
         }
 
-        promotee.setUserType(newUserType);
-        promotee.setContext(newUserType);
-        return true;
-    }
-
-    @RequestMapping(value = "/demote", method = RequestMethod.POST)
-    public boolean demote(
-            HttpSession session,
-            @RequestParam(value = "demoteeId") int demoteeId,
-            @RequestParam(value = "newUserType") int newUserTypeInt) {
-        Member me = (Member) session.getAttribute("member");
-        if(me == null || !MemberUtils.atLeastCoordinator(me)) {
-            return false;
-        }
-
-        MemberDao memberDao = new MemberDao();
-        Member demotee = memberDao.getById(demoteeId);
-
-        Member.UserType newUserType = Member.UserType.values()[newUserTypeInt];
-
-        if(me.getUserType() == Member.UserType.COORDINATOR &&
-                (MemberUtils.atLeastCoordinator(demotee) ||
-                (newUserType == Member.UserType.ADMIN || newUserType == Member.UserType.COORDINATOR))) {
-            return false;
-        }
-
-        demotee.setUserType(newUserType);
-        demotee.setContext(newUserType);
+        System.out.println(newUserType);
+        member.setUserType(newUserType);
+        member.setContext(newUserType);
+        memberDao.save(member);
         return true;
     }
 

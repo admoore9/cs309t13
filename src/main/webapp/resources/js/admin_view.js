@@ -12,6 +12,15 @@ $(document).ready(function() {
             },
         });
     });
+    
+    $('#promote-demote-form').submit ( function (e) {
+        e.preventDefault();
+        var url = "/profile/promote";
+        $.post(url, {
+            username: $('#username').val(),
+            newUserType: $('#newUserType').val()
+        });
+    });
 
     var TournamentById = function() {
         // Get the current state of this to prevent issues
