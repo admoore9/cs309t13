@@ -44,10 +44,10 @@ public class GameController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
 
         GameDao gameDao = new GameDao();
         Game game = gameDao.getGameById(id, true);

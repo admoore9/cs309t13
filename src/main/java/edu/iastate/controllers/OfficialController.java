@@ -44,11 +44,14 @@ public class OfficialController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null || member.getContext() != UserType.OFFICIAL) {
             return "redirect:/denied";
         }
-        
+        member = memberDao.getMemberById(member.getId());
+        if (member.getContext() != UserType.OFFICIAL) {
+            return "redirect:/denied";
+        }
+
         Set<Game> games = member.getGames();
         model.addAttribute("games", games);
 

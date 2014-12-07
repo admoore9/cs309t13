@@ -45,10 +45,10 @@ public class TeamController {
 
         Member member = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        member = memberDao.getMemberById(member.getId());
         if (member == null) {
             return "redirect:/denied";
         }
+        member = memberDao.getMemberById(member.getId());
 
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, true, true, true);
@@ -195,10 +195,10 @@ public class TeamController {
         TournamentDao tournamentDao = new TournamentDao();
         Tournament tournament = tournamentDao.getTournamentById(tournamentId, true, true);
         Date date = new Date();
-        if(date.before(tournament.getRegistrationStart())) {
+        if (date.before(tournament.getRegistrationStart())) {
             return "redirect:/denied"; // Should probably have a better page
         }
-        if(date.after(tournament.getRegistrationClose())) {
+        if (date.after(tournament.getRegistrationClose())) {
             return "redirect:/denied"; // Should probably have a better page
         }
 
@@ -519,10 +519,11 @@ public class TeamController {
 
         Member me = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
-        me = memberDao.getMemberById(me.getId());
         if (me == null) {
             return "redirect:/denied";
         }
+        me = memberDao.getMemberById(me.getId());
+
         TeamDao teamDao = new TeamDao();
         Team team = teamDao.getTeamById(id, false, true, false);
 
@@ -552,6 +553,7 @@ public class TeamController {
     public String removePlayerFromTeam(
             HttpSession session,
             @PathVariable int id) {
+
         Member me = (Member) session.getAttribute("member");
         MemberDao memberDao = new MemberDao();
         me = memberDao.getMemberById(me.getId());
