@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Entity implementation class for Entity: Message
  *
@@ -33,10 +35,12 @@ public class Message {
     private boolean deleted;
     private boolean draft;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private Member sender;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recipient_id")
     private Member recipient;
