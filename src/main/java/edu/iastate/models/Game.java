@@ -229,7 +229,7 @@ public class Game {
      * 
      */
     public int addOfficial(Member official) {
-        if(official == null || this.officials.contains(official)  || MemberUtils.atLeastOfficial(official)) {
+        if(official == null || this.officials.contains(official)  || !MemberUtils.atLeastOfficial(official)) {
             return -1;
         }
         if(this.officials.size() == tournament.getOfficialsPerGame()) {

@@ -41,6 +41,10 @@
                                             <label for="teamName">Team name:</label>
                                             <input id="teamName" name="teamName" type="text" class="form-control input-md">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="teamPassword">Team Password:</label>
+                                            <input id="teamPassword" name="teamPassword" type="password" class="form-control input-md">
+                                        </div>
                                         <div class="btn-group">
                                             <input type="submit" name="submitCreateTeam" class="btn btn-primary" value="Submit!"/>
                                         </div>

@@ -127,6 +127,10 @@
                                         <label for="name">Username of New Captain:</label>
                                         <input type="text" class="form-control" id="newCaptain" name=newCaptain>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="name">New Team Password:</label>
+                                        <input type="password" class="form-control" id="newPassword" name=newPassword>
+                                    </div>
                                     <button id="update-game-submit" type="submit" class="btn btn-default">Submit</button>
                                 </form>
                             </div>

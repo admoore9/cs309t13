@@ -72,6 +72,37 @@ public class TournamentController {
     }
 
     /**
+     * Lists all teams in tournament
+     * 
+     * @param model
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}/teams", method = RequestMethod.GET)
+    public String viewTournamentTeams(Model model, HttpSession session, @PathVariable int id) {
+        Member member = (Member) session.getAttribute("member");
+        MemberDao memberDao = new MemberDao();
+        member = memberDao.getMemberById(member.getId());
+        if (member == null) {
+            return "redirect:/denied";
+        }
+        TournamentDao tournamentDao = new TournamentDao();
+        Tournament tournament = tournamentDao.getTournamentById(id, true, true);
+        model.addAttribute("tournament", tournament);
+
+        // For sidebar
+        Set<Team> teams = member.getTeams();
+        model.addAttribute("teams", teams);
+
+        // For sidebar
+        List<Tournament> tournaments = tournamentDao.getLastXTournaments(5);
+        model.addAttribute("tournaments", tournaments);
+
+        return "joinTeam";
+    }
+
+    /**
      * Creates a tournament with the given parameters. Administrators and
      * Coordinators can create tournaments.
      * 

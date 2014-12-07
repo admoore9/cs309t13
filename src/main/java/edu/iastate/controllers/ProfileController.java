@@ -39,6 +39,10 @@ public class ProfileController {
             return "redirect:/denied";
         }
 
+        Set<Team> invitedTeams = member.getInvitedTeams();
+        model.addAttribute("invitedTeams", invitedTeams);
+        model.addAttribute("invitedTeamsSize", invitedTeams.size());
+
         // For sidebar
         Set<Team> teams = member.getTeams();
         model.addAttribute("teams", teams);
