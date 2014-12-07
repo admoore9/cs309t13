@@ -30,7 +30,7 @@ public class SurveyTests {
         SurveyDao surveyDao = new SurveyDao();
         MemberDao memberDao = new MemberDao();
         TournamentDao tournamentDao = new TournamentDao();
-        Survey survey = surveyDao.getSurvey(tournamentDao.getTournamentById(1, true, true), memberDao.getMemberById(9));
+        Survey survey = surveyDao.getSurvey(1, 9);
     }
 
 }
